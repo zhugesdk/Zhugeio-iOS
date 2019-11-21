@@ -237,22 +237,22 @@
 		5FBA14B9237A8E8800976A39 /* ZGSee */ = {
 			isa = PBXGroup;
 			children = (
-				5FBA14BA237A8E8800976A39 /* ZGSharedDur.h */,
 				5FBA14BB237A8E8800976A39 /* NSObject+Zhuge.h */,
-				5FBA14BC237A8E8800976A39 /* UIViewController+Zhuge.m */,
-				5FBA14BD237A8E8800976A39 /* ZGReachability.m */,
-				5FBA14BE237A8E8800976A39 /* ZGHttpHelper.m */,
+				5FBA14C7237A8E8800976A39 /* NSObject+Zhuge.m */,
 				5FBA14BF237A8E8800976A39 /* UIApplication+Zhuge.h */,
-				5FBA14C0237A8E8800976A39 /* ZGUtil.h */,
-				5FBA14C1237A8E8800976A39 /* ZGSqliteManager.h */,
-				5FBA14C2237A8E8800976A39 /* ZGSharedDur.m */,
 				5FBA14C3237A8E8800976A39 /* UIApplication+Zhuge.m */,
 				5FBA14C4237A8E8800976A39 /* UIViewController+Zhuge.h */,
+				5FBA14BC237A8E8800976A39 /* UIViewController+Zhuge.m */,
 				5FBA14C5237A8E8800976A39 /* ZGHttpHelper.h */,
+				5FBA14BE237A8E8800976A39 /* ZGHttpHelper.m */,
 				5FBA14C6237A8E8800976A39 /* ZGReachability.h */,
-				5FBA14C7237A8E8800976A39 /* NSObject+Zhuge.m */,
-				5FBA14C8237A8E8800976A39 /* ZGUtil.m */,
+				5FBA14BD237A8E8800976A39 /* ZGReachability.m */,
+				5FBA14BA237A8E8800976A39 /* ZGSharedDur.h */,
+				5FBA14C2237A8E8800976A39 /* ZGSharedDur.m */,
+				5FBA14C1237A8E8800976A39 /* ZGSqliteManager.h */,
 				5FBA14C9237A8E8800976A39 /* ZGSqliteManager.m */,
+				5FBA14C0237A8E8800976A39 /* ZGUtil.h */,
+				5FBA14C8237A8E8800976A39 /* ZGUtil.m */,
 			);
 			path = ZGSee;
 			sourceTree = "<group>";
