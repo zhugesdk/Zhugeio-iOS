@@ -18,7 +18,7 @@
         self.appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
         self.channel = ZG_CHANNEL;
         self.sendInterval = 10;
-        self.sendMaxSizePerDay = 500;
+        self.sendMaxSizePerDay = 5000;
         self.cacheMaxSize = 500;
         self.sessionEnable = YES;
         self.debug = NO;

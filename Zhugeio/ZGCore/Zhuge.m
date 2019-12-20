@@ -107,19 +107,6 @@ static Zhuge *sharedInstance = nil;
         sharedInstance.eventTimeDic = [[NSMutableDictionary alloc]init];
     });
     return sharedInstance;
-    
-//    if (sharedInstance == nil) {
-//        static dispatch_once_t onceToken;
-//        dispatch_once(&onceToken, ^{
-//            sharedInstance = [[super alloc] init];
-//            sharedInstance.config = [[ZhugeConfig alloc] init];
-//            sharedInstance.eventTimeDic = [[NSMutableDictionary alloc]init];
-//        });
-//        
-//        return sharedInstance;
-//    }
-//    
-//    return sharedInstance;
 }
 
 - (ZhugeConfig *)config {
@@ -183,6 +170,12 @@ static Zhuge *sharedInstance = nil;
         self.archiveEventQueue = [[NSMutableArray alloc] init];
         self.cr = [self carrier];
         [[ZGSqliteManager shareManager] openDataBase];
+        
+        if (!self.apiURL || self.apiURL.length ==0) {
+            self.apiURL = @"https://u.zhugeapi.com";
+            self.backupURL = @"https://ubak.zhugeio.com";
+        }
+        
         //初始化zhugesee变量
         self.zhugeSeeNet = @"4";
         self.zhugeSeeReal = 1;
@@ -194,10 +187,6 @@ static Zhuge *sharedInstance = nil;
         }
         if (self.config.debug) {
             [self.config setSendInterval:2];
-        }
-        if (!self.apiURL || self.apiURL.length ==0) {
-            self.apiURL = @"https://u.zhugeapi.com";
-            self.backupURL = @"https://ubak.zhugeio.com";
         }
 
         [self setupListeners];
@@ -282,12 +271,10 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 }
 
 #pragma mark - DeepShare
-
 - (void)onInappDataReturned: (NSDictionary *) params withError: (NSError *) error  tag:(NSString *)tag{
     self.utmDic = [NSMutableDictionary dictionary];
     if (!error) {
         ZhugeDebug(@"DeepShare finished init with params = %@", [params description]);
-        
         self.utmDic[@"$utm_source"] = params[@"utm_source"];
         self.utmDic[@"$utm_medium"] = params[@"utm_medium"];
         self.utmDic[@"$utm_campaign"] = params[@"utm_campaign"];
@@ -297,12 +284,10 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
             self.deviceId = params[@"$zg_did"];
         }
         if (params.allKeys.count > 0) {
-            if ([tag isEqualToString: REQ_TAG_REGISTER_INSTALL])
-            {
+            if ([tag isEqualToString: REQ_TAG_REGISTER_INSTALL]) {
                 self.utmDic[@"$utm_type"] = @"1";
             }
-            if ([tag isEqualToString:@"t_register_open"])
-            {
+            if ([tag isEqualToString:@"t_register_open"]) {
                 self.utmDic[@"$utm_type"] = @"0";
             }
         }
@@ -322,16 +307,16 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
             ZhugeDebug(@"打开进来的");
         }
         
-        
         if ([self.delegate respondsToSelector:@selector(zgOnInappDataReturned:withError:)]) {
-            NSMutableDictionary * zgParams = [NSMutableDictionary dictionaryWithDictionary:params];
-            [zgParams removeObjectForKey:@"utm_source"];
-            [zgParams removeObjectForKey:@"utm_medium"];
-            [zgParams removeObjectForKey:@"utm_campaign"];
-            [zgParams removeObjectForKey:@"utm_content"];
-            [zgParams removeObjectForKey:@"utm_term"];
-            [zgParams removeObjectForKey:@"utm_type"];
-            [self.delegate zgOnInappDataReturned:zgParams withError:error];
+//            NSMutableDictionary * zgParams = [NSMutableDictionary dictionaryWithDictionary:params];
+//            [zgParams addEntriesFromDictionary:self.utmDic];
+//            [zgParams removeObjectForKey:@"utm_source"];
+//            [zgParams removeObjectForKey:@"utm_medium"];
+//            [zgParams removeObjectForKey:@"utm_campaign"];
+//            [zgParams removeObjectForKey:@"utm_content"];
+//            [zgParams removeObjectForKey:@"utm_term"];
+//            [zgParams removeObjectForKey:@"utm_type"];
+            [self.delegate zgOnInappDataReturned:self.utmDic withError:error];
         }
     } else {
         ZhugeDebug(@"DeepShare init error id: %ld %@",error.code, error);
@@ -353,12 +338,10 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 }
 
 + (BOOL)handleURL:(NSURL *)url {
-    
     return [DeepShare handleURL:url];
 }
 
 + (BOOL)continueUserActivity:(NSUserActivity *)userActivity {
-    
     return [DeepShare continueUserActivity:userActivity];
 }
 
@@ -387,7 +370,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     if ([result hasSuffix:@"/apipool"] || [result hasSuffix:@"/APIPOOL"] ) {
         result = [result substringToIndex:[result length] - 8];
     }
-    NSLog(@"parse url is %@",result);
     return result;
 }
 - (void)setSuperProperty:(NSDictionary *)info{
@@ -513,6 +495,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 }
 
 #pragma mark - 应用生命周期
+//程序进入前台并处于活动状态时调用
 - (void)applicationDidBecomeActive:(NSNotification *)notification {
     @try {
         self.isForeground = YES;
@@ -549,7 +532,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         
         [self flush];
         //进入到后台以后再去上传数据  sid已经为空
-        [self zgSeeUpLoadNumData:50 cacheBool:NO];
+//        [self zgSeeUpLoadNumData:50 cacheBool:NO];
 
         dispatch_async(_serialQueue, ^{
             [self archive];
@@ -828,6 +811,8 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     common[@"$ct"]  =  [NSNumber numberWithUnsignedLongLong:[[NSDate date] timeIntervalSince1970] *1000];
     common[@"$tz"] = [NSNumber numberWithInteger:[[NSTimeZone localTimeZone] secondsFromGMT]*1000];//取毫秒偏移量
     common[@"$os"] = @"iOS";
+    //DeepShare 信息
+    [common addEntriesFromDictionary:self.utmDic];
     return common;
 }
 
@@ -1011,7 +996,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     [properties setObject:priceDec forKey:ZhugeEventRevenuePrice];
     [properties setObject:numberDec forKey:ZhugeEventRevenueProductQuantity];
     [properties setObject:totalDec forKey:ZhugeEventRevenueTotalPrice];
-//    NSLog(@"properties ==== %@ ",properties);
     [self trackRevenue:ZG_REVENUE properties:properties];
 }
 
@@ -1229,19 +1213,18 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
                  NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
                  if (httpResponse.statusCode == 200) {
                      ZhugeDebug(@"zgSeeEnd --- 数据上传成功");
-                     
                  } else {
                      ZhugeDebug(@"zgSeeEnd --- 数据上传失败  %@",connectionError);
                  }
              }];
         } else {
-            NSInteger dicNumber = 999;
-            BOOL addBool = [[ZGSqliteManager shareManager] addZGSeeCoreDataDic:sqlDic dicNumber:dicNumber];
-            if (addBool == YES) {
-                ZhugeDebug(@"zgSeeEnd --- 添加至数据库成功");
-            } else {
-                ZhugeDebug(@"zgSeeEnd --- 添加至数据库失败");
-            }
+//            NSInteger dicNumber = 999;
+//            BOOL addBool = [[ZGSqliteManager shareManager] addZGSeeCoreDataDic:sqlDic dicNumber:dicNumber];
+//            if (addBool == YES) {
+//                ZhugeDebug(@"zgSeeEnd --- 添加至数据库成功");
+//            } else {
+//                ZhugeDebug(@"zgSeeEnd --- 添加至数据库失败");
+//            }
         }
     }
 }
@@ -1249,7 +1232,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 - (void)zgSeeBool {
     //是否开启ZGSee
     NSString *url = [self getZGSeePolicyURL];
-    NSLog(@"url == %@",url);
     __block NSDictionary * dic = nil;
     __block NSNumber *policy = nil;
     __block NSNumber * real = nil;
@@ -1257,7 +1239,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     [ZGHttpHelper sendRequestForUrl:url FinishBlock:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        NSLog(@"=== %ld ==== ",(long)httpResponse.statusCode);
+        dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
         if (httpResponse.statusCode == 200){
             dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
             if (dic == nil) {
@@ -1303,16 +1285,13 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         dic = [self wrapEvents:dataArray];
         //对整体数据进行压缩编码
         NSString * dicStr = [[[[self encodeAPIData:dic] dataUsingEncoding:NSUTF8StringEncoding] zgZlibDeflate] zgBase64EncodedString];
-        
         if ([self.zhugeSeeNet isEqualToString:self.net] || [self.zhugeSeeNet isEqualToString:@"1"]) {
             [ZGHttpHelper post:[self getZGSeeUploadURL] RequestStr:dicStr FinishBlock:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                  NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
-                NSLog(@"statusCode == %ld",(long)httpResponse.statusCode);
                  if (httpResponse.statusCode == 200) {
-                     NSLog(@"ZGSEE_URL == %@",[self getZGSeeUploadURL]);
                      ZhugeDebug(@"zgSee --- 数据上传成功");
                      [[ZGSqliteManager shareManager] deletezgSeeCoreDataSid:sid];
-                     [self zgSeeUpLoadNumData:numData cacheBool:cacheBool];
+//                     [self zgSeeUpLoadNumData:numData cacheBool:cacheBool];
                      
                  } else {
                      ZhugeDebug(@"zgSee --- 数据上传失败  %@",connectionError);
@@ -1399,27 +1378,23 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
                     //判断是否打开开关
                     if (self.zhugeSeeReal == 0 && ([self.zhugeSeeNet isEqualToString:self.net] || [self.zhugeSeeNet isEqualToString:@"1"])) {
                         // 判断是否需要实时上传
-                        NSLog(@"ZGSEE_URL == %@",[self getZGSeeUploadURL]);
                         [ZGHttpHelper post:[self getZGSeeUploadURL] RequestStr:dicStr FinishBlock:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                              NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
-                            NSLog(@"statusCode == %ld",(long)httpResponse.statusCode);
                              if (httpResponse.statusCode == 200) {
                                  ZhugeDebug(@"zgSee --- 数据上传成功");
-                                 
-                                 
                              } else {
                                  ZhugeDebug(@"zgSee --- 数据上传失败  %@",connectionError);
                              }
                          }];
                     } else {
-                        NSInteger dicNumber = 999;
-                        
-                        BOOL addBool = [[ZGSqliteManager shareManager] addZGSeeCoreDataDic:sqlDic dicNumber:dicNumber];
-                        if (addBool == YES) {
-                            ZhugeDebug(@"zgSee --- 添加至数据库成功");
-                        } else {
-                            ZhugeDebug(@"zgSee --- 添加至数据库失败");
-                        }
+//                        NSInteger dicNumber = 999;
+//
+//                        BOOL addBool = [[ZGSqliteManager shareManager] addZGSeeCoreDataDic:sqlDic dicNumber:dicNumber];
+//                        if (addBool == YES) {
+//                            ZhugeDebug(@"zgSee --- 添加至数据库成功");
+//                        } else {
+//                            ZhugeDebug(@"zgSee --- 添加至数据库失败");
+//                        }
                     }
                 }
             });
@@ -1436,8 +1411,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     int result = SecRandomCopyBytes(kSecRandomDefault,8,randomBytes);
     if(result == errSecSuccess){
         NSMutableString * uuidStringReplacement = [[NSMutableString alloc] initWithCapacity:8 * 2];
-        for(NSInteger index = 0; index< 8; index ++)
-        {
+        for(NSInteger index = 0; index< 8; index ++) {
             [uuidStringReplacement appendFormat:@"%02x",randomBytes [index]];
         }
 //        ZhugeDebug(@"uuidStringReplacement === %@",uuidStringReplacement);

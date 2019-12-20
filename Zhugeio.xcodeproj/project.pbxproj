@@ -7,81 +7,81 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5FBA1504237A8E8900976A39 /* ZGLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14B5237A8E8800976A39 /* ZGLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5FBA1505237A8E8900976A39 /* ZhugeJS.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14B6237A8E8800976A39 /* ZhugeJS.m */; };
-		5FBA1506237A8E8900976A39 /* Zhuge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14B7237A8E8800976A39 /* Zhuge.m */; };
-		5FBA1507237A8E8900976A39 /* ZhugeCompres.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14B8237A8E8800976A39 /* ZhugeCompres.m */; };
-		5FBA1508237A8E8900976A39 /* ZGSharedDur.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14BA237A8E8800976A39 /* ZGSharedDur.h */; };
-		5FBA1509237A8E8900976A39 /* NSObject+Zhuge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14BB237A8E8800976A39 /* NSObject+Zhuge.h */; };
-		5FBA150A237A8E8900976A39 /* UIViewController+Zhuge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14BC237A8E8800976A39 /* UIViewController+Zhuge.m */; };
-		5FBA150B237A8E8900976A39 /* ZGReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14BD237A8E8800976A39 /* ZGReachability.m */; };
-		5FBA150C237A8E8900976A39 /* ZGHttpHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14BE237A8E8800976A39 /* ZGHttpHelper.m */; };
-		5FBA150D237A8E8900976A39 /* UIApplication+Zhuge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14BF237A8E8800976A39 /* UIApplication+Zhuge.h */; };
-		5FBA150E237A8E8900976A39 /* ZGUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14C0237A8E8800976A39 /* ZGUtil.h */; };
-		5FBA150F237A8E8900976A39 /* ZGSqliteManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14C1237A8E8800976A39 /* ZGSqliteManager.h */; };
-		5FBA1510237A8E8900976A39 /* ZGSharedDur.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14C2237A8E8800976A39 /* ZGSharedDur.m */; };
-		5FBA1511237A8E8900976A39 /* UIApplication+Zhuge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14C3237A8E8800976A39 /* UIApplication+Zhuge.m */; };
-		5FBA1512237A8E8900976A39 /* UIViewController+Zhuge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14C4237A8E8800976A39 /* UIViewController+Zhuge.h */; };
-		5FBA1513237A8E8900976A39 /* ZGHttpHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14C5237A8E8800976A39 /* ZGHttpHelper.h */; };
-		5FBA1514237A8E8900976A39 /* ZGReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14C6237A8E8800976A39 /* ZGReachability.h */; };
-		5FBA1515237A8E8900976A39 /* NSObject+Zhuge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14C7237A8E8800976A39 /* NSObject+Zhuge.m */; };
-		5FBA1516237A8E8900976A39 /* ZGUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14C8237A8E8800976A39 /* ZGUtil.m */; };
-		5FBA1517237A8E8900976A39 /* ZGSqliteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14C9237A8E8800976A39 /* ZGSqliteManager.m */; };
-		5FBA1518237A8E8900976A39 /* ZhugeJS.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14CA237A8E8800976A39 /* ZhugeJS.h */; };
-		5FBA1519237A8E8900976A39 /* ZhugeConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14CB237A8E8900976A39 /* ZhugeConfig.m */; };
-		5FBA151A237A8E8900976A39 /* ZhugeConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14CC237A8E8900976A39 /* ZhugeConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5FBA151B237A8E8900976A39 /* ZhugeBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14CD237A8E8900976A39 /* ZhugeBase64.m */; };
-		5FBA151C237A8E8900976A39 /* DLServerInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14CF237A8E8900976A39 /* DLServerInterface.h */; };
-		5FBA151D237A8E8900976A39 /* DLServerResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14D0237A8E8900976A39 /* DLServerResponse.m */; };
-		5FBA151E237A8E8900976A39 /* DLServerRequestQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14D1237A8E8900976A39 /* DLServerRequestQueue.m */; };
-		5FBA151F237A8E8900976A39 /* DSError.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14D2237A8E8900976A39 /* DSError.m */; };
-		5FBA1520237A8E8900976A39 /* DLServerRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14D3237A8E8900976A39 /* DLServerRequest.h */; };
-		5FBA1521237A8E8900976A39 /* DLPreferenceHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14D4237A8E8900976A39 /* DLPreferenceHelper.h */; };
-		5FBA1522237A8E8900976A39 /* DLTime.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14D5237A8E8900976A39 /* DLTime.h */; };
-		5FBA1523237A8E8900976A39 /* DSEncodingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14D6237A8E8900976A39 /* DSEncodingUtils.m */; };
-		5FBA1524237A8E8900976A39 /* clearNewUsage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14D7237A8E8900976A39 /* clearNewUsage.h */; };
-		5FBA1525237A8E8900976A39 /* DeepShareImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14D8237A8E8900976A39 /* DeepShareImpl.h */; };
-		5FBA1526237A8E8900976A39 /* DLStrongMatchHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14D9237A8E8900976A39 /* DLStrongMatchHelper.h */; };
-		5FBA1527237A8E8900976A39 /* DLConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14DA237A8E8900976A39 /* DLConfig.h */; };
-		5FBA1528237A8E8900976A39 /* DeepShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14DB237A8E8900976A39 /* DeepShare.m */; };
-		5FBA1529237A8E8900976A39 /* DLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14DC237A8E8900976A39 /* DLViewController.m */; };
-		5FBA152A237A8E8900976A39 /* getNewUsage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14DD237A8E8900976A39 /* getNewUsage.h */; };
-		5FBA152B237A8E8900976A39 /* DLSystemObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14DE237A8E8900976A39 /* DLSystemObserver.h */; };
-		5FBA152C237A8E8900976A39 /* DLServerRequestQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14DF237A8E8900976A39 /* DLServerRequestQueue.h */; };
-		5FBA152D237A8E8900976A39 /* DSError.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14E0237A8E8900976A39 /* DSError.h */; };
-		5FBA152E237A8E8900976A39 /* DLServerResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14E1237A8E8900976A39 /* DLServerResponse.h */; };
-		5FBA152F237A8E8900976A39 /* DLServerInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14E2237A8E8900976A39 /* DLServerInterface.m */; };
-		5FBA1530237A8E8900976A39 /* clearNewUsage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14E3237A8E8900976A39 /* clearNewUsage.m */; };
-		5FBA1531237A8E8900976A39 /* DSEncodingUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14E4237A8E8900976A39 /* DSEncodingUtils.h */; };
-		5FBA1532237A8E8900976A39 /* DLTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14E5237A8E8900976A39 /* DLTime.m */; };
-		5FBA1533237A8E8900976A39 /* DLPreferenceHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14E6237A8E8900976A39 /* DLPreferenceHelper.m */; };
-		5FBA1534237A8E8900976A39 /* DLServerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14E7237A8E8900976A39 /* DLServerRequest.m */; };
-		5FBA1535237A8E8900976A39 /* NewvalueChange.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14E9237A8E8900976A39 /* NewvalueChange.h */; };
-		5FBA1536237A8E8900976A39 /* registerOpen.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14EA237A8E8900976A39 /* registerOpen.h */; };
-		5FBA1537237A8E8900976A39 /* CallClose.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14EB237A8E8900976A39 /* CallClose.m */; };
-		5FBA1538237A8E8900976A39 /* registerInstall.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14EC237A8E8900976A39 /* registerInstall.h */; };
-		5FBA1539237A8E8900976A39 /* NewvalueChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14ED237A8E8900976A39 /* NewvalueChange.m */; };
-		5FBA153A237A8E8900976A39 /* registerOpen.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14EE237A8E8900976A39 /* registerOpen.m */; };
-		5FBA153B237A8E8A00976A39 /* registerInstall.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14EF237A8E8900976A39 /* registerInstall.m */; };
-		5FBA153C237A8E8A00976A39 /* CallClose.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14F0237A8E8900976A39 /* CallClose.h */; };
-		5FBA153D237A8E8A00976A39 /* DLStrongMatchHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14F1237A8E8900976A39 /* DLStrongMatchHelper.m */; };
-		5FBA153E237A8E8A00976A39 /* DeepShareImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14F2237A8E8900976A39 /* DeepShareImpl.m */; };
-		5FBA153F237A8E8A00976A39 /* DLParam.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14F3237A8E8900976A39 /* DLParam.h */; };
-		5FBA1540237A8E8A00976A39 /* DLSystemObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14F4237A8E8900976A39 /* DLSystemObserver.m */; };
-		5FBA1541237A8E8A00976A39 /* getNewUsage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14F5237A8E8900976A39 /* getNewUsage.m */; };
-		5FBA1542237A8E8A00976A39 /* DLViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14F6237A8E8900976A39 /* DLViewController.h */; };
-		5FBA1543237A8E8A00976A39 /* DeepShare.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14F7237A8E8900976A39 /* DeepShare.h */; };
-		5FBA1544237A8E8A00976A39 /* ZhugeEventProperty.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14F8237A8E8900976A39 /* ZhugeEventProperty.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5FBA1545237A8E8A00976A39 /* ZhugeCompres.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14F9237A8E8900976A39 /* ZhugeCompres.h */; };
-		5FBA1546237A8E8A00976A39 /* Zhuge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14FA237A8E8900976A39 /* Zhuge.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5FBA1547237A8E8A00976A39 /* UIGestureRecognizer+Zhuge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA14FC237A8E8900976A39 /* UIGestureRecognizer+Zhuge.h */; };
-		5FBA1548237A8E8A00976A39 /* ZhugeAutoTrackUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14FD237A8E8900976A39 /* ZhugeAutoTrackUtils.m */; };
-		5FBA1549237A8E8A00976A39 /* ZhugeSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14FE237A8E8900976A39 /* ZhugeSwizzle.m */; };
-		5FBA154A237A8E8A00976A39 /* UIGestureRecognizer+Zhuge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA14FF237A8E8900976A39 /* UIGestureRecognizer+Zhuge.m */; };
-		5FBA154B237A8E8A00976A39 /* ZhugeAutoTrackUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA1500237A8E8900976A39 /* ZhugeAutoTrackUtils.h */; };
-		5FBA154C237A8E8A00976A39 /* ZhugeSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA1501237A8E8900976A39 /* ZhugeSwizzle.h */; };
-		5FBA154D237A8E8A00976A39 /* ZhugeEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA1502237A8E8900976A39 /* ZhugeEvents.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5FBA154E237A8E8A00976A39 /* ZhugeBase64.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FBA1503237A8E8900976A39 /* ZhugeBase64.h */; };
+		5F8C294523ACBDBA00983407 /* ZGSharedDur.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C28F623ACBDB900983407 /* ZGSharedDur.h */; };
+		5F8C294623ACBDBA00983407 /* NSObject+Zhuge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C28F723ACBDB900983407 /* NSObject+Zhuge.h */; };
+		5F8C294723ACBDBA00983407 /* UIViewController+Zhuge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C28F823ACBDB900983407 /* UIViewController+Zhuge.m */; };
+		5F8C294823ACBDBA00983407 /* ZGReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C28F923ACBDB900983407 /* ZGReachability.m */; };
+		5F8C294923ACBDBA00983407 /* ZGHttpHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C28FA23ACBDB900983407 /* ZGHttpHelper.m */; };
+		5F8C294A23ACBDBA00983407 /* UIApplication+Zhuge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C28FB23ACBDB900983407 /* UIApplication+Zhuge.h */; };
+		5F8C294B23ACBDBA00983407 /* ZGUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C28FC23ACBDB900983407 /* ZGUtil.h */; };
+		5F8C294C23ACBDBA00983407 /* ZGSqliteManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C28FD23ACBDB900983407 /* ZGSqliteManager.h */; };
+		5F8C294D23ACBDBA00983407 /* ZGSharedDur.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C28FE23ACBDB900983407 /* ZGSharedDur.m */; };
+		5F8C294E23ACBDBA00983407 /* UIApplication+Zhuge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C28FF23ACBDB900983407 /* UIApplication+Zhuge.m */; };
+		5F8C294F23ACBDBA00983407 /* UIViewController+Zhuge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C290023ACBDB900983407 /* UIViewController+Zhuge.h */; };
+		5F8C295023ACBDBA00983407 /* ZGHttpHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C290123ACBDB900983407 /* ZGHttpHelper.h */; };
+		5F8C295123ACBDBA00983407 /* ZGReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C290223ACBDB900983407 /* ZGReachability.h */; };
+		5F8C295223ACBDBA00983407 /* NSObject+Zhuge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C290323ACBDB900983407 /* NSObject+Zhuge.m */; };
+		5F8C295323ACBDBA00983407 /* ZGUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C290423ACBDB900983407 /* ZGUtil.m */; };
+		5F8C295423ACBDBA00983407 /* ZGSqliteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C290523ACBDB900983407 /* ZGSqliteManager.m */; };
+		5F8C295523ACBDBA00983407 /* Zhuge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C290723ACBDB900983407 /* Zhuge.m */; };
+		5F8C295623ACBDBA00983407 /* ZhugeCompres.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C290823ACBDB900983407 /* ZhugeCompres.h */; };
+		5F8C295723ACBDBA00983407 /* ZhugeEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C290923ACBDB900983407 /* ZhugeEvents.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5F8C295823ACBDBA00983407 /* ZhugeJS.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C290A23ACBDB900983407 /* ZhugeJS.h */; };
+		5F8C295923ACBDBA00983407 /* ZhugeConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C290B23ACBDB900983407 /* ZhugeConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5F8C295A23ACBDBA00983407 /* ZhugeBase64.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C290C23ACBDB900983407 /* ZhugeBase64.h */; };
+		5F8C295B23ACBDBA00983407 /* ZhugeEventProperty.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C290D23ACBDB900983407 /* ZhugeEventProperty.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5F8C295C23ACBDBA00983407 /* ZGLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C290E23ACBDB900983407 /* ZGLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5F8C295D23ACBDBA00983407 /* ZhugeCompres.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C290F23ACBDB900983407 /* ZhugeCompres.m */; };
+		5F8C295E23ACBDBA00983407 /* Zhuge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C291023ACBDB900983407 /* Zhuge.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5F8C295F23ACBDBA00983407 /* ZhugeJS.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C291123ACBDB900983407 /* ZhugeJS.m */; };
+		5F8C296023ACBDBA00983407 /* ZhugeBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C291223ACBDB900983407 /* ZhugeBase64.m */; };
+		5F8C296123ACBDBA00983407 /* ZhugeConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C291323ACBDB900983407 /* ZhugeConfig.m */; };
+		5F8C296223ACBDBA00983407 /* UIGestureRecognizer+Zhuge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C291523ACBDB900983407 /* UIGestureRecognizer+Zhuge.h */; };
+		5F8C296323ACBDBA00983407 /* ZhugeAutoTrackUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C291623ACBDB900983407 /* ZhugeAutoTrackUtils.m */; };
+		5F8C296423ACBDBA00983407 /* ZhugeSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C291723ACBDB900983407 /* ZhugeSwizzle.m */; };
+		5F8C296523ACBDBA00983407 /* UIGestureRecognizer+Zhuge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C291823ACBDB900983407 /* UIGestureRecognizer+Zhuge.m */; };
+		5F8C296623ACBDBA00983407 /* ZhugeAutoTrackUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C291923ACBDB900983407 /* ZhugeAutoTrackUtils.h */; };
+		5F8C296723ACBDBA00983407 /* ZhugeSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C291A23ACBDB900983407 /* ZhugeSwizzle.h */; };
+		5F8C296823ACBDBA00983407 /* DLServerInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C291C23ACBDB900983407 /* DLServerInterface.h */; };
+		5F8C296923ACBDBA00983407 /* DLServerResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C291D23ACBDB900983407 /* DLServerResponse.m */; };
+		5F8C296A23ACBDBA00983407 /* DLServerRequestQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C291E23ACBDB900983407 /* DLServerRequestQueue.m */; };
+		5F8C296B23ACBDBA00983407 /* DSError.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C291F23ACBDB900983407 /* DSError.m */; };
+		5F8C296C23ACBDBA00983407 /* DLServerRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C292023ACBDB900983407 /* DLServerRequest.h */; };
+		5F8C296D23ACBDBA00983407 /* DLPreferenceHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C292123ACBDB900983407 /* DLPreferenceHelper.h */; };
+		5F8C296E23ACBDBA00983407 /* DLTime.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C292223ACBDB900983407 /* DLTime.h */; };
+		5F8C296F23ACBDBA00983407 /* DSEncodingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C292323ACBDB900983407 /* DSEncodingUtils.m */; };
+		5F8C297023ACBDBA00983407 /* clearNewUsage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C292423ACBDB900983407 /* clearNewUsage.h */; };
+		5F8C297123ACBDBA00983407 /* DeepShareImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C292523ACBDB900983407 /* DeepShareImpl.h */; };
+		5F8C297223ACBDBA00983407 /* DLStrongMatchHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C292623ACBDB900983407 /* DLStrongMatchHelper.h */; };
+		5F8C297323ACBDBA00983407 /* DLConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C292723ACBDB900983407 /* DLConfig.h */; };
+		5F8C297423ACBDBA00983407 /* DeepShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C292823ACBDB900983407 /* DeepShare.m */; };
+		5F8C297523ACBDBA00983407 /* DLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C292923ACBDB900983407 /* DLViewController.m */; };
+		5F8C297623ACBDBA00983407 /* getNewUsage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C292A23ACBDB900983407 /* getNewUsage.h */; };
+		5F8C297723ACBDBA00983407 /* DLSystemObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C292B23ACBDB900983407 /* DLSystemObserver.h */; };
+		5F8C297823ACBDBA00983407 /* DLServerRequestQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C292C23ACBDB900983407 /* DLServerRequestQueue.h */; };
+		5F8C297923ACBDBA00983407 /* DSError.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C292D23ACBDB900983407 /* DSError.h */; };
+		5F8C297A23ACBDBA00983407 /* DLServerResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C292E23ACBDB900983407 /* DLServerResponse.h */; };
+		5F8C297B23ACBDBA00983407 /* DLServerInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C292F23ACBDB900983407 /* DLServerInterface.m */; };
+		5F8C297C23ACBDBA00983407 /* clearNewUsage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C293023ACBDB900983407 /* clearNewUsage.m */; };
+		5F8C297D23ACBDBA00983407 /* DSEncodingUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C293123ACBDB900983407 /* DSEncodingUtils.h */; };
+		5F8C297E23ACBDBA00983407 /* DLTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C293223ACBDB900983407 /* DLTime.m */; };
+		5F8C297F23ACBDBA00983407 /* DLPreferenceHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C293323ACBDB900983407 /* DLPreferenceHelper.m */; };
+		5F8C298023ACBDBA00983407 /* DLServerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C293423ACBDB900983407 /* DLServerRequest.m */; };
+		5F8C298123ACBDBA00983407 /* NewvalueChange.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C293623ACBDB900983407 /* NewvalueChange.h */; };
+		5F8C298223ACBDBA00983407 /* registerOpen.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C293723ACBDB900983407 /* registerOpen.h */; };
+		5F8C298323ACBDBA00983407 /* CallClose.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C293823ACBDB900983407 /* CallClose.m */; };
+		5F8C298423ACBDBA00983407 /* registerInstall.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C293923ACBDB900983407 /* registerInstall.h */; };
+		5F8C298523ACBDBA00983407 /* NewvalueChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C293A23ACBDBA00983407 /* NewvalueChange.m */; };
+		5F8C298623ACBDBA00983407 /* registerOpen.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C293B23ACBDBA00983407 /* registerOpen.m */; };
+		5F8C298723ACBDBA00983407 /* registerInstall.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C293C23ACBDBA00983407 /* registerInstall.m */; };
+		5F8C298823ACBDBA00983407 /* CallClose.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C293D23ACBDBA00983407 /* CallClose.h */; };
+		5F8C298923ACBDBA00983407 /* DLStrongMatchHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C293E23ACBDBA00983407 /* DLStrongMatchHelper.m */; };
+		5F8C298A23ACBDBA00983407 /* DeepShareImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C293F23ACBDBA00983407 /* DeepShareImpl.m */; };
+		5F8C298B23ACBDBA00983407 /* DLParam.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C294023ACBDBA00983407 /* DLParam.h */; };
+		5F8C298C23ACBDBA00983407 /* DLSystemObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C294123ACBDBA00983407 /* DLSystemObserver.m */; };
+		5F8C298D23ACBDBA00983407 /* getNewUsage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8C294223ACBDBA00983407 /* getNewUsage.m */; };
+		5F8C298E23ACBDBA00983407 /* DLViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C294323ACBDBA00983407 /* DLViewController.h */; };
+		5F8C298F23ACBDBA00983407 /* DeepShare.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8C294423ACBDBA00983407 /* DeepShare.h */; };
 		5FBA1558237A906E00976A39 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA1557237A906E00976A39 /* AppDelegate.m */; };
 		5FBA155B237A906E00976A39 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA155A237A906E00976A39 /* SceneDelegate.m */; };
 		5FBA155E237A906E00976A39 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA155D237A906E00976A39 /* ViewController.m */; };
@@ -93,83 +93,83 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5F8C28F623ACBDB900983407 /* ZGSharedDur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGSharedDur.h; sourceTree = "<group>"; };
+		5F8C28F723ACBDB900983407 /* NSObject+Zhuge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Zhuge.h"; sourceTree = "<group>"; };
+		5F8C28F823ACBDB900983407 /* UIViewController+Zhuge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Zhuge.m"; sourceTree = "<group>"; };
+		5F8C28F923ACBDB900983407 /* ZGReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGReachability.m; sourceTree = "<group>"; };
+		5F8C28FA23ACBDB900983407 /* ZGHttpHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGHttpHelper.m; sourceTree = "<group>"; };
+		5F8C28FB23ACBDB900983407 /* UIApplication+Zhuge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+Zhuge.h"; sourceTree = "<group>"; };
+		5F8C28FC23ACBDB900983407 /* ZGUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGUtil.h; sourceTree = "<group>"; };
+		5F8C28FD23ACBDB900983407 /* ZGSqliteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGSqliteManager.h; sourceTree = "<group>"; };
+		5F8C28FE23ACBDB900983407 /* ZGSharedDur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGSharedDur.m; sourceTree = "<group>"; };
+		5F8C28FF23ACBDB900983407 /* UIApplication+Zhuge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+Zhuge.m"; sourceTree = "<group>"; };
+		5F8C290023ACBDB900983407 /* UIViewController+Zhuge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Zhuge.h"; sourceTree = "<group>"; };
+		5F8C290123ACBDB900983407 /* ZGHttpHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGHttpHelper.h; sourceTree = "<group>"; };
+		5F8C290223ACBDB900983407 /* ZGReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGReachability.h; sourceTree = "<group>"; };
+		5F8C290323ACBDB900983407 /* NSObject+Zhuge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Zhuge.m"; sourceTree = "<group>"; };
+		5F8C290423ACBDB900983407 /* ZGUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGUtil.m; sourceTree = "<group>"; };
+		5F8C290523ACBDB900983407 /* ZGSqliteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGSqliteManager.m; sourceTree = "<group>"; };
+		5F8C290723ACBDB900983407 /* Zhuge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Zhuge.m; sourceTree = "<group>"; };
+		5F8C290823ACBDB900983407 /* ZhugeCompres.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeCompres.h; sourceTree = "<group>"; };
+		5F8C290923ACBDB900983407 /* ZhugeEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeEvents.h; sourceTree = "<group>"; };
+		5F8C290A23ACBDB900983407 /* ZhugeJS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeJS.h; sourceTree = "<group>"; };
+		5F8C290B23ACBDB900983407 /* ZhugeConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeConfig.h; sourceTree = "<group>"; };
+		5F8C290C23ACBDB900983407 /* ZhugeBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeBase64.h; sourceTree = "<group>"; };
+		5F8C290D23ACBDB900983407 /* ZhugeEventProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeEventProperty.h; sourceTree = "<group>"; };
+		5F8C290E23ACBDB900983407 /* ZGLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGLog.h; sourceTree = "<group>"; };
+		5F8C290F23ACBDB900983407 /* ZhugeCompres.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeCompres.m; sourceTree = "<group>"; };
+		5F8C291023ACBDB900983407 /* Zhuge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Zhuge.h; sourceTree = "<group>"; };
+		5F8C291123ACBDB900983407 /* ZhugeJS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeJS.m; sourceTree = "<group>"; };
+		5F8C291223ACBDB900983407 /* ZhugeBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeBase64.m; sourceTree = "<group>"; };
+		5F8C291323ACBDB900983407 /* ZhugeConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeConfig.m; sourceTree = "<group>"; };
+		5F8C291523ACBDB900983407 /* UIGestureRecognizer+Zhuge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+Zhuge.h"; sourceTree = "<group>"; };
+		5F8C291623ACBDB900983407 /* ZhugeAutoTrackUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeAutoTrackUtils.m; sourceTree = "<group>"; };
+		5F8C291723ACBDB900983407 /* ZhugeSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeSwizzle.m; sourceTree = "<group>"; };
+		5F8C291823ACBDB900983407 /* UIGestureRecognizer+Zhuge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+Zhuge.m"; sourceTree = "<group>"; };
+		5F8C291923ACBDB900983407 /* ZhugeAutoTrackUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeAutoTrackUtils.h; sourceTree = "<group>"; };
+		5F8C291A23ACBDB900983407 /* ZhugeSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeSwizzle.h; sourceTree = "<group>"; };
+		5F8C291C23ACBDB900983407 /* DLServerInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLServerInterface.h; sourceTree = "<group>"; };
+		5F8C291D23ACBDB900983407 /* DLServerResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLServerResponse.m; sourceTree = "<group>"; };
+		5F8C291E23ACBDB900983407 /* DLServerRequestQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLServerRequestQueue.m; sourceTree = "<group>"; };
+		5F8C291F23ACBDB900983407 /* DSError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSError.m; sourceTree = "<group>"; };
+		5F8C292023ACBDB900983407 /* DLServerRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLServerRequest.h; sourceTree = "<group>"; };
+		5F8C292123ACBDB900983407 /* DLPreferenceHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLPreferenceHelper.h; sourceTree = "<group>"; };
+		5F8C292223ACBDB900983407 /* DLTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLTime.h; sourceTree = "<group>"; };
+		5F8C292323ACBDB900983407 /* DSEncodingUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSEncodingUtils.m; sourceTree = "<group>"; };
+		5F8C292423ACBDB900983407 /* clearNewUsage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clearNewUsage.h; sourceTree = "<group>"; };
+		5F8C292523ACBDB900983407 /* DeepShareImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeepShareImpl.h; sourceTree = "<group>"; };
+		5F8C292623ACBDB900983407 /* DLStrongMatchHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLStrongMatchHelper.h; sourceTree = "<group>"; };
+		5F8C292723ACBDB900983407 /* DLConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLConfig.h; sourceTree = "<group>"; };
+		5F8C292823ACBDB900983407 /* DeepShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeepShare.m; sourceTree = "<group>"; };
+		5F8C292923ACBDB900983407 /* DLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLViewController.m; sourceTree = "<group>"; };
+		5F8C292A23ACBDB900983407 /* getNewUsage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = getNewUsage.h; sourceTree = "<group>"; };
+		5F8C292B23ACBDB900983407 /* DLSystemObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLSystemObserver.h; sourceTree = "<group>"; };
+		5F8C292C23ACBDB900983407 /* DLServerRequestQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLServerRequestQueue.h; sourceTree = "<group>"; };
+		5F8C292D23ACBDB900983407 /* DSError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSError.h; sourceTree = "<group>"; };
+		5F8C292E23ACBDB900983407 /* DLServerResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLServerResponse.h; sourceTree = "<group>"; };
+		5F8C292F23ACBDB900983407 /* DLServerInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLServerInterface.m; sourceTree = "<group>"; };
+		5F8C293023ACBDB900983407 /* clearNewUsage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = clearNewUsage.m; sourceTree = "<group>"; };
+		5F8C293123ACBDB900983407 /* DSEncodingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSEncodingUtils.h; sourceTree = "<group>"; };
+		5F8C293223ACBDB900983407 /* DLTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLTime.m; sourceTree = "<group>"; };
+		5F8C293323ACBDB900983407 /* DLPreferenceHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLPreferenceHelper.m; sourceTree = "<group>"; };
+		5F8C293423ACBDB900983407 /* DLServerRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLServerRequest.m; sourceTree = "<group>"; };
+		5F8C293623ACBDB900983407 /* NewvalueChange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewvalueChange.h; sourceTree = "<group>"; };
+		5F8C293723ACBDB900983407 /* registerOpen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = registerOpen.h; sourceTree = "<group>"; };
+		5F8C293823ACBDB900983407 /* CallClose.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallClose.m; sourceTree = "<group>"; };
+		5F8C293923ACBDB900983407 /* registerInstall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = registerInstall.h; sourceTree = "<group>"; };
+		5F8C293A23ACBDBA00983407 /* NewvalueChange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewvalueChange.m; sourceTree = "<group>"; };
+		5F8C293B23ACBDBA00983407 /* registerOpen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = registerOpen.m; sourceTree = "<group>"; };
+		5F8C293C23ACBDBA00983407 /* registerInstall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = registerInstall.m; sourceTree = "<group>"; };
+		5F8C293D23ACBDBA00983407 /* CallClose.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallClose.h; sourceTree = "<group>"; };
+		5F8C293E23ACBDBA00983407 /* DLStrongMatchHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLStrongMatchHelper.m; sourceTree = "<group>"; };
+		5F8C293F23ACBDBA00983407 /* DeepShareImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeepShareImpl.m; sourceTree = "<group>"; };
+		5F8C294023ACBDBA00983407 /* DLParam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLParam.h; sourceTree = "<group>"; };
+		5F8C294123ACBDBA00983407 /* DLSystemObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLSystemObserver.m; sourceTree = "<group>"; };
+		5F8C294223ACBDBA00983407 /* getNewUsage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = getNewUsage.m; sourceTree = "<group>"; };
+		5F8C294323ACBDBA00983407 /* DLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLViewController.h; sourceTree = "<group>"; };
+		5F8C294423ACBDBA00983407 /* DeepShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeepShare.h; sourceTree = "<group>"; };
 		5FBA14AA237A8CBC00976A39 /* Zhugeio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Zhugeio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FBA14AE237A8CBC00976A39 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5FBA14B5237A8E8800976A39 /* ZGLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGLog.h; sourceTree = "<group>"; };
-		5FBA14B6237A8E8800976A39 /* ZhugeJS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeJS.m; sourceTree = "<group>"; };
-		5FBA14B7237A8E8800976A39 /* Zhuge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Zhuge.m; sourceTree = "<group>"; };
-		5FBA14B8237A8E8800976A39 /* ZhugeCompres.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeCompres.m; sourceTree = "<group>"; };
-		5FBA14BA237A8E8800976A39 /* ZGSharedDur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGSharedDur.h; sourceTree = "<group>"; };
-		5FBA14BB237A8E8800976A39 /* NSObject+Zhuge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Zhuge.h"; sourceTree = "<group>"; };
-		5FBA14BC237A8E8800976A39 /* UIViewController+Zhuge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Zhuge.m"; sourceTree = "<group>"; };
-		5FBA14BD237A8E8800976A39 /* ZGReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGReachability.m; sourceTree = "<group>"; };
-		5FBA14BE237A8E8800976A39 /* ZGHttpHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGHttpHelper.m; sourceTree = "<group>"; };
-		5FBA14BF237A8E8800976A39 /* UIApplication+Zhuge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+Zhuge.h"; sourceTree = "<group>"; };
-		5FBA14C0237A8E8800976A39 /* ZGUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGUtil.h; sourceTree = "<group>"; };
-		5FBA14C1237A8E8800976A39 /* ZGSqliteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGSqliteManager.h; sourceTree = "<group>"; };
-		5FBA14C2237A8E8800976A39 /* ZGSharedDur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGSharedDur.m; sourceTree = "<group>"; };
-		5FBA14C3237A8E8800976A39 /* UIApplication+Zhuge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+Zhuge.m"; sourceTree = "<group>"; };
-		5FBA14C4237A8E8800976A39 /* UIViewController+Zhuge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Zhuge.h"; sourceTree = "<group>"; };
-		5FBA14C5237A8E8800976A39 /* ZGHttpHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGHttpHelper.h; sourceTree = "<group>"; };
-		5FBA14C6237A8E8800976A39 /* ZGReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGReachability.h; sourceTree = "<group>"; };
-		5FBA14C7237A8E8800976A39 /* NSObject+Zhuge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Zhuge.m"; sourceTree = "<group>"; };
-		5FBA14C8237A8E8800976A39 /* ZGUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGUtil.m; sourceTree = "<group>"; };
-		5FBA14C9237A8E8800976A39 /* ZGSqliteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGSqliteManager.m; sourceTree = "<group>"; };
-		5FBA14CA237A8E8800976A39 /* ZhugeJS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeJS.h; sourceTree = "<group>"; };
-		5FBA14CB237A8E8900976A39 /* ZhugeConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeConfig.m; sourceTree = "<group>"; };
-		5FBA14CC237A8E8900976A39 /* ZhugeConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeConfig.h; sourceTree = "<group>"; };
-		5FBA14CD237A8E8900976A39 /* ZhugeBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeBase64.m; sourceTree = "<group>"; };
-		5FBA14CF237A8E8900976A39 /* DLServerInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLServerInterface.h; sourceTree = "<group>"; };
-		5FBA14D0237A8E8900976A39 /* DLServerResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLServerResponse.m; sourceTree = "<group>"; };
-		5FBA14D1237A8E8900976A39 /* DLServerRequestQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLServerRequestQueue.m; sourceTree = "<group>"; };
-		5FBA14D2237A8E8900976A39 /* DSError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSError.m; sourceTree = "<group>"; };
-		5FBA14D3237A8E8900976A39 /* DLServerRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLServerRequest.h; sourceTree = "<group>"; };
-		5FBA14D4237A8E8900976A39 /* DLPreferenceHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLPreferenceHelper.h; sourceTree = "<group>"; };
-		5FBA14D5237A8E8900976A39 /* DLTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLTime.h; sourceTree = "<group>"; };
-		5FBA14D6237A8E8900976A39 /* DSEncodingUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSEncodingUtils.m; sourceTree = "<group>"; };
-		5FBA14D7237A8E8900976A39 /* clearNewUsage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clearNewUsage.h; sourceTree = "<group>"; };
-		5FBA14D8237A8E8900976A39 /* DeepShareImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeepShareImpl.h; sourceTree = "<group>"; };
-		5FBA14D9237A8E8900976A39 /* DLStrongMatchHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLStrongMatchHelper.h; sourceTree = "<group>"; };
-		5FBA14DA237A8E8900976A39 /* DLConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLConfig.h; sourceTree = "<group>"; };
-		5FBA14DB237A8E8900976A39 /* DeepShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeepShare.m; sourceTree = "<group>"; };
-		5FBA14DC237A8E8900976A39 /* DLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLViewController.m; sourceTree = "<group>"; };
-		5FBA14DD237A8E8900976A39 /* getNewUsage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = getNewUsage.h; sourceTree = "<group>"; };
-		5FBA14DE237A8E8900976A39 /* DLSystemObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLSystemObserver.h; sourceTree = "<group>"; };
-		5FBA14DF237A8E8900976A39 /* DLServerRequestQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLServerRequestQueue.h; sourceTree = "<group>"; };
-		5FBA14E0237A8E8900976A39 /* DSError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSError.h; sourceTree = "<group>"; };
-		5FBA14E1237A8E8900976A39 /* DLServerResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLServerResponse.h; sourceTree = "<group>"; };
-		5FBA14E2237A8E8900976A39 /* DLServerInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLServerInterface.m; sourceTree = "<group>"; };
-		5FBA14E3237A8E8900976A39 /* clearNewUsage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = clearNewUsage.m; sourceTree = "<group>"; };
-		5FBA14E4237A8E8900976A39 /* DSEncodingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSEncodingUtils.h; sourceTree = "<group>"; };
-		5FBA14E5237A8E8900976A39 /* DLTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLTime.m; sourceTree = "<group>"; };
-		5FBA14E6237A8E8900976A39 /* DLPreferenceHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLPreferenceHelper.m; sourceTree = "<group>"; };
-		5FBA14E7237A8E8900976A39 /* DLServerRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLServerRequest.m; sourceTree = "<group>"; };
-		5FBA14E9237A8E8900976A39 /* NewvalueChange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewvalueChange.h; sourceTree = "<group>"; };
-		5FBA14EA237A8E8900976A39 /* registerOpen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = registerOpen.h; sourceTree = "<group>"; };
-		5FBA14EB237A8E8900976A39 /* CallClose.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallClose.m; sourceTree = "<group>"; };
-		5FBA14EC237A8E8900976A39 /* registerInstall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = registerInstall.h; sourceTree = "<group>"; };
-		5FBA14ED237A8E8900976A39 /* NewvalueChange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewvalueChange.m; sourceTree = "<group>"; };
-		5FBA14EE237A8E8900976A39 /* registerOpen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = registerOpen.m; sourceTree = "<group>"; };
-		5FBA14EF237A8E8900976A39 /* registerInstall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = registerInstall.m; sourceTree = "<group>"; };
-		5FBA14F0237A8E8900976A39 /* CallClose.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallClose.h; sourceTree = "<group>"; };
-		5FBA14F1237A8E8900976A39 /* DLStrongMatchHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLStrongMatchHelper.m; sourceTree = "<group>"; };
-		5FBA14F2237A8E8900976A39 /* DeepShareImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeepShareImpl.m; sourceTree = "<group>"; };
-		5FBA14F3237A8E8900976A39 /* DLParam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLParam.h; sourceTree = "<group>"; };
-		5FBA14F4237A8E8900976A39 /* DLSystemObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLSystemObserver.m; sourceTree = "<group>"; };
-		5FBA14F5237A8E8900976A39 /* getNewUsage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = getNewUsage.m; sourceTree = "<group>"; };
-		5FBA14F6237A8E8900976A39 /* DLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLViewController.h; sourceTree = "<group>"; };
-		5FBA14F7237A8E8900976A39 /* DeepShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeepShare.h; sourceTree = "<group>"; };
-		5FBA14F8237A8E8900976A39 /* ZhugeEventProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeEventProperty.h; sourceTree = "<group>"; };
-		5FBA14F9237A8E8900976A39 /* ZhugeCompres.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeCompres.h; sourceTree = "<group>"; };
-		5FBA14FA237A8E8900976A39 /* Zhuge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Zhuge.h; sourceTree = "<group>"; };
-		5FBA14FC237A8E8900976A39 /* UIGestureRecognizer+Zhuge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+Zhuge.h"; sourceTree = "<group>"; };
-		5FBA14FD237A8E8900976A39 /* ZhugeAutoTrackUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeAutoTrackUtils.m; sourceTree = "<group>"; };
-		5FBA14FE237A8E8900976A39 /* ZhugeSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeSwizzle.m; sourceTree = "<group>"; };
-		5FBA14FF237A8E8900976A39 /* UIGestureRecognizer+Zhuge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+Zhuge.m"; sourceTree = "<group>"; };
-		5FBA1500237A8E8900976A39 /* ZhugeAutoTrackUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeAutoTrackUtils.h; sourceTree = "<group>"; };
-		5FBA1501237A8E8900976A39 /* ZhugeSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeSwizzle.h; sourceTree = "<group>"; };
-		5FBA1502237A8E8900976A39 /* ZhugeEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeEvents.h; sourceTree = "<group>"; };
-		5FBA1503237A8E8900976A39 /* ZhugeBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeBase64.h; sourceTree = "<group>"; };
 		5FBA1554237A906D00976A39 /* SampleProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FBA1556237A906E00976A39 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5FBA1557237A906E00976A39 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -203,6 +203,117 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5F8C28F523ACBDB900983407 /* ZGSee */ = {
+			isa = PBXGroup;
+			children = (
+				5F8C28F623ACBDB900983407 /* ZGSharedDur.h */,
+				5F8C28F723ACBDB900983407 /* NSObject+Zhuge.h */,
+				5F8C28F823ACBDB900983407 /* UIViewController+Zhuge.m */,
+				5F8C28F923ACBDB900983407 /* ZGReachability.m */,
+				5F8C28FA23ACBDB900983407 /* ZGHttpHelper.m */,
+				5F8C28FB23ACBDB900983407 /* UIApplication+Zhuge.h */,
+				5F8C28FC23ACBDB900983407 /* ZGUtil.h */,
+				5F8C28FD23ACBDB900983407 /* ZGSqliteManager.h */,
+				5F8C28FE23ACBDB900983407 /* ZGSharedDur.m */,
+				5F8C28FF23ACBDB900983407 /* UIApplication+Zhuge.m */,
+				5F8C290023ACBDB900983407 /* UIViewController+Zhuge.h */,
+				5F8C290123ACBDB900983407 /* ZGHttpHelper.h */,
+				5F8C290223ACBDB900983407 /* ZGReachability.h */,
+				5F8C290323ACBDB900983407 /* NSObject+Zhuge.m */,
+				5F8C290423ACBDB900983407 /* ZGUtil.m */,
+				5F8C290523ACBDB900983407 /* ZGSqliteManager.m */,
+			);
+			path = ZGSee;
+			sourceTree = "<group>";
+		};
+		5F8C290623ACBDB900983407 /* ZGCore */ = {
+			isa = PBXGroup;
+			children = (
+				5F8C290723ACBDB900983407 /* Zhuge.m */,
+				5F8C290823ACBDB900983407 /* ZhugeCompres.h */,
+				5F8C290923ACBDB900983407 /* ZhugeEvents.h */,
+				5F8C290A23ACBDB900983407 /* ZhugeJS.h */,
+				5F8C290B23ACBDB900983407 /* ZhugeConfig.h */,
+				5F8C290C23ACBDB900983407 /* ZhugeBase64.h */,
+				5F8C290D23ACBDB900983407 /* ZhugeEventProperty.h */,
+				5F8C290E23ACBDB900983407 /* ZGLog.h */,
+				5F8C290F23ACBDB900983407 /* ZhugeCompres.m */,
+				5F8C291023ACBDB900983407 /* Zhuge.h */,
+				5F8C291123ACBDB900983407 /* ZhugeJS.m */,
+				5F8C291223ACBDB900983407 /* ZhugeBase64.m */,
+				5F8C291323ACBDB900983407 /* ZhugeConfig.m */,
+			);
+			path = ZGCore;
+			sourceTree = "<group>";
+		};
+		5F8C291423ACBDB900983407 /* AutoTrack */ = {
+			isa = PBXGroup;
+			children = (
+				5F8C291523ACBDB900983407 /* UIGestureRecognizer+Zhuge.h */,
+				5F8C291623ACBDB900983407 /* ZhugeAutoTrackUtils.m */,
+				5F8C291723ACBDB900983407 /* ZhugeSwizzle.m */,
+				5F8C291823ACBDB900983407 /* UIGestureRecognizer+Zhuge.m */,
+				5F8C291923ACBDB900983407 /* ZhugeAutoTrackUtils.h */,
+				5F8C291A23ACBDB900983407 /* ZhugeSwizzle.h */,
+			);
+			path = AutoTrack;
+			sourceTree = "<group>";
+		};
+		5F8C291B23ACBDB900983407 /* ZhugeShare */ = {
+			isa = PBXGroup;
+			children = (
+				5F8C291C23ACBDB900983407 /* DLServerInterface.h */,
+				5F8C291D23ACBDB900983407 /* DLServerResponse.m */,
+				5F8C291E23ACBDB900983407 /* DLServerRequestQueue.m */,
+				5F8C291F23ACBDB900983407 /* DSError.m */,
+				5F8C292023ACBDB900983407 /* DLServerRequest.h */,
+				5F8C292123ACBDB900983407 /* DLPreferenceHelper.h */,
+				5F8C292223ACBDB900983407 /* DLTime.h */,
+				5F8C292323ACBDB900983407 /* DSEncodingUtils.m */,
+				5F8C292423ACBDB900983407 /* clearNewUsage.h */,
+				5F8C292523ACBDB900983407 /* DeepShareImpl.h */,
+				5F8C292623ACBDB900983407 /* DLStrongMatchHelper.h */,
+				5F8C292723ACBDB900983407 /* DLConfig.h */,
+				5F8C292823ACBDB900983407 /* DeepShare.m */,
+				5F8C292923ACBDB900983407 /* DLViewController.m */,
+				5F8C292A23ACBDB900983407 /* getNewUsage.h */,
+				5F8C292B23ACBDB900983407 /* DLSystemObserver.h */,
+				5F8C292C23ACBDB900983407 /* DLServerRequestQueue.h */,
+				5F8C292D23ACBDB900983407 /* DSError.h */,
+				5F8C292E23ACBDB900983407 /* DLServerResponse.h */,
+				5F8C292F23ACBDB900983407 /* DLServerInterface.m */,
+				5F8C293023ACBDB900983407 /* clearNewUsage.m */,
+				5F8C293123ACBDB900983407 /* DSEncodingUtils.h */,
+				5F8C293223ACBDB900983407 /* DLTime.m */,
+				5F8C293323ACBDB900983407 /* DLPreferenceHelper.m */,
+				5F8C293423ACBDB900983407 /* DLServerRequest.m */,
+				5F8C293523ACBDB900983407 /* Request */,
+				5F8C293E23ACBDBA00983407 /* DLStrongMatchHelper.m */,
+				5F8C293F23ACBDBA00983407 /* DeepShareImpl.m */,
+				5F8C294023ACBDBA00983407 /* DLParam.h */,
+				5F8C294123ACBDBA00983407 /* DLSystemObserver.m */,
+				5F8C294223ACBDBA00983407 /* getNewUsage.m */,
+				5F8C294323ACBDBA00983407 /* DLViewController.h */,
+				5F8C294423ACBDBA00983407 /* DeepShare.h */,
+			);
+			path = ZhugeShare;
+			sourceTree = "<group>";
+		};
+		5F8C293523ACBDB900983407 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				5F8C293623ACBDB900983407 /* NewvalueChange.h */,
+				5F8C293723ACBDB900983407 /* registerOpen.h */,
+				5F8C293823ACBDB900983407 /* CallClose.m */,
+				5F8C293923ACBDB900983407 /* registerInstall.h */,
+				5F8C293A23ACBDBA00983407 /* NewvalueChange.m */,
+				5F8C293B23ACBDBA00983407 /* registerOpen.m */,
+				5F8C293C23ACBDBA00983407 /* registerInstall.m */,
+				5F8C293D23ACBDBA00983407 /* CallClose.h */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
 		5FBA14A0237A8CBC00976A39 = {
 			isa = PBXGroup;
 			children = (
@@ -226,123 +337,12 @@
 			isa = PBXGroup;
 			children = (
 				5FBA14AE237A8CBC00976A39 /* Info.plist */,
-				5FBA154F237A8FE700976A39 /* ZGCore */,
-				5FBA14CE237A8E8900976A39 /* ZhugeShare */,
-				5FBA14B9237A8E8800976A39 /* ZGSee */,
-				5FBA14FB237A8E8900976A39 /* AutoTrack */,
+				5F8C291423ACBDB900983407 /* AutoTrack */,
+				5F8C290623ACBDB900983407 /* ZGCore */,
+				5F8C28F523ACBDB900983407 /* ZGSee */,
+				5F8C291B23ACBDB900983407 /* ZhugeShare */,
 			);
 			path = Zhugeio;
-			sourceTree = "<group>";
-		};
-		5FBA14B9237A8E8800976A39 /* ZGSee */ = {
-			isa = PBXGroup;
-			children = (
-				5FBA14BB237A8E8800976A39 /* NSObject+Zhuge.h */,
-				5FBA14C7237A8E8800976A39 /* NSObject+Zhuge.m */,
-				5FBA14BF237A8E8800976A39 /* UIApplication+Zhuge.h */,
-				5FBA14C3237A8E8800976A39 /* UIApplication+Zhuge.m */,
-				5FBA14C4237A8E8800976A39 /* UIViewController+Zhuge.h */,
-				5FBA14BC237A8E8800976A39 /* UIViewController+Zhuge.m */,
-				5FBA14C5237A8E8800976A39 /* ZGHttpHelper.h */,
-				5FBA14BE237A8E8800976A39 /* ZGHttpHelper.m */,
-				5FBA14C6237A8E8800976A39 /* ZGReachability.h */,
-				5FBA14BD237A8E8800976A39 /* ZGReachability.m */,
-				5FBA14BA237A8E8800976A39 /* ZGSharedDur.h */,
-				5FBA14C2237A8E8800976A39 /* ZGSharedDur.m */,
-				5FBA14C1237A8E8800976A39 /* ZGSqliteManager.h */,
-				5FBA14C9237A8E8800976A39 /* ZGSqliteManager.m */,
-				5FBA14C0237A8E8800976A39 /* ZGUtil.h */,
-				5FBA14C8237A8E8800976A39 /* ZGUtil.m */,
-			);
-			path = ZGSee;
-			sourceTree = "<group>";
-		};
-		5FBA14CE237A8E8900976A39 /* ZhugeShare */ = {
-			isa = PBXGroup;
-			children = (
-				5FBA14CF237A8E8900976A39 /* DLServerInterface.h */,
-				5FBA14D0237A8E8900976A39 /* DLServerResponse.m */,
-				5FBA14D1237A8E8900976A39 /* DLServerRequestQueue.m */,
-				5FBA14D2237A8E8900976A39 /* DSError.m */,
-				5FBA14D3237A8E8900976A39 /* DLServerRequest.h */,
-				5FBA14D4237A8E8900976A39 /* DLPreferenceHelper.h */,
-				5FBA14D5237A8E8900976A39 /* DLTime.h */,
-				5FBA14D6237A8E8900976A39 /* DSEncodingUtils.m */,
-				5FBA14D7237A8E8900976A39 /* clearNewUsage.h */,
-				5FBA14D8237A8E8900976A39 /* DeepShareImpl.h */,
-				5FBA14D9237A8E8900976A39 /* DLStrongMatchHelper.h */,
-				5FBA14DA237A8E8900976A39 /* DLConfig.h */,
-				5FBA14DB237A8E8900976A39 /* DeepShare.m */,
-				5FBA14DC237A8E8900976A39 /* DLViewController.m */,
-				5FBA14DD237A8E8900976A39 /* getNewUsage.h */,
-				5FBA14DE237A8E8900976A39 /* DLSystemObserver.h */,
-				5FBA14DF237A8E8900976A39 /* DLServerRequestQueue.h */,
-				5FBA14E0237A8E8900976A39 /* DSError.h */,
-				5FBA14E1237A8E8900976A39 /* DLServerResponse.h */,
-				5FBA14E2237A8E8900976A39 /* DLServerInterface.m */,
-				5FBA14E3237A8E8900976A39 /* clearNewUsage.m */,
-				5FBA14E4237A8E8900976A39 /* DSEncodingUtils.h */,
-				5FBA14E5237A8E8900976A39 /* DLTime.m */,
-				5FBA14E6237A8E8900976A39 /* DLPreferenceHelper.m */,
-				5FBA14E7237A8E8900976A39 /* DLServerRequest.m */,
-				5FBA14E8237A8E8900976A39 /* Request */,
-				5FBA14F1237A8E8900976A39 /* DLStrongMatchHelper.m */,
-				5FBA14F2237A8E8900976A39 /* DeepShareImpl.m */,
-				5FBA14F3237A8E8900976A39 /* DLParam.h */,
-				5FBA14F4237A8E8900976A39 /* DLSystemObserver.m */,
-				5FBA14F5237A8E8900976A39 /* getNewUsage.m */,
-				5FBA14F6237A8E8900976A39 /* DLViewController.h */,
-				5FBA14F7237A8E8900976A39 /* DeepShare.h */,
-			);
-			path = ZhugeShare;
-			sourceTree = "<group>";
-		};
-		5FBA14E8237A8E8900976A39 /* Request */ = {
-			isa = PBXGroup;
-			children = (
-				5FBA14E9237A8E8900976A39 /* NewvalueChange.h */,
-				5FBA14EA237A8E8900976A39 /* registerOpen.h */,
-				5FBA14EB237A8E8900976A39 /* CallClose.m */,
-				5FBA14EC237A8E8900976A39 /* registerInstall.h */,
-				5FBA14ED237A8E8900976A39 /* NewvalueChange.m */,
-				5FBA14EE237A8E8900976A39 /* registerOpen.m */,
-				5FBA14EF237A8E8900976A39 /* registerInstall.m */,
-				5FBA14F0237A8E8900976A39 /* CallClose.h */,
-			);
-			path = Request;
-			sourceTree = "<group>";
-		};
-		5FBA14FB237A8E8900976A39 /* AutoTrack */ = {
-			isa = PBXGroup;
-			children = (
-				5FBA14FC237A8E8900976A39 /* UIGestureRecognizer+Zhuge.h */,
-				5FBA14FD237A8E8900976A39 /* ZhugeAutoTrackUtils.m */,
-				5FBA14FE237A8E8900976A39 /* ZhugeSwizzle.m */,
-				5FBA14FF237A8E8900976A39 /* UIGestureRecognizer+Zhuge.m */,
-				5FBA1500237A8E8900976A39 /* ZhugeAutoTrackUtils.h */,
-				5FBA1501237A8E8900976A39 /* ZhugeSwizzle.h */,
-			);
-			path = AutoTrack;
-			sourceTree = "<group>";
-		};
-		5FBA154F237A8FE700976A39 /* ZGCore */ = {
-			isa = PBXGroup;
-			children = (
-				5FBA14B5237A8E8800976A39 /* ZGLog.h */,
-				5FBA14FA237A8E8900976A39 /* Zhuge.h */,
-				5FBA14B7237A8E8800976A39 /* Zhuge.m */,
-				5FBA1503237A8E8900976A39 /* ZhugeBase64.h */,
-				5FBA14CD237A8E8900976A39 /* ZhugeBase64.m */,
-				5FBA14F9237A8E8900976A39 /* ZhugeCompres.h */,
-				5FBA14B8237A8E8800976A39 /* ZhugeCompres.m */,
-				5FBA14CC237A8E8900976A39 /* ZhugeConfig.h */,
-				5FBA14CB237A8E8900976A39 /* ZhugeConfig.m */,
-				5FBA14F8237A8E8900976A39 /* ZhugeEventProperty.h */,
-				5FBA1502237A8E8900976A39 /* ZhugeEvents.h */,
-				5FBA14CA237A8E8800976A39 /* ZhugeJS.h */,
-				5FBA14B6237A8E8800976A39 /* ZhugeJS.m */,
-			);
-			path = ZGCore;
 			sourceTree = "<group>";
 		};
 		5FBA1555237A906E00976A39 /* SampleProject */ = {
@@ -377,46 +377,46 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5FBA1504237A8E8900976A39 /* ZGLog.h in Headers */,
-				5FBA1546237A8E8A00976A39 /* Zhuge.h in Headers */,
-				5FBA151A237A8E8900976A39 /* ZhugeConfig.h in Headers */,
-				5FBA154D237A8E8A00976A39 /* ZhugeEvents.h in Headers */,
-				5FBA1544237A8E8A00976A39 /* ZhugeEventProperty.h in Headers */,
-				5FBA1520237A8E8900976A39 /* DLServerRequest.h in Headers */,
-				5FBA1531237A8E8900976A39 /* DSEncodingUtils.h in Headers */,
-				5FBA1526237A8E8900976A39 /* DLStrongMatchHelper.h in Headers */,
-				5FBA152D237A8E8900976A39 /* DSError.h in Headers */,
-				5FBA1514237A8E8900976A39 /* ZGReachability.h in Headers */,
-				5FBA151C237A8E8900976A39 /* DLServerInterface.h in Headers */,
-				5FBA1522237A8E8900976A39 /* DLTime.h in Headers */,
-				5FBA152C237A8E8900976A39 /* DLServerRequestQueue.h in Headers */,
-				5FBA153C237A8E8A00976A39 /* CallClose.h in Headers */,
-				5FBA150E237A8E8900976A39 /* ZGUtil.h in Headers */,
-				5FBA1535237A8E8900976A39 /* NewvalueChange.h in Headers */,
-				5FBA150F237A8E8900976A39 /* ZGSqliteManager.h in Headers */,
-				5FBA1508237A8E8900976A39 /* ZGSharedDur.h in Headers */,
-				5FBA1518237A8E8900976A39 /* ZhugeJS.h in Headers */,
-				5FBA1538237A8E8900976A39 /* registerInstall.h in Headers */,
-				5FBA152B237A8E8900976A39 /* DLSystemObserver.h in Headers */,
-				5FBA1543237A8E8A00976A39 /* DeepShare.h in Headers */,
-				5FBA1509237A8E8900976A39 /* NSObject+Zhuge.h in Headers */,
-				5FBA1547237A8E8A00976A39 /* UIGestureRecognizer+Zhuge.h in Headers */,
-				5FBA1524237A8E8900976A39 /* clearNewUsage.h in Headers */,
-				5FBA1513237A8E8900976A39 /* ZGHttpHelper.h in Headers */,
-				5FBA154C237A8E8A00976A39 /* ZhugeSwizzle.h in Headers */,
-				5FBA152A237A8E8900976A39 /* getNewUsage.h in Headers */,
-				5FBA1512237A8E8900976A39 /* UIViewController+Zhuge.h in Headers */,
-				5FBA154E237A8E8A00976A39 /* ZhugeBase64.h in Headers */,
-				5FBA1527237A8E8900976A39 /* DLConfig.h in Headers */,
-				5FBA153F237A8E8A00976A39 /* DLParam.h in Headers */,
-				5FBA1545237A8E8A00976A39 /* ZhugeCompres.h in Headers */,
-				5FBA1536237A8E8900976A39 /* registerOpen.h in Headers */,
-				5FBA150D237A8E8900976A39 /* UIApplication+Zhuge.h in Headers */,
-				5FBA1525237A8E8900976A39 /* DeepShareImpl.h in Headers */,
-				5FBA154B237A8E8A00976A39 /* ZhugeAutoTrackUtils.h in Headers */,
-				5FBA152E237A8E8900976A39 /* DLServerResponse.h in Headers */,
-				5FBA1521237A8E8900976A39 /* DLPreferenceHelper.h in Headers */,
-				5FBA1542237A8E8A00976A39 /* DLViewController.h in Headers */,
+				5F8C295E23ACBDBA00983407 /* Zhuge.h in Headers */,
+				5F8C295C23ACBDBA00983407 /* ZGLog.h in Headers */,
+				5F8C295923ACBDBA00983407 /* ZhugeConfig.h in Headers */,
+				5F8C295723ACBDBA00983407 /* ZhugeEvents.h in Headers */,
+				5F8C295B23ACBDBA00983407 /* ZhugeEventProperty.h in Headers */,
+				5F8C297123ACBDBA00983407 /* DeepShareImpl.h in Headers */,
+				5F8C297923ACBDBA00983407 /* DSError.h in Headers */,
+				5F8C297723ACBDBA00983407 /* DLSystemObserver.h in Headers */,
+				5F8C296623ACBDBA00983407 /* ZhugeAutoTrackUtils.h in Headers */,
+				5F8C295123ACBDBA00983407 /* ZGReachability.h in Headers */,
+				5F8C296723ACBDBA00983407 /* ZhugeSwizzle.h in Headers */,
+				5F8C297623ACBDBA00983407 /* getNewUsage.h in Headers */,
+				5F8C294623ACBDBA00983407 /* NSObject+Zhuge.h in Headers */,
+				5F8C297223ACBDBA00983407 /* DLStrongMatchHelper.h in Headers */,
+				5F8C295623ACBDBA00983407 /* ZhugeCompres.h in Headers */,
+				5F8C294F23ACBDBA00983407 /* UIViewController+Zhuge.h in Headers */,
+				5F8C295823ACBDBA00983407 /* ZhugeJS.h in Headers */,
+				5F8C296E23ACBDBA00983407 /* DLTime.h in Headers */,
+				5F8C296823ACBDBA00983407 /* DLServerInterface.h in Headers */,
+				5F8C296D23ACBDBA00983407 /* DLPreferenceHelper.h in Headers */,
+				5F8C298E23ACBDBA00983407 /* DLViewController.h in Headers */,
+				5F8C297323ACBDBA00983407 /* DLConfig.h in Headers */,
+				5F8C298223ACBDBA00983407 /* registerOpen.h in Headers */,
+				5F8C295023ACBDBA00983407 /* ZGHttpHelper.h in Headers */,
+				5F8C297D23ACBDBA00983407 /* DSEncodingUtils.h in Headers */,
+				5F8C294B23ACBDBA00983407 /* ZGUtil.h in Headers */,
+				5F8C298423ACBDBA00983407 /* registerInstall.h in Headers */,
+				5F8C296223ACBDBA00983407 /* UIGestureRecognizer+Zhuge.h in Headers */,
+				5F8C298F23ACBDBA00983407 /* DeepShare.h in Headers */,
+				5F8C295A23ACBDBA00983407 /* ZhugeBase64.h in Headers */,
+				5F8C296C23ACBDBA00983407 /* DLServerRequest.h in Headers */,
+				5F8C297023ACBDBA00983407 /* clearNewUsage.h in Headers */,
+				5F8C298823ACBDBA00983407 /* CallClose.h in Headers */,
+				5F8C294C23ACBDBA00983407 /* ZGSqliteManager.h in Headers */,
+				5F8C298B23ACBDBA00983407 /* DLParam.h in Headers */,
+				5F8C298123ACBDBA00983407 /* NewvalueChange.h in Headers */,
+				5F8C297823ACBDBA00983407 /* DLServerRequestQueue.h in Headers */,
+				5F8C294A23ACBDBA00983407 /* UIApplication+Zhuge.h in Headers */,
+				5F8C297A23ACBDBA00983407 /* DLServerResponse.h in Headers */,
+				5F8C294523ACBDBA00983407 /* ZGSharedDur.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,41 +519,41 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5FBA1516237A8E8900976A39 /* ZGUtil.m in Sources */,
-				5FBA1511237A8E8900976A39 /* UIApplication+Zhuge.m in Sources */,
-				5FBA153A237A8E8900976A39 /* registerOpen.m in Sources */,
-				5FBA1517237A8E8900976A39 /* ZGSqliteManager.m in Sources */,
-				5FBA1549237A8E8A00976A39 /* ZhugeSwizzle.m in Sources */,
-				5FBA1528237A8E8900976A39 /* DeepShare.m in Sources */,
-				5FBA1530237A8E8900976A39 /* clearNewUsage.m in Sources */,
-				5FBA150B237A8E8900976A39 /* ZGReachability.m in Sources */,
-				5FBA1541237A8E8A00976A39 /* getNewUsage.m in Sources */,
-				5FBA1510237A8E8900976A39 /* ZGSharedDur.m in Sources */,
-				5FBA151F237A8E8900976A39 /* DSError.m in Sources */,
-				5FBA1519237A8E8900976A39 /* ZhugeConfig.m in Sources */,
-				5FBA1515237A8E8900976A39 /* NSObject+Zhuge.m in Sources */,
-				5FBA151E237A8E8900976A39 /* DLServerRequestQueue.m in Sources */,
-				5FBA1548237A8E8A00976A39 /* ZhugeAutoTrackUtils.m in Sources */,
-				5FBA153B237A8E8A00976A39 /* registerInstall.m in Sources */,
-				5FBA1507237A8E8900976A39 /* ZhugeCompres.m in Sources */,
-				5FBA1534237A8E8900976A39 /* DLServerRequest.m in Sources */,
-				5FBA150C237A8E8900976A39 /* ZGHttpHelper.m in Sources */,
-				5FBA1505237A8E8900976A39 /* ZhugeJS.m in Sources */,
-				5FBA1537237A8E8900976A39 /* CallClose.m in Sources */,
-				5FBA1539237A8E8900976A39 /* NewvalueChange.m in Sources */,
-				5FBA1532237A8E8900976A39 /* DLTime.m in Sources */,
-				5FBA1533237A8E8900976A39 /* DLPreferenceHelper.m in Sources */,
-				5FBA154A237A8E8A00976A39 /* UIGestureRecognizer+Zhuge.m in Sources */,
-				5FBA153E237A8E8A00976A39 /* DeepShareImpl.m in Sources */,
-				5FBA1529237A8E8900976A39 /* DLViewController.m in Sources */,
-				5FBA152F237A8E8900976A39 /* DLServerInterface.m in Sources */,
-				5FBA151B237A8E8900976A39 /* ZhugeBase64.m in Sources */,
-				5FBA151D237A8E8900976A39 /* DLServerResponse.m in Sources */,
-				5FBA1523237A8E8900976A39 /* DSEncodingUtils.m in Sources */,
-				5FBA153D237A8E8A00976A39 /* DLStrongMatchHelper.m in Sources */,
-				5FBA150A237A8E8900976A39 /* UIViewController+Zhuge.m in Sources */,
-				5FBA1540237A8E8A00976A39 /* DLSystemObserver.m in Sources */,
-				5FBA1506237A8E8900976A39 /* Zhuge.m in Sources */,
+				5F8C296323ACBDBA00983407 /* ZhugeAutoTrackUtils.m in Sources */,
+				5F8C296023ACBDBA00983407 /* ZhugeBase64.m in Sources */,
+				5F8C297B23ACBDBA00983407 /* DLServerInterface.m in Sources */,
+				5F8C294723ACBDBA00983407 /* UIViewController+Zhuge.m in Sources */,
+				5F8C296923ACBDBA00983407 /* DLServerResponse.m in Sources */,
+				5F8C296A23ACBDBA00983407 /* DLServerRequestQueue.m in Sources */,
+				5F8C296423ACBDBA00983407 /* ZhugeSwizzle.m in Sources */,
+				5F8C295D23ACBDBA00983407 /* ZhugeCompres.m in Sources */,
+				5F8C294823ACBDBA00983407 /* ZGReachability.m in Sources */,
+				5F8C295423ACBDBA00983407 /* ZGSqliteManager.m in Sources */,
+				5F8C298923ACBDBA00983407 /* DLStrongMatchHelper.m in Sources */,
+				5F8C295323ACBDBA00983407 /* ZGUtil.m in Sources */,
+				5F8C294923ACBDBA00983407 /* ZGHttpHelper.m in Sources */,
+				5F8C296F23ACBDBA00983407 /* DSEncodingUtils.m in Sources */,
+				5F8C298D23ACBDBA00983407 /* getNewUsage.m in Sources */,
+				5F8C298723ACBDBA00983407 /* registerInstall.m in Sources */,
+				5F8C297E23ACBDBA00983407 /* DLTime.m in Sources */,
+				5F8C298623ACBDBA00983407 /* registerOpen.m in Sources */,
+				5F8C297423ACBDBA00983407 /* DeepShare.m in Sources */,
+				5F8C298023ACBDBA00983407 /* DLServerRequest.m in Sources */,
+				5F8C298323ACBDBA00983407 /* CallClose.m in Sources */,
+				5F8C296523ACBDBA00983407 /* UIGestureRecognizer+Zhuge.m in Sources */,
+				5F8C296123ACBDBA00983407 /* ZhugeConfig.m in Sources */,
+				5F8C297C23ACBDBA00983407 /* clearNewUsage.m in Sources */,
+				5F8C298523ACBDBA00983407 /* NewvalueChange.m in Sources */,
+				5F8C298A23ACBDBA00983407 /* DeepShareImpl.m in Sources */,
+				5F8C296B23ACBDBA00983407 /* DSError.m in Sources */,
+				5F8C297523ACBDBA00983407 /* DLViewController.m in Sources */,
+				5F8C295223ACBDBA00983407 /* NSObject+Zhuge.m in Sources */,
+				5F8C295F23ACBDBA00983407 /* ZhugeJS.m in Sources */,
+				5F8C295523ACBDBA00983407 /* Zhuge.m in Sources */,
+				5F8C298C23ACBDBA00983407 /* DLSystemObserver.m in Sources */,
+				5F8C294D23ACBDBA00983407 /* ZGSharedDur.m in Sources */,
+				5F8C297F23ACBDBA00983407 /* DLPreferenceHelper.m in Sources */,
+				5F8C294E23ACBDBA00983407 /* UIApplication+Zhuge.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -712,7 +712,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = NO;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = S63Y8AL2QU;
@@ -734,7 +734,7 @@
 				);
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 3.4.0;
+				MARKETING_VERSION = 3.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhugeio;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -746,7 +746,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = NO;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = S63Y8AL2QU;
@@ -763,7 +763,7 @@
 				);
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 3.4.0;
+				MARKETING_VERSION = 3.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhugeio;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

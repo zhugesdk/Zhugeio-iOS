@@ -36,7 +36,7 @@
 #pragma mark - 发送策略
 // 上报时间间隔(默认:10秒)
 @property  NSUInteger sendInterval;
-// 每天最大上报事件数，超出部分缓存到本地(默认:500个)
+// 每天最大上报事件数，超出部分缓存到本地(默认:5000个)
 @property (nonatomic) NSUInteger sendMaxSizePerDay;
 // 本地缓存事件数(默认:500个)
 @property (nonatomic) NSUInteger cacheMaxSize;

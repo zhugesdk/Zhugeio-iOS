@@ -28,6 +28,7 @@ typedef void (^callbackWithNewUsageFromMe) (int newInstall, int newOpen, NSError
  * @param appId APP注册时生成的APP ID.
  * @param options launchOptions AppDelegate的didFinishLaunchingWithOptions方法所传回的参数
  * @param delegate 委托方法onInappDataReturned所在的类的对象
+ * @return void
  */
 + (void)initWithAppID:(NSString *)appId withLaunchOptions:(NSDictionary *)options withDelegate:(id)delegate;
 

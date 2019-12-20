@@ -142,25 +142,26 @@
 }
 
 - (NSData *)pixData {
-    
-    UIImage *pixImage;
-    NSData *pixData;
-//  参照视图
-    UIView * view = [UIApplication sharedApplication].windows.firstObject;
-//  参照视图总大小
-    CGSize size = view.bounds.size;
-//  开启上下文，第二个参数设置是否不透明，第三个参数设置相对于设备屏幕缩放的比例
-    UIGraphicsBeginImageContextWithOptions(size, YES,1.0);
-//  根据参照视图的大小设置要裁剪的矩形范围
-    CGRect rect = CGRectMake(0, 0, size.width, size.height);
-//  iOS7以后renderInContext：由drawViewHierarchyInRect：afterScreenUpdates：替代
-    [view drawViewHierarchyInRect:rect  afterScreenUpdates:NO];
-//  从上下文中,取出UIImage
-    pixImage = UIGraphicsGetImageFromCurrentImageContext();
-//  结束上下文
-    UIGraphicsEndImageContext();
-//  使用jpg编码指定图片，并指定压缩比例，0-1，1最清晰，0最小
-    pixData = UIImageJPEGRepresentation(pixImage, 0.2);
-    return pixData;
+    @autoreleasepool {
+        UIImage *pixImage;
+            NSData *pixData;
+        //  参照视图
+            UIView * view = [UIApplication sharedApplication].windows.firstObject;
+        //  参照视图总大小
+            CGSize size = view.bounds.size;
+        //  开启上下文，第二个参数设置是否不透明，第三个参数设置相对于设备屏幕缩放的比例
+            UIGraphicsBeginImageContextWithOptions(size, YES,1.0);
+        //  根据参照视图的大小设置要裁剪的矩形范围
+            CGRect rect = CGRectMake(0, 0, size.width, size.height);
+        //  iOS7以后renderInContext：由drawViewHierarchyInRect：afterScreenUpdates：替代
+            [view drawViewHierarchyInRect:rect  afterScreenUpdates:NO];
+        //  从上下文中,取出UIImage
+            pixImage = UIGraphicsGetImageFromCurrentImageContext();
+        //  结束上下文
+            UIGraphicsEndImageContext();
+        //  使用jpg编码指定图片，并指定压缩比例，0-1，1最清晰，0最小
+            pixData = UIImageJPEGRepresentation(pixImage, 0.2);
+            return pixData;
+    }
 }
 @end
