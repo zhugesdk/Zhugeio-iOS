@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name         = "ZhugeioAnalyticis"
+  s.name         = "ZhugeioAnalytics"
   s.version      = "3.4.1"
   s.summary      = "iOS tracking library for Zhugeio Analytics, The function is all ready finishing."
   s.homepage     = "http://zhugeio.com"
