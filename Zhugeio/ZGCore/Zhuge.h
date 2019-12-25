@@ -55,6 +55,12 @@
  诸葛上传地址
  */
 - (void)setUploadURL:(nonnull NSString*)url andBackupUrl:(nullable NSString *)backupUrl;
+
+/**
+ * UTM
+ */
+-(void)setUtm:(nonnull NSDictionary *)utmInfo;
+
 /**
  * 开启全埋点
  */

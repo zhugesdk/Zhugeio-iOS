@@ -272,7 +272,9 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 
 #pragma mark - DeepShare
 - (void)onInappDataReturned: (NSDictionary *) params withError: (NSError *) error  tag:(NSString *)tag{
-    self.utmDic = [NSMutableDictionary dictionary];
+    if (!self.utmDic) {
+     self.utmDic = [[NSMutableDictionary alloc] init];
+    }
     if (!error) {
         ZhugeDebug(@"DeepShare finished init with params = %@", [params description]);
         self.utmDic[@"$utm_source"] = params[@"utm_source"];
@@ -346,9 +348,30 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 }
 
 #pragma mark - 诸葛配置
--(void)setUtm:(nonnull NSDictionary *)utmInfo {
-    
+- (void)setUtm:(NSDictionary *)utmInfo {
+    if(!utmInfo){
+        return;
+    }
+    if (!self.utmDic) {
+        self.utmDic = [NSMutableDictionary dictionary];
+    }
+    if ([utmInfo objectForKey:@"utm_source"]) {
+        [self.utmDic setValue:utmInfo[@"utm_source"] forKey:@"$utm_source"];
+    }
+    if ([utmInfo objectForKey:@"utm_medium"]) {
+        [self.utmDic setValue:utmInfo[@"utm_medium"] forKey:@"$utm_medium"];
+    }
+    if ([utmInfo objectForKey:@"utm_campaign"]) {
+        [self.utmDic setValue:utmInfo[@"utm_campaign"] forKey:@"$utm_campaign"];
+    }
+    if ([utmInfo objectForKey:@"utm_content"]) {
+        [self.utmDic setValue:utmInfo[@"utm_content"] forKey:@"$utm_content"];
+    }
+    if ([utmInfo objectForKey:@"utm_term"]) {
+        [self.utmDic setValue:utmInfo[@"utm_term"] forKey:@"$utm_term"];
+    }
 }
+
 
 - (void)setUploadURL:(NSString *)url andBackupUrl:(NSString *)backupUrl{
     
@@ -802,7 +825,12 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
  @return 可变的环境信息Dictionary
  */
 -(NSMutableDictionary *)buildCommonData {
-    NSMutableDictionary *common = [NSMutableDictionary dictionary];
+    NSMutableDictionary *common = nil;
+    if (self.utmDic) {
+        common = [NSMutableDictionary dictionaryWithDictionary:self.utmDic];
+    } else {
+        common = [[NSMutableDictionary alloc] init];
+    }
     if (self.userId.length > 0) {
         common[@"$cuid"] = self.userId;
     }
