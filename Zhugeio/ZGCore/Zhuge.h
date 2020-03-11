@@ -55,17 +55,15 @@
  诸葛上传地址
  */
 - (void)setUploadURL:(nonnull NSString*)url andBackupUrl:(nullable NSString *)backupUrl;
-
-/**
- * UTM
- */
--(void)setUtm:(nonnull NSDictionary *)utmInfo;
-
 /**
  * 开启全埋点
  */
 - (void)enableAutoTrack;
 - (BOOL)isAutoTrackEnable;
+
+@property (nonatomic, copy) NSString * _Nullable url;
+@property (nonatomic, copy) NSString * _Nullable ref;
+
 /**
  开启诸葛统计。
  

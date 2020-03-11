@@ -23,6 +23,8 @@
 #import "Zhuge.h"
 #import "ZGLog.h"
 #import "ZGHttpHelper.h"
+#import "ZGNetworking.h"
+#import "ZhugeConstants.h"
 
 #import "ZGSharedDur.h"
 #import "ZGUtil.h"
@@ -70,6 +72,8 @@
 
 @property (nonatomic, strong) NSMutableArray * archiveEventQueue;
 @property (nonatomic,strong) NSMutableDictionary * utmDic;
+@property (nonatomic, assign) int retryPost;
+
 /**
  * 根据deepShare是否已经返回结果来判断是否开始上传数据 默认为NO。
  */
@@ -125,7 +129,7 @@ static Zhuge *sharedInstance = nil;
     if ([self.apiURL isEqualToString:@"https://u.zhugeapi.com"]) {
         return @"https://ubak.zhugeio.com/appkey/default";
     }else{
-        return [self.apiURL stringByAppendingString:@"/appkey/default"];
+        return [self.apiURL stringByAppendingFormat:@"/appkey/%@",self.appKey];
     }
 }
 
@@ -172,15 +176,18 @@ static Zhuge *sharedInstance = nil;
         [[ZGSqliteManager shareManager] openDataBase];
         
         if (!self.apiURL || self.apiURL.length ==0) {
-            self.apiURL = @"https://u.zhugeapi.com";
-            self.backupURL = @"https://ubak.zhugeio.com";
+            self.apiURL = ZG_BASE_API;
+            self.backupURL = ZG_BACKUP_API;
         }
         
-        //初始化zhugesee变量
-        self.zhugeSeeNet = @"4";
-        self.zhugeSeeReal = 1;
-        //判断是否开启zgSee
-        [self zgSeeBool];
+        if (self.config.zgSeeEnable) {
+            //初始化zhugesee变量
+            self.zhugeSeeNet = @"4";
+            self.zhugeSeeReal = 1;
+            //判断是否开启zgSee
+            [self zgSeeBool];
+        }
+        
         // SDK配置
         if(self.config) {
             ZhugeDebug(@"SDK系统配置: %@", self.config);
@@ -261,6 +268,7 @@ static Zhuge *sharedInstance = nil;
     if (!response) {
         ZhugeDebug(@"上传事件失败");
     }
+    
     if (previousHandler) {
         previousHandler(exception);
     }
@@ -272,16 +280,14 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 
 #pragma mark - DeepShare
 - (void)onInappDataReturned: (NSDictionary *) params withError: (NSError *) error  tag:(NSString *)tag{
-    if (!self.utmDic) {
-     self.utmDic = [[NSMutableDictionary alloc] init];
-    }
+    self.utmDic = [[NSMutableDictionary alloc] initWithDictionary:params];
     if (!error) {
         ZhugeDebug(@"DeepShare finished init with params = %@", [params description]);
-        self.utmDic[@"$utm_source"] = params[@"utm_source"];
-        self.utmDic[@"$utm_medium"] = params[@"utm_medium"];
-        self.utmDic[@"$utm_campaign"] = params[@"utm_campaign"];
-        self.utmDic[@"$utm_content"] = params[@"utm_content"];
-        self.utmDic[@"$utm_term"] = params[@"utm_term"];
+//        self.utmDic[@"$utm_source"] = params[@"utm_source"];
+//        self.utmDic[@"$utm_medium"] = params[@"utm_medium"];
+//        self.utmDic[@"$utm_campaign"] = params[@"utm_campaign"];
+//        self.utmDic[@"$utm_content"] = params[@"utm_content"];
+//        self.utmDic[@"$utm_term"] = params[@"utm_term"];
         if (params[@"$zg_did"]) {
             self.deviceId = params[@"$zg_did"];
         }
@@ -312,6 +318,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         if ([self.delegate respondsToSelector:@selector(zgOnInappDataReturned:withError:)]) {
 //            NSMutableDictionary * zgParams = [NSMutableDictionary dictionaryWithDictionary:params];
 //            [zgParams addEntriesFromDictionary:self.utmDic];
+//            NSLog(@"zgParams ==== ==%@",zgParams);
 //            [zgParams removeObjectForKey:@"utm_source"];
 //            [zgParams removeObjectForKey:@"utm_medium"];
 //            [zgParams removeObjectForKey:@"utm_campaign"];
@@ -348,12 +355,12 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 }
 
 #pragma mark - 诸葛配置
-- (void)setUtm:(NSDictionary *)utmInfo {
+-(void)setUtm:(nonnull NSDictionary *)utmInfo {
     if(!utmInfo){
         return;
     }
     if (!self.utmDic) {
-        self.utmDic = [NSMutableDictionary dictionary];
+        self.utmDic = [[NSMutableDictionary alloc] init];
     }
     if ([utmInfo objectForKey:@"utm_source"]) {
         [self.utmDic setValue:utmInfo[@"utm_source"] forKey:@"$utm_source"];
@@ -371,7 +378,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         [self.utmDic setValue:utmInfo[@"utm_term"] forKey:@"$utm_term"];
     }
 }
-
 
 - (void)setUploadURL:(NSString *)url andBackupUrl:(NSString *)backupUrl{
     
@@ -774,11 +780,11 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 }
 
 // 更新网络指示器
-- (void)updateNetworkActivityIndicator:(BOOL)on {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = on;
-    });
-}
+//- (void)updateNetworkActivityIndicator:(BOOL)on {
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        [UIApplication sharedApplication].networkActivityIndicatorVisible = on;
+//    });
+//}
 
 - (void)reachabilityChanged:(SCNetworkReachabilityFlags)flags {
     if (flags & kSCNetworkReachabilityFlagsReachable) {
@@ -825,7 +831,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
  @return 可变的环境信息Dictionary
  */
 -(NSMutableDictionary *)buildCommonData {
-    NSMutableDictionary *common = nil;
+    NSMutableDictionary *common;
     if (self.utmDic) {
         common = [NSMutableDictionary dictionaryWithDictionary:self.utmDic];
     } else {
@@ -836,9 +842,11 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     }
     common[@"$cr"]  = self.cr;
     //毫秒偏移量
-    common[@"$ct"]  =  [NSNumber numberWithUnsignedLongLong:[[NSDate date] timeIntervalSince1970] *1000];
+    common[@"$ct"] = [NSNumber numberWithUnsignedLongLong:[[NSDate date] timeIntervalSince1970] *1000];
     common[@"$tz"] = [NSNumber numberWithInteger:[[NSTimeZone localTimeZone] secondsFromGMT]*1000];//取毫秒偏移量
     common[@"$os"] = @"iOS";
+    common[@"$url"] = Zhuge.sharedInstance.url;
+    common[@"$ref"] = Zhuge.sharedInstance.ref;
     //DeepShare 信息
     [common addEntriesFromDictionary:self.utmDic];
     return common;
@@ -1118,6 +1126,8 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     return pr;
 }
 
+
+
 - (void)identify:(NSString *)userId properties:(NSDictionary *)properties {
     @try {
         if (userId == nil || userId.length == 0) {
@@ -1267,8 +1277,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     [ZGHttpHelper sendRequestForUrl:url FinishBlock:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-        if (httpResponse.statusCode == 200){
+        if (httpResponse.statusCode == 200 && data){
             dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
             if (dic == nil) {
                 NSLog(@"check appsee error. Data will be lose.");
@@ -1756,7 +1765,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
             
             NSString *requestData = [NSString stringWithFormat:@"method=event_statis_srv.upload&compress=1&event=%@", result];
             
-            
             NSData *response = [self apiRequest:@"/APIPOOL/" WithData:requestData andError:nil];
             if (!response) {
                 ZhugeDebug(@"上传事件失败");
@@ -1771,6 +1779,23 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         ZhugeDebug(@"flushQueue exception %@",exception);
     }
 }
+
+// 上传到备份URL
+- (void)updateBackupUrl:(NSString *)requestData withQueue:(NSMutableArray *)queue withEvent:(NSArray *)events {
+    
+    [ZGNetworking requestWithUrl:[self.backupURL stringByAppendingString:@"/upload/"] parameters:requestData method:ZG_METHOD_POST completionhandler:^(NSURLResponse * _Nonnull response, NSData * _Nonnull data, NSError * _Nonnull error) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
+        if (httpResponse.statusCode == 200 && data != nil && !error) {
+            NSString *resultStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            ZhugeDebug(@"API响应: %@",resultStr);
+            [queue removeObjectsInArray:events];
+        } else {
+            ZhugeDebug(@"上传事件失败");
+            
+        }
+    }];
+}
+
 
 - (NSData*) apiRequest:(NSString *)endpoint WithData:(NSString *)requestData andError:(NSError *)error {
     BOOL success = NO;
@@ -1791,7 +1816,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         NSString * urlString = [requestData stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"#%<>[\\]^`{|}\"]+"].invertedSet];
         [request setHTTPBody:[urlString dataUsingEncoding:NSUTF8StringEncoding]];
         request.timeoutInterval =30;
-        [self updateNetworkActivityIndicator:YES];
+//        [self updateNetworkActivityIndicator:YES];
         
         NSURLResponse *urlResponse = nil;
         NSError *reqError = nil;
@@ -1801,18 +1826,19 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
             retry++;
             continue;
         }
-        [self updateNetworkActivityIndicator:NO];
+//        [self updateNetworkActivityIndicator:NO];
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) urlResponse;
         NSInteger code = [httpResponse statusCode];
         if (code == 200 && responseData != nil) {
             NSString *response = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
             ZhugeDebug(@"API响应: %@",response);
-            [self updateNetworkActivityIndicator:NO];
+//            [self updateNetworkActivityIndicator:NO];
             success = YES;
         }else{
             retry++;
         }
     }
+    
     if (!success) {
         return nil;
     }

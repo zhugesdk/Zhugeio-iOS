@@ -103,7 +103,7 @@
 		mlist = class_nextMethodList(self, &iterator);
 	}
 	
-	//	If either method is inherited, copy it up to the target class to make it non-inherited.
+	//	If either method is inherited, copy it up to the target class to make wit non-inherited.
 	if (!directOriginalMethod || !directAlternateMethod) {
 		Method inheritedOriginalMethod = NULL, inheritedAlternateMethod = NULL;
 		if (!directOriginalMethod) {

@@ -13,9 +13,11 @@
 #import "ZGSharedDur.h"
 #import "ZhugeAutoTrackUtils.h"
 #import "ZGLog.h"
+#import "NSObject+ZGAutoTrack.h"
 
 static NSData *_imageData;
 NSString * const gc_VCKey = nil;
+
 
 @implementation UIViewController (Zhuge)
 
@@ -23,6 +25,8 @@ NSString * const gc_VCKey = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
 
+        _controllers = [[NSMutableArray alloc] init];
+        
         SEL origilaSEL = @selector(viewDidAppear:);
 
         SEL hook_SEL = @selector(gc_viewDidAppear:);
@@ -30,9 +34,7 @@ NSString * const gc_VCKey = nil;
         //交换方法
         Method origilalMethod = class_getInstanceMethod(self, origilaSEL);
 
-
         Method hook_method = class_getInstanceMethod(self, hook_SEL);
-
 
         class_addMethod(self,
                         origilaSEL,
@@ -51,6 +53,11 @@ NSString * const gc_VCKey = nil;
 }
 - (void)gc_viewDidAppear:(BOOL)animated{
     Zhuge * zhuge = [Zhuge sharedInstance];
+    zhuge.url = NSStringFromClass(self.class);
+    [_controllers addObject:NSStringFromClass(self.class)];   
+    if (_controllers.count > 1) {
+        zhuge.ref = _controllers[_controllers.count - 2];
+    }
     
     [self checkAutoTrackPageView];
     if ([zhuge.config isSeeEnable] && [[ZGSharedDur shareInstance] permitCreateImage] && [self isKindOfClass:[UIViewController class]] && ![self isKindOfClass:[UITabBarController class]] && ![self isKindOfClass:[UINavigationController class]]){
@@ -103,10 +110,16 @@ NSString * const gc_VCKey = nil;
     Zhuge * zhuge = [Zhuge sharedInstance];
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
     [data setObject:@"pv" forKey:@"$eid"];
-    [data setObject:[self zhugeScreenName] forKey:@"$url"];
-    [data setObject:[self zhugeScreenTitle] forKey:@"$page_title"];
+    [data setObject:isNil([self zhugeScreenName]) forKey:@"$url"];
+    [data setObject:isNil([self zhugeScreenTitle]) forKey:@"$page_title"];
+    [data setObject:isNil(zhuge.ref) forKey:@"$ref"];
     [zhuge autoTrack:data];
 }
+
+static NSString *_url;
+static NSString *_ref;
+static NSMutableArray *_controllers;
+
 - (NSString *)zhugeScreenName {
     return NSStringFromClass([self class]);
 }
@@ -122,10 +135,5 @@ NSString * const gc_VCKey = nil;
     return @"";
 }
 
-
-//- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-//    [super touchesBegan:touches withEvent:event];
-//    NSLog(@"%@",@"-=-=-==-begin==-=-=-=-=-=-=");
-//}
 
 @end

@@ -7,7 +7,7 @@
 #import <Foundation/Foundation.h>
 
 /* SDK版本 */
-#define ZG_SDK_VERSION @"3.3.0_zs"
+#define ZG_SDK_VERSION @"3.4.2"
 
 /* 默认应用版本 */
 #define ZG_APP_VERSION [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
@@ -48,8 +48,9 @@
 @property (nonatomic) BOOL exceptionTrack;
 // 是否开启实时调试(默认:关闭)
 @property (nonatomic) BOOL debug;
-//用户是否开启ZGSee
+//用户是否开启ZGSee 默认 NO
 @property (nonatomic,assign) BOOL zgSeeEnable;
+//全埋点是否开启 默认NO
 @property (nonatomic,assign) BOOL autoTrackEnable;
 //服务端策略
 @property (nonatomic) NSInteger serverPolicy;

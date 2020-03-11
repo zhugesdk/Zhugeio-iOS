@@ -9,6 +9,7 @@
 #import "ZhugeAutoTrackUtils.h"
 #import "UIViewController+Zhuge.h"
 #import "Zhuge.h"
+#import "NSObject+ZGAutoTrack.h"
 
 @implementation ZhugeAutoTrackUtils
 + (NSString *)zhugeGetViewContent:(UIView *)view{
@@ -230,11 +231,12 @@
             title = [realController zhugeScreenTitle];
         }
         NSString *type = NSStringFromClass([view class]);
-        [data setObject:url forKey:@"$url"];
-        [data setObject:type forKey:@"$element_type"];
-        [data setObject:path forKey:@"$element_selector"];
-        [data setObject:title forKey:@"$page_title"];
-        [data setObject:content forKey:@"$element_content"];
+        [data setObject:isNil(url) forKey:@"$url"];
+        [data setObject:isNil(type) forKey:@"$element_type"];
+        [data setObject:isNil(path) forKey:@"$element_selector"];
+        [data setObject:isNil(title) forKey:@"$page_title"];
+        [data setObject:isNil(content) forKey:@"$element_content"];
+        [data setObject:isNil(zhuge.ref) forKey:@"$ref"];
         [zhuge autoTrack:data];
     } @catch (NSException *exception) {
         NSLog(@"autoTrack exception %@: %@",[exception name],[exception reason]);

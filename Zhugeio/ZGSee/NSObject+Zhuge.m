@@ -7,7 +7,7 @@
 //
 #import "NSObject+Zhuge.h"
 #import <objc/runtime.h>
-#import <objc/message.h>
+//#import <objc/message.h>
 #import "Zhuge.h"
 #import "ZGSharedDur.h"
 
@@ -65,7 +65,7 @@ static NSMutableDictionary *_dataDic;
         
         method_exchangeImplementations(class_getInstanceMethod(self, origilaSEL), class_getInstanceMethod(self, hook_SEL));
         
-        
+        //scrollViewDidEndDragging
         SEL draOrigilaSEL = @selector(scrollViewDidEndDragging: willDecelerate:);
         
         SEL draHook_SEL = @selector(gc_scrollViewDidEndDragging: willDecelerate:);
@@ -117,7 +117,7 @@ static NSMutableDictionary *_dataDic;
         //拖动结束
         [self taskData:[[ZGSharedDur shareInstance] getViewToPath:scrollView] eid:@"zgsee-scroll" viewController:[[ZGSharedDur shareInstance]viewControllerToView:scrollView]];
     }else{
-        NSLog(@"gc_scrollViewDidEndDragging see is close");
+//        NSLog(@"gc_scrollViewDidEndDragging see is close");
     }
     
 }
