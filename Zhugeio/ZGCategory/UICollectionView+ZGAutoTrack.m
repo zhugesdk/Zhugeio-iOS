@@ -52,9 +52,7 @@
  swizzle method IMP
  */
 - (void)zhuge_imp_collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
     if ([[Zhuge sharedInstance].config autoTrackEnable]) {
-        ZGLog(@"%@ didSelectItemAtIndexPath:%ld:%ld",NSStringFromClass([self class]),(long)indexPath.section,(long)indexPath.row);
         UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
         Zhuge * zhuge = [Zhuge sharedInstance];
         NSString *content = content = [ZhugeAutoTrackUtils zhugeGetViewContent:cell];;

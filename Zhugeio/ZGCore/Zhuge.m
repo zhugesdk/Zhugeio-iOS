@@ -11,7 +11,7 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <CoreTelephony/CTCarrier.h>
-
+#import <WebKit/WebKit.h>
 #include <sys/socket.h>
 #include <sys/sysctl.h>
 #include <net/if.h>
@@ -216,6 +216,7 @@ static Zhuge *sharedInstance = nil;
         
         
         // 设置userAgent信息，供JS查询
+        
         UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
         NSString *userAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
         NSString *newUserAgent = [userAgent stringByAppendingString:@" ZGSDK"];//自定义需要拼接的字符串
@@ -1277,6 +1278,8 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     [ZGHttpHelper sendRequestForUrl:url FinishBlock:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
         __strong typeof(weakSelf) strongSelf = weakSelf;
+        NSLog(@"url == %@",url);
+        NSLog(@"httpResponse.statusCode == %ld",(long)httpResponse.statusCode);
         if (httpResponse.statusCode == 200 && data){
             dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
             if (dic == nil) {
@@ -1415,6 +1418,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
                     //判断是否打开开关
                     if (self.zhugeSeeReal == 0 && ([self.zhugeSeeNet isEqualToString:self.net] || [self.zhugeSeeNet isEqualToString:@"1"])) {
                         // 判断是否需要实时上传
+                        NSLog(@" == %@",[self getZGSeeUploadURL]);
                         [ZGHttpHelper post:[self getZGSeeUploadURL] RequestStr:dicStr FinishBlock:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                              NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
                              if (httpResponse.statusCode == 200) {

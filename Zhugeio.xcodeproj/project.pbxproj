@@ -340,7 +340,7 @@
 			path = ZGSee;
 			sourceTree = "<group>";
 		};
-		5F6993FD2419084D00EE6C37 /* ZhugeShare */ = {
+		5F6993FD2419084D00EE6C37 /* ZGShare */ = {
 			isa = PBXGroup;
 			children = (
 				5F6993FE2419084D00EE6C37 /* DLServerInterface.h */,
@@ -377,7 +377,7 @@
 				5F6994252419084D00EE6C37 /* DLViewController.h */,
 				5F6994262419084D00EE6C37 /* DeepShare.h */,
 			);
-			path = ZhugeShare;
+			path = ZGShare;
 			sourceTree = "<group>";
 		};
 		5F6994172419084D00EE6C37 /* Request */ = {
@@ -423,7 +423,7 @@
 				5F6993DC2419084D00EE6C37 /* ZGCategory */,
 				5F6993C22419084C00EE6C37 /* ZGCore */,
 				5F6993EC2419084D00EE6C37 /* ZGSee */,
-				5F6993FD2419084D00EE6C37 /* ZhugeShare */,
+				5F6993FD2419084D00EE6C37 /* ZGShare */,
 			);
 			path = Zhugeio;
 			sourceTree = "<group>";
@@ -834,7 +834,7 @@
 				);
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 3.4.3;
+				MARKETING_VERSION = 3.4.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhugeio;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -863,7 +863,7 @@
 				);
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 3.4.3;
+				MARKETING_VERSION = 3.4.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhugeio;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

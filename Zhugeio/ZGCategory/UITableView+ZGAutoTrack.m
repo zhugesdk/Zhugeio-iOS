@@ -11,7 +11,6 @@
 #import "Zhuge.h"
 #import "ZhugeAutoTrackUtils.h"
 #import "NSObject+ZGAutoTrack.h"
-#import "ZGLog.h"
 
 #define GET_CLASS_CUSTOM_SEL(sel,class)  NSSelectorFromString([NSString stringWithFormat:@"%@_%@",NSStringFromClass(class),NSStringFromSelector(sel)])
 
@@ -27,6 +26,7 @@
 
 - (void)zhugeAutoTrack_tableViewDidSelectRowIndexPathInClass:(id)object {
     SEL sel = @selector(tableView:didSelectRowAtIndexPath:);
+    
 //    NSSelectorFromString([NSString stringWithFormat:@"%@_%@",NSStringFromClass([self class]),NSStringFromSelector(sel)]);
     // 为每个含tableView的控件 增加swizzle delegate method
     [self class_addMethod:[object class]
@@ -54,7 +54,6 @@
 - (void)zhuge_imp_tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if ([[Zhuge sharedInstance].config autoTrackEnable]) {
-        ZGLog(@"%@ didSelectRowAtIndexPath:%ld:%ld",NSStringFromClass([self class]),(long)indexPath.section,(long)indexPath.row);
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         Zhuge * zhuge = [Zhuge sharedInstance];
         NSString *content = content = [ZhugeAutoTrackUtils zhugeGetViewContent:cell];;
@@ -82,11 +81,5 @@
         func(self, sel,tableView,indexPath);
     }
 }
-
-- (void)autoTrack:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath {
-    
-    
-}
-
 
 @end

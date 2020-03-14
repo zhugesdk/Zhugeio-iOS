@@ -33,14 +33,15 @@
     if (![self isContainSel:GET_CLASS_CUSTOM_SEL(@selector(scrollViewDidEndDecelerating:),[delegate class]) inClass:[delegate class]]) {
         [self swizzling_scrollViewWillBeginDragging:delegate];
     }
-
-    if ([NSStringFromClass([self class]) isEqualToString:@"UITableView"]){
+    
+    if ([self isKindOfClass:[UITableView class]]){
         if (![self isContainSel:GET_CLASS_CUSTOM_SEL(@selector(tableView:didSelectRowAtIndexPath:),[delegate class]) inClass:[delegate class]]) {
             [(UITableView *)self zhugeAutoTrack_tableViewDidSelectRowIndexPathInClass:delegate];
         }
+
     }
-    
-    if ([NSStringFromClass([self class]) isEqualToString:@"UICollectionView"]){
+
+    if ([self isKindOfClass:[UICollectionView class]]){
         if (![self isContainSel:GET_CLASS_CUSTOM_SEL(@selector(collectionView:didSelectItemAtIndexPath:),[delegate class]) inClass:[delegate class]]) {
             [(UICollectionView *)self zhugeAutoTrack_collectionViewDidSelectItemIndexPathInClass:delegate];
         }
@@ -75,13 +76,12 @@
  @param scrollView scrollView description
  */
 - (void)zhuge_scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-//    NSLog(@"%s",__func__);
-//    SEL sel = GET_CLASS_CUSTOM_SEL(@selector(scrollViewWillBeginDragging:),[self class]);
-//    if ([self respondsToSelector:sel]) {
-//        IMP imp = [self methodForSelector:sel];
-//        void (*func)(id, SEL,id) = (void *)imp;
-//        func(self, sel,scrollView);
-//    }
+    SEL sel = GET_CLASS_CUSTOM_SEL(@selector(scrollViewWillBeginDragging:),[self class]);
+    if ([self respondsToSelector:sel]) {
+        IMP imp = [self methodForSelector:sel];
+        void (*func)(id, SEL,id) = (void *)imp;
+        func(self, sel,scrollView);
+    }
 }
 
 @end

@@ -37,34 +37,27 @@
     return class_getInstanceMethod(class, selector);
 }
 
-//- (BOOL)isContainSel:(SEL)sel inClass:(Class)class {
-//    unsigned int count;
-//    Method *methodList = class_copyMethodList(class, &count);
-//    for (int i = 0; i < count; i ++) {
-//        Method method = methodList[i];
-//        NSString *tempMethodString = [NSString stringWithUTF8String:sel_getName(method_getName(method))];
-//        if ([tempMethodString isEqualToString:NSStringFromSelector(sel)]) {
-//            return YES;
-//        }
-//    }
-//    return NO;
-//}
-
 - (BOOL)isContainSel:(SEL)sel inClass:(Class)class {
-    Method method = class_getInstanceMethod(class, sel);
-    if (method != NULL) {
-    return YES;
-    }
-    return NO;
-}
-
-- (void)log_class_copyMethodList:(Class)class {
     unsigned int count;
     Method *methodList = class_copyMethodList(class, &count);
     for (int i = 0; i < count; i ++) {
         Method method = methodList[i];
-        NSLog(@"%s%s",__func__,sel_getName(method_getName(method)));
+        NSString *tempMethodString = [NSString stringWithUTF8String:sel_getName(method_getName(method))];
+        if ([tempMethodString isEqualToString:NSStringFromSelector(sel)]) {
+            return YES;
+        }
     }
+    return NO;
 }
+
+
+//- (void)log_class_copyMethodList:(Class)class {
+//    unsigned int count;
+//    Method *methodList = class_copyMethodList(class, &count);
+//    for (int i = 0; i < count; i ++) {
+//        Method method = methodList[i];
+//        NSLog(@"%s%s",__func__,sel_getName(method_getName(method)));
+//    }
+//}
 
 @end

@@ -11,8 +11,6 @@
 #import <objc/runtime.h>
 #import <objc/message.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface NSObject (ZGRuntimeMethodHelper)
 
 - (BOOL)class_addMethod:(Class)class selector:(SEL)selector imp:(IMP)imp types:(const char *)types;
@@ -31,4 +29,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END
+
