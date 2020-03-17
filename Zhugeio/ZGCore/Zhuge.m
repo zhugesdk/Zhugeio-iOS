@@ -214,14 +214,6 @@ static Zhuge *sharedInstance = nil;
             [DeepShare initWithAppID:self.appKey withLaunchOptions:launchOptions withDelegate:self];
         }
         
-        
-        // 设置userAgent信息，供JS查询
-        
-        UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-        NSString *userAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
-        NSString *newUserAgent = [userAgent stringByAppendingString:@" ZGSDK"];//自定义需要拼接的字符串
-        NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:newUserAgent, @"UserAgent", nil];
-        [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
     }
     @catch (NSException *exception) {
         ZhugeDebug(@"startWithAppKey exception %@",exception);
