@@ -14,6 +14,7 @@
 #import "ZhugeAutoTrackUtils.h"
 #import "ZGLog.h"
 #import "NSObject+ZGAutoTrack.h"
+#import "Zhuge.h"
 
 static NSData *_imageData;
 NSString * const gc_VCKey = nil;
