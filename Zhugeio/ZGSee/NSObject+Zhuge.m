@@ -102,7 +102,8 @@ static NSMutableDictionary *_dataDic;
 
 - (void)gc_scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     Zhuge * zhuge = [Zhuge sharedInstance];
-    if ([zhuge.config isSeeEnable]) {
+    if ([zhuge.config isSeeEnable] &&
+        [Zhuge sharedInstance].config.zgSeeEnable == YES) {
         _imageData = [[ZGSharedDur shareInstance] pixData];
         //滑动结束
         [self taskData:[[ZGSharedDur shareInstance] getViewToPath:scrollView] eid:@"zgsee-scroll" viewController:[[ZGSharedDur shareInstance]viewControllerToView:scrollView]];
@@ -111,15 +112,13 @@ static NSMutableDictionary *_dataDic;
 
 - (void)gc_scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     Zhuge * zhuge = [Zhuge sharedInstance];
-    if ([zhuge.config isSeeEnable] && decelerate == NO) {
-        
+    if ([zhuge.config isSeeEnable] &&
+        decelerate == NO &&
+        [Zhuge sharedInstance].config.zgSeeEnable == YES) {
         _imageData = [[ZGSharedDur shareInstance] pixData];
         //拖动结束
         [self taskData:[[ZGSharedDur shareInstance] getViewToPath:scrollView] eid:@"zgsee-scroll" viewController:[[ZGSharedDur shareInstance]viewControllerToView:scrollView]];
-    }else{
-//        NSLog(@"gc_scrollViewDidEndDragging see is close");
     }
-    
 }
 
 
@@ -139,7 +138,6 @@ static NSMutableDictionary *_dataDic;
     _dataDic[@"$rd"] = @(0);
     _dataDic[@"$pn"] = NSStringFromClass([viewController class]);
     _dataDic[@"$wh"] = @[@([UIScreen mainScreen ].bounds.size.width),@([UIScreen mainScreen ].bounds.size.height)];
-//    NSLog(@"_dataDic == %@",_dataDic);
     [[Zhuge sharedInstance] setZhuGeSeeEvent:_dataDic];
 
 }

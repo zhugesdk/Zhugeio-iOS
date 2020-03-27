@@ -7,7 +7,7 @@
 #import <Foundation/Foundation.h>
 
 /* SDK版本 */
-#define ZG_SDK_VERSION @"3.4.5"
+#define ZG_SDK_VERSION @"3.4.6"
 
 /* 默认应用版本 */
 #define ZG_APP_VERSION [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
@@ -36,9 +36,9 @@
 #pragma mark - 发送策略
 // 上报时间间隔(默认:10秒)
 @property  NSUInteger sendInterval;
-// 每天最大上报事件数，超出部分缓存到本地(默认:50000个)
+// 每天最大上报事件数，超出部分缓存到本地(默认:5000个)
 @property (nonatomic) NSUInteger sendMaxSizePerDay;
-// 本地缓存事件数(默认:5000个)
+// 本地缓存事件数(默认:500个)
 @property (nonatomic) NSUInteger cacheMaxSize;
 
 #pragma mark - 日志

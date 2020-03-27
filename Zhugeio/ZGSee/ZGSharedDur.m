@@ -119,7 +119,6 @@
 }
 -(void)zhugeSetCurrentVC:(NSString *)name{
     self.currentPageName = name;
-//    NSLog(@"set page name is %@",name);
 }
 -(BOOL)permitCreateImage{
     if (self.imageCreateDate) {

@@ -83,93 +83,90 @@ static NSMutableDictionary *_dataDic;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         
-        SEL origilaSEL = @selector(sendEvent:);
-        
-        SEL hook_SEL = @selector(gc_sendEvent:);
-        
-        //交换方法
-        Method origilalMethod = class_getInstanceMethod(self, origilaSEL);
-        
-        
-        Method hook_method = class_getInstanceMethod(self, hook_SEL);
-        
-        
-        class_addMethod(self,
-                        origilaSEL,
-                        class_getMethodImplementation(self, origilaSEL),
-                        method_getTypeEncoding(origilalMethod));
-        
-        class_addMethod(self,
-                        hook_SEL,
-                        class_getMethodImplementation(self, hook_SEL),
-                        method_getTypeEncoding(hook_method));
-        
-        method_exchangeImplementations(class_getInstanceMethod(self, origilaSEL), class_getInstanceMethod(self, hook_SEL));
-        
+        SEL originalSelector = @selector(sendEvent:);
+        SEL swizzledSelector = @selector(gc_sendEvent:);
+        //原有方法
+        Method originalMethod = class_getInstanceMethod(self, originalSelector);
+        //替换原有方法的新方法
+        Method swizzledMethod = class_getInstanceMethod(self, swizzledSelector);
+        //先尝试給源SEL添加IMP，这里是为了避免源SEL没有实现IMP的情况
+        BOOL didAddMethod = class_addMethod(self,originalSelector,
+                                            method_getImplementation(swizzledMethod),
+                                            method_getTypeEncoding(swizzledMethod));
+        if (didAddMethod) {//添加成功：表明源SEL没有实现IMP，将源SEL的IMP替换到交换SEL的IMP
+            class_replaceMethod(self,swizzledSelector,
+                                method_getImplementation(originalMethod),
+                                method_getTypeEncoding(originalMethod));
+        } else {//添加失败：表明源SEL已经有IMP，直接将两个SEL的IMP交换即可
+            method_exchangeImplementations(originalMethod, swizzledMethod);
+        }
     });
-    
-    
-    
+
+
+
 }
 
 - (void)gc_sendEvent:(UIEvent *)event {
-    
+
     ZGSharedDur *dur = [ZGSharedDur shareInstance];
     BOOL isKeyboard = [dur isKeyboardShow];
-    if ([[Zhuge sharedInstance].config isSeeEnable] && !isKeyboard && event.type==UIEventTypeTouches) {
+    if ([Zhuge sharedInstance].config.zgSeeEnable == YES &&
+        [[Zhuge sharedInstance].config isSeeEnable] &&
+        !isKeyboard &&
+        event.type==UIEventTypeTouches) {
         //响应触摸事件（手指刚刚放上屏幕）
         if (!_touch) {
             _touch=[event.allTouches anyObject];
         }
         UIWindow * window=[[[UIApplication sharedApplication] delegate] window];
-        
+
         if ([[event.allTouches anyObject] phase] == UITouchPhaseBegan) {
             //初始化坐标数组
             if (!_pointArray) {
                 _pointArray = [[NSMutableArray alloc] init];
             }
-            
+
             if (_pointArray.count > 0) {
                 [_pointArray removeAllObjects];
             }
-            
+
             //记录开始触摸的点
             _beginPoint = [_touch locationInView:window];
-            
+
             //坐标
             _viewPath = [[ZGSharedDur shareInstance] getViewToPath:_touch.view];
-            
+
             //添加坐标
             [_pointArray addObject:@[@(_beginPoint.x),@(_beginPoint.y)]];
-            
+
             //操作开始时间
             _rdDate = [NSDate date];
-            
+
             //动作开始时 截图
             _imageData = [[ZGSharedDur shareInstance] pixData];
-            
+
         }
         if ([[event.allTouches anyObject] phase] == UITouchPhaseMoved) {
             //移动Point
             _movedPoint = [_touch locationInView:window];
-            
+
             //计算移动Point
             CGPoint deltaPoint = CGPointMake((_beginPoint.x - _movedPoint.x), (_beginPoint.y - _movedPoint.y));
-            
+
             [self commitTranslation:deltaPoint movedPoint:_movedPoint];
 
         }
         if ([[event.allTouches anyObject] phase] == UITouchPhaseStationary) {
-    
+
             _imageData = [[ZGSharedDur shareInstance] pixData];
-            
+
         }
         if ([[event.allTouches anyObject] phase] == UITouchPhaseEnded) {
             //结束Point
             _endPoint = [_touch locationInView:window];
             //上传数据
             [self taskData];
-            
+
             //清空有效移动倍数
             directionNum = 1;
         }
@@ -177,9 +174,9 @@ static NSMutableDictionary *_dataDic;
 
         }
     }
-    
+
     [self gc_sendEvent:event];
-    
+
 }
 
 //整理并上传数据
@@ -203,7 +200,6 @@ static NSMutableDictionary *_dataDic;
         _dataDic[@"$eid"] = @"zgsee-click";
     }
     _dataDic[@"$pn"] = [[ZGSharedDur shareInstance] zhugeGetCurrentVC];
-//    NSLog(@"_dataDic == %@",_dataDic);
     [[Zhuge sharedInstance] setZhuGeSeeEvent:_dataDic];
 }
 

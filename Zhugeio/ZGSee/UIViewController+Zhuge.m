@@ -14,7 +14,6 @@
 #import "ZhugeAutoTrackUtils.h"
 #import "ZGLog.h"
 #import "NSObject+ZGAutoTrack.h"
-#import "Zhuge.h"
 
 static NSData *_imageData;
 NSString * const gc_VCKey = nil;
@@ -117,8 +116,6 @@ NSString * const gc_VCKey = nil;
     [zhuge autoTrack:data];
 }
 
-static NSString *_url;
-static NSString *_ref;
 static NSMutableArray *_controllers;
 
 - (NSString *)zhugeScreenName {

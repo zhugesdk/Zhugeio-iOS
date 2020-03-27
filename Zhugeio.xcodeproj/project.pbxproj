@@ -23,19 +23,14 @@
 		5F6994342419084D00EE6C37 /* ZhugeConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6993D02419084C00EE6C37 /* ZhugeConfig.m */; };
 		5F6994352419084D00EE6C37 /* NSObject+ZGRuntimeMethodHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6993D32419084D00EE6C37 /* NSObject+ZGRuntimeMethodHelper.h */; };
 		5F6994362419084D00EE6C37 /* ZGRuntimeHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6993D42419084D00EE6C37 /* ZGRuntimeHelper.h */; };
-		5F6994372419084D00EE6C37 /* NSObject+ZGRuntimeMethodHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6993D52419084D00EE6C37 /* NSObject+ZGRuntimeMethodHelper.m */; };
-		5F6994382419084D00EE6C37 /* ZGUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6993D62419084D00EE6C37 /* ZGUtils.m */; };
 		5F6994392419084D00EE6C37 /* ZGNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6993D82419084D00EE6C37 /* ZGNetworking.m */; };
 		5F69943A2419084D00EE6C37 /* ZGNetConstant.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6993D92419084D00EE6C37 /* ZGNetConstant.h */; };
 		5F69943B2419084D00EE6C37 /* ZGNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6993DA2419084D00EE6C37 /* ZGNetworking.h */; };
 		5F69943C2419084D00EE6C37 /* ZGUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6993DB2419084D00EE6C37 /* ZGUtils.h */; };
 		5F69943D2419084D00EE6C37 /* NSObject+ZGAutoTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6993DD2419084D00EE6C37 /* NSObject+ZGAutoTrack.m */; };
-		5F69943E2419084D00EE6C37 /* UIScrollView+ZGAutoTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6993DE2419084D00EE6C37 /* UIScrollView+ZGAutoTrack.m */; };
 		5F69943F2419084D00EE6C37 /* UITableView+ZGAutoTrack.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6993DF2419084D00EE6C37 /* UITableView+ZGAutoTrack.h */; };
-		5F6994402419084D00EE6C37 /* UICollectionView+ZGAutoTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6993E02419084D00EE6C37 /* UICollectionView+ZGAutoTrack.m */; };
 		5F6994412419084D00EE6C37 /* NSObject+ZGAutoTrack.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6993E12419084D00EE6C37 /* NSObject+ZGAutoTrack.h */; };
 		5F6994422419084D00EE6C37 /* UICollectionView+ZGAutoTrack.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6993E22419084D00EE6C37 /* UICollectionView+ZGAutoTrack.h */; };
-		5F6994432419084D00EE6C37 /* UITableView+ZGAutoTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6993E32419084D00EE6C37 /* UITableView+ZGAutoTrack.m */; };
 		5F6994442419084D00EE6C37 /* UIScrollView+ZGAutoTrack.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6993E42419084D00EE6C37 /* UIScrollView+ZGAutoTrack.h */; };
 		5F6994452419084D00EE6C37 /* UIGestureRecognizer+Zhuge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F6993E62419084D00EE6C37 /* UIGestureRecognizer+Zhuge.h */; };
 		5F6994462419084D00EE6C37 /* ZhugeAutoTrackUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6993E72419084D00EE6C37 /* ZhugeAutoTrackUtils.m */; };
@@ -614,11 +609,9 @@
 			files = (
 				5F69947F2419084E00EE6C37 /* DLSystemObserver.m in Sources */,
 				5F6994782419084E00EE6C37 /* NewvalueChange.m in Sources */,
-				5F6994382419084D00EE6C37 /* ZGUtils.m in Sources */,
 				5F69944E2419084D00EE6C37 /* ZGReachability.m in Sources */,
 				5F6994712419084D00EE6C37 /* DLTime.m in Sources */,
 				5F69944F2419084D00EE6C37 /* ZGHttpHelper.m in Sources */,
-				5F6994372419084D00EE6C37 /* NSObject+ZGRuntimeMethodHelper.m in Sources */,
 				5F6994802419084E00EE6C37 /* getNewUsage.m in Sources */,
 				5F69946E2419084D00EE6C37 /* DLServerInterface.m in Sources */,
 				5F69945A2419084D00EE6C37 /* ZGSqliteManager.m in Sources */,
@@ -626,11 +619,9 @@
 				5F6994682419084D00EE6C37 /* DLViewController.m in Sources */,
 				5F6994392419084D00EE6C37 /* ZGNetworking.m in Sources */,
 				5F6994592419084D00EE6C37 /* ZGUtil.m in Sources */,
-				5F6994432419084D00EE6C37 /* UITableView+ZGAutoTrack.m in Sources */,
 				5F6994732419084D00EE6C37 /* DLServerRequest.m in Sources */,
 				5F6994342419084D00EE6C37 /* ZhugeConfig.m in Sources */,
 				5F69946F2419084D00EE6C37 /* clearNewUsage.m in Sources */,
-				5F6994402419084D00EE6C37 /* UICollectionView+ZGAutoTrack.m in Sources */,
 				5F6994622419084D00EE6C37 /* DSEncodingUtils.m in Sources */,
 				5F69945E2419084D00EE6C37 /* DSError.m in Sources */,
 				5F69945C2419084D00EE6C37 /* DLServerResponse.m in Sources */,
@@ -647,7 +638,6 @@
 				5F6994302419084D00EE6C37 /* ZhugeCompres.m in Sources */,
 				5F6994462419084D00EE6C37 /* ZhugeAutoTrackUtils.m in Sources */,
 				5F6994322419084D00EE6C37 /* ZhugeJS.m in Sources */,
-				5F69943E2419084D00EE6C37 /* UIScrollView+ZGAutoTrack.m in Sources */,
 				5F6994762419084E00EE6C37 /* CallClose.m in Sources */,
 				5F69944D2419084D00EE6C37 /* UIViewController+Zhuge.m in Sources */,
 				5F69945D2419084D00EE6C37 /* DLServerRequestQueue.m in Sources */,

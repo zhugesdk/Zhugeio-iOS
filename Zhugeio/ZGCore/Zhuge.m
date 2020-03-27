@@ -172,7 +172,7 @@ static Zhuge *sharedInstance = nil;
         self.eventsQueue = [[NSMutableArray alloc] init];
         self.archiveEventQueue = [[NSMutableArray alloc] init];
         self.cr = [self carrier];
-        [[ZGSqliteManager shareManager] openDataBase];
+//        [[ZGSqliteManager shareManager] openDataBase];
         
         if (!self.apiURL || self.apiURL.length ==0) {
             self.apiURL = ZG_BASE_API;
@@ -1196,8 +1196,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 #pragma mark --- 采集开始会话数据
 - (void)zgSeeStart {
     //保存到本地  --  当然你可以在下次启动的时候，上传这个log
-//    ZGSharedDur * dur = [ZGSharedDur shareInstance];
-    
     NSMutableArray * dataArray = [NSMutableArray array];
     NSMutableDictionary * prDic = [NSMutableDictionary dictionary];
     if (self.userId.length > 0) {
@@ -1774,23 +1772,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         ZhugeDebug(@"flushQueue exception %@",exception);
     }
 }
-
-// 上传到备份URL
-- (void)updateBackupUrl:(NSString *)requestData withQueue:(NSMutableArray *)queue withEvent:(NSArray *)events {
-    
-    [ZGNetworking requestWithUrl:[self.backupURL stringByAppendingString:@"/upload/"] parameters:requestData method:ZG_METHOD_POST completionhandler:^(NSURLResponse * _Nonnull response, NSData * _Nonnull data, NSError * _Nonnull error) {
-        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
-        if (httpResponse.statusCode == 200 && data != nil && !error) {
-            NSString *resultStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            ZhugeDebug(@"API响应: %@",resultStr);
-            [queue removeObjectsInArray:events];
-        } else {
-            ZhugeDebug(@"上传事件失败");
-            
-        }
-    }];
-}
-
 
 - (NSData*) apiRequest:(NSString *)endpoint WithData:(NSString *)requestData andError:(NSError *)error {
     BOOL success = NO;

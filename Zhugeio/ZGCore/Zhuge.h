@@ -9,6 +9,7 @@
 #import "ZhugeConfig.h"
 #import "ZhugeEvents.h"
 #import "ZhugeEventProperty.h"
+#import "NSObject+ZGAutoTrack.h"
 
 @protocol ZGDeepShareDelete <NSObject>
 
