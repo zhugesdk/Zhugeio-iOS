@@ -40,6 +40,9 @@
 
 - (void)zg_setDelegate:(id<UITableViewDelegate>)delegate {
     [self zg_setDelegate:delegate];
+    if([NSStringFromClass([delegate class]) isEqualToString:@"TUICandidateGrid"]){
+        return;
+    }
     
     NSObject *obg = (NSObject *)delegate;
         if(![obg isKindOfClass:[NSObject class]]){
