@@ -22,7 +22,6 @@
 #import "Zhuge.h"
 #import "ZGLog.h"
 #import "ZGHttpHelper.h"
-#import "ZGNetworking.h"
 #import "ZhugeConstants.h"
 
 #import "ZGSharedDur.h"
