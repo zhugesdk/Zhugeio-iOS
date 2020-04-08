@@ -1009,8 +1009,9 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 }
 
 
-- (void)trackRevenue:(NSMutableDictionary *)properties {
+- (void)trackRevenue:(NSDictionary *)properties {
     
+    NSMutableDictionary *tempDic = [[NSMutableDictionary alloc] initWithDictionary:properties];
     NSString *price = [NSString stringWithFormat:@"%@",properties[ZhugeEventRevenuePrice]];
     NSString *number = [NSString stringWithFormat:@"%@",properties[ZhugeEventRevenueProductQuantity]];
     //price转化成NSDecimalNumber
@@ -1020,11 +1021,12 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     //两个数相乘
     NSDecimalNumber *totalDec = [priceDec decimalNumberByMultiplyingBy:numberDec];
     
-    [properties setObject:priceDec forKey:ZhugeEventRevenuePrice];
-    [properties setObject:numberDec forKey:ZhugeEventRevenueProductQuantity];
-    [properties setObject:totalDec forKey:ZhugeEventRevenueTotalPrice];
-    [self trackRevenue:ZG_REVENUE properties:properties];
+    [tempDic setObject:priceDec forKey:ZhugeEventRevenuePrice];
+    [tempDic setObject:numberDec forKey:ZhugeEventRevenueProductQuantity];
+    [tempDic setObject:totalDec forKey:ZhugeEventRevenueTotalPrice];
+    [self trackRevenue:ZG_REVENUE properties:tempDic];
 }
+
 
 - (void)trackRevenue:(NSString *)event properties:(NSMutableDictionary *)properties {
     @try {
