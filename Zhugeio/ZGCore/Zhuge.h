@@ -62,6 +62,11 @@
 - (void)enableAutoTrack;
 - (BOOL)isAutoTrackEnable;
 
+/**
+ * 手动设置UTM参数
+ */
+-(void)setUtm:(nonnull NSDictionary *)utmInfo;
+
 @property (nonatomic, copy) NSString * _Nullable url;
 @property (nonatomic, copy) NSString * _Nullable ref;
 
