@@ -794,7 +794,7 @@
 				);
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 3.4.5;
+				MARKETING_VERSION = 3.4.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhugeio;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -823,7 +823,7 @@
 				);
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 3.4.5;
+				MARKETING_VERSION = 3.4.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhugeio;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
