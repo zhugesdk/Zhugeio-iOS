@@ -39,15 +39,15 @@
 		5FEE74CD24D43015009A29BF /* ZhugeSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE746D24D43015009A29BF /* ZhugeSwizzle.h */; };
 		5FEE74CE24D43015009A29BF /* Zhuge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE746F24D43015009A29BF /* Zhuge.m */; };
 		5FEE74CF24D43015009A29BF /* ZhugeCompres.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747024D43015009A29BF /* ZhugeCompres.h */; };
-		5FEE74D024D43015009A29BF /* ZhugeEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747124D43015009A29BF /* ZhugeEvents.h */; };
-		5FEE74D124D43015009A29BF /* ZhugeJS.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747224D43015009A29BF /* ZhugeJS.h */; };
+		5FEE74D024D43015009A29BF /* ZhugeEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747124D43015009A29BF /* ZhugeEvents.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5FEE74D124D43015009A29BF /* ZhugeJS.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747224D43015009A29BF /* ZhugeJS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FEE74D224D43015009A29BF /* ZhugeConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747324D43015009A29BF /* ZhugeConstants.h */; };
-		5FEE74D324D43015009A29BF /* ZhugeConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747424D43015009A29BF /* ZhugeConfig.h */; };
+		5FEE74D324D43015009A29BF /* ZhugeConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747424D43015009A29BF /* ZhugeConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FEE74D424D43015009A29BF /* ZhugeBase64.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747524D43015009A29BF /* ZhugeBase64.h */; };
-		5FEE74D524D43015009A29BF /* ZhugeEventProperty.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747624D43015009A29BF /* ZhugeEventProperty.h */; };
-		5FEE74D624D43015009A29BF /* ZGLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747724D43015009A29BF /* ZGLog.h */; };
+		5FEE74D524D43015009A29BF /* ZhugeEventProperty.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747624D43015009A29BF /* ZhugeEventProperty.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5FEE74D624D43015009A29BF /* ZGLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747724D43015009A29BF /* ZGLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FEE74D724D43015009A29BF /* ZhugeCompres.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE747824D43015009A29BF /* ZhugeCompres.m */; };
-		5FEE74D824D43015009A29BF /* Zhuge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747924D43015009A29BF /* Zhuge.h */; };
+		5FEE74D824D43015009A29BF /* Zhuge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747924D43015009A29BF /* Zhuge.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FEE74D924D43015009A29BF /* ZhugeJS.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE747A24D43015009A29BF /* ZhugeJS.m */; };
 		5FEE74DA24D43015009A29BF /* ZhugeBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE747B24D43015009A29BF /* ZhugeBase64.m */; };
 		5FEE74DB24D43015009A29BF /* ZhugeConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE747C24D43015009A29BF /* ZhugeConfig.m */; };
@@ -442,25 +442,26 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FEE74D824D43015009A29BF /* Zhuge.h in Headers */,
+				5FEE74D524D43015009A29BF /* ZhugeEventProperty.h in Headers */,
+				5FEE74D624D43015009A29BF /* ZGLog.h in Headers */,
+				5FEE74D124D43015009A29BF /* ZhugeJS.h in Headers */,
+				5FEE74D024D43015009A29BF /* ZhugeEvents.h in Headers */,
+				5FEE74D324D43015009A29BF /* ZhugeConfig.h in Headers */,
 				5FEE74FD24D43015009A29BF /* DSError.h in Headers */,
 				5FEE74FA24D43015009A29BF /* getNewUsage.h in Headers */,
-				5FEE74D324D43015009A29BF /* ZhugeConfig.h in Headers */,
 				5FEE74C824D43015009A29BF /* UIGestureRecognizer+Zhuge.h in Headers */,
 				5FEE74DC24D43015009A29BF /* ZGSharedDur.h in Headers */,
 				5FEE74F624D43015009A29BF /* DLStrongMatchHelper.h in Headers */,
 				5FEE750F24D43015009A29BF /* DLParam.h in Headers */,
 				5FEE74F224D43015009A29BF /* DLTime.h in Headers */,
-				5FEE74D024D43015009A29BF /* ZhugeEvents.h in Headers */,
 				5FEE74D424D43015009A29BF /* ZhugeBase64.h in Headers */,
-				5FEE74D824D43015009A29BF /* Zhuge.h in Headers */,
 				5FEE750624D43015009A29BF /* registerOpen.h in Headers */,
 				5FEE74F124D43015009A29BF /* DLPreferenceHelper.h in Headers */,
 				5FEE74E724D43015009A29BF /* ZGHttpHelper.h in Headers */,
 				5FEE750524D43015009A29BF /* NewvalueChange.h in Headers */,
 				5FEE74B924D43015009A29BF /* UITableView+ZGAnalytics.h in Headers */,
 				5FEE74C024D43015009A29BF /* Aspects.h in Headers */,
-				5FEE74D124D43015009A29BF /* ZhugeJS.h in Headers */,
-				5FEE74D524D43015009A29BF /* ZhugeEventProperty.h in Headers */,
 				5FEE74E824D43015009A29BF /* ZGReachability.h in Headers */,
 				5FEE751224D43015009A29BF /* DLViewController.h in Headers */,
 				5FEE74E324D43015009A29BF /* ZGSqliteManager.h in Headers */,
@@ -468,7 +469,6 @@
 				5FEE74CD24D43015009A29BF /* ZhugeSwizzle.h in Headers */,
 				5FEE74FE24D43015009A29BF /* DLServerResponse.h in Headers */,
 				5FEE750124D43015009A29BF /* DSEncodingUtils.h in Headers */,
-				5FEE74D624D43015009A29BF /* ZGLog.h in Headers */,
 				5FEE74F724D43015009A29BF /* DLConfig.h in Headers */,
 				5FEE74DD24D43015009A29BF /* NSObject+Zhuge.h in Headers */,
 				5FEE74F524D43015009A29BF /* DeepShareImpl.h in Headers */,
