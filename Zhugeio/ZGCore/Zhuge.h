@@ -46,6 +46,9 @@
  */
 - (nonnull ZhugeConfig *)config;
 
+
+-(void)setUtm:(nonnull NSDictionary *)utmInfo;
+
 /**
  获得诸葛设备ID。
  */
@@ -62,13 +65,8 @@
 - (void)enableAutoTrack;
 - (BOOL)isAutoTrackEnable;
 
-/**
- * 手动设置UTM参数
- */
--(void)setUtm:(nonnull NSDictionary *)utmInfo;
-
-@property (nonatomic, copy) NSString * _Nullable url;
-@property (nonatomic, copy) NSString * _Nullable ref;
+//@property (nonatomic, copy) NSString * _Nullable url;
+//@property (nonatomic, copy) NSString * _Nullable ref;
 
 /**
  开启诸葛统计。

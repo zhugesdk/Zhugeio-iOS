@@ -236,7 +236,7 @@
         [data setObject:isNil(path) forKey:@"$element_selector"];
         [data setObject:isNil(title) forKey:@"$page_title"];
         [data setObject:isNil(content) forKey:@"$element_content"];
-        [data setObject:isNil(zhuge.ref) forKey:@"$ref"];
+//        [data setObject:isNil(zhuge.ref) forKey:@"$ref"];
         [zhuge autoTrack:data];
     } @catch (NSException *exception) {
         NSLog(@"autoTrack exception %@: %@",[exception name],[exception reason]);

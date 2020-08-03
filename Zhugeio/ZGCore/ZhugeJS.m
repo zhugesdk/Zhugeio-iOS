@@ -30,6 +30,7 @@
 
     [zhuge identify:uid properties:json];
 }
+
 -(void)autoTrack:(NSString *)uid Property:(NSString *)pro{
     Zhuge *zhuge = [Zhuge sharedInstance];
     NSData *data = [pro dataUsingEncoding:NSUTF8StringEncoding];
@@ -59,6 +60,10 @@
             NSString *name = [type valueForKey:@"name"];
             id prop = [type valueForKey:@"prop"];
             [[Zhuge sharedInstance] identify:name properties:prop];
+        }else if ([type[@"type"] isEqualToString:@"revenue"]) {
+            
+//            [[Zhuge sharedInstance] trackRevenue:nil];
+            
         }else if([type[@"type"] isEqualToString:@"autoTrack"]){
             NSString *name = [type valueForKey:@"name"];
             Zhuge *zhuge = [Zhuge sharedInstance];
@@ -74,4 +79,9 @@
         }
     }
 }
+
+- (void)trackRevenue:(NSString *)eventName Property:(NSString *)pro {
+    
+}
+
 @end

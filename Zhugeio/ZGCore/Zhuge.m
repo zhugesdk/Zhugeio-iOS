@@ -11,6 +11,7 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <CoreTelephony/CTCarrier.h>
+#import "sys/utsname.h"
 #include <sys/socket.h>
 #include <sys/sysctl.h>
 #include <net/if.h>
@@ -32,6 +33,11 @@
 #import "UIApplication+Zhuge.h"
 #import "ZhugeSwizzle.h"
 #import "UIGestureRecognizer+Zhuge.h"
+
+#import "ZGLocationManager.h"
+#import "ZGCMMotionManager.h"
+#import "ZGUtils.h"
+#import <CoreMotion/CoreMotion.h>
 
 #import "DeepShare.h"
 
@@ -62,7 +68,11 @@
 @property (nonatomic, assign) NSInteger  zhugeSeeReal;
 @property (nonatomic, assign) NSString *  zhugeSeeNet;
 @property (nonatomic, copy) NSString *ZGPublicKey;
-@property (nonatomic ,copy)NSString *ZGPublicMD5;
+@property (nonatomic ,copy) NSString *ZGPublicMD5;
+
+
+@property (nonatomic ,strong) NSNumber *lastSessionId;
+
 @property (nonatomic) BOOL isForeground;
 @property (nonatomic) volatile int32_t sessionCount;
 @property (nonatomic) volatile int32_t seeCount;
@@ -71,6 +81,8 @@
 @property (nonatomic, strong) NSMutableArray * archiveEventQueue;
 @property (nonatomic,strong) NSMutableDictionary * utmDic;
 @property (nonatomic, assign) int retryPost;
+
+@property (nonatomic, strong) CMMotionManager *motionManager;
 
 /**
  * 根据deepShare是否已经返回结果来判断是否开始上传数据 默认为NO。
@@ -116,19 +128,11 @@ static Zhuge *sharedInstance = nil;
 }
 
 -(NSString *)getZGSeeUploadURL{
-    if ([self.apiURL isEqualToString:@"https://u.zhugeapi.com"]) {
-        return @"https://ubak.zhugeio.com/sdk_zgsee";
-    }else{
-        return [self.apiURL stringByAppendingString:@"/sdk_zgsee"];
-    }
+    return [self.apiURL stringByAppendingString:@"/sdk_zgsee"];
 }
 
 -(NSString *)getZGSeePolicyURL{
-    if ([self.apiURL isEqualToString:@"https://u.zhugeapi.com"]) {
-        return @"https://ubak.zhugeio.com/appkey/default";
-    }else{
-        return [self.apiURL stringByAppendingFormat:@"/appkey/%@",self.appKey];
-    }
+    return [self.apiURL stringByAppendingFormat:@"/appkey/%@",self.appKey];
 }
 
 -(void)startWithAppKey:(NSString *)appKey andDid:(NSString *)did launchOptions:(NSDictionary *)launchOptions{
@@ -210,6 +214,10 @@ static Zhuge *sharedInstance = nil;
         if (delegate) {
             self.delegate = delegate;
             [DeepShare initWithAppID:self.appKey withLaunchOptions:launchOptions withDelegate:self];
+        }
+        
+        if (!self.sessionId) {
+            [self sessionStart];
         }
         
     }
@@ -457,7 +465,8 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 - (NSString *)getSid{
     
     if (!self.sessionId) {
-        self.sessionId = @0;
+        self.lastSessionId = [[NSUserDefaults standardUserDefaults] objectForKey:ZG_LAST_SESSIONID];
+        return [NSString stringWithFormat:@"%@", self.lastSessionId];
     }
     return [NSString stringWithFormat:@"%@", self.sessionId] ;
 }
@@ -519,7 +528,10 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 - (void)applicationDidBecomeActive:(NSNotification *)notification {
     @try {
         self.isForeground = YES;
-        [self sessionStart];
+        if (!self.sessionId) {
+            [self sessionStart];
+        }
+
         if ([self.config isSeeEnable]) {
             [self zgSeeStart];
         }
@@ -554,7 +566,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         //进入到后台以后再去上传数据  sid已经为空
 //        [self zgSeeUpLoadNumData:50 cacheBool:NO];
 
-        dispatch_async(_serialQueue, ^{
+        dispatch_async(self.serialQueue, ^{
             [self archive];
             if (self.taskId != UIBackgroundTaskInvalid) {
                 [[UIApplication sharedApplication] endBackgroundTask:self.taskId];
@@ -570,7 +582,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 - (void)applicationWillTerminate:(NSNotification *)notification {
     @try {
         
-        dispatch_async(_serialQueue, ^{
+        dispatch_async(self.serialQueue, ^{
             [self archive];
         });
     }
@@ -701,6 +713,15 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     return [UIApplication sharedApplication].applicationState == UIApplicationStateBackground;
 }
 
+// 设备型号
+- (NSString *)getDeviceModel {
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    NSString *deviceString = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+//    NSLog(@"deviceString == %@", deviceString);
+    return deviceString;
+}
+
 // 系统信息
 - (NSString *)getSysInfoByName:(char *)typeSpecifier {
     size_t size;
@@ -709,6 +730,8 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     sysctlbyname(typeSpecifier, answer, &size, NULL, 0);
     NSString *results = [NSString stringWithCString:answer encoding: NSUTF8StringEncoding];
     free(answer);
+    
+//    NSLog(@"results == %@", results);
     return results;
 }
 
@@ -836,8 +859,9 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     common[@"$ct"] = [NSNumber numberWithUnsignedLongLong:[[NSDate date] timeIntervalSince1970] *1000];
     common[@"$tz"] = [NSNumber numberWithInteger:[[NSTimeZone localTimeZone] secondsFromGMT]*1000];//取毫秒偏移量
     common[@"$os"] = @"iOS";
-    common[@"$url"] = Zhuge.sharedInstance.url;
-    common[@"$ref"] = Zhuge.sharedInstance.ref;
+//    common[@"$url"] = Zhuge.sharedInstance.url;
+//    common[@"$ref"] = Zhuge.sharedInstance.ref;
+
     //DeepShare 信息
     [common addEntriesFromDictionary:self.utmDic];
     return common;
@@ -851,6 +875,8 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
             self.sessionCount = 0;
             self.seeCount = 0;
             self.sessionId = [NSNumber numberWithLongLong:[[NSDate date] timeIntervalSince1970] *1000];
+            self.lastSessionId = self.sessionId;
+            [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",self.lastSessionId] forKey:ZG_LAST_SESSIONID];
             ZhugeDebug(@"会话开始(ID:%@)", self.sessionId);
             if (self.config.sessionEnable) {
                 NSMutableDictionary *e = [NSMutableDictionary dictionary];
@@ -1008,7 +1034,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     [self track:event properties:nil];
 }
 
-
 - (void)trackRevenue:(NSDictionary *)properties {
     
     NSMutableDictionary *tempDic = [[NSMutableDictionary alloc] initWithDictionary:properties];
@@ -1164,7 +1189,8 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         e[@"dt"] = @"pl";
         NSMutableDictionary *pr = [self buildCommonData];
         // 设备
-        pr[@"$dv"] = [self getSysInfoByName:"hw.machine"];
+//        pr[@"$dv"] = [self getSysInfoByName:"hw.machine"];
+        pr[@"$dv"] = [self getDeviceModel];
         // 是否越狱
         pr[@"$jail"] =[self isJailBroken] ? @1 : @0;
         // 语言
@@ -1208,7 +1234,8 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     prDic[@"$net"] = self.net;
     prDic[@"$os"] = @"iOS";
     prDic[@"$ov"] = [[UIDevice currentDevice] systemVersion];;
-    prDic[@"$dv"] = [self getSysInfoByName:"hw.machine"];
+//    prDic[@"$dv"] = [self getSysInfoByName:"hw.machine"];
+    prDic[@"$dv"] = [self getDeviceModel];
     prDic[@"$br"] = @"Apple";
     prDic[@"$av"] = self.config.appVersion;
     prDic[@"Ssc"] = @0;
@@ -1318,13 +1345,15 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         if ([self.zhugeSeeNet isEqualToString:self.net] || [self.zhugeSeeNet isEqualToString:@"1"]) {
             [ZGHttpHelper post:[self getZGSeeUploadURL] RequestStr:dicStr FinishBlock:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                  NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
+//                NSLog(@"ZGSee URL == %@",[self getZGSeeUploadURL]);
+//                NSLog(@"httpResponse.statusCode == %ld",(long)httpResponse.statusCode);
                  if (httpResponse.statusCode == 200) {
-                     ZhugeDebug(@"zgSee --- 数据上传成功");
+                     ZhugeDebug(@"ZGSee --- 数据上传成功");
                      [[ZGSqliteManager shareManager] deletezgSeeCoreDataSid:sid];
 //                     [self zgSeeUpLoadNumData:numData cacheBool:cacheBool];
                      
                  } else {
-                     ZhugeDebug(@"zgSee --- 数据上传失败  %@",connectionError);
+                     ZhugeDebug(@"ZGSee --- 数据上传失败  %@",connectionError);
                  }
              }];
         }
@@ -1339,7 +1368,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     if (!self.localZhugeSeeState) {
         self.localZhugeSeeState = YES;
         [self trackDeviceInfo];
-        dispatch_async(_serialQueue, ^{
+        dispatch_async(self.serialQueue, ^{
             [self archiveSeeState];
         });
     }
@@ -1364,7 +1393,8 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
             prDic[@"$ov"] = [[UIDevice currentDevice] systemVersion];;
             prDic[@"$av"] = self.config.appVersion;
             prDic[@"$cr"]  = self.cr;
-            prDic[@"$dv"] = [self getSysInfoByName:"hw.machine"];
+//            prDic[@"$dv"] = [self getSysInfoByName:"hw.machine"];
+            prDic[@"$dv"] = [self getDeviceModel];
             prDic[@"$br"] = @"Apple";
             prDic[@"$dru"] = @([[ZGSharedDur shareInstance] durInterval]);
             NSString *pixD =[seeData[@"$pix"] zgBase64EncodedString];
@@ -1408,13 +1438,12 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
                     //判断是否打开开关
                     if (self.zhugeSeeReal == 0 && ([self.zhugeSeeNet isEqualToString:self.net] || [self.zhugeSeeNet isEqualToString:@"1"])) {
                         // 判断是否需要实时上传
-                        NSLog(@" == %@",[self getZGSeeUploadURL]);
                         [ZGHttpHelper post:[self getZGSeeUploadURL] RequestStr:dicStr FinishBlock:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                              NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
                              if (httpResponse.statusCode == 200) {
-                                 ZhugeDebug(@"zgSee --- 数据上传成功");
+                                 ZhugeDebug(@"ZGSee --- 数据上传成功");
                              } else {
-                                 ZhugeDebug(@"zgSee --- 数据上传失败  %@",connectionError);
+                                 ZhugeDebug(@"ZGSee --- 数据上传失败  %@",connectionError);
                              }
                          }];
                     } else {
@@ -1445,7 +1474,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         for(NSInteger index = 0; index< 8; index ++) {
             [uuidStringReplacement appendFormat:@"%02x",randomBytes [index]];
         }
-//        ZhugeDebug(@"uuidStringReplacement === %@",uuidStringReplacement);
         return uuidStringReplacement;
     } else {
         ZhugeDebug(@"SecRandomCopyBytes由于某种原因失败");

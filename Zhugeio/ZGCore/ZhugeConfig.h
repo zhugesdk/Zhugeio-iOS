@@ -48,10 +48,23 @@
 @property (nonatomic) BOOL exceptionTrack;
 // 是否开启实时调试(默认:关闭)
 @property (nonatomic) BOOL debug;
+
+/**
+ * 追踪级别
+ * 默认 0 关闭
+ * setTrackerLevel: 1 只追踪用户行为事件
+ * setTrackerLevel: 2 追踪设备信息 + 用户行为事件
+ */
+@property (nonatomic,assign) NSInteger trackerLevel;
+
 //用户是否开启ZGSee 默认 NO
 @property (nonatomic,assign) BOOL zgSeeEnable;
 //全埋点是否开启 默认NO
 @property (nonatomic,assign) BOOL autoTrackEnable;
+
+//开启 WebView Track 默认NO
+@property (nonatomic, assign) BOOL enableWebViewTrack;
+
 //服务端策略
 @property (nonatomic) NSInteger serverPolicy;
 

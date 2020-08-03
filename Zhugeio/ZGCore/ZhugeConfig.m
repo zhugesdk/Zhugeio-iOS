@@ -27,6 +27,7 @@
         self.zgSeeEnable = NO;
         self.autoTrackEnable = NO;
         self.serverPolicy = -1;
+        self.enableWebViewTrack = NO;
     }
     
     return self;

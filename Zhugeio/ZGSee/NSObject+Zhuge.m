@@ -46,7 +46,7 @@ static NSMutableDictionary *_dataDic;
         
         SEL hook_SEL = @selector(gc_scrollViewDidEndDecelerating:);
         
-        //交换方法
+//        交换方法
         Method origilalMethod = class_getInstanceMethod(self, origilaSEL);
         
         

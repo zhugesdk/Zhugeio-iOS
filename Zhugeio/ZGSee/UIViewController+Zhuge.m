@@ -25,7 +25,7 @@ NSString * const gc_VCKey = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
 
-        _controllers = [[NSMutableArray alloc] init];
+//        _controllers = [[NSMutableArray alloc] init];
         
         SEL origilaSEL = @selector(viewDidAppear:);
 
@@ -53,11 +53,11 @@ NSString * const gc_VCKey = nil;
 }
 - (void)gc_viewDidAppear:(BOOL)animated{
     Zhuge * zhuge = [Zhuge sharedInstance];
-    zhuge.url = NSStringFromClass(self.class);
-    [_controllers addObject:NSStringFromClass(self.class)];   
-    if (_controllers.count > 1) {
-        zhuge.ref = _controllers[_controllers.count - 2];
-    }
+//    zhuge.url = NSStringFromClass(self.class);
+//    [_controllers addObject:NSStringFromClass(self.class)];
+//    if (_controllers.count > 1) {
+//        zhuge.ref = _controllers[_controllers.count - 2];
+//    }
     
     [self checkAutoTrackPageView];
     if ([zhuge.config isSeeEnable] && [[ZGSharedDur shareInstance] permitCreateImage] && [self isKindOfClass:[UIViewController class]] && ![self isKindOfClass:[UITabBarController class]] && ![self isKindOfClass:[UINavigationController class]]){
@@ -112,11 +112,11 @@ NSString * const gc_VCKey = nil;
     [data setObject:@"pv" forKey:@"$eid"];
     [data setObject:isNil([self zhugeScreenName]) forKey:@"$url"];
     [data setObject:isNil([self zhugeScreenTitle]) forKey:@"$page_title"];
-    [data setObject:isNil(zhuge.ref) forKey:@"$ref"];
+//    [data setObject:isNil(zhuge.ref) forKey:@"$ref"];
     [zhuge autoTrack:data];
 }
 
-static NSMutableArray *_controllers;
+//static NSMutableArray *_controllers;
 
 - (NSString *)zhugeScreenName {
     return NSStringFromClass([self class]);
