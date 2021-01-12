@@ -7,14 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5FBA1558237A906E00976A39 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA1557237A906E00976A39 /* AppDelegate.m */; };
-		5FBA155B237A906E00976A39 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA155A237A906E00976A39 /* SceneDelegate.m */; };
-		5FBA155E237A906E00976A39 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA155D237A906E00976A39 /* ViewController.m */; };
-		5FBA1561237A906E00976A39 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FBA155F237A906E00976A39 /* Main.storyboard */; };
-		5FBA1563237A907100976A39 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FBA1562237A907100976A39 /* Assets.xcassets */; };
-		5FBA1566237A907100976A39 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FBA1564237A907100976A39 /* LaunchScreen.storyboard */; };
-		5FBA1569237A907100976A39 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA1568237A907100976A39 /* main.m */; };
-		5FBA1570237A9A1200976A39 /* Zhugeio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBA14AA237A8CBC00976A39 /* Zhugeio.framework */; };
+		5F9AA15125AD8C5900BD12B8 /* ZGDeviceInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F9AA14F25AD8C5900BD12B8 /* ZGDeviceInfo.h */; };
+		5F9AA15225AD8C5900BD12B8 /* ZGDeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9AA15025AD8C5900BD12B8 /* ZGDeviceInfo.m */; };
 		5FEE74B824D43015009A29BF /* UICollectionView+ZGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE745624D43015009A29BF /* UICollectionView+ZGAnalytics.m */; };
 		5FEE74B924D43015009A29BF /* UITableView+ZGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE745724D43015009A29BF /* UITableView+ZGAnalytics.h */; };
 		5FEE74BA24D43015009A29BF /* NSObject+ZGAutoTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE745824D43015009A29BF /* NSObject+ZGAutoTrack.m */; };
@@ -108,19 +102,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5F9AA14F25AD8C5900BD12B8 /* ZGDeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGDeviceInfo.h; sourceTree = "<group>"; };
+		5F9AA15025AD8C5900BD12B8 /* ZGDeviceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGDeviceInfo.m; sourceTree = "<group>"; };
+		5F9AA15525AD8D5D00BD12B8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5FBA14AA237A8CBC00976A39 /* Zhugeio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Zhugeio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5FBA1554237A906D00976A39 /* SampleProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		5FBA1556237A906E00976A39 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		5FBA1557237A906E00976A39 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		5FBA1559237A906E00976A39 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
-		5FBA155A237A906E00976A39 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
-		5FBA155C237A906E00976A39 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		5FBA155D237A906E00976A39 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		5FBA1560237A906E00976A39 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		5FBA1562237A907100976A39 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		5FBA1565237A907100976A39 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		5FBA1567237A907100976A39 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5FBA1568237A907100976A39 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5FEE745624D43015009A29BF /* UICollectionView+ZGAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UICollectionView+ZGAnalytics.m"; sourceTree = "<group>"; };
 		5FEE745724D43015009A29BF /* UITableView+ZGAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+ZGAnalytics.h"; sourceTree = "<group>"; };
 		5FEE745824D43015009A29BF /* NSObject+ZGAutoTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ZGAutoTrack.m"; sourceTree = "<group>"; };
@@ -221,14 +206,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5FBA1551237A906D00976A39 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5FBA1570237A9A1200976A39 /* Zhugeio.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -236,7 +213,6 @@
 			isa = PBXGroup;
 			children = (
 				5FEE745424D43015009A29BF /* Zhugeio */,
-				5FBA1555237A906E00976A39 /* SampleProject */,
 				5FBA14AB237A8CBC00976A39 /* Products */,
 				5FBA156F237A9A1200976A39 /* Frameworks */,
 			);
@@ -246,27 +222,8 @@
 			isa = PBXGroup;
 			children = (
 				5FBA14AA237A8CBC00976A39 /* Zhugeio.framework */,
-				5FBA1554237A906D00976A39 /* SampleProject.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		5FBA1555237A906E00976A39 /* SampleProject */ = {
-			isa = PBXGroup;
-			children = (
-				5FBA1556237A906E00976A39 /* AppDelegate.h */,
-				5FBA1557237A906E00976A39 /* AppDelegate.m */,
-				5FBA1559237A906E00976A39 /* SceneDelegate.h */,
-				5FBA155A237A906E00976A39 /* SceneDelegate.m */,
-				5FBA155C237A906E00976A39 /* ViewController.h */,
-				5FBA155D237A906E00976A39 /* ViewController.m */,
-				5FBA155F237A906E00976A39 /* Main.storyboard */,
-				5FBA1562237A907100976A39 /* Assets.xcassets */,
-				5FBA1564237A907100976A39 /* LaunchScreen.storyboard */,
-				5FBA1567237A907100976A39 /* Info.plist */,
-				5FBA1568237A907100976A39 /* main.m */,
-			);
-			path = SampleProject;
 			sourceTree = "<group>";
 		};
 		5FBA156F237A9A1200976A39 /* Frameworks */ = {
@@ -279,6 +236,7 @@
 		5FEE745424D43015009A29BF /* Zhugeio */ = {
 			isa = PBXGroup;
 			children = (
+				5F9AA15525AD8D5D00BD12B8 /* Info.plist */,
 				5FEE745524D43015009A29BF /* ZGCategory */,
 				5FEE745E24D43015009A29BF /* Utils */,
 				5FEE746724D43015009A29BF /* AutoTrack */,
@@ -305,6 +263,8 @@
 		5FEE745E24D43015009A29BF /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				5F9AA14F25AD8C5900BD12B8 /* ZGDeviceInfo.h */,
+				5F9AA15025AD8C5900BD12B8 /* ZGDeviceInfo.m */,
 				5FEE745F24D43015009A29BF /* Aspects.h */,
 				5FEE746424D43015009A29BF /* Aspects.m */,
 				5FEE746324D43015009A29BF /* ZGCMMotionManager.h */,
@@ -446,6 +406,7 @@
 				5FEE74FA24D43015009A29BF /* getNewUsage.h in Headers */,
 				5FEE74C824D43015009A29BF /* UIGestureRecognizer+Zhuge.h in Headers */,
 				5FEE74DC24D43015009A29BF /* ZGSharedDur.h in Headers */,
+				5F9AA15125AD8C5900BD12B8 /* ZGDeviceInfo.h in Headers */,
 				5FEE74F624D43015009A29BF /* DLStrongMatchHelper.h in Headers */,
 				5FEE750F24D43015009A29BF /* DLParam.h in Headers */,
 				5FEE74F224D43015009A29BF /* DLTime.h in Headers */,
@@ -508,23 +469,6 @@
 			productReference = 5FBA14AA237A8CBC00976A39 /* Zhugeio.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		5FBA1553237A906D00976A39 /* SampleProject */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5FBA156A237A907100976A39 /* Build configuration list for PBXNativeTarget "SampleProject" */;
-			buildPhases = (
-				5FBA1550237A906D00976A39 /* Sources */,
-				5FBA1551237A906D00976A39 /* Frameworks */,
-				5FBA1552237A906D00976A39 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = SampleProject;
-			productName = SampleProject;
-			productReference = 5FBA1554237A906D00976A39 /* SampleProject.app */;
-			productType = "com.apple.product-type.application";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -535,9 +479,6 @@
 				ORGANIZATIONNAME = GoodMorning;
 				TargetAttributes = {
 					5FBA14A9237A8CBC00976A39 = {
-						CreatedOnToolsVersion = 11.0;
-					};
-					5FBA1553237A906D00976A39 = {
 						CreatedOnToolsVersion = 11.0;
 					};
 				};
@@ -556,7 +497,6 @@
 			projectRoot = "";
 			targets = (
 				5FBA14A9237A8CBC00976A39 /* Zhugeio */,
-				5FBA1553237A906D00976A39 /* SampleProject */,
 			);
 		};
 /* End PBXProject section */
@@ -566,16 +506,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5FBA1552237A906D00976A39 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5FBA1566237A907100976A39 /* LaunchScreen.storyboard in Resources */,
-				5FBA1563237A907100976A39 /* Assets.xcassets in Resources */,
-				5FBA1561237A906E00976A39 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -618,6 +548,7 @@
 				5FEE74C624D43015009A29BF /* ZGLocationManager.m in Sources */,
 				5FEE74C924D43015009A29BF /* ZhugeAutoTrackUtils.m in Sources */,
 				5FEE750B24D43015009A29BF /* registerInstall.m in Sources */,
+				5F9AA15225AD8C5900BD12B8 /* ZGDeviceInfo.m in Sources */,
 				5FEE750024D43015009A29BF /* clearNewUsage.m in Sources */,
 				5FEE750E24D43015009A29BF /* DeepShareImpl.m in Sources */,
 				5FEE74FF24D43015009A29BF /* DLServerInterface.m in Sources */,
@@ -631,37 +562,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5FBA1550237A906D00976A39 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5FBA155E237A906E00976A39 /* ViewController.m in Sources */,
-				5FBA1558237A906E00976A39 /* AppDelegate.m in Sources */,
-				5FBA1569237A907100976A39 /* main.m in Sources */,
-				5FBA155B237A906E00976A39 /* SceneDelegate.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		5FBA155F237A906E00976A39 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5FBA1560237A906E00976A39 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		5FBA1564237A907100976A39 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5FBA1565237A907100976A39 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		5FBA14B0237A8CBC00976A39 /* Debug */ = {
@@ -845,47 +746,6 @@
 			};
 			name = Release;
 		};
-		5FBA156B237A907100976A39 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = S63Y8AL2QU;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-					"ZHUGE_LOG=1",
-				);
-				INFOPLIST_FILE = SampleProject/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = Macrolor.SampleProject;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		5FBA156C237A907100976A39 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = S63Y8AL2QU;
-				INFOPLIST_FILE = SampleProject/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = Macrolor.SampleProject;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -903,15 +763,6 @@
 			buildConfigurations = (
 				5FBA14B3237A8CBC00976A39 /* Debug */,
 				5FBA14B4237A8CBC00976A39 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5FBA156A237A907100976A39 /* Build configuration list for PBXNativeTarget "SampleProject" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5FBA156B237A907100976A39 /* Debug */,
-				5FBA156C237A907100976A39 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
