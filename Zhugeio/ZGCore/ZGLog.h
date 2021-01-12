@@ -6,6 +6,9 @@
 //  Copyright © 2015年 oschina. All rights reserved.
 //
 #import <UIKit/UIKit.h>
+//#import "ZGLog.h"
+#import "Zhuge.h"
+
 
 #ifndef ZGLog_h
 #define ZGLog_h
@@ -14,12 +17,16 @@ static inline void ZGLog(NSString *format, ...) {
     va_start (arg_list, format);
     NSString *formattedString = [[NSString alloc] initWithFormat:format arguments:arg_list];
     va_end(arg_list);
-    NSLog(@"[Zhuge]: %@", formattedString);
+//    NSLog(@"[Zhuge]: %@", formattedString);
+    if ([Zhuge sharedInstance].config.enableLoger == YES) {
+        NSLog(@"[Zhuge]: %@", formattedString);
+    }
+
 }
-#ifdef ZHUGE_LOG
+//#ifdef ZHUGE_LOG
 #define ZhugeDebug(...) ZGLog(__VA_ARGS__)
-#else
-#define ZhugeDebug(...)
-#endif
+//#else
+//#define ZhugeDebug(...)
+//#endif
 
 #endif /* ZGLog_h */

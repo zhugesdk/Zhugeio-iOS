@@ -18,11 +18,9 @@
 		5FEE74B824D43015009A29BF /* UICollectionView+ZGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE745624D43015009A29BF /* UICollectionView+ZGAnalytics.m */; };
 		5FEE74B924D43015009A29BF /* UITableView+ZGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE745724D43015009A29BF /* UITableView+ZGAnalytics.h */; };
 		5FEE74BA24D43015009A29BF /* NSObject+ZGAutoTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE745824D43015009A29BF /* NSObject+ZGAutoTrack.m */; };
-		5FEE74BB24D43015009A29BF /* WKWebView+ZGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE745924D43015009A29BF /* WKWebView+ZGAnalytics.h */; };
 		5FEE74BC24D43015009A29BF /* NSObject+ZGAutoTrack.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE745A24D43015009A29BF /* NSObject+ZGAutoTrack.h */; };
 		5FEE74BD24D43015009A29BF /* UITableView+ZGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE745B24D43015009A29BF /* UITableView+ZGAnalytics.m */; };
 		5FEE74BE24D43015009A29BF /* UICollectionView+ZGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE745C24D43015009A29BF /* UICollectionView+ZGAnalytics.h */; };
-		5FEE74BF24D43015009A29BF /* WKWebView+ZGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE745D24D43015009A29BF /* WKWebView+ZGAnalytics.m */; };
 		5FEE74C024D43015009A29BF /* Aspects.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE745F24D43015009A29BF /* Aspects.h */; };
 		5FEE74C124D43015009A29BF /* ZGCMMotionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE746024D43015009A29BF /* ZGCMMotionManager.m */; };
 		5FEE74C224D43015009A29BF /* ZGUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE746124D43015009A29BF /* ZGUtils.m */; };
@@ -126,11 +124,9 @@
 		5FEE745624D43015009A29BF /* UICollectionView+ZGAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UICollectionView+ZGAnalytics.m"; sourceTree = "<group>"; };
 		5FEE745724D43015009A29BF /* UITableView+ZGAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+ZGAnalytics.h"; sourceTree = "<group>"; };
 		5FEE745824D43015009A29BF /* NSObject+ZGAutoTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ZGAutoTrack.m"; sourceTree = "<group>"; };
-		5FEE745924D43015009A29BF /* WKWebView+ZGAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WKWebView+ZGAnalytics.h"; sourceTree = "<group>"; };
 		5FEE745A24D43015009A29BF /* NSObject+ZGAutoTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+ZGAutoTrack.h"; sourceTree = "<group>"; };
 		5FEE745B24D43015009A29BF /* UITableView+ZGAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+ZGAnalytics.m"; sourceTree = "<group>"; };
 		5FEE745C24D43015009A29BF /* UICollectionView+ZGAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UICollectionView+ZGAnalytics.h"; sourceTree = "<group>"; };
-		5FEE745D24D43015009A29BF /* WKWebView+ZGAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WKWebView+ZGAnalytics.m"; sourceTree = "<group>"; };
 		5FEE745F24D43015009A29BF /* Aspects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Aspects.h; sourceTree = "<group>"; };
 		5FEE746024D43015009A29BF /* ZGCMMotionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGCMMotionManager.m; sourceTree = "<group>"; };
 		5FEE746124D43015009A29BF /* ZGUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGUtils.m; sourceTree = "<group>"; };
@@ -296,14 +292,12 @@
 		5FEE745524D43015009A29BF /* ZGCategory */ = {
 			isa = PBXGroup;
 			children = (
+				5FEE745A24D43015009A29BF /* NSObject+ZGAutoTrack.h */,
+				5FEE745824D43015009A29BF /* NSObject+ZGAutoTrack.m */,
+				5FEE745C24D43015009A29BF /* UICollectionView+ZGAnalytics.h */,
 				5FEE745624D43015009A29BF /* UICollectionView+ZGAnalytics.m */,
 				5FEE745724D43015009A29BF /* UITableView+ZGAnalytics.h */,
-				5FEE745824D43015009A29BF /* NSObject+ZGAutoTrack.m */,
-				5FEE745924D43015009A29BF /* WKWebView+ZGAnalytics.h */,
-				5FEE745A24D43015009A29BF /* NSObject+ZGAutoTrack.h */,
 				5FEE745B24D43015009A29BF /* UITableView+ZGAnalytics.m */,
-				5FEE745C24D43015009A29BF /* UICollectionView+ZGAnalytics.h */,
-				5FEE745D24D43015009A29BF /* WKWebView+ZGAnalytics.m */,
 			);
 			path = ZGCategory;
 			sourceTree = "<group>";
@@ -312,13 +306,13 @@
 			isa = PBXGroup;
 			children = (
 				5FEE745F24D43015009A29BF /* Aspects.h */,
-				5FEE746024D43015009A29BF /* ZGCMMotionManager.m */,
-				5FEE746124D43015009A29BF /* ZGUtils.m */,
-				5FEE746224D43015009A29BF /* ZGLocationManager.h */,
-				5FEE746324D43015009A29BF /* ZGCMMotionManager.h */,
 				5FEE746424D43015009A29BF /* Aspects.m */,
+				5FEE746324D43015009A29BF /* ZGCMMotionManager.h */,
+				5FEE746024D43015009A29BF /* ZGCMMotionManager.m */,
+				5FEE746224D43015009A29BF /* ZGLocationManager.h */,
 				5FEE746524D43015009A29BF /* ZGLocationManager.m */,
 				5FEE746624D43015009A29BF /* ZGUtils.h */,
+				5FEE746124D43015009A29BF /* ZGUtils.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -477,7 +471,6 @@
 				5FEE74F024D43015009A29BF /* DLServerRequest.h in Headers */,
 				5FEE74C424D43015009A29BF /* ZGCMMotionManager.h in Headers */,
 				5FEE74C324D43015009A29BF /* ZGLocationManager.h in Headers */,
-				5FEE74BB24D43015009A29BF /* WKWebView+ZGAnalytics.h in Headers */,
 				5FEE74E224D43015009A29BF /* ZGUtil.h in Headers */,
 				5FEE74E624D43015009A29BF /* UIViewController+Zhuge.h in Headers */,
 				5FEE74F424D43015009A29BF /* clearNewUsage.h in Headers */,
@@ -628,7 +621,6 @@
 				5FEE750024D43015009A29BF /* clearNewUsage.m in Sources */,
 				5FEE750E24D43015009A29BF /* DeepShareImpl.m in Sources */,
 				5FEE74FF24D43015009A29BF /* DLServerInterface.m in Sources */,
-				5FEE74BF24D43015009A29BF /* WKWebView+ZGAnalytics.m in Sources */,
 				5FEE74C124D43015009A29BF /* ZGCMMotionManager.m in Sources */,
 				5FEE74DB24D43015009A29BF /* ZhugeConfig.m in Sources */,
 				5FEE750424D43015009A29BF /* DLServerRequest.m in Sources */,
@@ -865,7 +857,7 @@
 					"ZHUGE_LOG=1",
 				);
 				INFOPLIST_FILE = SampleProject/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -883,7 +875,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S63Y8AL2QU;
 				INFOPLIST_FILE = SampleProject/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

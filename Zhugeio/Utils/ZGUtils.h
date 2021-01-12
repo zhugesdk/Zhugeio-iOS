@@ -14,6 +14,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSString *)getCurrentTimestamp;
 
++ (NSString *)currentDate;
+
+/*
+ *  ZGSEE API Format
+ */
++ (NSString *)getZGSeeUploadUrl:(NSString *)api;
+
++ (NSString *)getZGSeePolicyUrl:(NSString *)api appkey:(NSString *)appkey;
+
+// format dic
++ (NSMutableDictionary *)addSymbloToDic:(NSDictionary *)dic;
+
+//生成128位秘钥
++ (NSString *)random128BitAESKey;
+
+// 转json
++ (NSString*)dictionaryToJson:(NSDictionary *)dic;
 
 @end
 

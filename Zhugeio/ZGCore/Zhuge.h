@@ -11,6 +11,8 @@
 #import "ZhugeEventProperty.h"
 #import "NSObject+ZGAutoTrack.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol ZGDeepShareDelete <NSObject>
 
 - (void)zgOnInappDataReturned:(nullable NSDictionary *)params withError:(nullable NSError *)error;
@@ -149,4 +151,29 @@ typedef enum {
 // 处理AppSee数据上传
 - (void)setZhuGeSeeEvent:(nonnull NSMutableDictionary *)userInfo;
 
+
+/**
+ *
+ * 忽略某一类型的 View
+ *
+ * @param aClass View 对应的 Class
+ */
+- (void)ignoreViewType:(Class)aClass;
+
+/**
+ *
+ * 判断某个 View 类型是否被忽略
+ *
+ * @param aClass Class View 对应的 Class
+ *
+ * @return YES:被忽略; NO:没有被忽略
+ */
+- (BOOL)isViewTypeIgnored:(Class)aClass;
+
+
+
+
 @end
+
+
+NS_ASSUME_NONNULL_END
