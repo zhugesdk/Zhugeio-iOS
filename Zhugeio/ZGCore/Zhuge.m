@@ -578,7 +578,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 // 设备ID
 - (NSString *)defaultDeviceId {
     // IDFA
-    NSString *deviceId = [self adid];
+    NSString *deviceId = nil;
     
     // IDFV from KeyChain
     if (!deviceId) {
@@ -592,25 +592,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     return deviceId;
 }
 
-// 广告ID
-- (NSString *)adid {
-    NSString *adid = nil;
-#ifndef ZHUGE_NO_ADID
-    Class ASIdentifierManagerClass = NSClassFromString(@"ASIdentifierManager");
-    if (ASIdentifierManagerClass) {
-        SEL sharedManagerSelector = NSSelectorFromString(@"sharedManager");
-        id sharedManager = ((id (*)(id, SEL))[ASIdentifierManagerClass methodForSelector:sharedManagerSelector])(ASIdentifierManagerClass, sharedManagerSelector);
-        SEL advertisingIdentifierSelector = NSSelectorFromString(@"advertisingIdentifier");
-        NSUUID *uuid = ((NSUUID* (*)(id, SEL))[sharedManager methodForSelector:advertisingIdentifierSelector])(sharedManager, advertisingIdentifierSelector);
-        adid = [uuid UUIDString];
-    }
-#endif
-    if (adid&&[adid isEqualToString:@"00000000-0000-0000-0000-000000000000"]) {
-        //iOS10之后，当用户打开限制广告追踪选项时，所有的设备均返回这一个标示符，因此这是无效的。
-        return nil;
-    }
-    return adid;
-}
 
 - (NSString *)newStoredID {
     CFMutableDictionaryRef query = CFDictionaryCreateMutable(kCFAllocatorDefault, 4, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
