@@ -5,11 +5,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import "ZhugeConfig.h"
-#import "ZhugeEvents.h"
-#import "ZhugeEventProperty.h"
-#import "NSObject+ZGAutoTrack.h"
+#import "ZhugeHeaders.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -31,7 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (BOOL)handleURL:(nullable NSURL *)url;
 
-/** 让DeepShare通过NSUserActivity进行页面转换，成功则返回true，否则返回false
+/**
+ * 让DeepShare通过NSUserActivity进行页面转换，成功则返回true，否则返回false
  * @param userActivity userActivity存储了页面跳转的信息，包括来源与目的页面
  */
 + (BOOL)continueUserActivity:(nullable NSUserActivity *)userActivity;
@@ -39,41 +36,58 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - 获取实例
 
 /**
- 获取诸葛统计的实例。
+ * 获取诸葛统计的实例。
  */
 + (nonnull Zhuge*)sharedInstance;
 
 /**
- 获得诸葛配置实例。
+ * 获得诸葛配置实例。
  */
 - (nonnull ZhugeConfig *)config;
 
-
+/**
+ * 获得诸葛配置实例。
+ */
 -(void)setUtm:(nonnull NSDictionary *)utmInfo;
 
 /**
- 获得诸葛设备ID。
+ * 获得诸葛设备ID。
  */
 - (nonnull NSString *)getDid;
 - (nonnull NSString *)getSid;
+
 #pragma mark - 开启统计
 /**
  诸葛上传地址
  */
 - (void)setUploadURL:(nonnull NSString*)url andBackupUrl:(nullable NSString *)backupUrl;
+
 /**
- * 开启全埋点
+ * 自动统计页面停留时长
+ */
+- (void)enabelDurationOnPage;
+
+/**
+ * 开启全埋点采集
  */
 - (void)enableAutoTrack;
 - (BOOL)isAutoTrackEnable;
 
-//@property (nonatomic, copy) NSString * _Nullable url;
-//@property (nonatomic, copy) NSString * _Nullable ref;
+/**
+ * 开启视屏采集
+ */
+- (void)enableZGSee;
+
+/**
+ * 开启曝光采集 Exposure
+ */
+//- (void)enableExpTrack;
+
 
 /**
  开启诸葛统计。
- 
  @param appKey 应用Key，网站上注册应用时自动获得
+ @param launchOptions 启动项
  */
 - (void)startWithAppKey:(nonnull NSString*)appKey launchOptions:(nullable NSDictionary*)launchOptions;
 
@@ -84,14 +98,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)startWithAppKey:(nonnull NSString *)appKey andDid:(nonnull NSString *)did launchOptions:(nullable NSDictionary *)launchOptions withDelegate:(nonnull id)delegate;
 
-#pragma mark - 追踪用户行为
 
+#pragma mark - 追踪用户行为
 /**
  标识用户。
  @param userId     用户ID
  @param properties 用户属性
  */
-- (void)identify:(nonnull NSString*)userId properties:(nullable   NSDictionary *)properties;
+- (void)identify:(nonnull NSString*)userId properties:(nullable NSDictionary *)properties;
 
 /**
  userID不变，仅更新用户属性
@@ -99,27 +113,24 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)updateIdentify:(nonnull NSDictionary *)properties;
 
+
 /**
- 设置事件环境信息，通过这个地方存入的信息将会给之后传入的每一个事件添加环境信息
+ * 设置事件环境信息，通过这个地方存入的信息将会给之后传入的每一个事件添加环境信息
  */
 - (void)setSuperProperty:(nonnull NSDictionary *)info;
 
 - (void)setPlatform:(nonnull NSDictionary *)info;
-- (void)track:(nonnull NSString *)event;
-- (void)autoTrack:(nonnull NSDictionary *) info;
-
-
-/** 追踪收入事件
- *  @param properties 事件属性
- */
-- (void)trackRevenue:(nullable NSDictionary *)properties;
-
 
 /**
- 追踪自定义事件。
- 
- @param event      事件名称
- @param properties 事件属性
+ * 追踪自定义事件。
+ * @param event      事件名称
+ */
+- (void)track:(nonnull NSString *)event;
+
+/**
+ * 追踪自定义事件。
+ * @param event      事件名称
+ * @param properties 事件属性
  */
 - (void)track:(nonnull NSString *)event properties:(nullable NSDictionary *)properties;
 /**
@@ -128,18 +139,29 @@ NS_ASSUME_NONNULL_BEGIN
  @param eventName 事件名称
  */
 - (void)startTrack:(nonnull NSString *)eventName;
-
 - (void)endTrack:(nonnull NSString *)eventName properties:(nullable NSDictionary *)properties;
-#pragma mark - 推送
-// 支持的第三方推送渠道
-typedef enum {
-    ZG_PUSH_CHANNEL_XIAOMI = 1, // 小米
-    ZG_PUSH_CHANNEL_JPUSH = 2, // 极光推送
-    ZG_PUSH_CHANNEL_UMENG = 3, // 友盟
-    ZG_PUSH_CHANNEL_BAIDU = 4, // 百度云推送
-    ZG_PUSH_CHANNEL_XINGE = 5, // 信鸽
-    ZG_PUSH_CHANNEL_GETUI = 6 // 个推
-} ZGPushChannel;
+
+
+/** 追踪收入事件
+ *  @param properties 事件属性
+ */
+- (void)trackRevenue:(nullable NSDictionary *)properties;
+
+/**
+ * @param properties 全埋点属性
+ */
+- (void)autoTrack:(nonnull NSDictionary *)properties;
+
+/**
+ * @param properties 页面时长需携带的属性
+ */
+- (void)trackDurationOnPage:(NSDictionary *)properties;
+
+/**
+ * 向 WKWebView 注入 Message Handler
+ * @param webView 需要注入的 wkwebView
+*/
+- (void)addScriptMessageHandlerWithWebView:(WKWebView *)webView;
 
 
 // 处理接收到的消息
@@ -153,25 +175,28 @@ typedef enum {
 
 
 /**
- *
  * 忽略某一类型的 View
- *
  * @param aClass View 对应的 Class
  */
 - (void)ignoreViewType:(Class)aClass;
 
 /**
- *
  * 判断某个 View 类型是否被忽略
- *
  * @param aClass Class View 对应的 Class
- *
  * @return YES:被忽略; NO:没有被忽略
  */
 - (BOOL)isViewTypeIgnored:(Class)aClass;
 
 
++ (UIApplication *)sharedUIApplication;
 
+/**
+ * 私有化部署需手动设置 URL
+ *  1. Websocket URL
+ *  2. 远程事件 URL
+ */
+- (void)setupCodelessWebsocketUrl:(NSString *)url;
+- (void)setupCodelessEventsUrl:(NSString *)url;
 
 @end
 

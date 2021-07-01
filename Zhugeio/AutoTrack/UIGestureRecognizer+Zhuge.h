@@ -2,7 +2,7 @@
 //  UIGestureRecognizer+Zhuge.h
 //  HelloZhuge
 //
-//  Created by jiaokang on 2019/7/21.
+//  Created by Zhugeio on 2019/7/21.
 //  Copyright © 2019 37degree. All rights reserved.
 //
 

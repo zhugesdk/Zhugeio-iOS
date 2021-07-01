@@ -2,7 +2,7 @@
 //  ZGReachability.m
 //  HelloZhuge
 //
-//  Created by jiaokang on 2018/9/5.
+//  Created by Zhugeio on 2018/9/5.
 //  Copyright © 2018年 37degree. All rights reserved.
 //
 
@@ -33,7 +33,7 @@ static void PrintReachabilityFlags(SCNetworkReachabilityFlags flags, const char*
 {
 #if kShouldPrintReachabilityFlags
     
-    //    ZhugeDebug(@"Reachability Flag Status: %c%c %c%c%c%c%c%c%c %s\n",
+    //    ZGLogDebug(@"Reachability Flag Status: %c%c %c%c%c%c%c%c%c %s\n",
     //          (flags & kSCNetworkReachabilityFlagsIsWWAN)                ? 'W' : '-',
     //          (flags & kSCNetworkReachabilityFlagsReachable)            ? 'R' : '-',
     //

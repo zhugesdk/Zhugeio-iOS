@@ -33,17 +33,15 @@
 //        NSError *reqError = nil;
 //        responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&reqError];
 //        if (reqError) {
-//            ZhugeDebug(@"error : %@",reqError);
+//            ZGLogDebug(@"error : %@",reqError);
 //            retry++;
 //            continue;
 //        }
-////        [self updateNetworkActivityIndicator:NO];
 //        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) urlResponse;
 //        NSInteger code = [httpResponse statusCode];
 //        if (code == 200 && responseData != nil) {
 //            NSString *response = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-//            ZhugeDebug(@"API响应: %@",response);
-////            [self updateNetworkActivityIndicator:NO];
+//            ZGLogDebug(@"API响应: %@",response);
 //            success = YES;
 //        }else{
 //            retry++;

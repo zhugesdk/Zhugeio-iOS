@@ -32,6 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 // 转json
 + (NSString*)dictionaryToJson:(NSDictionary *)dic;
 
++ (NSString *)parseUrl:(NSString *) url;
+
 @end
 
 NS_ASSUME_NONNULL_END

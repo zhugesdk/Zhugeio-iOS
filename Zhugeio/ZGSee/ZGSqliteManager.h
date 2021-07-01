@@ -2,7 +2,7 @@
 //  ZGSqliteManager.h
 //  HelloZhuge
 //
-//  Created by jiaokang on 2018/9/6.
+//  Created by Zhugeio on 2018/9/6.
 //  Copyright © 2018年 37degree. All rights reserved.
 //
 

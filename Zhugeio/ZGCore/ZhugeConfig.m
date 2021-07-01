@@ -21,13 +21,8 @@
         self.sendMaxSizePerDay = 50000;
         self.cacheMaxSize = 3000;
         self.sessionEnable = YES;
-        self.debug = NO;
         self.apsProduction = YES;
-        self.exceptionTrack = NO;
-        self.zgSeeEnable = NO;
-        self.autoTrackEnable = NO;
         self.serverPolicy = -1;
-//        self.enableWebViewTrack = NO;
     }
     
     return self;

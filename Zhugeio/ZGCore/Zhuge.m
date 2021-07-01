@@ -7,97 +7,14 @@
 //  Copyright (c) 2014 37degree. All rights reserved.
 //
 
-#import <UIKit/UIDevice.h>
-#import <SystemConfiguration/SystemConfiguration.h>
-#import <CoreTelephony/CTTelephonyNetworkInfo.h>
-#import <CoreTelephony/CTCarrier.h>
-#import "sys/utsname.h"
-#include <sys/socket.h>
-#include <sys/sysctl.h>
-#include <net/if.h>
-#include <net/if_dl.h>
-#include <libkern/OSAtomic.h>
-
 #import "Zhuge.h"
-#import "ZhugeCompres.h"
-#import "ZhugeBase64.h"
 #import "ZGLog.h"
-#import "ZGHttpHelper.h"
-#import "ZhugeConstants.h"
+#import "ZhugePrivates.h"
 
-#import "ZGSharedDur.h"
-#import "ZGUtil.h"
-#import "ZGSqliteManager.h"
-#import "ZGDeviceInfo.h"
-
-#import "UIViewController+Zhuge.h"
-#import "UIApplication+Zhuge.h"
-#import "ZhugeSwizzle.h"
-#import "UIGestureRecognizer+Zhuge.h"
-
-#import "ZGLocationManager.h"
-#import "ZGCMMotionManager.h"
-#import "ZGUtils.h"
-#import <CoreMotion/CoreMotion.h>
-
-#import "DeepShare.h"
-
-
-@interface Zhuge ()
-
-@property (nonatomic, copy) NSString *apiURL;
-@property (nonatomic, copy) NSString *backupURL;
-@property (nonatomic, copy) NSString *appKey;
-@property (nonatomic, copy) NSString *userId;
-@property (nonatomic, copy) NSString *deviceId;
-@property (nonatomic, strong) NSNumber *sessionId;
-@property (nonatomic, strong) NSDate *screenShotTime;
-@property (nonatomic, copy) NSString *deviceToken;
-@property (nonatomic) UIBackgroundTaskIdentifier taskId;
-@property (nonatomic, strong) dispatch_queue_t serialQueue;
-@property (nonatomic, strong) NSMutableArray *eventsQueue;
-@property (nonatomic, strong) ZhugeConfig *config;
-@property (nonatomic, strong) NSTimer *timer;
-@property (nonatomic) NSUInteger sendCount;
-@property (nonatomic, assign) SCNetworkReachabilityRef reachability;
-@property (nonatomic, strong) CTTelephonyNetworkInfo *telephonyInfo;
-@property (nonatomic, copy) NSString *net;
-@property (nonatomic, copy) NSString *radio;
-@property (nonatomic, copy) NSString *cr;
-@property (nonatomic, strong) NSMutableDictionary *eventTimeDic;
-@property (nonatomic, strong) NSMutableDictionary *envInfo;
-@property (nonatomic, assign) NSInteger  zhugeSeeReal;
-@property (nonatomic, copy) NSString *  zhugeSeeNet;
-@property (nonatomic, copy) NSString *ZGPublicKey;
-@property (nonatomic ,copy) NSString *ZGPublicMD5;
-
-@property (nonatomic ,strong) NSNumber *lastSessionId;
-
-@property (nonatomic) BOOL isForeground;
-@property (nonatomic) volatile int32_t sessionCount;
-@property (nonatomic) volatile int32_t seeCount;
-@property (nonatomic) BOOL localZhugeSeeState;
-
-@property (nonatomic, strong) NSMutableArray * archiveEventQueue;
-@property (nonatomic, strong) NSMutableDictionary * utmDic;
-@property (nonatomic, assign) int retryPost;
-
-@property (nonatomic, strong) CMMotionManager *motionManager;
-
-/**
- * 根据deepShare是否已经返回结果来判断是否开始上传数据 默认为NO。
- */
-@property (nonatomic,assign) BOOL  flushBool;
-
-
-@property (nonatomic, strong) NSMutableArray *ignoredViewTypeList;
-
-@end
 
 @implementation Zhuge
 
 static NSUncaughtExceptionHandler *previousHandler;
-
 static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReachabilityFlags flags, void *info) {
     if (info != NULL && [(__bridge NSObject*)info isKindOfClass:[Zhuge class]]) {
         @autoreleasepool {
@@ -108,9 +25,7 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
 }
 
 #pragma mark - 初始化
-
 + (Zhuge *)sharedInstance {
-    
     static Zhuge *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once (&onceToken, ^{
@@ -125,29 +40,29 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
     return _config;
 }
 
--(void)startWithAppKey:(NSString *)appKey andDid:(NSString *)did launchOptions:(NSDictionary *)launchOptions{
+- (void)startWithAppKey:(NSString *)appKey andDid:(NSString *)did launchOptions:(NSDictionary *)launchOptions{
     self.deviceId = did;
-    [self startWithAppKey:appKey launchOptions:launchOptions withDelegate:nil];
+    [self initWithAppKey:appKey launchOptions:launchOptions withDelegate:nil];
 }
 
 - (void)startWithAppKey:(NSString *)appKey launchOptions:(NSDictionary *)launchOptions {
-    [self startWithAppKey:appKey launchOptions:launchOptions withDelegate:nil];
+    [self initWithAppKey:appKey launchOptions:launchOptions withDelegate:nil];
 }
 
 // 需要DeepShare时，调用此 star 方法
 - (void)startWithAppKey:(NSString *)appKey launchOptions:(NSDictionary *)launchOptions delegate:(id)delegate {
-    [self startWithAppKey:appKey launchOptions:launchOptions withDelegate:delegate];
+    [self initWithAppKey:appKey launchOptions:launchOptions withDelegate:delegate];
 }
 
 - (void)startWithAppKey:(NSString *)appKey andDid:(NSString *)did launchOptions:(NSDictionary *)launchOptions withDelegate:(id)delegate {
     self.deviceId = did;
-    [self startWithAppKey:appKey launchOptions:launchOptions withDelegate:delegate];
+    [self initWithAppKey:appKey launchOptions:launchOptions withDelegate:delegate];
 }
 
-- (void)startWithAppKey:(NSString *)appKey launchOptions:(NSDictionary *)launchOptions withDelegate:(id)delegate{
+- (void)initWithAppKey:(NSString *)appKey launchOptions:(NSDictionary *)launchOptions withDelegate:(id)delegate{
     @try {
         if (appKey == nil || [appKey length] == 0) {
-            ZhugeDebug(@"appKey不能为空。");
+            ZGLogError(@"appKey不能为空。");
             return;
         }
         self.appKey = appKey;
@@ -164,14 +79,22 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
         self.eventsQueue = [[NSMutableArray alloc] init];
         self.archiveEventQueue = [[NSMutableArray alloc] init];
         self.ignoredViewTypeList = [[NSMutableArray alloc] init];
-        
+        self.variants = [NSSet set];
+        self.eventBindings = [NSSet set];
         self.cr = [self carrier];
+        
 //        [[ZGSqliteManager shareManager] openDataBase];
         
-        if (!self.apiURL || self.apiURL.length ==0) {
+        if (!self.apiURL || self.apiURL.length == 0) {
             self.apiURL = ZG_BASE_API;
             self.backupURL = ZG_BACKUP_API;
         }
+        
+        if (!self.websocketUrl || self.websocketUrl.length == 0) {
+            self.websocketUrl = CODELESS_WEB_SOCKET_URL;
+            self.codelessEventsUrl = CODELESS_GET_EVENTS_URL;
+        }
+        
         
         if (self.config.zgSeeEnable) {
             //初始化zhugesee变量
@@ -181,9 +104,13 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
             [self zgSeeBool];
         }
         
+        if (self.config.enableJavaScriptBridge) {
+            [self swizzleWebViewMethod];
+        }
+        
         // SDK配置
         if(self.config) {
-            ZhugeDebug(@"SDK系统配置: %@", self.config);
+            ZGLogInfo(@"SDK系统配置: %@", self.config);
         }
         if (self.config.debug) {
             [self.config setSendInterval:2];
@@ -194,12 +121,22 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
         if (launchOptions && launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
             [self trackPush:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey] type:@"launch"];
         }
+        
         if (!self.deviceId) {
-            self.deviceId = [self defaultDeviceId];
+            self.deviceId = [ZADeviceId getZADeviceId];
         }
         if (self.config.exceptionTrack) {
             previousHandler = NSGetUncaughtExceptionHandler();
             NSSetUncaughtExceptionHandler(&ZhugeUncaughtExceptionHandler);
+        }
+        
+        if (self.config.enableCodeless) {
+#if TARGET_IPHONE_SIMULATOR
+            [self connectToWebSocket];
+#else
+            self.shakeGesture = [[ShakeGesture alloc] init];
+            self.shakeGesture.delegate = self;
+#endif
         }
         
         if (delegate) {
@@ -213,9 +150,10 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
         
     }
     @catch (NSException *exception) {
-        ZhugeDebug(@"startWithAppKey exception %@",exception);
+        ZGLogDebug(@"startWithAppKey exception %@",exception);
     }
 }
+
 - (void)trackException:(NSException *) exception{
     NSArray * arr = [exception callStackSymbols];
     NSString * reason = [exception reason]; // 崩溃的原因  可以有崩溃的原因(数组越界,字典nil,调用未知方法...) 崩溃的控制器以及方法
@@ -245,19 +183,16 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
     NSArray *events = @[e];
     NSString *eventData = [self encodeAPIData:[self wrapEvents:events]];
 
-    ZhugeDebug(@"上传崩溃事件：%@",eventData);
+    ZGLogInfo(@"上传崩溃事件：%@",eventData);
     NSData *eventDataBefore = [eventData dataUsingEncoding:NSUTF8StringEncoding];
     NSData *zlibedData = [eventDataBefore zgZlibDeflate];
-
     NSString *event = [zlibedData zgBase64EncodedString];
     NSString *result = [[event stringByReplacingOccurrencesOfString:@"\r" withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-
     NSString *requestData = [NSString stringWithFormat:@"method=event_statis_srv.upload&compress=1&event=%@", result];
 
-    NSData *response = [self apiRequest:@"/APIPOOL/" WithData:requestData andError:nil];
-    if (!response) {
-        ZhugeDebug(@"上传事件失败");
-    }
+    BOOL success = [self request:@"/APIPOOL/" WithData:requestData andError:nil];
+    
+    success ? ZGLogDebug(@"上传崩溃事件成功") : ZGLogDebug(@"上传崩溃事件失败");
     
     if (previousHandler) {
         previousHandler(exception);
@@ -272,7 +207,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 - (void)onInappDataReturned: (NSDictionary *) params withError: (NSError *) error  tag:(NSString *)tag{
     self.utmDic = [[NSMutableDictionary alloc] init];
     if (!error) {
-        ZhugeDebug(@"DeepShare finished init with params = %@", [params description]);
         self.utmDic[@"$utm_source"] = params[@"utm_source"];
         self.utmDic[@"$utm_medium"] = params[@"utm_medium"];
         self.utmDic[@"$utm_campaign"] = params[@"utm_campaign"];
@@ -299,17 +233,17 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         }
         
         if ([tag isEqualToString:REQ_TAG_REGISTER_INSTALL]) {
-            ZhugeDebug(@"安装进来的");
+            ZGLogInfo(@"安装进来的");
         }
         if ([tag isEqualToString:@"t_register_open"]) {
-            ZhugeDebug(@"打开进来的");
+            ZGLogInfo(@"打开进来的");
         }
         
         if ([self.delegate respondsToSelector:@selector(zgOnInappDataReturned:withError:)]) {
             [self.delegate zgOnInappDataReturned:self.utmDic withError:error];
         }
     } else {
-        ZhugeDebug(@"DeepShare init error id: %ld %@",error.code, error);
+        ZGLogError(@"DeepShare init error id: %ld %@",error.code, error);
     }
     
     self.flushBool = YES;
@@ -326,17 +260,15 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         });
     }
 }
-
 + (BOOL)handleURL:(NSURL *)url {
     return [DeepShare handleURL:url];
 }
-
 + (BOOL)continueUserActivity:(NSUserActivity *)userActivity {
     return [DeepShare continueUserActivity:userActivity];
 }
 
 #pragma mark - 诸葛配置
--(void)setUtm:(nonnull NSDictionary *)utmInfo {
+- (void)setUtm:(nonnull NSDictionary *)utmInfo {
     if(!utmInfo){
         return;
     }
@@ -361,27 +293,15 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 }
 
 - (void)setUploadURL:(NSString *)url andBackupUrl:(NSString *)backupUrl{
-    
     if (url && url.length>0) {
-        
-        self.apiURL = [self parseUrl: url];
+        self.apiURL = [ZGUtils parseUrl: url];
         self.backupURL = backupUrl;
     }else{
-        ZhugeDebug(@"传入的url不合法，请检查:%@",url);
+        ZGLogError(@"传入的url不合法，请检查:%@",url);
     }
 }
-- (NSString *)parseUrl:(NSString *) url{
-    NSString * result;
-    if ([url hasSuffix:@"/"]) {
-        result = [url substringToIndex:[url length] - 1];
-    }else{
-        result = url;
-    }
-    if ([result hasSuffix:@"/apipool"] || [result hasSuffix:@"/APIPOOL"] ) {
-        result = [result substringToIndex:[result length] - 8];
-    }
-    return result;
-}
+
+
 - (void)setSuperProperty:(NSDictionary *)info{
 
     if (!self.envInfo) {
@@ -390,18 +310,52 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     self.envInfo[@"event"] = info;
 }
 
+- (void)enabelDurationOnPage {
+    
+    self.viewDidAppearIsHook  = self.viewDidAppearIsHook ? YES : NO;
+    self.viewDidDisappearIsHook = self.viewDidDisappearIsHook ? YES : NO;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        //$AppViewScreen
+        if (!self.viewDidAppearIsHook) {
+            [UIViewController za_swizzleMethod:@selector(viewDidAppear:) withMethod:@selector(za_autotrack_viewDidAppear:) error:NULL];
+            self.viewDidAppearIsHook = YES;
+        }
+        
+        if (!self.viewDidDisappearIsHook) {
+            [UIViewController za_swizzleMethod:@selector(viewDidDisappear:) withMethod:@selector(za_autotrack_viewDidDisappear:) error:NULL];
+            self.viewDidDisappearIsHook = YES;
+        }
+        
+    });
+    
+    [self.config setIsEnableDurationOnPage:YES];
+}
+
 - (void)enableAutoTrack{
+    
+    self.viewDidAppearIsHook  = self.viewDidAppearIsHook ? YES : NO;
+    
     static dispatch_once_t once;
     dispatch_once(&once, ^ {
         NSError *error = NULL;
+        
+
+        //$AppViewScreen
+        if (!self.viewDidAppearIsHook) {
+            [UIViewController za_swizzleMethod:@selector(viewDidAppear:) withMethod:@selector(za_autotrack_viewDidAppear:) error:NULL];
+            self.viewDidAppearIsHook = YES;
+        }
+        
+        
         //$AppClick
         // Actions & Events
         [UIApplication zhuge_swizzleMethod:@selector(sendAction:to:from:forEvent:)
                                 withMethod:@selector(zhuge_sendAction:to:from:forEvent:)
                                      error:&error];
         if (error) {
-            
-            ZhugeDebug(@"swizzle application action failed ,%@",error);
+            ZGLogError(@"swizzle application action failed ,%@",error);
             error = NULL;
         }
         [UITapGestureRecognizer zhuge_swizzleMethod:@selector(addTarget:action:)
@@ -420,16 +374,49 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
                                                withMethod:@selector(zhuge_initWithTarget:action:)
                                                     error:&error];
         if (error) {
-            
-            ZhugeDebug(@"swizzle tap gesture action failed ,%@",error);
+            ZGLogError(@"swizzle tap gesture action failed ,%@",error);
             error = NULL;
         }
+        
+        SEL selector = NSSelectorFromString(@"zhugeio_setDelegate:");
+        [UITableView za_swizzleMethod:@selector(setDelegate:) withMethod:selector error:NULL];
+        [UICollectionView za_swizzleMethod:@selector(setDelegate:) withMethod:selector error:NULL];
+        
+        
     });
+    
     [self.config setAutoTrackEnable:YES];
 }
-- (BOOL)isAutoTrackEnable{
-    return self.isAutoTrackEnable;
+
+- (void)enableZGSee {
+    
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        // $ZGSee
+//        [UIApplication za_swizzleMethod:@selector(sendEvent:) withMethod:@selector(za_sendEvent:) error:NULL];
+//
+//        [UIViewController za_swizzleClassMethod:@selector(viewDidAppear:) withClassMethod:@selector(za_autotrack_viewDidAppear:) error:NULL];
+//    });
+    
+    [self.config setZgSeeEnable:YES];
 }
+
+- (void)enableExpTrack {
+    
+    self.viewDidAppearIsHook  = self.viewDidAppearIsHook ? YES : NO;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        
+        if (!self.viewDidAppearIsHook) {
+            [UIViewController za_swizzleMethod:@selector(viewDidAppear:) withMethod:@selector(za_autotrack_viewDidAppear:) error:NULL];
+            self.viewDidAppearIsHook = YES;
+        }
+    });
+    
+    [self.config setIsEnableExpTrack:YES];
+}
+
 - (void)setPlatform:(NSDictionary *)info{
     if (!self.envInfo) {
         self.envInfo = [NSMutableDictionary dictionary];
@@ -439,7 +426,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 
 - (NSString *)getDid {
     if (!self.deviceId) {
-        self.deviceId = [self defaultDeviceId];
+        self.deviceId = [ZADeviceId getZADeviceId];
     }
     
     return self.deviceId;
@@ -466,7 +453,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         }
     }
     if (!reachabilityOk) {
-        ZhugeDebug(@"failed to set up reachability callback: %s", SCErrorString(SCError()));
+        ZGLogError(@"failed to set up reachability callback: %s", SCErrorString(SCError()));
     }
     
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
@@ -506,7 +493,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 }
 
 #pragma mark - 应用生命周期
-//程序进入前台并处于活动状态时调用
+// 程序进入前台并处于活动状态时调用
 - (void)applicationDidBecomeActive:(NSNotification *)notification {
     @try {
         self.isForeground = YES;
@@ -519,9 +506,21 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         }
         [self uploadDeviceInfo];
 //        [self startFlushTimer];
+        if (self.config.enableCodeless) {
+            [self checkForDecideResponseWithCompletion:^( NSSet *eventBindings) {
+                
+                dispatch_sync(dispatch_get_main_queue(), ^(){
+                    for (ZGEventBinding *binding in eventBindings) {
+                        [binding execute];
+                    }
+                });
+                
+            } useCathe:NO];
+        }
+        
     }
     @catch (NSException *exception) {
-        ZhugeDebug(@"applicationDidBecomeActive exception %@",exception);
+        ZGLogDebug(@"applicationDidBecomeActive exception %@",exception);
     }
 }
 
@@ -532,7 +531,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 //        [self stopFlushTimer];
     }
     @catch (NSException *exception) {
-        ZhugeDebug(@"applicationWillResignActive exception %@",exception);
+        ZGLogDebug(@"applicationWillResignActive exception %@",exception);
     }
 }
 
@@ -557,7 +556,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         });
     }
     @catch (NSException *exception) {
-        ZhugeDebug(@"applicationDidEnterBackground exception %@",exception);
+        ZGLogError(@"applicationDidEnterBackground exception %@",exception);
     }
 }
 
@@ -569,108 +568,11 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         });
     }
     @catch (NSException *exception) {
-        ZhugeDebug(@"applicationWillTerminate exception %@",exception);
+        ZGLogDebug(@"applicationWillTerminate exception %@",exception);
     }
-}
-
-#pragma mark - 设备ID
-
-// 设备ID
-- (NSString *)defaultDeviceId {
-    // IDFA
-    NSString *deviceId = nil;
-    
-    // IDFV from KeyChain
-    if (!deviceId) {
-        deviceId = [self idFromKeyChain];
-    }
-    
-    if (!deviceId) {
-        ZhugeDebug(@"error getting device identifier: falling back to uuid");
-        deviceId = [[NSUUID UUID] UUIDString];
-    }
-    return deviceId;
-}
-
-
-- (NSString *)newStoredID {
-    CFMutableDictionaryRef query = CFDictionaryCreateMutable(kCFAllocatorDefault, 4, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-    CFDictionarySetValue(query, kSecClass, kSecClassGenericPassword);
-    CFDictionarySetValue(query, kSecAttrAccount, CFSTR("zgid_account"));
-    CFDictionarySetValue(query, kSecAttrService, CFSTR("zgid_service"));
-    
-    NSString *uuid = nil;
-    if (NSClassFromString(@"UIDevice")) {
-        uuid = [[UIDevice currentDevice].identifierForVendor UUIDString];
-    } else {
-        uuid = [[NSUUID UUID] UUIDString];
-    }
-    
-    CFDataRef dataRef = CFBridgingRetain([uuid dataUsingEncoding:NSUTF8StringEncoding]);
-    CFDictionarySetValue(query, kSecValueData, dataRef);
-    OSStatus status = SecItemAdd(query, NULL);
-    
-    if (status != noErr) {
-        ZhugeDebug(@"Keychain Save Error: %d", (int)status);
-        uuid = nil;
-    }
-    
-    CFRelease(dataRef);
-    CFRelease(query);
-    
-    return uuid;
-}
-
-- (NSString *)idFromKeyChain {
-    CFMutableDictionaryRef query = CFDictionaryCreateMutable(kCFAllocatorDefault, 4, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-    CFDictionarySetValue(query, kSecClass, kSecClassGenericPassword);
-    CFDictionarySetValue(query, kSecAttrAccount, CFSTR("zgid_account"));
-    CFDictionarySetValue(query, kSecAttrService, CFSTR("zgid_service"));
-    
-    // See if the attribute exists
-    CFTypeRef attributeResult = NULL;
-    OSStatus status = SecItemCopyMatching(query, (CFTypeRef *)&attributeResult);
-    if (attributeResult != NULL)
-        CFRelease(attributeResult);
-    
-    if (status != noErr) {
-        CFRelease(query);
-        if (status == errSecItemNotFound) {
-            return [self newStoredID];
-        } else {
-            ZhugeDebug(@"Unhandled Keychain Error %d", (int)status);
-            return nil;
-        }
-    }
-    
-    // Fetch stored attribute
-    CFDictionaryRemoveValue(query, kSecReturnAttributes);
-    CFDictionarySetValue(query, kSecReturnData, (id)kCFBooleanTrue);
-    CFTypeRef resultData = NULL;
-    status = SecItemCopyMatching(query, &resultData);
-    
-    if (status != noErr) {
-        CFRelease(query);
-        if (status == errSecItemNotFound){
-            return [self newStoredID];
-        } else {
-            ZhugeDebug(@"Unhandled Keychain Error %d", (int)status);
-            return nil;
-        }
-    }
-    
-    NSString *uuid = nil;
-    if (resultData != NULL)  {
-        uuid = [[NSString alloc] initWithData:CFBridgingRelease(resultData) encoding:NSUTF8StringEncoding];
-    }
-    
-    CFRelease(query);
-    
-    return uuid;
 }
 
 #pragma mark - 设备状态
-
 // 运营商
 - (NSString *)carrier {
     CTCarrier *carrier =[self.telephonyInfo subscriberCellularProvider];
@@ -699,7 +601,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     } else {
         self.net = @"-1";//未知
     }
-    ZhugeDebug(@"联网状态: %@", [@"-1" isEqualToString:self.net]?@"未知":[@"0" isEqualToString:self.net]?@"移动网络":@"WIFI");
+    ZGLogDebug(@"联网状态: %@", [@"-1" isEqualToString:self.net]?@"未知":[@"0" isEqualToString:self.net]?@"移动网络":@"WIFI");
 }
 
 // 网络制式(GPRS,WCDMA,LTE,...)
@@ -707,7 +609,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 - (void)setCurrentRadio {
     dispatch_async(self.serialQueue, ^(){
         self.radio = [self currentRadio];
-        ZhugeDebug(@"网络制式: %@", self.radio);
     });
 }
 
@@ -742,8 +643,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     common[@"$ct"] = [NSNumber numberWithUnsignedLongLong:[[NSDate date] timeIntervalSince1970] *1000];
     common[@"$tz"] = [NSNumber numberWithInteger:[[NSTimeZone localTimeZone] secondsFromGMT]*1000];//取毫秒偏移量
     common[@"$os"] = @"iOS";
-//    common[@"$url"] = Zhuge.sharedInstance.url;
-//    common[@"$ref"] = Zhuge.sharedInstance.ref;
 
     //DeepShare 信息
     [common addEntriesFromDictionary:self.utmDic];
@@ -760,7 +659,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
             self.sessionId = [NSNumber numberWithLongLong:[[NSDate date] timeIntervalSince1970] *1000];
             self.lastSessionId = self.sessionId;
             [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",self.lastSessionId] forKey:ZG_LAST_SESSIONID];
-            ZhugeDebug(@"会话开始(ID:%@)", self.sessionId);
+            ZGLogDebug(@"会话开始(ID:%@)", self.sessionId);
             if (self.config.sessionEnable) {
                 NSMutableDictionary *e = [NSMutableDictionary dictionary];
                 e[@"dt"] = @"ss";
@@ -779,15 +678,14 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         }
     }
     @catch (NSException *exception) {
-        ZhugeDebug(@"sessionStart exception %@",exception);
+        ZGLogError(@"sessionStart exception %@",exception);
     }
 }
 
 // 会话结束
 - (void)sessionEnd {
     @try {
-        ZhugeDebug(@"会话结束(ID:%@)", self.sessionId);
-        
+        ZGLogDebug(@"会话结束(ID:%@)", self.sessionId);
         if (self.sessionId) {
             if (self.config.sessionEnable) {
                 NSMutableDictionary *e = [NSMutableDictionary dictionary];
@@ -812,7 +710,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         }
     }
     @catch (NSException *exception) {
-        ZhugeDebug(@"sessionEnd exception %@",exception);
+        ZGLogError(@"sessionEnd exception %@",exception);
     }
 }
 
@@ -829,12 +727,13 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         }
     }
     @catch (NSException *exception) {
-        ZhugeDebug(@"uploadDeviceInfo exception %@",exception);
+        ZGLogError(@"uploadDeviceInfo exception %@",exception);
     }
 }
--(void)autoTrack:(NSDictionary *)info{
+
+- (void)autoTrack:(NSDictionary *)info{
     if (![info objectForKey:@"$eid"]) {
-        ZhugeDebug(@"auto track with illegal content %@",info);
+        ZGLogDebug(@"auto track with illegal content %@",info);
         return;
     }
     if (!self.sessionId) {
@@ -850,37 +749,35 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
             [self enqueueEvent:data];
         }
         @catch (NSException *exception) {
-            ZhugeDebug(@"start track properties exception %@",exception);
+            ZGLogError(@"start track properties exception %@",exception);
         }
     });
     
 }
 
-
--(void)startTrack:(NSString *)eventName{
+- (void)startTrack:(NSString *)eventName{
     @try {
         if (!eventName) {
-            ZhugeDebug(@"startTrack event name must not be nil.");
+            ZGLogDebug(@"startTrack event name must not be nil.");
             return;
         }
         dispatch_async(self.serialQueue, ^{
             NSNumber *ts = @([[NSDate date] timeIntervalSince1970]);
-            ZhugeDebug(@"startTrack %@ at time : %@",eventName,ts);
+            ZGLogDebug(@"startTrack %@ at time : %@",eventName,ts);
             [self.eventTimeDic setValue:ts forKey:eventName];
         });
     }
     @catch (NSException *exception) {
-        ZhugeDebug(@"start track properties exception %@",exception);
+        ZGLogDebug(@"start track properties exception %@",exception);
     }
-
-    
 }
--(void)endTrack:(NSString *)eventName properties:(NSDictionary*)properties{
+
+- (void)endTrack:(NSString *)eventName properties:(NSDictionary*)properties{
     @try {
         dispatch_async(self.serialQueue, ^{
             NSNumber *start = [self.eventTimeDic objectForKey:eventName];
             if (!start) {
-                ZhugeDebug(@"end track event name not found ,have you called startTrack already?");
+                ZGLogDebug(@"end track event name not found ,have you called startTrack already?");
                 return;
             }
             if (!self.sessionId) {
@@ -888,7 +785,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
             }
             [self.eventTimeDic removeObjectForKey:eventName];
             NSNumber *end = @([[NSDate date] timeIntervalSince1970]);
-            ZhugeDebug(@"endTrack %@ at time : %@",eventName,end);
+            ZGLogDebug(@"endTrack %@ at time : %@",eventName,end);
             NSMutableDictionary *dic = properties?[self addSymbloToDic:properties]:[NSMutableDictionary dictionary];
             dic[@"$dru"] = [NSNumber numberWithUnsignedLongLong:(end.doubleValue - start.doubleValue)*1000];
             dic[@"$eid"] = eventName;
@@ -909,10 +806,10 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         });
     }
     @catch (NSException *exception) {
-        ZhugeDebug(@"end track properties exception %@",exception);
+        ZGLogDebug(@"end track properties exception %@",exception);
     }
 }
-// 跟踪自定义事件
+
 - (void)track:(NSString *)event {
     [self track:event properties:nil];
 }
@@ -932,14 +829,13 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     [tempDic setObject:priceDec forKey:ZhugeEventRevenuePrice];
     [tempDic setObject:numberDec forKey:ZhugeEventRevenueProductQuantity];
     [tempDic setObject:totalDec forKey:ZhugeEventRevenueTotalPrice];
-    [self trackRevenue:ZG_REVENUE properties:tempDic];
+    [self trackRevenue:@"revenue" properties:tempDic];
 }
-
 
 - (void)trackRevenue:(NSString *)event properties:(NSMutableDictionary *)properties {
     @try {
         if (event == nil || [event length] == 0) {
-            ZhugeDebug(@"事件名不能为空");
+            ZGLogDebug(@"事件名不能为空");
             return;
         }
         
@@ -966,11 +862,11 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         [self enqueueEvent:e];
     }
     @catch (NSException *exception) {
-        ZhugeDebug(@"track properties exception %@",exception);
+        ZGLogDebug(@"track properties exception %@",exception);
     }
 }
 
--(NSMutableDictionary *)conversionRevenuePropertiesKey:(NSDictionary *)dic{
+- (NSMutableDictionary *)conversionRevenuePropertiesKey:(NSDictionary *)dic{
     __block NSMutableDictionary *copy = [NSMutableDictionary dictionaryWithCapacity:[dic count]];
     for (NSString *key in dic) {
         id value = dic[key];
@@ -981,11 +877,10 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     return copy;
 }
 
-
 - (void)track:(NSString *)event properties:(NSMutableDictionary *)properties {
     @try {
         if (event == nil || [event length] == 0) {
-            ZhugeDebug(@"事件名不能为空");
+            ZGLogDebug(@"事件名不能为空");
             return;
         }
         
@@ -1012,10 +907,11 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         [self enqueueEvent:e];
     }
     @catch (NSException *exception) {
-        ZhugeDebug(@"track properties exception %@",exception);
+        ZGLogDebug(@"track properties exception %@",exception);
     }
 }
--(NSMutableDictionary *)eventData{
+
+- (NSMutableDictionary *)eventData{
     NSMutableDictionary *pr = [self buildCommonData];
     pr[@"$an"] = self.config.appName;
     pr[@"$cn"]  = self.config.channel;
@@ -1027,12 +923,10 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     return pr;
 }
 
-
-
 - (void)identify:(NSString *)userId properties:(NSDictionary *)properties {
     @try {
         if (userId == nil || userId.length == 0) {
-            ZhugeDebug(@"用户ID不能为空");
+            ZGLogDebug(@"用户ID不能为空");
             return;
         }
         if (!self.sessionId) {
@@ -1054,13 +948,13 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         [self enqueueEvent:e];
     }
     @catch (NSException *exception) {
-        ZhugeDebug(@"identify exception %@",exception);
+        ZGLogDebug(@"identify exception %@",exception);
     }
 }
 
--(void)updateIdentify: (NSDictionary *)properties {
+- (void)updateIdentify: (NSDictionary *)properties {
     if (!self.userId.length) {
-        ZhugeDebug(@"未进行identify,仅传入属性是错误的。");
+        ZGLogDebug(@"未进行identify,仅传入属性是错误的。");
         return;
     }
     [self identify:self.userId properties:properties];
@@ -1098,8 +992,32 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         [self enqueueEvent:e];
     }
     @catch (NSException *exception) {
-        ZhugeDebug(@"trackDeviceInfo exception, %@",exception);
+        ZGLogDebug(@"trackDeviceInfo exception, %@",exception);
     }
+}
+
+- (void)trackDurationOnPage:(NSDictionary *)properties {
+    
+    if (!self.sessionId) {
+        [self sessionStart];
+    }
+    
+    NSMutableDictionary *dic = properties?[self addSymbloToDic:properties]:[NSMutableDictionary dictionary];
+    int32_t value =  OSAtomicIncrement32(&self->_sessionCount);
+    dic[@"$sc"] = [NSNumber numberWithInt:value];
+    [dic addEntriesFromDictionary:[self eventData]];
+    
+    if (self.envInfo) {
+        NSDictionary *info = [self.envInfo objectForKey:@"event"];
+        if (info) {
+            NSMutableDictionary *data = [self addSymbloToDic:info];
+            [dic addEntriesFromDictionary:data];
+        }
+    }
+    NSMutableDictionary *e = [NSMutableDictionary dictionaryWithCapacity:2];
+    [e setObject:dic forKey:@"pr"];
+    [e setObject:@"abp" forKey:@"dt"];
+    [self enqueueEvent:e];
 }
 
 
@@ -1151,18 +1069,18 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
             [ZGHttpHelper post:[ZGUtils getZGSeeUploadUrl:self.apiURL] RequestStr:dicStr FinishBlock:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                  NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
                  if (httpResponse.statusCode == 200) {
-                     ZhugeDebug(@"zgSeeEnd --- 数据上传成功");
+                     ZGLogDebug(@"zgSeeEnd --- 数据上传成功");
                  } else {
-                     ZhugeDebug(@"zgSeeEnd --- 数据上传失败  %@",connectionError);
+                     ZGLogDebug(@"zgSeeEnd --- 数据上传失败  %@",connectionError);
                  }
              }];
         } else {
 //            NSInteger dicNumber = 999;
 //            BOOL addBool = [[ZGSqliteManager shareManager] addZGSeeCoreDataDic:sqlDic dicNumber:dicNumber];
 //            if (addBool == YES) {
-//                ZhugeDebug(@"zgSeeEnd --- 添加至数据库成功");
+//                ZGLogDebug(@"zgSeeEnd --- 添加至数据库成功");
 //            } else {
-//                ZhugeDebug(@"zgSeeEnd --- 添加至数据库失败");
+//                ZGLogDebug(@"zgSeeEnd --- 添加至数据库失败");
 //            }
         }
     }
@@ -1178,8 +1096,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     [ZGHttpHelper sendRequestForUrl:url FinishBlock:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
         __strong typeof(weakSelf) strongSelf = weakSelf;
-//        NSLog(@"url == %@",url);
-//        NSLog(@"httpResponse.statusCode == %ld",(long)httpResponse.statusCode);
+        ZGLogDebug(@"请求 ZGSee 服务器 == %@ StatusCode == %ld",url,httpResponse.statusCode);
         if (httpResponse.statusCode == 200 && data){
             dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
             if (dic == nil) {
@@ -1198,14 +1115,13 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
             strongSelf.ZGPublicKey = [dic objectForKey:@"rsa-public"];
             strongSelf.ZGPublicMD5 = [dic objectForKey:@"rsa-md5"];
         } else {
-            ZhugeDebug(@"zgSee --- 出现异常 %@",connectionError);
+            ZGLogDebug(@"zgSee --- 出现异常 %@",connectionError);
         }
     }];
 }
 - (void)zgSeeUpLoadNumData:(NSInteger)numData cacheBool:(BOOL)cacheBool {
     //如果打开开关 则先把库存数据上传
     NSMutableArray * ary = [[ZGSqliteManager shareManager] uploaddataStoredNumData:numData];
-    
     //如果CoreData没有数据 则结束上传缓存数据
     if (ary.count < 1) {
         return;
@@ -1228,15 +1144,13 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         if ([self.zhugeSeeNet isEqualToString:self.net] || [self.zhugeSeeNet isEqualToString:@"1"]) {
             [ZGHttpHelper post:[ZGUtils getZGSeeUploadUrl:self.apiURL] RequestStr:dicStr FinishBlock:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                  NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
-//                NSLog(@"ZGSee URL == %@",[self getZGSeeUploadURL]);
-//                NSLog(@"httpResponse.statusCode == %ld",(long)httpResponse.statusCode);
                  if (httpResponse.statusCode == 200) {
-                     ZhugeDebug(@"ZGSee --- 数据上传成功");
+                     ZGLogDebug(@"ZGSee --- 数据上传成功");
                      [[ZGSqliteManager shareManager] deletezgSeeCoreDataSid:sid];
 //                     [self zgSeeUpLoadNumData:numData cacheBool:cacheBool];
                      
                  } else {
-                     ZhugeDebug(@"ZGSee --- 数据上传失败  %@",connectionError);
+                     ZGLogDebug(@"ZGSee --- 数据上传失败  %@",connectionError);
                  }
              }];
         }
@@ -1322,9 +1236,9 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
                         [ZGHttpHelper post:[ZGUtils getZGSeeUploadUrl:self.apiURL] RequestStr:dicStr FinishBlock:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
                              NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
                              if (httpResponse.statusCode == 200) {
-                                 ZhugeDebug(@"ZGSee --- 数据上传成功");
+                                 ZGLogDebug(@"ZGSee --- 数据上传成功");
                              } else {
-                                 ZhugeDebug(@"ZGSee --- 数据上传失败  %@",connectionError);
+                                 ZGLogDebug(@"ZGSee --- 数据上传失败  %@",connectionError);
                              }
                          }];
                     } else {
@@ -1332,9 +1246,9 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 //
 //                        BOOL addBool = [[ZGSqliteManager shareManager] addZGSeeCoreDataDic:sqlDic dicNumber:dicNumber];
 //                        if (addBool == YES) {
-//                            ZhugeDebug(@"zgSee --- 添加至数据库成功");
+//                            ZGLogDebug(@"zgSee --- 添加至数据库成功");
 //                        } else {
-//                            ZhugeDebug(@"zgSee --- 添加至数据库失败");
+//                            ZGLogDebug(@"zgSee --- 添加至数据库失败");
 //                        }
                     }
                 }
@@ -1342,7 +1256,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         });
     }
     @catch (NSException *exception) {
-        ZhugeDebug(@"trackDeviceInfo exception, %@",exception);
+        ZGLogDebug(@"trackDeviceInfo exception, %@",exception);
     }
     
 }
@@ -1359,7 +1273,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 // 上报推送已读
 - (void)trackPush:(NSDictionary *)userInfo type:(NSString *) type {
     @try {
-        ZhugeDebug(@"push payload: %@", userInfo);
+        ZGLogDebug(@"push payload: %@", userInfo);
         if (userInfo && userInfo[@"mid"]) {
             NSMutableDictionary *e = [NSMutableDictionary dictionary];
             e[@"$mid"] = userInfo[@"mid"];
@@ -1374,7 +1288,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         }
     }
     @catch (NSException *exception) {
-        ZhugeDebug(@"trackPush exception %@",exception);
+        ZGLogDebug(@"trackPush exception %@",exception);
     }
 }
 
@@ -1382,7 +1296,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 - (void)setThirdPartyPushUserId:(NSString *)userId forChannel:(ZGPushChannel) channel {
     @try {
         if (userId == nil || [userId length] == 0) {
-            ZhugeDebug(@"userId不能为空");
+            ZGLogDebug(@"userId不能为空");
             return;
         }
         
@@ -1399,11 +1313,11 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         [self enqueueEvent:e];
     }
     @catch (NSException *exception) {
-        ZhugeDebug(@"track properties exception %@",exception);
+        ZGLogDebug(@"track properties exception %@",exception);
     }
 }
 
--(NSString *)nameForChannel:(ZGPushChannel) channel {
+- (NSString *)nameForChannel:(ZGPushChannel) channel {
     switch (channel) {
         case ZG_PUSH_CHANNEL_XIAOMI:
             return @"xiaomi";
@@ -1422,10 +1336,8 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     }
 }
 
-/**
- 上传之前包装数据
- */
--(NSMutableDictionary *)wrapEvents:(NSArray *)events{
+ // 上传之前包装数据
+- (NSMutableDictionary *)wrapEvents:(NSArray *)events{
     NSMutableDictionary *batch = [NSMutableDictionary dictionary];
     batch[@"ak"]    = self.appKey;
     batch[@"debug"] = self.config.debug?@1:@0;
@@ -1443,17 +1355,20 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     return batch;
 }
 #pragma mark - 编码&解码
-
--(NSMutableDictionary *)addSymbloToDic:(NSDictionary *)dic{
+- (NSMutableDictionary *)addSymbloToDic:(NSDictionary *)dic{
     NSMutableDictionary *copy = [NSMutableDictionary dictionaryWithCapacity:[dic count]];
     for (NSString *key in dic) {
         id value = dic[key];
-        NSString *newKey = [NSString stringWithFormat:@"_%@",key];
-        [copy setValue:value forKey:newKey];
+        if ([key containsString:@"$"]) {
+            [copy setValue:value forKey:key];
+        } else {
+            NSString *newKey = [NSString stringWithFormat:@"_%@",key];
+            [copy setValue:value forKey:newKey];
+        }
+        
     }
     return copy;
 }
-
 
 // JSON序列化
 - (NSData *)JSONSerializeObject:(id)obj {
@@ -1464,15 +1379,14 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         data = [NSJSONSerialization dataWithJSONObject:coercedObj options:0 error:&error];
     }
     @catch (NSException *exception) {
-        ZhugeDebug(@"%@ exception encoding api data: %@", self, exception);
+        ZGLogDebug(@"%@ exception encoding api data: %@", self, exception);
     }
     if (error) {
-        ZhugeDebug(@"%@ error encoding api data: %@", self, error);
+        ZGLogDebug(@"%@ error encoding api data: %@", self, error);
         
     }
     return data;
 }
-
 // JSON序列化
 - (id)JSONSerializableObjectForObject:(id)obj {
     // valid json types
@@ -1515,7 +1429,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 }
 
-//json格式字符串转字典：
+// json格式字符串转字典：
 - (NSMutableDictionary *)dictionaryWithJsonString:(NSString *)jsonString {
     
     if (jsonString == nil) {
@@ -1534,7 +1448,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     
     if(err) {
         
-        ZhugeDebug(@"json解析失败：%@",err);
+        ZGLogDebug(@"json解析失败：%@",err);
         
         return nil;
         
@@ -1544,7 +1458,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 }
 
 #pragma mark - 上报策略
-
 // 启动事件发送定时器
 - (void)startFlushTimer {
     [self stopFlushTimer];
@@ -1556,7 +1469,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
                                                         userInfo:nil
                                                          repeats:YES];
             
-            ZhugeDebug(@"启动事件发送定时器");
+            ZGLogDebug(@"启动事件发送定时器");
         }
     });
 }
@@ -1566,16 +1479,14 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.timer) {
             [self.timer invalidate];
-            ZhugeDebug(@"关闭事件发送定时器");
+            ZGLogDebug(@"关闭事件发送定时器");
         }
         self.timer = nil;
     });
 }
 
 #pragma mark - 事件上报
-
 // 事件加入待发队列
-
 - (void)enqueueEvent:(NSMutableDictionary *)event {
     dispatch_async(self.serialQueue, ^{
         [self syncEnqueueEvent:event];
@@ -1583,7 +1494,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 }
 
 - (void)syncEnqueueEvent:(NSMutableDictionary *)event {
-    ZhugeDebug(@"产生事件: %@", event);
+    ZGLogDebug(@"产生事件: %@", event);
     
     if (self.flushBool == YES) {
         [self.eventsQueue addObject:event];
@@ -1611,8 +1522,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     @try {
         while ([queue count] > 0) {
             if (self.sendCount >= self.config.sendMaxSizePerDay) {
-                
-                ZhugeDebug(@"超过每天限额，不发送。(今天已经发送:%lu, 限额:%lu, 队列库存数: %lu)", (unsigned long)self.sendCount, (unsigned long)self.config.sendMaxSizePerDay, (unsigned long)[queue count]);
+                ZGLogDebug(@"超过每天限额，不发送。(今天已经发送:%lu, 限额:%lu, 队列库存数: %lu)", (unsigned long)self.sendCount, (unsigned long)self.config.sendMaxSizePerDay, (unsigned long)[queue count]);
                 return;
             }
             
@@ -1622,86 +1532,96 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
             }
             
             NSArray *events = [queue subarrayWithRange:NSMakeRange(0, sendBatchSize)];
-            
-            ZhugeDebug(@"开始上报事件(本次上报事件数:%lu, 队列内事件总数:%lu, 今天已经发送:%lu, 限额:%lu)", (unsigned long)[events count], (unsigned long)[queue count], (unsigned long)self.sendCount, (unsigned long)self.config.sendMaxSizePerDay);
+            ZGLogDebug(@"开始上报事件(本次上报事件数:%lu, 队列内事件总数:%lu, 今天已经发送:%lu, 限额:%lu)", (unsigned long)[events count], (unsigned long)[queue count], (unsigned long)self.sendCount, (unsigned long)self.config.sendMaxSizePerDay);
             
             NSString *eventData = [self encodeAPIData:[self wrapEvents:events]];
-            
-            ZhugeDebug(@"上传事件：%@",eventData);
+            ZGLogDebug(@"上传事件：%@",eventData);
             NSData *eventDataBefore = [eventData dataUsingEncoding:NSUTF8StringEncoding];
             NSData *zlibedData = [eventDataBefore zgZlibDeflate];
-            
             NSString *event = [zlibedData zgBase64EncodedString];
             NSString *result = [[event stringByReplacingOccurrencesOfString:@"\r" withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""];
             
             NSString *requestData = [NSString stringWithFormat:@"method=event_statis_srv.upload&compress=1&event=%@", result];
             
-            NSData *response = [self apiRequest:@"/APIPOOL/" WithData:requestData andError:nil];
-            if (!response) {
-                ZhugeDebug(@"上传事件失败");
+            BOOL success = [self request:@"/APIPOOL/" WithData:requestData andError:nil];
+
+            if (success) {
+                ZGLogDebug(@"上传事件成功");
+                self.sendCount += sendBatchSize;
+                [queue removeObjectsInArray:events];
+            } else {
+                ZGLogDebug(@"上传事件失败");
                 break;
             }
-            ZhugeDebug(@"上传事件成功");
-            self.sendCount += sendBatchSize;
-            [queue removeObjectsInArray:events];
         }
     }
     @catch (NSException *exception) {
-        ZhugeDebug(@"flushQueue exception %@",exception);
+        ZGLogDebug(@"flushQueue exception %@",exception);
     }
 }
 
-- (NSData*) apiRequest:(NSString *)endpoint WithData:(NSString *)requestData andError:(NSError *)error {
-    
-    BOOL success = NO;
-    int  retry = 0;
-    NSData *responseData = nil;
+- (BOOL)request:(NSString *)endpoint WithData:(NSString *)requestData andError:(NSError *)error {
+    __block BOOL success = NO;
+    __block int  retry = 0;
     while (!success && retry < 3) {
         NSURL *URL = nil;
         if (retry > 0 && self.backupURL) {
-            URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/upload/",self.backupURL]];
+            URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/apipool/",self.backupURL]];
         }else{
             URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",self.apiURL,endpoint]];
         }
-        ZhugeDebug(@"api request url = %@ , retry = %d",URL,retry);
+        ZGLogDebug(@"api request url = %@ , retry = %d",URL,retry);
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
         [request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
         [request setHTTPMethod:@"POST"];
-        NSString * urlString = [requestData stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"#%<>[\\]^`{|}\"]+"].invertedSet];
-        [request setHTTPBody:[urlString dataUsingEncoding:NSUTF8StringEncoding]];
-        request.timeoutInterval =30;
+        NSString * bodyString = [requestData stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"#%<>[\\]^`{|}\"]+"].invertedSet];
+        [request setHTTPBody:[bodyString dataUsingEncoding:NSUTF8StringEncoding]];
 
-        NSURLResponse *urlResponse = nil;
-        NSError *reqError = nil;
-        responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&reqError];
-        if (reqError) {
-            ZhugeDebug(@"error : %@",reqError);
-            retry++;
-            continue;
-        }
-//        [self updateNetworkActivityIndicator:NO];
-        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) urlResponse;
-        NSInteger code = [httpResponse statusCode];
-        NSInteger returnCode = 1;
-        if (responseData) {
-            NSDictionary *responseObject = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:&error];
-            returnCode = [responseObject[@"return_code"] intValue];
-        }
-        if (code == 200 && returnCode == 0) {
-            NSString *response = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-            ZhugeDebug(@"API响应: %@",response);
-//            [self updateNetworkActivityIndicator:NO];
-            success = YES;
-        }else{
-            retry++;
-        }
+        dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+        [[[ZGRequestManager sharedURLSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable responseData, NSURLResponse * _Nullable urlResponse, NSError * _Nullable error) {
+                          
+            success = [self handleResponseData:responseData withHttpResponse:(NSHTTPURLResponse *)urlResponse withError:error];
+            
+            if (!success || error) {
+                ZGLogDebug(@"%@ Network Request Fail %@",self,error);
+                retry ++;
+            } else {
+                NSString *response = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+                ZGLogDebug(@"API响应: %@",response);
+            }
+            
+            dispatch_semaphore_signal(semaphore);
+        }] resume];
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        
+        return success? YES : NO;
+        
     }
-
-    if (!success) {
-        return nil;
-    }
-    return responseData;
+    
+    return success;
 }
+
+- (BOOL)handleResponseData:(NSData *)responseData withHttpResponse:(NSHTTPURLResponse *)httpResponse withError:(NSError *)error {
+
+    NSInteger statusCode = 0;
+    NSInteger responseCode = 0;
+    
+    if (httpResponse) {
+        statusCode = [httpResponse statusCode];
+    }
+    
+    if (responseData) {
+        NSDictionary *responseObject = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:&error];
+        responseCode = [responseObject[@"return_code"] intValue];
+    }
+    
+    if (statusCode == 200 && responseCode == 0) {
+        return YES;
+    }
+    
+    return NO;
+}
+
 
 #pragma  mark - 持久化
 // 文件根路径
@@ -1710,7 +1630,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     return [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject]
             stringByAppendingPathComponent:filename];
 }
-//环境信息
+// 环境信息
 -(NSString *)environmentInfoFilePath{
     return [self filePathForData:@"environment"];
 }
@@ -1718,7 +1638,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 - (NSString *)eventsFilePath {
     return [self filePathForData:@"events"];
 }
-
 // 属性路径
 - (NSString *)propertiesFilePath {
     return [self filePathForData:@"properties"];
@@ -1727,6 +1646,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 - (NSString *)seeStateFilePath {
     return [self filePathForData:@"see-state"];
 }
+
 - (void)archive {
     @try {
         [self archiveEvents];
@@ -1734,18 +1654,17 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         [self archiveEnvironmentInfo];
     }
     @catch (NSException *exception) {
-        ZhugeDebug(@"archive exception %@",exception);
+        ZGLogDebug(@"archive exception %@",exception);
     }
 }
 - (void)archiveEvents {
     NSString *filePath = [self eventsFilePath];
     NSMutableArray *eventsQueueCopy = [NSMutableArray arrayWithArray:[self.eventsQueue copy]];
-    ZhugeDebug(@"保存事件到 %@",filePath);
+    ZGLogDebug(@"保存事件到 %@",filePath);
     if (![NSKeyedArchiver archiveRootObject:eventsQueueCopy toFile:filePath]) {
-        ZhugeDebug(@"事件保存失败");
+        ZGLogDebug(@"事件保存失败");
     }
 }
-
 - (void)archiveProperties {
     NSString *filePath = [self propertiesFilePath];
     NSMutableDictionary *p = [NSMutableDictionary dictionary];
@@ -1757,19 +1676,19 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     NSString *today = [DateFormatter stringFromDate:[NSDate date]];
     [p setValue:[NSString stringWithFormat:@"%lu",(unsigned long)self.sendCount] forKey:[NSString stringWithFormat:@"sendCount-%@", today]];
     
-    ZhugeDebug(@"保存属性到 %@: %@",  filePath, p);
+    ZGLogDebug(@"保存属性到 %@: %@",  filePath, p);
     if (![NSKeyedArchiver archiveRootObject:p toFile:filePath]) {
-        ZhugeDebug(@"属性保存失败");
+        ZGLogDebug(@"属性保存失败");
     }
 }
 - (void)archiveSeeState{
     @try{
         NSString *filePath = [self seeStateFilePath];
         if (![NSKeyedArchiver archiveRootObject:@"YES" toFile:filePath]) {
-            ZhugeDebug(@"zhuge see state保存失败");
+            ZGLogDebug(@"zhuge see state保存失败");
         }
     }@catch (NSException *e){
-        ZhugeDebug(@"保存see state失败.%@",e);
+        ZGLogDebug(@"保存see state失败.%@",e);
     }
 }
 - (void)archiveEnvironmentInfo{
@@ -1779,7 +1698,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     NSString *filePath = [self environmentInfoFilePath];
     NSMutableDictionary *dic = [self.envInfo copy];
     if (![NSKeyedArchiver archiveRootObject:dic toFile:filePath]) {
-        ZhugeDebug(@"自定义环境信息保存失败");
+        ZGLogDebug(@"自定义环境信息保存失败");
     }
 }
 
@@ -1791,39 +1710,37 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         [self unarchiveEnvironmentInfo];
     }
     @catch (NSException *exception) {
-        ZhugeDebug(@"unarchive exception %@",exception);
+        ZGLogDebug(@"unarchive exception %@",exception);
     }
 }
-
 - (id)unarchiveFromFile:(NSString *)filePath deleteFile:(BOOL) delete{
     id unarchivedData = nil;
     @try {
         unarchivedData = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
     }
     @catch (NSException *exception) {
-        ZhugeDebug(@"恢复数据失败");
+        ZGLogDebug(@"恢复数据失败");
         unarchivedData = nil;
     }
     if (delete && [[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
         NSError *error;
         BOOL removed = [[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
         if (!removed) {
-            ZhugeDebug(@"删除数据失败 %@", error);
+            ZGLogDebug(@"删除数据失败 %@", error);
         }else{
-            ZhugeDebug(@"删除缓存数据 %@",filePath);
+            ZGLogDebug(@"删除缓存数据 %@",filePath);
         }
     }
     return unarchivedData;
 }
-
 - (void)unarchiveEnvironmentInfo{
     self.envInfo = (NSMutableDictionary *)[[self unarchiveFromFile:[self environmentInfoFilePath] deleteFile:NO] mutableCopy];
     if (self.envInfo) {
         if([self.envInfo objectForKey:@"event"]){
-            ZhugeDebug(@"全局自定义事件信息：%@",self.envInfo[@"event"]);
+            ZGLogDebug(@"全局自定义事件信息：%@",self.envInfo[@"event"]);
         }
         if ([self.envInfo objectForKey:@"device"]) {
-            ZhugeDebug(@"自定义设备信息：%@",self.envInfo[@"device"]);        }
+            ZGLogDebug(@"自定义设备信息：%@",self.envInfo[@"device"]);        }
     }
 }
 - (void)unarchiveEvents {
@@ -1832,13 +1749,12 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         self.eventsQueue = [NSMutableArray array];
     }
 }
-
 - (void)unarchiveProperties {
     NSDictionary *properties = (NSDictionary *)[self unarchiveFromFile:[self propertiesFilePath] deleteFile:NO];
     if (properties) {
         self.userId = properties[@"userId"] ? properties[@"userId"] : @"";
         if (!self.deviceId) {
-            self.deviceId = properties[@"deviceId"] ? properties[@"deviceId"] : [self defaultDeviceId];
+            self.deviceId = properties[@"deviceId"] ? properties[@"deviceId"] : [ZADeviceId getZADeviceId];
         }
 
         self.sessionId = [properties[@"sessionId"] integerValue] > 0? properties[@"sessionId"] : nil;
@@ -1860,7 +1776,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 - (void)ignoreViewType:(Class)aClass {
     [self.ignoredViewTypeList addObject:aClass];
 }
-
 - (BOOL)isViewTypeIgnored:(Class)aClass {
     for (Class obj in self.ignoredViewTypeList) {
         if ([aClass isSubclassOfClass:obj]) {
@@ -1871,6 +1786,204 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 }
 
 
+#pragma mark - Codeless
++ (UIApplication *)sharedUIApplication {
+    if ([[UIApplication class] respondsToSelector:@selector(sharedApplication)]) {
+        return [[UIApplication class] performSelector:@selector(sharedApplication)];
+    }
+    return nil;
+}
+- (void)onShakeGestureDo {
+    [self connectToWebSocket];
+}
+- (void)setupCodelessWebsocketUrl:(NSString *)url {
+    if (url && url.length > 0) {
+        self.websocketUrl = url;
+    } else {
+        ZGLogDebug(@"传入的url不合法，请检查:%@",url);
+    }
+}
+- (void)setupCodelessEventsUrl:(NSString *)url {
+    if (url && url.length > 0) {
+        self.codelessEventsUrl = url;
+    } else {
+        ZGLogDebug(@"传入的url不合法，请检查:%@",url);
+    }
+}
+- (void)connectToWebSocket {
+    [self connectToABTestDesigner:NO];
+}
+- (void)connectToABTestDesigner:(BOOL)reconnect {
+    
+    if (self.config.enableCodeless == NO) { return; }
+    
+//        NSString *designerURLString = @"wss://switchboard.mixpanel.com/connect?key=ac42f38893a82565a3e55a86321be361&type=device";
+//    NSString *designerURLString = [NSString stringWithFormat:@"%@/codeless/connect?ctype=client&platform=ios&appkey=%@", self.websocketUrl, self.appKey];
+    NSString *designerURLString = [NSString stringWithFormat:@"%@/connect?ctype=client&platform=ios&appkey=%@", self.websocketUrl, self.appKey];
+    NSURL *designerURL = [NSURL URLWithString:designerURLString];
+    ZGLogDebug(@"Websocket url == %@", designerURLString);
+    __weak Zhuge *weakSelf = self;
+    void (^connectCallback)(void) = ^{
+        __strong Zhuge *strongSelf = weakSelf;
+    
+        [Zhuge sharedUIApplication].idleTimerDisabled = YES;
+        if (strongSelf) {
+            for (ZGVariant *variant in self.variants) {
+                [variant stop];
+            }
+            for (ZGEventBinding *binding in self.eventBindings) {
+                [binding stop];
+            }
+            ZGABTestDesignerConnection *connection = strongSelf.abtestDesignerConnection;
+            void (^block)(id, SEL, NSString*, id) = ^(id obj, SEL sel, NSString *event_name, id params) {
+                MPDesignerTrackMessage *message = [MPDesignerTrackMessage messageWithPayload:@{@"event_name": event_name}];
+                [connection sendMessage:message];
+            };
 
+            [MPSwizzler swizzleSelector:@selector(track:properties:) onClass:[Zhuge class] withBlock:block named:@"track_properties"];
+        }
+    };
+    void (^disconnectCallback)(void) = ^{
+        __strong Zhuge *strongSelf = weakSelf;
+        
+        [Zhuge sharedUIApplication].idleTimerDisabled = NO;
+        if (strongSelf) {
+            for (ZGVariant *variant in self.variants) {
+                [variant execute];
+            }
+            for (ZGEventBinding *binding in self.eventBindings) {
+                [binding execute];
+            }
+            [MPSwizzler unswizzleSelector:@selector(track:properties:) onClass:[Zhuge class] named:@"track_properties"];
+        }
+    };
+    self.abtestDesignerConnection = [[ZGABTestDesignerConnection alloc] initWithURL:designerURL
+                                                                         keepTrying:reconnect
+                                                                    connectCallback:connectCallback
+                                                                 disconnectCallback:disconnectCallback];
+}
+- (void)checkForDecideResponseWithCompletion:(void (^)(NSSet *eventBinding))completion useCathe:(BOOL)useCache{
+    dispatch_async(self.serialQueue, ^{
+        
+        if (!useCache) {
+            NSString* urlString = [NSString stringWithFormat:@"%@/v1/events/codeless/appkey/%@/platform/2?app_version=%@&updateTimeId=%@",self.codelessEventsUrl,self.appKey,self.config.appVersion,@"0"];
+            ZGLogDebug(@"%@请求远程事件: %@",self,urlString);
+            
+            NSURL *URL = [NSURL URLWithString:urlString];
+            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+            [[[ZGRequestManager sharedURLSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable responseData, NSURLResponse * _Nullable urlResponse, NSError * _Nullable error) {
+                       
+                if (responseData) {
+                    
+                    NSDictionary *object = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&error];
+                    
+                    if (error) {
+                        ZGLogDebug(@"%@ decide check json error: %@, data: %@", self, error, [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+                        return;
+                    }
+                    
+                    NSArray *eventInfos = object[@"event_infos"];
+                    NSMutableArray *rawEventBindings = [NSMutableArray array];
+                    
+                    if (eventInfos&&eventInfos.count>0) {
+                        for (id  eventInfo in eventInfos) {
+                            NSDictionary * info = eventInfo[@"eventJson"];
+                            [rawEventBindings addObject:info];
+                        }
+                    }
+                    NSMutableSet *parsedEventBindings = [NSMutableSet set];
+                    if (rawEventBindings && [rawEventBindings isKindOfClass:[NSArray class]]&& rawEventBindings.count > 0) {
+                        for (NSString *obj in rawEventBindings) {
+                            NSData *data = [obj dataUsingEncoding:NSUTF8StringEncoding];
+                            id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                            ZGEventBinding *binder = [ZGEventBinding bindingWithJSONObject:json];
+                            if (binder) {
+                                [parsedEventBindings addObject:binder];
+                            }
+                        }
+                    } else {
+                        ZGLogDebug(@"%@ tracking events check response format error: %@", self, object);
+                        return;
+                    }
+                    
+                    // Finished bindings are those which should no longer be run.
+                    NSMutableSet *finishedEventBindings = [NSMutableSet setWithSet:self.eventBindings];
+                    [finishedEventBindings minusSet:parsedEventBindings];
+                    [finishedEventBindings makeObjectsPerformSelector:NSSelectorFromString(@"stop")];
+                    
+                    self.eventBindings = [parsedEventBindings copy];
+                    
+                    ZGLogDebug(@"%@ 获得 %lu 个追踪事件: %@", self, (unsigned long)[self.eventBindings count], self.eventBindings);
+                    
+                    if (completion) {
+                        completion(self.eventBindings);
+                    }
+                    
+                } else {
+                    ZGLogDebug(@"%@ https error: %@", self, error);
+                    return;
+                }
+                
+            }] resume];
+    
+        } else {
+            ZGLogDebug(@"%@ decide cache found, skipping network request", self);
+        }
+        
+    });
+}
+
+#pragma mark - WKWebView 数据打通
+- (void)swizzleWebViewMethod {
+    static dispatch_once_t onceTokenWebView;
+    dispatch_once(&onceTokenWebView, ^{
+        NSError *error = NULL;
+
+        [WKWebView za_swizzleMethod:@selector(loadRequest:)
+                         withMethod:@selector(zhugeio_loadRequest:)
+                              error:&error];
+
+        [WKWebView za_swizzleMethod:@selector(loadHTMLString:baseURL:)
+                         withMethod:@selector(zhugeio_loadHTMLString:baseURL:)
+                              error:&error];
+
+        if (@available(iOS 9.0, *)) {
+            [WKWebView za_swizzleMethod:@selector(loadFileURL:allowingReadAccessToURL:)
+                             withMethod:@selector(zhugeio_loadFileURL:allowingReadAccessToURL:)
+                                  error:&error];
+
+            [WKWebView za_swizzleMethod:@selector(loadData:MIMEType:characterEncodingName:baseURL:)
+                             withMethod:@selector(zhugeio_loadData:MIMEType:characterEncodingName:baseURL:)
+                                  error:&error];
+        }
+
+        if (error) {
+            ZGLogError(@"Failed to swizzle on WKWebView. Details: %@", error);
+            error = NULL;
+        }
+    });
+}
+
+- (void)addScriptMessageHandlerWithWebView:(WKWebView *)webView {
+    NSAssert([webView isKindOfClass:[WKWebView class]], @"此注入方案只支持 WKWebView！❌");
+    if (![webView isKindOfClass:[WKWebView class]]) {
+        return;
+    }
+
+    @try {
+        
+        if (self.config.enableJavaScriptBridge) {
+            //获取当前 WebView 的 WKUserContentController
+            WKUserContentController *contentController = webView.configuration.userContentController;
+
+            //给 WKUserContentController 设置一个js脚本控制器 
+            [contentController removeScriptMessageHandlerForName:ZA_SCRIPT_MESSAGE_HANDLER_NAME];
+            [contentController addScriptMessageHandler:[[ZhugeJS alloc]init] name:ZA_SCRIPT_MESSAGE_HANDLER_NAME];
+        }
+
+    } @catch (NSException *exception) {
+        ZGLogError(@"%@ error: %@", self, exception);
+    }
+}
 
 @end

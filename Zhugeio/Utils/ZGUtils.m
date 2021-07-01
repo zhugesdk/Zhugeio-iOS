@@ -84,5 +84,17 @@
 //
 //}
 
++ (NSString *)parseUrl:(NSString *) url{
+    NSString * result;
+    if ([url hasSuffix:@"/"]) {
+        result = [url substringToIndex:[url length] - 1];
+    }else{
+        result = url;
+    }
+    if ([result hasSuffix:@"/apipool"] || [result hasSuffix:@"/APIPOOL"] ) {
+        result = [result substringToIndex:[result length] - 8];
+    }
+    return result;
+}
 
 @end

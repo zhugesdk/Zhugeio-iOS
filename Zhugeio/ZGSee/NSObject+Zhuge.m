@@ -2,7 +2,7 @@
 //  NSObject+Zhuge.m
 //  HelloZhuge
 //
-//  Created by jiaokang on 2018/9/5.
+//  Created by Zhugeio on 2018/9/5.
 //  Copyright © 2018年 37degree. All rights reserved.
 //
 #import "NSObject+Zhuge.h"
@@ -21,49 +21,50 @@ static NSMutableDictionary *_dataDic;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
 //        scrollViewWillBeginDragging
-        SEL beginDeceleratingOrigila_SEL = @selector(scrollViewWillBeginDragging:);
+//        SEL beginDraggingvOrigila_SEL = @selector(scrollViewWillBeginDragging:);
+//
+//        SEL beginDraggingHook_SEL = @selector(gc_scrollViewWillBeginDragging:);
+//
+//        Method beginDeceleratingOrigilal_Method = class_getInstanceMethod(self, beginDraggingvOrigila_SEL);
+//
+//        Method beginDeceleratingHook_Method = class_getInstanceMethod(self, beginDraggingHook_SEL);
+//
+//        class_addMethod(self,
+//                        beginDraggingvOrigila_SEL,
+//                        class_getMethodImplementation(self, beginDraggingvOrigila_SEL),
+//                        method_getTypeEncoding(beginDeceleratingOrigilal_Method));
+//
+//        class_addMethod(self,
+//                        beginDraggingHook_SEL,
+//                        class_getMethodImplementation(self, beginDraggingHook_SEL),
+//                        method_getTypeEncoding(beginDeceleratingHook_Method));
+//
+//        method_exchangeImplementations(class_getInstanceMethod(self, beginDraggingvOrigila_SEL), class_getInstanceMethod(self, beginDraggingHook_SEL));
         
-        SEL beginDeceleratingHook_SEL = @selector(gc_scrollViewWillBeginDragging:);
-        
-        Method beginDeceleratingOrigilal_Method = class_getInstanceMethod(self, beginDeceleratingOrigila_SEL);
-        
-        Method beginDeceleratingHook_Method = class_getInstanceMethod(self, beginDeceleratingHook_SEL);
-        
-        class_addMethod(self,
-                        beginDeceleratingOrigila_SEL,
-                        class_getMethodImplementation(self, beginDeceleratingOrigila_SEL),
-                        method_getTypeEncoding(beginDeceleratingOrigilal_Method));
-        
-        class_addMethod(self,
-                        beginDeceleratingHook_SEL,
-                        class_getMethodImplementation(self, beginDeceleratingHook_SEL),
-                        method_getTypeEncoding(beginDeceleratingHook_Method));
-        
-        method_exchangeImplementations(class_getInstanceMethod(self, beginDeceleratingOrigila_SEL), class_getInstanceMethod(self, beginDeceleratingHook_SEL));
         
         
-        SEL origilaSEL = @selector(scrollViewDidEndDecelerating:);
+        SEL didEndDeceleratingOrigilaSEL = @selector(scrollViewDidEndDecelerating:);
         
-        SEL hook_SEL = @selector(gc_scrollViewDidEndDecelerating:);
+        SEL didEndDeceleratingHook_SEL = @selector(gc_scrollViewDidEndDecelerating:);
         
 //        交换方法
-        Method origilalMethod = class_getInstanceMethod(self, origilaSEL);
+        Method origilalMethod = class_getInstanceMethod(self, didEndDeceleratingOrigilaSEL);
         
         
-        Method hook_method = class_getInstanceMethod(self, hook_SEL);
+        Method hook_method = class_getInstanceMethod(self, didEndDeceleratingHook_SEL);
         
         
         class_addMethod(self,
-                        origilaSEL,
-                        class_getMethodImplementation(self, origilaSEL),
+                        didEndDeceleratingOrigilaSEL,
+                        class_getMethodImplementation(self, didEndDeceleratingOrigilaSEL),
                         method_getTypeEncoding(origilalMethod));
         
         class_addMethod(self,
-                        hook_SEL,
-                        class_getMethodImplementation(self, hook_SEL),
+                        didEndDeceleratingHook_SEL,
+                        class_getMethodImplementation(self, didEndDeceleratingHook_SEL),
                         method_getTypeEncoding(hook_method));
         
-        method_exchangeImplementations(class_getInstanceMethod(self, origilaSEL), class_getInstanceMethod(self, hook_SEL));
+        method_exchangeImplementations(class_getInstanceMethod(self, didEndDeceleratingOrigilaSEL), class_getInstanceMethod(self, didEndDeceleratingHook_SEL));
         
         //scrollViewDidEndDragging
         SEL draOrigilaSEL = @selector(scrollViewDidEndDragging: willDecelerate:);
@@ -88,8 +89,40 @@ static NSMutableDictionary *_dataDic;
                         method_getTypeEncoding(draHook_method));
         
         method_exchangeImplementations(class_getInstanceMethod(self, draOrigilaSEL), class_getInstanceMethod(self, draHook_SEL));
+        
+        
+        
+        // didScroll
+        SEL didScrollOrigila_SEL = @selector(scrollViewDidScroll:);
+        
+        SEL didScrollHook_SEL = @selector(za_scrollViewDidScroll:);
+        
+        Method beginDeceleratingOrigilal_Method = class_getInstanceMethod(self, didScrollOrigila_SEL);
+        
+        Method beginDeceleratingHook_Method = class_getInstanceMethod(self, didScrollHook_SEL);
+        
+        class_addMethod(self,
+                        didScrollOrigila_SEL,
+                        class_getMethodImplementation(self, didScrollOrigila_SEL),
+                        method_getTypeEncoding(beginDeceleratingOrigilal_Method));
+        
+        class_addMethod(self,
+                        didScrollHook_SEL,
+                        class_getMethodImplementation(self, didScrollHook_SEL),
+                        method_getTypeEncoding(beginDeceleratingHook_Method));
+        
+        method_exchangeImplementations(class_getInstanceMethod(self, didScrollOrigila_SEL), class_getInstanceMethod(self, didScrollHook_SEL));
+        
+//        [self za_swizzleMethod:@selector(scrollViewDidScroll:) withMethod:@selector(za_scrollViewDidScroll:) error:NULL];
+        
     });
     
+}
+
+- (void)za_scrollViewDidScroll:(UIScrollView *)scrollView {
+//    UITableView *tableView = (UITableView *)scrollView;
+//    NSArray *cells = [tableView visibleCells];
+//    NSLog(@"cells cells == %@",cells);
 }
 
 - (void)gc_scrollViewWillBeginDragging:(UIScrollView *)scrollView {
@@ -101,12 +134,32 @@ static NSMutableDictionary *_dataDic;
 }
 
 - (void)gc_scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    Zhuge * zhuge = [Zhuge sharedInstance];
-    if ([zhuge.config isSeeEnable] &&
+
+    if ([[Zhuge sharedInstance].config isSeeEnable] &&
         [Zhuge sharedInstance].config.zgSeeEnable == YES) {
         _imageData = [[ZGSharedDur shareInstance] pixData];
         //滑动结束
         [self taskData:[[ZGSharedDur shareInstance] getViewToPath:scrollView] eid:@"zgsee-scroll" viewController:[[ZGSharedDur shareInstance]viewControllerToView:scrollView]];
+    }
+    
+    
+    if ([Zhuge sharedInstance].config.isEnableExpTrack) {
+        
+        if ([scrollView isKindOfClass:[UITableView class]]) {
+            UITableView *tableView = (UITableView *)scrollView;
+            NSArray *cells = [tableView visibleCells];
+            if (cells.count > 0) {
+                [self checkoutScrollViewCells:cells];
+            }
+        }
+        
+        if ([scrollView isKindOfClass:[UICollectionView class]]) {
+            UICollectionView *collectionView = (UICollectionView *)scrollView;
+            NSArray *cells = [collectionView visibleCells];
+            if (cells.count > 0) {
+                [self checkoutScrollViewCells:cells];
+            }
+        }
     }
 }
 
@@ -141,4 +194,25 @@ static NSMutableDictionary *_dataDic;
     [[Zhuge sharedInstance] setZhuGeSeeEvent:_dataDic];
 
 }
+
+
+- (void)checkoutScrollViewCells:(NSArray *)views {
+    
+    [views enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull view, NSUInteger index, BOOL * _Nonnull stop) {
+       
+        if (view.zhugeioAttributesValue && !view.zhugeioAttributesDonotTrackExp) {
+            [self trackExpEvent:view.zhugeioAttributesValue properties:view.zhugeioAttributesVariable];
+        }
+//        
+//        if (view.subviews.count > 0) {
+//            [self checkoutScrollViewCells:view.subviews];
+//        }
+        
+    }];
+}
+
+- (void)trackExpEvent:(NSString *)eid properties:(NSDictionary *)pro {
+    [[Zhuge sharedInstance] track:eid properties:pro];
+}
+
 @end

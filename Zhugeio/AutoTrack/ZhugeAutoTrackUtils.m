@@ -2,16 +2,23 @@
 //  ZhugeAutoTrackUtils.m
 //  HelloZhuge
 //
-//  Created by jiaokang on 2019/7/20.
+//  Created by Zhugeio on 2019/7/20.
 //  Copyright © 2019 37degree. All rights reserved.
 //
 
 #import "ZhugeAutoTrackUtils.h"
-#import "UIViewController+Zhuge.h"
+
 #import "Zhuge.h"
-#import "NSObject+ZGAutoTrack.h"
+
+
+
+id isNil(id obj) {
+    if (!obj) return [NSNull null];
+    else            return obj;
+}
 
 @implementation ZhugeAutoTrackUtils
+
 + (NSString *)zhugeGetViewContent:(UIView *)view{
     if (!view || view.isHidden) {
         return @"";
@@ -92,13 +99,15 @@
     return elementContent.length == 0 ? @"" : [elementContent copy];
 
 }
-+(UIViewController *)zhugeGetViewControllerByView:(UIView *)view{
+
++ (UIViewController *)zhugeGetViewControllerByView:(UIView *)view{
     UIViewController *viewController = [self findNextViewControllerByResponder:view];
     if ([viewController isKindOfClass:UINavigationController.class]) {
         viewController = [self currentViewController];
     }
     return viewController;
 }
+
 + (UIViewController *)currentViewController {
     __block UIViewController *currentViewController = nil;
     void (^ block)(void) = ^{
@@ -114,6 +123,7 @@
     
     return currentViewController;
 }
+
 + (UIViewController *)findCurrentViewControllerFromRootViewController:(UIViewController *)viewController isRoot:(BOOL)isRoot {
     UIViewController *currentViewController = nil;
     if (viewController.presentedViewController) {
@@ -169,7 +179,7 @@
     return [next isKindOfClass:UIViewController.class] ? (UIViewController *)next : nil;
 }
 
-+(NSString *)zhugeGetViewPath:(UIView *)view{
++ (NSString *)zhugeGetViewPath:(UIView *)view{
     if (!view || ![view isKindOfClass:[UIView class]]) {
         return @"";
     }
@@ -186,7 +196,8 @@
     
     return  [array componentsJoinedByString:@"/"];
 }
-+(NSString *)zhugeGetView:(UIView *)child indexInParent:(UIView *)parent{
+
++ (NSString *)zhugeGetView:(UIView *)child indexInParent:(UIView *)parent{
     if (!child || !parent) {
         return @"-1";
     }
@@ -204,7 +215,8 @@
     }
     return [NSString stringWithFormat:@"%d",index];
 }
-+(void)zhugeAutoTrackClick:(UIView *)view withController:(UIViewController *)controller andTag:( NSString *)tag{
+
++ (void)zhugeAutoTrackClick:(UIView *)view withController:(UIViewController *)controller andTag:( NSString *)tag{
     @try {
         if (!view) {
             NSLog(@"autoTrackError illegal view %@ in %@",view?[view description]:@"null",tag);
@@ -231,15 +243,98 @@
             title = [realController zhugeScreenTitle];
         }
         NSString *type = NSStringFromClass([view class]);
-        [data setObject:isNil(url) forKey:@"$url"];
+        [data setObject:isNil(url) forKey:@"$page_url"];
         [data setObject:isNil(type) forKey:@"$element_type"];
         [data setObject:isNil(path) forKey:@"$element_selector"];
         [data setObject:isNil(title) forKey:@"$page_title"];
         [data setObject:isNil(content) forKey:@"$element_content"];
 //        [data setObject:isNil(zhuge.ref) forKey:@"$ref"];
+        
+        if ([view isKindOfClass:[UIView class]]) {
+            if (view.zhugeioAttributesVariable) {
+                __block NSMutableDictionary *copy = [NSMutableDictionary dictionaryWithCapacity:[view.zhugeioAttributesVariable count]];
+                for (NSString *key in view.zhugeioAttributesVariable) {
+                    id value = view.zhugeioAttributesVariable[key];
+                    NSString *newKey = [NSString stringWithFormat:@"_%@",key];
+                    [copy setValue:value forKey:newKey];
+                }
+                [data addEntriesFromDictionary:view.zhugeioAttributesVariable];
+            }
+        } else {
+            
+        }
+        
         [zhuge autoTrack:data];
     } @catch (NSException *exception) {
         NSLog(@"autoTrack exception %@: %@",[exception name],[exception reason]);
     }
 }
+
+@end
+
+
+#pragma mark - Index
+
+@implementation ZhugeAutoTrackUtils (IndexPath)
+
++ (NSMutableDictionary<NSString *, NSString *> *)propertiesWithAutoTrackObject:(UIScrollView<ZAAutoTrackViewProperty> *)object didSelectedAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSMutableDictionary *properties = [[NSMutableDictionary alloc] init];
+
+    id cell = nil;
+    if ([object isKindOfClass:UITableView.class]) {
+        UITableView *tableView = (UITableView *)object;
+        cell = [tableView cellForRowAtIndexPath:indexPath];
+        if (!cell) {
+            [tableView layoutIfNeeded];
+            cell = [tableView cellForRowAtIndexPath:indexPath];
+        }
+    } else if ([object isKindOfClass:UICollectionView.class]) {
+        UICollectionView *collectionView = (UICollectionView *)object;
+        cell = [collectionView cellForItemAtIndexPath:indexPath];
+        if (!cell) {
+            [collectionView layoutIfNeeded];
+            cell = [collectionView cellForItemAtIndexPath:indexPath];
+        }
+    }
+    if (!cell) {
+        return nil;
+    }
+
+    NSString *content = content = [ZhugeAutoTrackUtils zhugeGetViewContent:cell];
+    NSString *path = [ZhugeAutoTrackUtils zhugeGetViewPath:cell];
+    NSString *type = NSStringFromClass([cell superclass]);
+    
+    UIViewController *realController = [ZhugeAutoTrackUtils zhugeGetViewControllerByView:cell];
+    NSString *url = @"";
+    NSString *title = @"";
+    if (realController) {
+        url = NSStringFromClass(realController.class);
+        if (realController.title) {
+            title = realController.title;
+        } else {
+            title = [ZhugeAutoTrackUtils zhugeGetViewContent: realController.navigationItem.titleView];
+        }
+    }
+    
+    [properties setObject:isNil(url) forKey:@"$page_url"];
+    [properties setObject:type forKey:@"$element_type"];
+    [properties setObject:isNil(path) forKey:@"$element_selector"];
+    [properties setObject:isNil(title) forKey:@"$page_title"];
+    [properties setObject:isNil(content) forKey:@"$element_content"];
+    [properties setObject:@"click" forKey:@"$eid"];
+    
+    if ([cell zhugeioAttributesVariable]) {
+        __block NSMutableDictionary *copy = [NSMutableDictionary dictionaryWithCapacity:[[cell zhugeioAttributesVariable] count]];
+        for (NSString *key in [cell zhugeioAttributesVariable]) {
+            id value = [cell zhugeioAttributesVariable][key];
+            NSString *newKey = [NSString stringWithFormat:@"_%@",key];
+            [copy setValue:value forKey:newKey];
+        }
+        [properties addEntriesFromDictionary:copy];
+    }
+
+    return properties;
+}
+
 @end

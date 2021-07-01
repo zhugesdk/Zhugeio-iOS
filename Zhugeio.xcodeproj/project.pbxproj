@@ -7,195 +7,465 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5F9AA15125AD8C5900BD12B8 /* ZGDeviceInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F9AA14F25AD8C5900BD12B8 /* ZGDeviceInfo.h */; };
-		5F9AA15225AD8C5900BD12B8 /* ZGDeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9AA15025AD8C5900BD12B8 /* ZGDeviceInfo.m */; };
-		5FEE74B824D43015009A29BF /* UICollectionView+ZGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE745624D43015009A29BF /* UICollectionView+ZGAnalytics.m */; };
-		5FEE74B924D43015009A29BF /* UITableView+ZGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE745724D43015009A29BF /* UITableView+ZGAnalytics.h */; };
-		5FEE74BA24D43015009A29BF /* NSObject+ZGAutoTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE745824D43015009A29BF /* NSObject+ZGAutoTrack.m */; };
-		5FEE74BC24D43015009A29BF /* NSObject+ZGAutoTrack.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE745A24D43015009A29BF /* NSObject+ZGAutoTrack.h */; };
-		5FEE74BD24D43015009A29BF /* UITableView+ZGAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE745B24D43015009A29BF /* UITableView+ZGAnalytics.m */; };
-		5FEE74BE24D43015009A29BF /* UICollectionView+ZGAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE745C24D43015009A29BF /* UICollectionView+ZGAnalytics.h */; };
-		5FEE74C024D43015009A29BF /* Aspects.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE745F24D43015009A29BF /* Aspects.h */; };
-		5FEE74C124D43015009A29BF /* ZGCMMotionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE746024D43015009A29BF /* ZGCMMotionManager.m */; };
-		5FEE74C224D43015009A29BF /* ZGUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE746124D43015009A29BF /* ZGUtils.m */; };
-		5FEE74C324D43015009A29BF /* ZGLocationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE746224D43015009A29BF /* ZGLocationManager.h */; };
-		5FEE74C424D43015009A29BF /* ZGCMMotionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE746324D43015009A29BF /* ZGCMMotionManager.h */; };
-		5FEE74C524D43015009A29BF /* Aspects.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE746424D43015009A29BF /* Aspects.m */; };
-		5FEE74C624D43015009A29BF /* ZGLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE746524D43015009A29BF /* ZGLocationManager.m */; };
-		5FEE74C724D43015009A29BF /* ZGUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE746624D43015009A29BF /* ZGUtils.h */; };
-		5FEE74C824D43015009A29BF /* UIGestureRecognizer+Zhuge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE746824D43015009A29BF /* UIGestureRecognizer+Zhuge.h */; };
-		5FEE74C924D43015009A29BF /* ZhugeAutoTrackUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE746924D43015009A29BF /* ZhugeAutoTrackUtils.m */; };
-		5FEE74CA24D43015009A29BF /* ZhugeSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE746A24D43015009A29BF /* ZhugeSwizzle.m */; };
-		5FEE74CB24D43015009A29BF /* UIGestureRecognizer+Zhuge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE746B24D43015009A29BF /* UIGestureRecognizer+Zhuge.m */; };
-		5FEE74CC24D43015009A29BF /* ZhugeAutoTrackUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE746C24D43015009A29BF /* ZhugeAutoTrackUtils.h */; };
-		5FEE74CD24D43015009A29BF /* ZhugeSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE746D24D43015009A29BF /* ZhugeSwizzle.h */; };
-		5FEE74CE24D43015009A29BF /* Zhuge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE746F24D43015009A29BF /* Zhuge.m */; };
-		5FEE74CF24D43015009A29BF /* ZhugeCompres.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747024D43015009A29BF /* ZhugeCompres.h */; };
-		5FEE74D024D43015009A29BF /* ZhugeEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747124D43015009A29BF /* ZhugeEvents.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5FEE74D124D43015009A29BF /* ZhugeJS.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747224D43015009A29BF /* ZhugeJS.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5FEE74D224D43015009A29BF /* ZhugeConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747324D43015009A29BF /* ZhugeConstants.h */; };
-		5FEE74D324D43015009A29BF /* ZhugeConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747424D43015009A29BF /* ZhugeConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5FEE74D424D43015009A29BF /* ZhugeBase64.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747524D43015009A29BF /* ZhugeBase64.h */; };
-		5FEE74D524D43015009A29BF /* ZhugeEventProperty.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747624D43015009A29BF /* ZhugeEventProperty.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5FEE74D624D43015009A29BF /* ZGLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747724D43015009A29BF /* ZGLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5FEE74D724D43015009A29BF /* ZhugeCompres.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE747824D43015009A29BF /* ZhugeCompres.m */; };
-		5FEE74D824D43015009A29BF /* Zhuge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747924D43015009A29BF /* Zhuge.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5FEE74D924D43015009A29BF /* ZhugeJS.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE747A24D43015009A29BF /* ZhugeJS.m */; };
-		5FEE74DA24D43015009A29BF /* ZhugeBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE747B24D43015009A29BF /* ZhugeBase64.m */; };
-		5FEE74DB24D43015009A29BF /* ZhugeConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE747C24D43015009A29BF /* ZhugeConfig.m */; };
-		5FEE74DC24D43015009A29BF /* ZGSharedDur.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747E24D43015009A29BF /* ZGSharedDur.h */; };
-		5FEE74DD24D43015009A29BF /* NSObject+Zhuge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE747F24D43015009A29BF /* NSObject+Zhuge.h */; };
-		5FEE74DE24D43015009A29BF /* UIViewController+Zhuge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE748024D43015009A29BF /* UIViewController+Zhuge.m */; };
-		5FEE74DF24D43015009A29BF /* ZGReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE748124D43015009A29BF /* ZGReachability.m */; };
-		5FEE74E024D43015009A29BF /* ZGHttpHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE748224D43015009A29BF /* ZGHttpHelper.m */; };
-		5FEE74E124D43015009A29BF /* UIApplication+Zhuge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE748324D43015009A29BF /* UIApplication+Zhuge.h */; };
-		5FEE74E224D43015009A29BF /* ZGUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE748424D43015009A29BF /* ZGUtil.h */; };
-		5FEE74E324D43015009A29BF /* ZGSqliteManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE748524D43015009A29BF /* ZGSqliteManager.h */; };
-		5FEE74E424D43015009A29BF /* ZGSharedDur.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE748624D43015009A29BF /* ZGSharedDur.m */; };
-		5FEE74E524D43015009A29BF /* UIApplication+Zhuge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE748724D43015009A29BF /* UIApplication+Zhuge.m */; };
-		5FEE74E624D43015009A29BF /* UIViewController+Zhuge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE748824D43015009A29BF /* UIViewController+Zhuge.h */; };
-		5FEE74E724D43015009A29BF /* ZGHttpHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE748924D43015009A29BF /* ZGHttpHelper.h */; };
-		5FEE74E824D43015009A29BF /* ZGReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE748A24D43015009A29BF /* ZGReachability.h */; };
-		5FEE74E924D43015009A29BF /* NSObject+Zhuge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE748B24D43015009A29BF /* NSObject+Zhuge.m */; };
-		5FEE74EA24D43015009A29BF /* ZGUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE748C24D43015009A29BF /* ZGUtil.m */; };
-		5FEE74EB24D43015009A29BF /* ZGSqliteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE748D24D43015009A29BF /* ZGSqliteManager.m */; };
-		5FEE74EC24D43015009A29BF /* DLServerInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE748F24D43015009A29BF /* DLServerInterface.h */; };
-		5FEE74ED24D43015009A29BF /* DLServerResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE749024D43015009A29BF /* DLServerResponse.m */; };
-		5FEE74EE24D43015009A29BF /* DLServerRequestQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE749124D43015009A29BF /* DLServerRequestQueue.m */; };
-		5FEE74EF24D43015009A29BF /* DSError.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE749224D43015009A29BF /* DSError.m */; };
-		5FEE74F024D43015009A29BF /* DLServerRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE749324D43015009A29BF /* DLServerRequest.h */; };
-		5FEE74F124D43015009A29BF /* DLPreferenceHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE749424D43015009A29BF /* DLPreferenceHelper.h */; };
-		5FEE74F224D43015009A29BF /* DLTime.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE749524D43015009A29BF /* DLTime.h */; };
-		5FEE74F324D43015009A29BF /* DSEncodingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE749624D43015009A29BF /* DSEncodingUtils.m */; };
-		5FEE74F424D43015009A29BF /* clearNewUsage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE749724D43015009A29BF /* clearNewUsage.h */; };
-		5FEE74F524D43015009A29BF /* DeepShareImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE749824D43015009A29BF /* DeepShareImpl.h */; };
-		5FEE74F624D43015009A29BF /* DLStrongMatchHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE749924D43015009A29BF /* DLStrongMatchHelper.h */; };
-		5FEE74F724D43015009A29BF /* DLConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE749A24D43015009A29BF /* DLConfig.h */; };
-		5FEE74F824D43015009A29BF /* DeepShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE749B24D43015009A29BF /* DeepShare.m */; };
-		5FEE74F924D43015009A29BF /* DLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE749C24D43015009A29BF /* DLViewController.m */; };
-		5FEE74FA24D43015009A29BF /* getNewUsage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE749D24D43015009A29BF /* getNewUsage.h */; };
-		5FEE74FB24D43015009A29BF /* DLSystemObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE749E24D43015009A29BF /* DLSystemObserver.h */; };
-		5FEE74FC24D43015009A29BF /* DLServerRequestQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE749F24D43015009A29BF /* DLServerRequestQueue.h */; };
-		5FEE74FD24D43015009A29BF /* DSError.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE74A024D43015009A29BF /* DSError.h */; };
-		5FEE74FE24D43015009A29BF /* DLServerResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE74A124D43015009A29BF /* DLServerResponse.h */; };
-		5FEE74FF24D43015009A29BF /* DLServerInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE74A224D43015009A29BF /* DLServerInterface.m */; };
-		5FEE750024D43015009A29BF /* clearNewUsage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE74A324D43015009A29BF /* clearNewUsage.m */; };
-		5FEE750124D43015009A29BF /* DSEncodingUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE74A424D43015009A29BF /* DSEncodingUtils.h */; };
-		5FEE750224D43015009A29BF /* DLTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE74A524D43015009A29BF /* DLTime.m */; };
-		5FEE750324D43015009A29BF /* DLPreferenceHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE74A624D43015009A29BF /* DLPreferenceHelper.m */; };
-		5FEE750424D43015009A29BF /* DLServerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE74A724D43015009A29BF /* DLServerRequest.m */; };
-		5FEE750524D43015009A29BF /* NewvalueChange.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE74A924D43015009A29BF /* NewvalueChange.h */; };
-		5FEE750624D43015009A29BF /* registerOpen.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE74AA24D43015009A29BF /* registerOpen.h */; };
-		5FEE750724D43015009A29BF /* CallClose.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE74AB24D43015009A29BF /* CallClose.m */; };
-		5FEE750824D43015009A29BF /* registerInstall.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE74AC24D43015009A29BF /* registerInstall.h */; };
-		5FEE750924D43015009A29BF /* NewvalueChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE74AD24D43015009A29BF /* NewvalueChange.m */; };
-		5FEE750A24D43015009A29BF /* registerOpen.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE74AE24D43015009A29BF /* registerOpen.m */; };
-		5FEE750B24D43015009A29BF /* registerInstall.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE74AF24D43015009A29BF /* registerInstall.m */; };
-		5FEE750C24D43015009A29BF /* CallClose.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE74B024D43015009A29BF /* CallClose.h */; };
-		5FEE750D24D43015009A29BF /* DLStrongMatchHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE74B124D43015009A29BF /* DLStrongMatchHelper.m */; };
-		5FEE750E24D43015009A29BF /* DeepShareImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE74B224D43015009A29BF /* DeepShareImpl.m */; };
-		5FEE750F24D43015009A29BF /* DLParam.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE74B324D43015009A29BF /* DLParam.h */; };
-		5FEE751024D43015009A29BF /* DLSystemObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE74B424D43015009A29BF /* DLSystemObserver.m */; };
-		5FEE751124D43015009A29BF /* getNewUsage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE74B524D43015009A29BF /* getNewUsage.m */; };
-		5FEE751224D43015009A29BF /* DLViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE74B624D43015009A29BF /* DLViewController.h */; };
-		5FEE751324D43015009A29BF /* DeepShare.h in Headers */ = {isa = PBXBuildFile; fileRef = 5FEE74B724D43015009A29BF /* DeepShare.h */; };
+		5F0220DA268DA2A500D9EEF1 /* DLServerInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F021FEF268DA2A400D9EEF1 /* DLServerInterface.h */; };
+		5F0220DB268DA2A500D9EEF1 /* DLServerResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F021FF0268DA2A400D9EEF1 /* DLServerResponse.m */; };
+		5F0220DC268DA2A500D9EEF1 /* DLServerRequestQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F021FF1268DA2A400D9EEF1 /* DLServerRequestQueue.m */; };
+		5F0220DD268DA2A500D9EEF1 /* DSError.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F021FF2268DA2A400D9EEF1 /* DSError.m */; };
+		5F0220DE268DA2A500D9EEF1 /* DLServerRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F021FF3268DA2A400D9EEF1 /* DLServerRequest.h */; };
+		5F0220DF268DA2A500D9EEF1 /* DLPreferenceHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F021FF4268DA2A400D9EEF1 /* DLPreferenceHelper.h */; };
+		5F0220E0268DA2A500D9EEF1 /* DLTime.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F021FF5268DA2A400D9EEF1 /* DLTime.h */; };
+		5F0220E1268DA2A500D9EEF1 /* DSEncodingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F021FF6268DA2A400D9EEF1 /* DSEncodingUtils.m */; };
+		5F0220E2268DA2A500D9EEF1 /* clearNewUsage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F021FF7268DA2A400D9EEF1 /* clearNewUsage.h */; };
+		5F0220E3268DA2A500D9EEF1 /* DeepShareImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F021FF8268DA2A400D9EEF1 /* DeepShareImpl.h */; };
+		5F0220E4268DA2A500D9EEF1 /* DLStrongMatchHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F021FF9268DA2A400D9EEF1 /* DLStrongMatchHelper.h */; };
+		5F0220E5268DA2A500D9EEF1 /* DLConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F021FFA268DA2A400D9EEF1 /* DLConfig.h */; };
+		5F0220E6268DA2A500D9EEF1 /* DeepShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F021FFB268DA2A400D9EEF1 /* DeepShare.m */; };
+		5F0220E7268DA2A500D9EEF1 /* DLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F021FFC268DA2A400D9EEF1 /* DLViewController.m */; };
+		5F0220E8268DA2A500D9EEF1 /* getNewUsage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F021FFD268DA2A400D9EEF1 /* getNewUsage.h */; };
+		5F0220E9268DA2A500D9EEF1 /* DLSystemObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F021FFE268DA2A400D9EEF1 /* DLSystemObserver.h */; };
+		5F0220EA268DA2A500D9EEF1 /* DLServerRequestQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F021FFF268DA2A400D9EEF1 /* DLServerRequestQueue.h */; };
+		5F0220EB268DA2A500D9EEF1 /* DSError.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022000268DA2A400D9EEF1 /* DSError.h */; };
+		5F0220EC268DA2A500D9EEF1 /* DLServerResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022001268DA2A400D9EEF1 /* DLServerResponse.h */; };
+		5F0220ED268DA2A500D9EEF1 /* DLServerInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022002268DA2A400D9EEF1 /* DLServerInterface.m */; };
+		5F0220EE268DA2A500D9EEF1 /* clearNewUsage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022003268DA2A400D9EEF1 /* clearNewUsage.m */; };
+		5F0220EF268DA2A500D9EEF1 /* DSEncodingUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022004268DA2A400D9EEF1 /* DSEncodingUtils.h */; };
+		5F0220F0268DA2A500D9EEF1 /* DLTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022005268DA2A400D9EEF1 /* DLTime.m */; };
+		5F0220F1268DA2A500D9EEF1 /* DLPreferenceHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022006268DA2A400D9EEF1 /* DLPreferenceHelper.m */; };
+		5F0220F2268DA2A500D9EEF1 /* DLServerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022007268DA2A400D9EEF1 /* DLServerRequest.m */; };
+		5F0220F3268DA2A500D9EEF1 /* NewvalueChange.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022009268DA2A400D9EEF1 /* NewvalueChange.h */; };
+		5F0220F4268DA2A500D9EEF1 /* registerOpen.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02200A268DA2A400D9EEF1 /* registerOpen.h */; };
+		5F0220F5268DA2A500D9EEF1 /* CallClose.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02200B268DA2A400D9EEF1 /* CallClose.m */; };
+		5F0220F6268DA2A500D9EEF1 /* registerInstall.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02200C268DA2A400D9EEF1 /* registerInstall.h */; };
+		5F0220F7268DA2A500D9EEF1 /* NewvalueChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02200D268DA2A400D9EEF1 /* NewvalueChange.m */; };
+		5F0220F8268DA2A500D9EEF1 /* registerOpen.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02200E268DA2A400D9EEF1 /* registerOpen.m */; };
+		5F0220F9268DA2A500D9EEF1 /* registerInstall.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02200F268DA2A400D9EEF1 /* registerInstall.m */; };
+		5F0220FA268DA2A500D9EEF1 /* CallClose.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022010268DA2A400D9EEF1 /* CallClose.h */; };
+		5F0220FB268DA2A500D9EEF1 /* DLStrongMatchHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022011268DA2A400D9EEF1 /* DLStrongMatchHelper.m */; };
+		5F0220FC268DA2A500D9EEF1 /* DeepShareImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022012268DA2A400D9EEF1 /* DeepShareImpl.m */; };
+		5F0220FD268DA2A500D9EEF1 /* DLParam.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022013268DA2A400D9EEF1 /* DLParam.h */; };
+		5F0220FE268DA2A500D9EEF1 /* DLSystemObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022014268DA2A400D9EEF1 /* DLSystemObserver.m */; };
+		5F0220FF268DA2A500D9EEF1 /* getNewUsage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022015268DA2A400D9EEF1 /* getNewUsage.m */; };
+		5F022100268DA2A500D9EEF1 /* DLViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022016268DA2A400D9EEF1 /* DLViewController.h */; };
+		5F022101268DA2A500D9EEF1 /* DeepShare.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022017268DA2A400D9EEF1 /* DeepShare.h */; };
+		5F022102268DA2A500D9EEF1 /* Zhuge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02201A268DA2A400D9EEF1 /* Zhuge.m */; };
+		5F022103268DA2A500D9EEF1 /* ZAConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02201B268DA2A400D9EEF1 /* ZAConstants.h */; };
+		5F022104268DA2A500D9EEF1 /* ZhugeJS.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02201C268DA2A400D9EEF1 /* ZhugeJS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5F022105268DA2A500D9EEF1 /* ZhugeConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02201D268DA2A400D9EEF1 /* ZhugeConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5F022106268DA2A500D9EEF1 /* ZhugeConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02201E268DA2A400D9EEF1 /* ZhugeConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5F022107268DA2A500D9EEF1 /* ZAConstants+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02201F268DA2A400D9EEF1 /* ZAConstants+Private.h */; };
+		5F022108268DA2A500D9EEF1 /* ZhugeEventProperty.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022020268DA2A400D9EEF1 /* ZhugeEventProperty.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5F022109268DA2A500D9EEF1 /* ZGLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022021268DA2A400D9EEF1 /* ZGLog.h */; };
+		5F02210A268DA2A500D9EEF1 /* ZhugeHeaders.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022022268DA2A400D9EEF1 /* ZhugeHeaders.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5F02210B268DA2A500D9EEF1 /* ZhugePrivates.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022023268DA2A400D9EEF1 /* ZhugePrivates.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5F02210C268DA2A500D9EEF1 /* Zhuge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022024268DA2A400D9EEF1 /* Zhuge.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5F02210D268DA2A500D9EEF1 /* ZhugeJS.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022025268DA2A400D9EEF1 /* ZhugeJS.m */; };
+		5F02210E268DA2A500D9EEF1 /* ZAConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022026268DA2A400D9EEF1 /* ZAConstants.m */; };
+		5F02210F268DA2A500D9EEF1 /* ZhugeConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022027268DA2A400D9EEF1 /* ZhugeConfig.m */; };
+		5F022110268DA2A500D9EEF1 /* ZGSharedDur.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022029268DA2A400D9EEF1 /* ZGSharedDur.h */; };
+		5F022111268DA2A500D9EEF1 /* NSObject+Zhuge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02202A268DA2A400D9EEF1 /* NSObject+Zhuge.h */; };
+		5F022112268DA2A500D9EEF1 /* ZGReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02202B268DA2A400D9EEF1 /* ZGReachability.m */; };
+		5F022113268DA2A500D9EEF1 /* ZGHttpHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02202C268DA2A400D9EEF1 /* ZGHttpHelper.m */; };
+		5F022114268DA2A500D9EEF1 /* ZGUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02202D268DA2A400D9EEF1 /* ZGUtil.h */; };
+		5F022115268DA2A500D9EEF1 /* ZGSqliteManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02202E268DA2A400D9EEF1 /* ZGSqliteManager.h */; };
+		5F022116268DA2A500D9EEF1 /* ZGSharedDur.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02202F268DA2A400D9EEF1 /* ZGSharedDur.m */; };
+		5F022117268DA2A500D9EEF1 /* ZGHttpHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022030268DA2A400D9EEF1 /* ZGHttpHelper.h */; };
+		5F022118268DA2A500D9EEF1 /* ZGReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022031268DA2A400D9EEF1 /* ZGReachability.h */; };
+		5F022119268DA2A500D9EEF1 /* NSObject+Zhuge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022032268DA2A400D9EEF1 /* NSObject+Zhuge.m */; };
+		5F02211A268DA2A500D9EEF1 /* ZGUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022033268DA2A400D9EEF1 /* ZGUtil.m */; };
+		5F02211B268DA2A500D9EEF1 /* ZGSqliteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022034268DA2A400D9EEF1 /* ZGSqliteManager.m */; };
+		5F02211C268DA2A500D9EEF1 /* ZhugeCompres.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022036268DA2A400D9EEF1 /* ZhugeCompres.h */; };
+		5F02211D268DA2A500D9EEF1 /* ZASwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022037268DA2A400D9EEF1 /* ZASwizzle.m */; };
+		5F02211E268DA2A500D9EEF1 /* ZADeviceId.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022038268DA2A400D9EEF1 /* ZADeviceId.h */; };
+		5F02211F268DA2A500D9EEF1 /* ZGDeviceInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022039268DA2A400D9EEF1 /* ZGDeviceInfo.h */; };
+		5F022120268DA2A500D9EEF1 /* ZGCMMotionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02203A268DA2A400D9EEF1 /* ZGCMMotionManager.m */; };
+		5F022121268DA2A500D9EEF1 /* ZGRequestManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02203B268DA2A400D9EEF1 /* ZGRequestManager.h */; };
+		5F022122268DA2A500D9EEF1 /* ZhugeBase64.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02203C268DA2A400D9EEF1 /* ZhugeBase64.h */; };
+		5F022123268DA2A500D9EEF1 /* ZGUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02203D268DA2A400D9EEF1 /* ZGUtils.m */; };
+		5F022124268DA2A500D9EEF1 /* ZGLocationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02203E268DA2A400D9EEF1 /* ZGLocationManager.h */; };
+		5F022125268DA2A500D9EEF1 /* ZGRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02203F268DA2A400D9EEF1 /* ZGRequest.h */; };
+		5F022126268DA2A500D9EEF1 /* ZASwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022040268DA2A400D9EEF1 /* ZASwizzle.h */; };
+		5F022127268DA2A500D9EEF1 /* ZhugeCompres.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022041268DA2A400D9EEF1 /* ZhugeCompres.m */; };
+		5F022128268DA2A500D9EEF1 /* ZADeviceId.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022042268DA2A400D9EEF1 /* ZADeviceId.m */; };
+		5F022129268DA2A600D9EEF1 /* ZGRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022043268DA2A400D9EEF1 /* ZGRequestManager.m */; };
+		5F02212A268DA2A600D9EEF1 /* ZGDeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022044268DA2A400D9EEF1 /* ZGDeviceInfo.m */; };
+		5F02212B268DA2A600D9EEF1 /* ZGCMMotionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022045268DA2A400D9EEF1 /* ZGCMMotionManager.h */; };
+		5F02212C268DA2A600D9EEF1 /* ZGRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022046268DA2A400D9EEF1 /* ZGRequest.m */; };
+		5F02212D268DA2A600D9EEF1 /* ZGLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022047268DA2A400D9EEF1 /* ZGLocationManager.m */; };
+		5F02212E268DA2A600D9EEF1 /* ZhugeBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022048268DA2A400D9EEF1 /* ZhugeBase64.m */; };
+		5F02212F268DA2A600D9EEF1 /* ZGUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022049268DA2A400D9EEF1 /* ZGUtils.h */; };
+		5F022130268DA2A600D9EEF1 /* WKWebView+ZABridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02204B268DA2A400D9EEF1 /* WKWebView+ZABridge.m */; };
+		5F022131268DA2A600D9EEF1 /* WKWebView+ZABridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02204C268DA2A400D9EEF1 /* WKWebView+ZABridge.h */; };
+		5F022132268DA2A600D9EEF1 /* UIGestureRecognizer+Zhuge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02204E268DA2A400D9EEF1 /* UIGestureRecognizer+Zhuge.h */; };
+		5F022133268DA2A600D9EEF1 /* ZADelegateProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02204F268DA2A400D9EEF1 /* ZADelegateProxy.h */; };
+		5F022134268DA2A600D9EEF1 /* NSObject+ZACellClick.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022050268DA2A400D9EEF1 /* NSObject+ZACellClick.h */; };
+		5F022135268DA2A600D9EEF1 /* ZhugeAutoTrackUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022051268DA2A400D9EEF1 /* ZhugeAutoTrackUtils.m */; };
+		5F022136268DA2A600D9EEF1 /* ZAMethodHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022052268DA2A400D9EEF1 /* ZAMethodHelper.h */; };
+		5F022137268DA2A600D9EEF1 /* ZAAutoTrackProperty.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022053268DA2A400D9EEF1 /* ZAAutoTrackProperty.h */; };
+		5F022138268DA2A600D9EEF1 /* UIApplication+Zhuge.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022054268DA2A400D9EEF1 /* UIApplication+Zhuge.h */; };
+		5F022139268DA2A600D9EEF1 /* UIViewController+AutoTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022055268DA2A400D9EEF1 /* UIViewController+AutoTrack.m */; };
+		5F02213A268DA2A600D9EEF1 /* ZhugeSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022056268DA2A400D9EEF1 /* ZhugeSwizzle.m */; };
+		5F02213B268DA2A600D9EEF1 /* ZAClassHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022057268DA2A400D9EEF1 /* ZAClassHelper.h */; };
+		5F02213C268DA2A600D9EEF1 /* UIScrollView+AutoTrack.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022058268DA2A400D9EEF1 /* UIScrollView+AutoTrack.h */; };
+		5F02213D268DA2A600D9EEF1 /* ZAViews.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022059268DA2A400D9EEF1 /* ZAViews.h */; };
+		5F02213E268DA2A600D9EEF1 /* NSObject+ZACellClick.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02205A268DA2A400D9EEF1 /* NSObject+ZACellClick.m */; };
+		5F02213F268DA2A600D9EEF1 /* ZADelegateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02205B268DA2A400D9EEF1 /* ZADelegateProxy.m */; };
+		5F022140268DA2A600D9EEF1 /* UIGestureRecognizer+Zhuge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02205C268DA2A400D9EEF1 /* UIGestureRecognizer+Zhuge.m */; };
+		5F022141268DA2A600D9EEF1 /* UIViewController+AutoTrack.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02205D268DA2A400D9EEF1 /* UIViewController+AutoTrack.h */; };
+		5F022142268DA2A600D9EEF1 /* UIApplication+Zhuge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02205E268DA2A400D9EEF1 /* UIApplication+Zhuge.m */; };
+		5F022143268DA2A600D9EEF1 /* ZAMethodHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02205F268DA2A400D9EEF1 /* ZAMethodHelper.m */; };
+		5F022144268DA2A600D9EEF1 /* ZhugeAutoTrackUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022060268DA2A500D9EEF1 /* ZhugeAutoTrackUtils.h */; };
+		5F022145268DA2A600D9EEF1 /* ZAClassHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022061268DA2A500D9EEF1 /* ZAClassHelper.m */; };
+		5F022146268DA2A600D9EEF1 /* ZhugeSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022062268DA2A500D9EEF1 /* ZhugeSwizzle.h */; };
+		5F022147268DA2A600D9EEF1 /* UIScrollView+AutoTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022063268DA2A500D9EEF1 /* UIScrollView+AutoTrack.m */; };
+		5F022148268DA2A600D9EEF1 /* ZAViews.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022064268DA2A500D9EEF1 /* ZAViews.m */; };
+		5F022149268DA2A600D9EEF1 /* MPObjectSerializerContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022066268DA2A500D9EEF1 /* MPObjectSerializerContext.h */; };
+		5F02214A268DA2A600D9EEF1 /* ZGAbstractABTestDesignerMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022067268DA2A500D9EEF1 /* ZGAbstractABTestDesignerMessage.m */; };
+		5F02214B268DA2A600D9EEF1 /* MPPropertyDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022068268DA2A500D9EEF1 /* MPPropertyDescription.h */; };
+		5F02214C268DA2A600D9EEF1 /* MPUICollectionViewBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022069268DA2A500D9EEF1 /* MPUICollectionViewBinding.m */; };
+		5F02214D268DA2A600D9EEF1 /* ZGEventBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02206A268DA2A500D9EEF1 /* ZGEventBinding.h */; };
+		5F02214E268DA2A600D9EEF1 /* MPUIFontToNSDictionaryValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02206B268DA2A500D9EEF1 /* MPUIFontToNSDictionaryValueTransformer.m */; };
+		5F02214F268DA2A600D9EEF1 /* ShakeGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02206C268DA2A500D9EEF1 /* ShakeGesture.m */; };
+		5F022150268DA2A600D9EEF1 /* MPClassDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02206D268DA2A500D9EEF1 /* MPClassDescription.h */; };
+		5F022151268DA2A600D9EEF1 /* ZGABTestDesignerClearRequestMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02206E268DA2A500D9EEF1 /* ZGABTestDesignerClearRequestMessage.h */; };
+		5F022152268DA2A600D9EEF1 /* MPUIImageToNSDictionaryValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02206F268DA2A500D9EEF1 /* MPUIImageToNSDictionaryValueTransformer.m */; };
+		5F022153268DA2A600D9EEF1 /* MPApplicationStateSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022070268DA2A500D9EEF1 /* MPApplicationStateSerializer.h */; };
+		5F022154268DA2A600D9EEF1 /* _MPTweakBindObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022071268DA2A500D9EEF1 /* _MPTweakBindObserver.h */; };
+		5F022155268DA2A600D9EEF1 /* UIColor+MPColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022072268DA2A500D9EEF1 /* UIColor+MPColor.m */; };
+		5F022156268DA2A600D9EEF1 /* SelectorEvaluator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022073268DA2A500D9EEF1 /* SelectorEvaluator.m */; };
+		5F022157268DA2A600D9EEF1 /* MPDisplayTrigger.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022074268DA2A500D9EEF1 /* MPDisplayTrigger.h */; };
+		5F022158268DA2A600D9EEF1 /* MPCGAffineTransformToNSDictionaryValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022075268DA2A500D9EEF1 /* MPCGAffineTransformToNSDictionaryValueTransformer.m */; };
+		5F022159268DA2A600D9EEF1 /* ZGABTestDesignerChangeResponseMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022076268DA2A500D9EEF1 /* ZGABTestDesignerChangeResponseMessage.m */; };
+		5F02215A268DA2A600D9EEF1 /* ZGABTestDesignerDeviceInfoResponseMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022077268DA2A500D9EEF1 /* ZGABTestDesignerDeviceInfoResponseMessage.h */; };
+		5F02215B268DA2A600D9EEF1 /* MPEnumDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022078268DA2A500D9EEF1 /* MPEnumDescription.m */; };
+		5F02215C268DA2A600D9EEF1 /* ZGABTestDesignerDisconnectMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022079268DA2A500D9EEF1 /* ZGABTestDesignerDisconnectMessage.h */; };
+		5F02215D268DA2A600D9EEF1 /* MPABTestDesignerSnapshotResponseMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02207A268DA2A500D9EEF1 /* MPABTestDesignerSnapshotResponseMessage.m */; };
+		5F02215E268DA2A600D9EEF1 /* SessionMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02207B268DA2A500D9EEF1 /* SessionMetadata.m */; };
+		5F02215F268DA2A600D9EEF1 /* MPObjectSerializerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02207C268DA2A500D9EEF1 /* MPObjectSerializerConfig.m */; };
+		5F022160268DA2A600D9EEF1 /* MPCGRectToNSDictionaryValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02207D268DA2A500D9EEF1 /* MPCGRectToNSDictionaryValueTransformer.m */; };
+		5F022161268DA2A600D9EEF1 /* MPNSNumberToCGFloatValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02207E268DA2A500D9EEF1 /* MPNSNumberToCGFloatValueTransformer.m */; };
+		5F022162268DA2A600D9EEF1 /* MPUITableViewBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02207F268DA2A500D9EEF1 /* MPUITableViewBinding.m */; };
+		5F022163268DA2A600D9EEF1 /* ZGVariant.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022080268DA2A500D9EEF1 /* ZGVariant.h */; };
+		5F022164268DA2A600D9EEF1 /* ZGABTestDesignerSnapshotRequestMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022081268DA2A500D9EEF1 /* ZGABTestDesignerSnapshotRequestMessage.m */; };
+		5F022165268DA2A600D9EEF1 /* UIImage+MPImageEffects.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022082268DA2A500D9EEF1 /* UIImage+MPImageEffects.h */; };
+		5F022166268DA2A600D9EEF1 /* MPABTestDesignerTweakResponseMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022083268DA2A500D9EEF1 /* MPABTestDesignerTweakResponseMessage.m */; };
+		5F022167268DA2A600D9EEF1 /* ZGABTestDesignerConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022084268DA2A500D9EEF1 /* ZGABTestDesignerConnection.h */; };
+		5F022168268DA2A600D9EEF1 /* UIImage+MPAverageColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022085268DA2A500D9EEF1 /* UIImage+MPAverageColor.h */; };
+		5F022169268DA2A600D9EEF1 /* MPDesignerEventBindingResponseMesssage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022086268DA2A500D9EEF1 /* MPDesignerEventBindingResponseMesssage.m */; };
+		5F02216A268DA2A600D9EEF1 /* MPDesignerSessionCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022087268DA2A500D9EEF1 /* MPDesignerSessionCollection.h */; };
+		5F02216B268DA2A600D9EEF1 /* MPTweakStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022088268DA2A500D9EEF1 /* MPTweakStore.h */; };
+		5F02216C268DA2A600D9EEF1 /* MPNSAttributedStringToNSDictionaryValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022089268DA2A500D9EEF1 /* MPNSAttributedStringToNSDictionaryValueTransformer.m */; };
+		5F02216D268DA2A600D9EEF1 /* MPABTestDesignerTweakRequestMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02208A268DA2A500D9EEF1 /* MPABTestDesignerTweakRequestMessage.h */; };
+		5F02216E268DA2A600D9EEF1 /* ZGWebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02208B268DA2A500D9EEF1 /* ZGWebSocket.h */; };
+		5F02216F268DA2A600D9EEF1 /* MPUIControlBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02208C268DA2A500D9EEF1 /* MPUIControlBinding.h */; };
+		5F022170268DA2A600D9EEF1 /* ZGABTestDesignerClearResponseMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02208D268DA2A500D9EEF1 /* ZGABTestDesignerClearResponseMessage.m */; };
+		5F022171268DA2A600D9EEF1 /* NSInvocation+MPHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02208E268DA2A500D9EEF1 /* NSInvocation+MPHelpers.m */; };
+		5F022172268DA2A600D9EEF1 /* UIView+MPHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02208F268DA2A500D9EEF1 /* UIView+MPHelpers.m */; };
+		5F022173268DA2A600D9EEF1 /* MPCGSizeToNSDictionaryValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022090268DA2A500D9EEF1 /* MPCGSizeToNSDictionaryValueTransformer.m */; };
+		5F022174268DA2A600D9EEF1 /* MPFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022091268DA2A500D9EEF1 /* MPFoundation.h */; };
+		5F022175268DA2A600D9EEF1 /* MPSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022092268DA2A500D9EEF1 /* MPSwizzle.m */; };
+		5F022176268DA2A600D9EEF1 /* NSThread+Helpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022093268DA2A500D9EEF1 /* NSThread+Helpers.h */; };
+		5F022177268DA2A600D9EEF1 /* MPObjectIdentifierProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022094268DA2A500D9EEF1 /* MPObjectIdentifierProvider.h */; };
+		5F022178268DA2A600D9EEF1 /* MPObjectIdentityProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022095268DA2A500D9EEF1 /* MPObjectIdentityProvider.m */; };
+		5F022179268DA2A600D9EEF1 /* MPTweak.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022096268DA2A500D9EEF1 /* MPTweak.m */; };
+		5F02217A268DA2A600D9EEF1 /* ZGABTestDesignerChangeRequestMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022097268DA2A500D9EEF1 /* ZGABTestDesignerChangeRequestMessage.m */; };
+		5F02217B268DA2A600D9EEF1 /* ZGABTestDesignerDeviceInfoRequestMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F022098268DA2A500D9EEF1 /* ZGABTestDesignerDeviceInfoRequestMessage.m */; };
+		5F02217C268DA2A600D9EEF1 /* MPSwizzler.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F022099268DA2A500D9EEF1 /* MPSwizzler.h */; };
+		5F02217D268DA2A600D9EEF1 /* MPObjectSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02209A268DA2A500D9EEF1 /* MPObjectSelector.h */; };
+		5F02217E268DA2A600D9EEF1 /* MPObjectSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02209B268DA2A500D9EEF1 /* MPObjectSerializer.h */; };
+		5F02217F268DA2A600D9EEF1 /* MPSequenceGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02209C268DA2A500D9EEF1 /* MPSequenceGenerator.m */; };
+		5F022180268DA2A600D9EEF1 /* MPTweakInline.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02209D268DA2A500D9EEF1 /* MPTweakInline.m */; };
+		5F022181268DA2A600D9EEF1 /* MPTypeDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F02209E268DA2A500D9EEF1 /* MPTypeDescription.m */; };
+		5F022182268DA2A600D9EEF1 /* SelectorEvaluator.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F02209F268DA2A500D9EEF1 /* SelectorEvaluator.h */; };
+		5F022183268DA2A600D9EEF1 /* _MPTweakBindObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220A0268DA2A500D9EEF1 /* _MPTweakBindObserver.m */; };
+		5F022184268DA2A600D9EEF1 /* UIColor+MPColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220A1268DA2A500D9EEF1 /* UIColor+MPColor.h */; };
+		5F022185268DA2A600D9EEF1 /* MPApplicationStateSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220A2268DA2A500D9EEF1 /* MPApplicationStateSerializer.m */; };
+		5F022186268DA2A600D9EEF1 /* MPPassThroughValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220A3268DA2A500D9EEF1 /* MPPassThroughValueTransformer.m */; };
+		5F022187268DA2A600D9EEF1 /* ZGABTestDesignerClearRequestMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220A4268DA2A500D9EEF1 /* ZGABTestDesignerClearRequestMessage.m */; };
+		5F022188268DA2A600D9EEF1 /* ShakeGesture.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220A5268DA2A500D9EEF1 /* ShakeGesture.h */; };
+		5F022189268DA2A600D9EEF1 /* MPClassDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220A6268DA2A500D9EEF1 /* MPClassDescription.m */; };
+		5F02218A268DA2A600D9EEF1 /* ZGEventBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220A7268DA2A500D9EEF1 /* ZGEventBinding.m */; };
+		5F02218B268DA2A600D9EEF1 /* MPUICollectionViewBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220A8268DA2A500D9EEF1 /* MPUICollectionViewBinding.h */; };
+		5F02218C268DA2A600D9EEF1 /* MPPropertyDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220A9268DA2A500D9EEF1 /* MPPropertyDescription.m */; };
+		5F02218D268DA2A600D9EEF1 /* MPObjectSerializerContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220AA268DA2A500D9EEF1 /* MPObjectSerializerContext.m */; };
+		5F02218E268DA2A600D9EEF1 /* ZGAbstractABTestDesignerMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220AB268DA2A500D9EEF1 /* ZGAbstractABTestDesignerMessage.h */; };
+		5F02218F268DA2A600D9EEF1 /* MPABTestDesignerTweakResponseMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220AC268DA2A500D9EEF1 /* MPABTestDesignerTweakResponseMessage.h */; };
+		5F022190268DA2A600D9EEF1 /* UIImage+MPImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220AD268DA2A500D9EEF1 /* UIImage+MPImageEffects.m */; };
+		5F022191268DA2A600D9EEF1 /* ZGABTestDesignerSnapshotRequestMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220AE268DA2A500D9EEF1 /* ZGABTestDesignerSnapshotRequestMessage.h */; };
+		5F022192268DA2A600D9EEF1 /* ZGVariant.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220AF268DA2A500D9EEF1 /* ZGVariant.m */; };
+		5F022193268DA2A600D9EEF1 /* MPUITableViewBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220B0268DA2A500D9EEF1 /* MPUITableViewBinding.h */; };
+		5F022194268DA2A600D9EEF1 /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220B1268DA2A500D9EEF1 /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m */; };
+		5F022195268DA2A600D9EEF1 /* MPObjectSerializerConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220B2268DA2A500D9EEF1 /* MPObjectSerializerConfig.h */; };
+		5F022196268DA2A600D9EEF1 /* ZGABTestDesignerMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220B3268DA2A500D9EEF1 /* ZGABTestDesignerMessage.h */; };
+		5F022197268DA2A600D9EEF1 /* ZGABTestDesignerDisconnectMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220B4268DA2A500D9EEF1 /* ZGABTestDesignerDisconnectMessage.m */; };
+		5F022198268DA2A600D9EEF1 /* SessionMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220B5268DA2A500D9EEF1 /* SessionMetadata.h */; };
+		5F022199268DA2A600D9EEF1 /* MPABTestDesignerSnapshotResponseMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220B6268DA2A500D9EEF1 /* MPABTestDesignerSnapshotResponseMessage.h */; };
+		5F02219A268DA2A600D9EEF1 /* MPEnumDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220B7268DA2A500D9EEF1 /* MPEnumDescription.h */; };
+		5F02219B268DA2A600D9EEF1 /* ZGABTestDesignerDeviceInfoResponseMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220B8268DA2A500D9EEF1 /* ZGABTestDesignerDeviceInfoResponseMessage.m */; };
+		5F02219C268DA2A600D9EEF1 /* ZGABTestDesignerChangeResponseMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220B9268DA2A500D9EEF1 /* ZGABTestDesignerChangeResponseMessage.h */; };
+		5F02219D268DA2A600D9EEF1 /* MPUIColorToNSStringValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220BA268DA2A500D9EEF1 /* MPUIColorToNSStringValueTransformer.m */; };
+		5F02219E268DA2A600D9EEF1 /* MPDesignerTrackMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220BB268DA2A500D9EEF1 /* MPDesignerTrackMessage.m */; };
+		5F02219F268DA2A600D9EEF1 /* MPDisplayTrigger.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220BC268DA2A500D9EEF1 /* MPDisplayTrigger.m */; };
+		5F0221A0268DA2A600D9EEF1 /* UIView+MPHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220BD268DA2A500D9EEF1 /* UIView+MPHelpers.h */; };
+		5F0221A1268DA2A600D9EEF1 /* ZGABTestDesignerClearResponseMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220BE268DA2A500D9EEF1 /* ZGABTestDesignerClearResponseMessage.h */; };
+		5F0221A2268DA2A600D9EEF1 /* NSInvocation+MPHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220BF268DA2A500D9EEF1 /* NSInvocation+MPHelpers.h */; };
+		5F0221A3268DA2A600D9EEF1 /* MPUIControlBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220C0268DA2A500D9EEF1 /* MPUIControlBinding.m */; };
+		5F0221A4268DA2A600D9EEF1 /* MPCGPointToNSDictionaryValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220C1268DA2A500D9EEF1 /* MPCGPointToNSDictionaryValueTransformer.m */; };
+		5F0221A5268DA2A600D9EEF1 /* ZGWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220C2268DA2A500D9EEF1 /* ZGWebSocket.m */; };
+		5F0221A6268DA2A600D9EEF1 /* MPABTestDesignerTweakRequestMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220C3268DA2A500D9EEF1 /* MPABTestDesignerTweakRequestMessage.m */; };
+		5F0221A7268DA2A600D9EEF1 /* MPTweakStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220C4268DA2A500D9EEF1 /* MPTweakStore.m */; };
+		5F0221A8268DA2A600D9EEF1 /* MPTweakInlineInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220C5268DA2A500D9EEF1 /* MPTweakInlineInternal.h */; };
+		5F0221A9268DA2A600D9EEF1 /* MPBOOLToNSNumberValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220C6268DA2A500D9EEF1 /* MPBOOLToNSNumberValueTransformer.m */; };
+		5F0221AA268DA2A600D9EEF1 /* UIImage+MPAverageColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220C7268DA2A500D9EEF1 /* UIImage+MPAverageColor.m */; };
+		5F0221AB268DA2A600D9EEF1 /* ZGABTestDesignerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220C8268DA2A500D9EEF1 /* ZGABTestDesignerConnection.m */; };
+		5F0221AC268DA2A600D9EEF1 /* MPTypeDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220C9268DA2A500D9EEF1 /* MPTypeDescription.h */; };
+		5F0221AD268DA2A600D9EEF1 /* MPTweakInline.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220CA268DA2A500D9EEF1 /* MPTweakInline.h */; };
+		5F0221AE268DA2A600D9EEF1 /* MPSequenceGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220CB268DA2A500D9EEF1 /* MPSequenceGenerator.h */; };
+		5F0221AF268DA2A600D9EEF1 /* MPDesignerEventBindingRequestMesssage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220CC268DA2A500D9EEF1 /* MPDesignerEventBindingRequestMesssage.m */; };
+		5F0221B0268DA2A600D9EEF1 /* MPObjectSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220CD268DA2A500D9EEF1 /* MPObjectSerializer.m */; };
+		5F0221B1268DA2A600D9EEF1 /* MPValueTransformers.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220CE268DA2A500D9EEF1 /* MPValueTransformers.h */; };
+		5F0221B2268DA2A600D9EEF1 /* MPSwizzler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220CF268DA2A500D9EEF1 /* MPSwizzler.m */; };
+		5F0221B3268DA2A600D9EEF1 /* MPDesignerEventBindingMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220D0268DA2A500D9EEF1 /* MPDesignerEventBindingMessage.h */; };
+		5F0221B4268DA2A600D9EEF1 /* MPObjectSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220D1268DA2A500D9EEF1 /* MPObjectSelector.m */; };
+		5F0221B5268DA2A600D9EEF1 /* ZGABTestDesignerDeviceInfoRequestMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220D2268DA2A500D9EEF1 /* ZGABTestDesignerDeviceInfoRequestMessage.h */; };
+		5F0221B6268DA2A600D9EEF1 /* ZGABTestDesignerChangeRequestMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220D3268DA2A500D9EEF1 /* ZGABTestDesignerChangeRequestMessage.h */; };
+		5F0221B7268DA2A600D9EEF1 /* MPTweak.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220D4268DA2A500D9EEF1 /* MPTweak.h */; };
+		5F0221B8268DA2A600D9EEF1 /* MPCGColorRefToNSStringValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220D5268DA2A500D9EEF1 /* MPCGColorRefToNSStringValueTransformer.m */; };
+		5F0221B9268DA2A600D9EEF1 /* MPObjectIdentityProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220D6268DA2A500D9EEF1 /* MPObjectIdentityProvider.h */; };
+		5F0221BA268DA2A600D9EEF1 /* NSThread+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220D7268DA2A500D9EEF1 /* NSThread+Helpers.m */; };
+		5F0221BB268DA2A600D9EEF1 /* MPCATransform3DToNSDictionaryValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F0220D8268DA2A500D9EEF1 /* MPCATransform3DToNSDictionaryValueTransformer.m */; };
+		5F0221BC268DA2A600D9EEF1 /* MPSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F0220D9268DA2A500D9EEF1 /* MPSwizzle.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5F9AA14F25AD8C5900BD12B8 /* ZGDeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGDeviceInfo.h; sourceTree = "<group>"; };
-		5F9AA15025AD8C5900BD12B8 /* ZGDeviceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGDeviceInfo.m; sourceTree = "<group>"; };
+		5F021FEF268DA2A400D9EEF1 /* DLServerInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLServerInterface.h; sourceTree = "<group>"; };
+		5F021FF0268DA2A400D9EEF1 /* DLServerResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLServerResponse.m; sourceTree = "<group>"; };
+		5F021FF1268DA2A400D9EEF1 /* DLServerRequestQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLServerRequestQueue.m; sourceTree = "<group>"; };
+		5F021FF2268DA2A400D9EEF1 /* DSError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSError.m; sourceTree = "<group>"; };
+		5F021FF3268DA2A400D9EEF1 /* DLServerRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLServerRequest.h; sourceTree = "<group>"; };
+		5F021FF4268DA2A400D9EEF1 /* DLPreferenceHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLPreferenceHelper.h; sourceTree = "<group>"; };
+		5F021FF5268DA2A400D9EEF1 /* DLTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLTime.h; sourceTree = "<group>"; };
+		5F021FF6268DA2A400D9EEF1 /* DSEncodingUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSEncodingUtils.m; sourceTree = "<group>"; };
+		5F021FF7268DA2A400D9EEF1 /* clearNewUsage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clearNewUsage.h; sourceTree = "<group>"; };
+		5F021FF8268DA2A400D9EEF1 /* DeepShareImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeepShareImpl.h; sourceTree = "<group>"; };
+		5F021FF9268DA2A400D9EEF1 /* DLStrongMatchHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLStrongMatchHelper.h; sourceTree = "<group>"; };
+		5F021FFA268DA2A400D9EEF1 /* DLConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLConfig.h; sourceTree = "<group>"; };
+		5F021FFB268DA2A400D9EEF1 /* DeepShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeepShare.m; sourceTree = "<group>"; };
+		5F021FFC268DA2A400D9EEF1 /* DLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLViewController.m; sourceTree = "<group>"; };
+		5F021FFD268DA2A400D9EEF1 /* getNewUsage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = getNewUsage.h; sourceTree = "<group>"; };
+		5F021FFE268DA2A400D9EEF1 /* DLSystemObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLSystemObserver.h; sourceTree = "<group>"; };
+		5F021FFF268DA2A400D9EEF1 /* DLServerRequestQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLServerRequestQueue.h; sourceTree = "<group>"; };
+		5F022000268DA2A400D9EEF1 /* DSError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSError.h; sourceTree = "<group>"; };
+		5F022001268DA2A400D9EEF1 /* DLServerResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLServerResponse.h; sourceTree = "<group>"; };
+		5F022002268DA2A400D9EEF1 /* DLServerInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLServerInterface.m; sourceTree = "<group>"; };
+		5F022003268DA2A400D9EEF1 /* clearNewUsage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = clearNewUsage.m; sourceTree = "<group>"; };
+		5F022004268DA2A400D9EEF1 /* DSEncodingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSEncodingUtils.h; sourceTree = "<group>"; };
+		5F022005268DA2A400D9EEF1 /* DLTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLTime.m; sourceTree = "<group>"; };
+		5F022006268DA2A400D9EEF1 /* DLPreferenceHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLPreferenceHelper.m; sourceTree = "<group>"; };
+		5F022007268DA2A400D9EEF1 /* DLServerRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLServerRequest.m; sourceTree = "<group>"; };
+		5F022009268DA2A400D9EEF1 /* NewvalueChange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewvalueChange.h; sourceTree = "<group>"; };
+		5F02200A268DA2A400D9EEF1 /* registerOpen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = registerOpen.h; sourceTree = "<group>"; };
+		5F02200B268DA2A400D9EEF1 /* CallClose.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallClose.m; sourceTree = "<group>"; };
+		5F02200C268DA2A400D9EEF1 /* registerInstall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = registerInstall.h; sourceTree = "<group>"; };
+		5F02200D268DA2A400D9EEF1 /* NewvalueChange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewvalueChange.m; sourceTree = "<group>"; };
+		5F02200E268DA2A400D9EEF1 /* registerOpen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = registerOpen.m; sourceTree = "<group>"; };
+		5F02200F268DA2A400D9EEF1 /* registerInstall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = registerInstall.m; sourceTree = "<group>"; };
+		5F022010268DA2A400D9EEF1 /* CallClose.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallClose.h; sourceTree = "<group>"; };
+		5F022011268DA2A400D9EEF1 /* DLStrongMatchHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLStrongMatchHelper.m; sourceTree = "<group>"; };
+		5F022012268DA2A400D9EEF1 /* DeepShareImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeepShareImpl.m; sourceTree = "<group>"; };
+		5F022013268DA2A400D9EEF1 /* DLParam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLParam.h; sourceTree = "<group>"; };
+		5F022014268DA2A400D9EEF1 /* DLSystemObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLSystemObserver.m; sourceTree = "<group>"; };
+		5F022015268DA2A400D9EEF1 /* getNewUsage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = getNewUsage.m; sourceTree = "<group>"; };
+		5F022016268DA2A400D9EEF1 /* DLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLViewController.h; sourceTree = "<group>"; };
+		5F022017268DA2A400D9EEF1 /* DeepShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeepShare.h; sourceTree = "<group>"; };
+		5F02201A268DA2A400D9EEF1 /* Zhuge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Zhuge.m; sourceTree = "<group>"; };
+		5F02201B268DA2A400D9EEF1 /* ZAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZAConstants.h; sourceTree = "<group>"; };
+		5F02201C268DA2A400D9EEF1 /* ZhugeJS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeJS.h; sourceTree = "<group>"; };
+		5F02201D268DA2A400D9EEF1 /* ZhugeConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeConstants.h; sourceTree = "<group>"; };
+		5F02201E268DA2A400D9EEF1 /* ZhugeConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeConfig.h; sourceTree = "<group>"; };
+		5F02201F268DA2A400D9EEF1 /* ZAConstants+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZAConstants+Private.h"; sourceTree = "<group>"; };
+		5F022020268DA2A400D9EEF1 /* ZhugeEventProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeEventProperty.h; sourceTree = "<group>"; };
+		5F022021268DA2A400D9EEF1 /* ZGLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGLog.h; sourceTree = "<group>"; };
+		5F022022268DA2A400D9EEF1 /* ZhugeHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeHeaders.h; sourceTree = "<group>"; };
+		5F022023268DA2A400D9EEF1 /* ZhugePrivates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugePrivates.h; sourceTree = "<group>"; };
+		5F022024268DA2A400D9EEF1 /* Zhuge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Zhuge.h; sourceTree = "<group>"; };
+		5F022025268DA2A400D9EEF1 /* ZhugeJS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeJS.m; sourceTree = "<group>"; };
+		5F022026268DA2A400D9EEF1 /* ZAConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZAConstants.m; sourceTree = "<group>"; };
+		5F022027268DA2A400D9EEF1 /* ZhugeConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeConfig.m; sourceTree = "<group>"; };
+		5F022029268DA2A400D9EEF1 /* ZGSharedDur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGSharedDur.h; sourceTree = "<group>"; };
+		5F02202A268DA2A400D9EEF1 /* NSObject+Zhuge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Zhuge.h"; sourceTree = "<group>"; };
+		5F02202B268DA2A400D9EEF1 /* ZGReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGReachability.m; sourceTree = "<group>"; };
+		5F02202C268DA2A400D9EEF1 /* ZGHttpHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGHttpHelper.m; sourceTree = "<group>"; };
+		5F02202D268DA2A400D9EEF1 /* ZGUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGUtil.h; sourceTree = "<group>"; };
+		5F02202E268DA2A400D9EEF1 /* ZGSqliteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGSqliteManager.h; sourceTree = "<group>"; };
+		5F02202F268DA2A400D9EEF1 /* ZGSharedDur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGSharedDur.m; sourceTree = "<group>"; };
+		5F022030268DA2A400D9EEF1 /* ZGHttpHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGHttpHelper.h; sourceTree = "<group>"; };
+		5F022031268DA2A400D9EEF1 /* ZGReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGReachability.h; sourceTree = "<group>"; };
+		5F022032268DA2A400D9EEF1 /* NSObject+Zhuge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Zhuge.m"; sourceTree = "<group>"; };
+		5F022033268DA2A400D9EEF1 /* ZGUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGUtil.m; sourceTree = "<group>"; };
+		5F022034268DA2A400D9EEF1 /* ZGSqliteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGSqliteManager.m; sourceTree = "<group>"; };
+		5F022036268DA2A400D9EEF1 /* ZhugeCompres.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeCompres.h; sourceTree = "<group>"; };
+		5F022037268DA2A400D9EEF1 /* ZASwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZASwizzle.m; sourceTree = "<group>"; };
+		5F022038268DA2A400D9EEF1 /* ZADeviceId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZADeviceId.h; sourceTree = "<group>"; };
+		5F022039268DA2A400D9EEF1 /* ZGDeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGDeviceInfo.h; sourceTree = "<group>"; };
+		5F02203A268DA2A400D9EEF1 /* ZGCMMotionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGCMMotionManager.m; sourceTree = "<group>"; };
+		5F02203B268DA2A400D9EEF1 /* ZGRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGRequestManager.h; sourceTree = "<group>"; };
+		5F02203C268DA2A400D9EEF1 /* ZhugeBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeBase64.h; sourceTree = "<group>"; };
+		5F02203D268DA2A400D9EEF1 /* ZGUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGUtils.m; sourceTree = "<group>"; };
+		5F02203E268DA2A400D9EEF1 /* ZGLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGLocationManager.h; sourceTree = "<group>"; };
+		5F02203F268DA2A400D9EEF1 /* ZGRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGRequest.h; sourceTree = "<group>"; };
+		5F022040268DA2A400D9EEF1 /* ZASwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZASwizzle.h; sourceTree = "<group>"; };
+		5F022041268DA2A400D9EEF1 /* ZhugeCompres.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeCompres.m; sourceTree = "<group>"; };
+		5F022042268DA2A400D9EEF1 /* ZADeviceId.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZADeviceId.m; sourceTree = "<group>"; };
+		5F022043268DA2A400D9EEF1 /* ZGRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGRequestManager.m; sourceTree = "<group>"; };
+		5F022044268DA2A400D9EEF1 /* ZGDeviceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGDeviceInfo.m; sourceTree = "<group>"; };
+		5F022045268DA2A400D9EEF1 /* ZGCMMotionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGCMMotionManager.h; sourceTree = "<group>"; };
+		5F022046268DA2A400D9EEF1 /* ZGRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGRequest.m; sourceTree = "<group>"; };
+		5F022047268DA2A400D9EEF1 /* ZGLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGLocationManager.m; sourceTree = "<group>"; };
+		5F022048268DA2A400D9EEF1 /* ZhugeBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeBase64.m; sourceTree = "<group>"; };
+		5F022049268DA2A400D9EEF1 /* ZGUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGUtils.h; sourceTree = "<group>"; };
+		5F02204B268DA2A400D9EEF1 /* WKWebView+ZABridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WKWebView+ZABridge.m"; sourceTree = "<group>"; };
+		5F02204C268DA2A400D9EEF1 /* WKWebView+ZABridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WKWebView+ZABridge.h"; sourceTree = "<group>"; };
+		5F02204E268DA2A400D9EEF1 /* UIGestureRecognizer+Zhuge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+Zhuge.h"; sourceTree = "<group>"; };
+		5F02204F268DA2A400D9EEF1 /* ZADelegateProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZADelegateProxy.h; sourceTree = "<group>"; };
+		5F022050268DA2A400D9EEF1 /* NSObject+ZACellClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+ZACellClick.h"; sourceTree = "<group>"; };
+		5F022051268DA2A400D9EEF1 /* ZhugeAutoTrackUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeAutoTrackUtils.m; sourceTree = "<group>"; };
+		5F022052268DA2A400D9EEF1 /* ZAMethodHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZAMethodHelper.h; sourceTree = "<group>"; };
+		5F022053268DA2A400D9EEF1 /* ZAAutoTrackProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZAAutoTrackProperty.h; sourceTree = "<group>"; };
+		5F022054268DA2A400D9EEF1 /* UIApplication+Zhuge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+Zhuge.h"; sourceTree = "<group>"; };
+		5F022055268DA2A400D9EEF1 /* UIViewController+AutoTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+AutoTrack.m"; sourceTree = "<group>"; };
+		5F022056268DA2A400D9EEF1 /* ZhugeSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeSwizzle.m; sourceTree = "<group>"; };
+		5F022057268DA2A400D9EEF1 /* ZAClassHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZAClassHelper.h; sourceTree = "<group>"; };
+		5F022058268DA2A400D9EEF1 /* UIScrollView+AutoTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+AutoTrack.h"; sourceTree = "<group>"; };
+		5F022059268DA2A400D9EEF1 /* ZAViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZAViews.h; sourceTree = "<group>"; };
+		5F02205A268DA2A400D9EEF1 /* NSObject+ZACellClick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ZACellClick.m"; sourceTree = "<group>"; };
+		5F02205B268DA2A400D9EEF1 /* ZADelegateProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZADelegateProxy.m; sourceTree = "<group>"; };
+		5F02205C268DA2A400D9EEF1 /* UIGestureRecognizer+Zhuge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+Zhuge.m"; sourceTree = "<group>"; };
+		5F02205D268DA2A400D9EEF1 /* UIViewController+AutoTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+AutoTrack.h"; sourceTree = "<group>"; };
+		5F02205E268DA2A400D9EEF1 /* UIApplication+Zhuge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+Zhuge.m"; sourceTree = "<group>"; };
+		5F02205F268DA2A400D9EEF1 /* ZAMethodHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZAMethodHelper.m; sourceTree = "<group>"; };
+		5F022060268DA2A500D9EEF1 /* ZhugeAutoTrackUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeAutoTrackUtils.h; sourceTree = "<group>"; };
+		5F022061268DA2A500D9EEF1 /* ZAClassHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZAClassHelper.m; sourceTree = "<group>"; };
+		5F022062268DA2A500D9EEF1 /* ZhugeSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeSwizzle.h; sourceTree = "<group>"; };
+		5F022063268DA2A500D9EEF1 /* UIScrollView+AutoTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+AutoTrack.m"; sourceTree = "<group>"; };
+		5F022064268DA2A500D9EEF1 /* ZAViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZAViews.m; sourceTree = "<group>"; };
+		5F022066268DA2A500D9EEF1 /* MPObjectSerializerContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPObjectSerializerContext.h; sourceTree = "<group>"; };
+		5F022067268DA2A500D9EEF1 /* ZGAbstractABTestDesignerMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGAbstractABTestDesignerMessage.m; sourceTree = "<group>"; };
+		5F022068268DA2A500D9EEF1 /* MPPropertyDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPPropertyDescription.h; sourceTree = "<group>"; };
+		5F022069268DA2A500D9EEF1 /* MPUICollectionViewBinding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPUICollectionViewBinding.m; sourceTree = "<group>"; };
+		5F02206A268DA2A500D9EEF1 /* ZGEventBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGEventBinding.h; sourceTree = "<group>"; };
+		5F02206B268DA2A500D9EEF1 /* MPUIFontToNSDictionaryValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPUIFontToNSDictionaryValueTransformer.m; sourceTree = "<group>"; };
+		5F02206C268DA2A500D9EEF1 /* ShakeGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShakeGesture.m; sourceTree = "<group>"; };
+		5F02206D268DA2A500D9EEF1 /* MPClassDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPClassDescription.h; sourceTree = "<group>"; };
+		5F02206E268DA2A500D9EEF1 /* ZGABTestDesignerClearRequestMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGABTestDesignerClearRequestMessage.h; sourceTree = "<group>"; };
+		5F02206F268DA2A500D9EEF1 /* MPUIImageToNSDictionaryValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPUIImageToNSDictionaryValueTransformer.m; sourceTree = "<group>"; };
+		5F022070268DA2A500D9EEF1 /* MPApplicationStateSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPApplicationStateSerializer.h; sourceTree = "<group>"; };
+		5F022071268DA2A500D9EEF1 /* _MPTweakBindObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _MPTweakBindObserver.h; sourceTree = "<group>"; };
+		5F022072268DA2A500D9EEF1 /* UIColor+MPColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+MPColor.m"; sourceTree = "<group>"; };
+		5F022073268DA2A500D9EEF1 /* SelectorEvaluator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectorEvaluator.m; sourceTree = "<group>"; };
+		5F022074268DA2A500D9EEF1 /* MPDisplayTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPDisplayTrigger.h; sourceTree = "<group>"; };
+		5F022075268DA2A500D9EEF1 /* MPCGAffineTransformToNSDictionaryValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPCGAffineTransformToNSDictionaryValueTransformer.m; sourceTree = "<group>"; };
+		5F022076268DA2A500D9EEF1 /* ZGABTestDesignerChangeResponseMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGABTestDesignerChangeResponseMessage.m; sourceTree = "<group>"; };
+		5F022077268DA2A500D9EEF1 /* ZGABTestDesignerDeviceInfoResponseMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGABTestDesignerDeviceInfoResponseMessage.h; sourceTree = "<group>"; };
+		5F022078268DA2A500D9EEF1 /* MPEnumDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPEnumDescription.m; sourceTree = "<group>"; };
+		5F022079268DA2A500D9EEF1 /* ZGABTestDesignerDisconnectMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGABTestDesignerDisconnectMessage.h; sourceTree = "<group>"; };
+		5F02207A268DA2A500D9EEF1 /* MPABTestDesignerSnapshotResponseMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPABTestDesignerSnapshotResponseMessage.m; sourceTree = "<group>"; };
+		5F02207B268DA2A500D9EEF1 /* SessionMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionMetadata.m; sourceTree = "<group>"; };
+		5F02207C268DA2A500D9EEF1 /* MPObjectSerializerConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPObjectSerializerConfig.m; sourceTree = "<group>"; };
+		5F02207D268DA2A500D9EEF1 /* MPCGRectToNSDictionaryValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPCGRectToNSDictionaryValueTransformer.m; sourceTree = "<group>"; };
+		5F02207E268DA2A500D9EEF1 /* MPNSNumberToCGFloatValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPNSNumberToCGFloatValueTransformer.m; sourceTree = "<group>"; };
+		5F02207F268DA2A500D9EEF1 /* MPUITableViewBinding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPUITableViewBinding.m; sourceTree = "<group>"; };
+		5F022080268DA2A500D9EEF1 /* ZGVariant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGVariant.h; sourceTree = "<group>"; };
+		5F022081268DA2A500D9EEF1 /* ZGABTestDesignerSnapshotRequestMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGABTestDesignerSnapshotRequestMessage.m; sourceTree = "<group>"; };
+		5F022082268DA2A500D9EEF1 /* UIImage+MPImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+MPImageEffects.h"; sourceTree = "<group>"; };
+		5F022083268DA2A500D9EEF1 /* MPABTestDesignerTweakResponseMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPABTestDesignerTweakResponseMessage.m; sourceTree = "<group>"; };
+		5F022084268DA2A500D9EEF1 /* ZGABTestDesignerConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGABTestDesignerConnection.h; sourceTree = "<group>"; };
+		5F022085268DA2A500D9EEF1 /* UIImage+MPAverageColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+MPAverageColor.h"; sourceTree = "<group>"; };
+		5F022086268DA2A500D9EEF1 /* MPDesignerEventBindingResponseMesssage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPDesignerEventBindingResponseMesssage.m; sourceTree = "<group>"; };
+		5F022087268DA2A500D9EEF1 /* MPDesignerSessionCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPDesignerSessionCollection.h; sourceTree = "<group>"; };
+		5F022088268DA2A500D9EEF1 /* MPTweakStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPTweakStore.h; sourceTree = "<group>"; };
+		5F022089268DA2A500D9EEF1 /* MPNSAttributedStringToNSDictionaryValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPNSAttributedStringToNSDictionaryValueTransformer.m; sourceTree = "<group>"; };
+		5F02208A268DA2A500D9EEF1 /* MPABTestDesignerTweakRequestMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPABTestDesignerTweakRequestMessage.h; sourceTree = "<group>"; };
+		5F02208B268DA2A500D9EEF1 /* ZGWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGWebSocket.h; sourceTree = "<group>"; };
+		5F02208C268DA2A500D9EEF1 /* MPUIControlBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPUIControlBinding.h; sourceTree = "<group>"; };
+		5F02208D268DA2A500D9EEF1 /* ZGABTestDesignerClearResponseMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGABTestDesignerClearResponseMessage.m; sourceTree = "<group>"; };
+		5F02208E268DA2A500D9EEF1 /* NSInvocation+MPHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSInvocation+MPHelpers.m"; sourceTree = "<group>"; };
+		5F02208F268DA2A500D9EEF1 /* UIView+MPHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MPHelpers.m"; sourceTree = "<group>"; };
+		5F022090268DA2A500D9EEF1 /* MPCGSizeToNSDictionaryValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPCGSizeToNSDictionaryValueTransformer.m; sourceTree = "<group>"; };
+		5F022091268DA2A500D9EEF1 /* MPFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPFoundation.h; sourceTree = "<group>"; };
+		5F022092268DA2A500D9EEF1 /* MPSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPSwizzle.m; sourceTree = "<group>"; };
+		5F022093268DA2A500D9EEF1 /* NSThread+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSThread+Helpers.h"; sourceTree = "<group>"; };
+		5F022094268DA2A500D9EEF1 /* MPObjectIdentifierProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPObjectIdentifierProvider.h; sourceTree = "<group>"; };
+		5F022095268DA2A500D9EEF1 /* MPObjectIdentityProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPObjectIdentityProvider.m; sourceTree = "<group>"; };
+		5F022096268DA2A500D9EEF1 /* MPTweak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPTweak.m; sourceTree = "<group>"; };
+		5F022097268DA2A500D9EEF1 /* ZGABTestDesignerChangeRequestMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGABTestDesignerChangeRequestMessage.m; sourceTree = "<group>"; };
+		5F022098268DA2A500D9EEF1 /* ZGABTestDesignerDeviceInfoRequestMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGABTestDesignerDeviceInfoRequestMessage.m; sourceTree = "<group>"; };
+		5F022099268DA2A500D9EEF1 /* MPSwizzler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPSwizzler.h; sourceTree = "<group>"; };
+		5F02209A268DA2A500D9EEF1 /* MPObjectSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPObjectSelector.h; sourceTree = "<group>"; };
+		5F02209B268DA2A500D9EEF1 /* MPObjectSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPObjectSerializer.h; sourceTree = "<group>"; };
+		5F02209C268DA2A500D9EEF1 /* MPSequenceGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPSequenceGenerator.m; sourceTree = "<group>"; };
+		5F02209D268DA2A500D9EEF1 /* MPTweakInline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPTweakInline.m; sourceTree = "<group>"; };
+		5F02209E268DA2A500D9EEF1 /* MPTypeDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPTypeDescription.m; sourceTree = "<group>"; };
+		5F02209F268DA2A500D9EEF1 /* SelectorEvaluator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectorEvaluator.h; sourceTree = "<group>"; };
+		5F0220A0268DA2A500D9EEF1 /* _MPTweakBindObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _MPTweakBindObserver.m; sourceTree = "<group>"; };
+		5F0220A1268DA2A500D9EEF1 /* UIColor+MPColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+MPColor.h"; sourceTree = "<group>"; };
+		5F0220A2268DA2A500D9EEF1 /* MPApplicationStateSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPApplicationStateSerializer.m; sourceTree = "<group>"; };
+		5F0220A3268DA2A500D9EEF1 /* MPPassThroughValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPPassThroughValueTransformer.m; sourceTree = "<group>"; };
+		5F0220A4268DA2A500D9EEF1 /* ZGABTestDesignerClearRequestMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGABTestDesignerClearRequestMessage.m; sourceTree = "<group>"; };
+		5F0220A5268DA2A500D9EEF1 /* ShakeGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShakeGesture.h; sourceTree = "<group>"; };
+		5F0220A6268DA2A500D9EEF1 /* MPClassDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPClassDescription.m; sourceTree = "<group>"; };
+		5F0220A7268DA2A500D9EEF1 /* ZGEventBinding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGEventBinding.m; sourceTree = "<group>"; };
+		5F0220A8268DA2A500D9EEF1 /* MPUICollectionViewBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPUICollectionViewBinding.h; sourceTree = "<group>"; };
+		5F0220A9268DA2A500D9EEF1 /* MPPropertyDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPPropertyDescription.m; sourceTree = "<group>"; };
+		5F0220AA268DA2A500D9EEF1 /* MPObjectSerializerContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPObjectSerializerContext.m; sourceTree = "<group>"; };
+		5F0220AB268DA2A500D9EEF1 /* ZGAbstractABTestDesignerMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGAbstractABTestDesignerMessage.h; sourceTree = "<group>"; };
+		5F0220AC268DA2A500D9EEF1 /* MPABTestDesignerTweakResponseMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPABTestDesignerTweakResponseMessage.h; sourceTree = "<group>"; };
+		5F0220AD268DA2A500D9EEF1 /* UIImage+MPImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+MPImageEffects.m"; sourceTree = "<group>"; };
+		5F0220AE268DA2A500D9EEF1 /* ZGABTestDesignerSnapshotRequestMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGABTestDesignerSnapshotRequestMessage.h; sourceTree = "<group>"; };
+		5F0220AF268DA2A500D9EEF1 /* ZGVariant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGVariant.m; sourceTree = "<group>"; };
+		5F0220B0268DA2A500D9EEF1 /* MPUITableViewBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPUITableViewBinding.h; sourceTree = "<group>"; };
+		5F0220B1268DA2A500D9EEF1 /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPUIEdgeInsetsToNSDictionaryValueTransformer.m; sourceTree = "<group>"; };
+		5F0220B2268DA2A500D9EEF1 /* MPObjectSerializerConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPObjectSerializerConfig.h; sourceTree = "<group>"; };
+		5F0220B3268DA2A500D9EEF1 /* ZGABTestDesignerMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGABTestDesignerMessage.h; sourceTree = "<group>"; };
+		5F0220B4268DA2A500D9EEF1 /* ZGABTestDesignerDisconnectMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGABTestDesignerDisconnectMessage.m; sourceTree = "<group>"; };
+		5F0220B5268DA2A500D9EEF1 /* SessionMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionMetadata.h; sourceTree = "<group>"; };
+		5F0220B6268DA2A500D9EEF1 /* MPABTestDesignerSnapshotResponseMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPABTestDesignerSnapshotResponseMessage.h; sourceTree = "<group>"; };
+		5F0220B7268DA2A500D9EEF1 /* MPEnumDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPEnumDescription.h; sourceTree = "<group>"; };
+		5F0220B8268DA2A500D9EEF1 /* ZGABTestDesignerDeviceInfoResponseMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGABTestDesignerDeviceInfoResponseMessage.m; sourceTree = "<group>"; };
+		5F0220B9268DA2A500D9EEF1 /* ZGABTestDesignerChangeResponseMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGABTestDesignerChangeResponseMessage.h; sourceTree = "<group>"; };
+		5F0220BA268DA2A500D9EEF1 /* MPUIColorToNSStringValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPUIColorToNSStringValueTransformer.m; sourceTree = "<group>"; };
+		5F0220BB268DA2A500D9EEF1 /* MPDesignerTrackMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPDesignerTrackMessage.m; sourceTree = "<group>"; };
+		5F0220BC268DA2A500D9EEF1 /* MPDisplayTrigger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPDisplayTrigger.m; sourceTree = "<group>"; };
+		5F0220BD268DA2A500D9EEF1 /* UIView+MPHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MPHelpers.h"; sourceTree = "<group>"; };
+		5F0220BE268DA2A500D9EEF1 /* ZGABTestDesignerClearResponseMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGABTestDesignerClearResponseMessage.h; sourceTree = "<group>"; };
+		5F0220BF268DA2A500D9EEF1 /* NSInvocation+MPHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSInvocation+MPHelpers.h"; sourceTree = "<group>"; };
+		5F0220C0268DA2A500D9EEF1 /* MPUIControlBinding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPUIControlBinding.m; sourceTree = "<group>"; };
+		5F0220C1268DA2A500D9EEF1 /* MPCGPointToNSDictionaryValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPCGPointToNSDictionaryValueTransformer.m; sourceTree = "<group>"; };
+		5F0220C2268DA2A500D9EEF1 /* ZGWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGWebSocket.m; sourceTree = "<group>"; };
+		5F0220C3268DA2A500D9EEF1 /* MPABTestDesignerTweakRequestMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPABTestDesignerTweakRequestMessage.m; sourceTree = "<group>"; };
+		5F0220C4268DA2A500D9EEF1 /* MPTweakStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPTweakStore.m; sourceTree = "<group>"; };
+		5F0220C5268DA2A500D9EEF1 /* MPTweakInlineInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPTweakInlineInternal.h; sourceTree = "<group>"; };
+		5F0220C6268DA2A500D9EEF1 /* MPBOOLToNSNumberValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPBOOLToNSNumberValueTransformer.m; sourceTree = "<group>"; };
+		5F0220C7268DA2A500D9EEF1 /* UIImage+MPAverageColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+MPAverageColor.m"; sourceTree = "<group>"; };
+		5F0220C8268DA2A500D9EEF1 /* ZGABTestDesignerConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGABTestDesignerConnection.m; sourceTree = "<group>"; };
+		5F0220C9268DA2A500D9EEF1 /* MPTypeDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPTypeDescription.h; sourceTree = "<group>"; };
+		5F0220CA268DA2A500D9EEF1 /* MPTweakInline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPTweakInline.h; sourceTree = "<group>"; };
+		5F0220CB268DA2A500D9EEF1 /* MPSequenceGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPSequenceGenerator.h; sourceTree = "<group>"; };
+		5F0220CC268DA2A500D9EEF1 /* MPDesignerEventBindingRequestMesssage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPDesignerEventBindingRequestMesssage.m; sourceTree = "<group>"; };
+		5F0220CD268DA2A500D9EEF1 /* MPObjectSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPObjectSerializer.m; sourceTree = "<group>"; };
+		5F0220CE268DA2A500D9EEF1 /* MPValueTransformers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPValueTransformers.h; sourceTree = "<group>"; };
+		5F0220CF268DA2A500D9EEF1 /* MPSwizzler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPSwizzler.m; sourceTree = "<group>"; };
+		5F0220D0268DA2A500D9EEF1 /* MPDesignerEventBindingMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPDesignerEventBindingMessage.h; sourceTree = "<group>"; };
+		5F0220D1268DA2A500D9EEF1 /* MPObjectSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPObjectSelector.m; sourceTree = "<group>"; };
+		5F0220D2268DA2A500D9EEF1 /* ZGABTestDesignerDeviceInfoRequestMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGABTestDesignerDeviceInfoRequestMessage.h; sourceTree = "<group>"; };
+		5F0220D3268DA2A500D9EEF1 /* ZGABTestDesignerChangeRequestMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGABTestDesignerChangeRequestMessage.h; sourceTree = "<group>"; };
+		5F0220D4268DA2A500D9EEF1 /* MPTweak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPTweak.h; sourceTree = "<group>"; };
+		5F0220D5268DA2A500D9EEF1 /* MPCGColorRefToNSStringValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPCGColorRefToNSStringValueTransformer.m; sourceTree = "<group>"; };
+		5F0220D6268DA2A500D9EEF1 /* MPObjectIdentityProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPObjectIdentityProvider.h; sourceTree = "<group>"; };
+		5F0220D7268DA2A500D9EEF1 /* NSThread+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSThread+Helpers.m"; sourceTree = "<group>"; };
+		5F0220D8268DA2A500D9EEF1 /* MPCATransform3DToNSDictionaryValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPCATransform3DToNSDictionaryValueTransformer.m; sourceTree = "<group>"; };
+		5F0220D9268DA2A500D9EEF1 /* MPSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPSwizzle.h; sourceTree = "<group>"; };
 		5F9AA15525AD8D5D00BD12B8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5FBA14AA237A8CBC00976A39 /* Zhugeio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Zhugeio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5FEE745624D43015009A29BF /* UICollectionView+ZGAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UICollectionView+ZGAnalytics.m"; sourceTree = "<group>"; };
-		5FEE745724D43015009A29BF /* UITableView+ZGAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+ZGAnalytics.h"; sourceTree = "<group>"; };
-		5FEE745824D43015009A29BF /* NSObject+ZGAutoTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ZGAutoTrack.m"; sourceTree = "<group>"; };
-		5FEE745A24D43015009A29BF /* NSObject+ZGAutoTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+ZGAutoTrack.h"; sourceTree = "<group>"; };
-		5FEE745B24D43015009A29BF /* UITableView+ZGAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+ZGAnalytics.m"; sourceTree = "<group>"; };
-		5FEE745C24D43015009A29BF /* UICollectionView+ZGAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UICollectionView+ZGAnalytics.h"; sourceTree = "<group>"; };
-		5FEE745F24D43015009A29BF /* Aspects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Aspects.h; sourceTree = "<group>"; };
-		5FEE746024D43015009A29BF /* ZGCMMotionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGCMMotionManager.m; sourceTree = "<group>"; };
-		5FEE746124D43015009A29BF /* ZGUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGUtils.m; sourceTree = "<group>"; };
-		5FEE746224D43015009A29BF /* ZGLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGLocationManager.h; sourceTree = "<group>"; };
-		5FEE746324D43015009A29BF /* ZGCMMotionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGCMMotionManager.h; sourceTree = "<group>"; };
-		5FEE746424D43015009A29BF /* Aspects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Aspects.m; sourceTree = "<group>"; };
-		5FEE746524D43015009A29BF /* ZGLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGLocationManager.m; sourceTree = "<group>"; };
-		5FEE746624D43015009A29BF /* ZGUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGUtils.h; sourceTree = "<group>"; };
-		5FEE746824D43015009A29BF /* UIGestureRecognizer+Zhuge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+Zhuge.h"; sourceTree = "<group>"; };
-		5FEE746924D43015009A29BF /* ZhugeAutoTrackUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeAutoTrackUtils.m; sourceTree = "<group>"; };
-		5FEE746A24D43015009A29BF /* ZhugeSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeSwizzle.m; sourceTree = "<group>"; };
-		5FEE746B24D43015009A29BF /* UIGestureRecognizer+Zhuge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+Zhuge.m"; sourceTree = "<group>"; };
-		5FEE746C24D43015009A29BF /* ZhugeAutoTrackUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeAutoTrackUtils.h; sourceTree = "<group>"; };
-		5FEE746D24D43015009A29BF /* ZhugeSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeSwizzle.h; sourceTree = "<group>"; };
-		5FEE746F24D43015009A29BF /* Zhuge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Zhuge.m; sourceTree = "<group>"; };
-		5FEE747024D43015009A29BF /* ZhugeCompres.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeCompres.h; sourceTree = "<group>"; };
-		5FEE747124D43015009A29BF /* ZhugeEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeEvents.h; sourceTree = "<group>"; };
-		5FEE747224D43015009A29BF /* ZhugeJS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeJS.h; sourceTree = "<group>"; };
-		5FEE747324D43015009A29BF /* ZhugeConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeConstants.h; sourceTree = "<group>"; };
-		5FEE747424D43015009A29BF /* ZhugeConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeConfig.h; sourceTree = "<group>"; };
-		5FEE747524D43015009A29BF /* ZhugeBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeBase64.h; sourceTree = "<group>"; };
-		5FEE747624D43015009A29BF /* ZhugeEventProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeEventProperty.h; sourceTree = "<group>"; };
-		5FEE747724D43015009A29BF /* ZGLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGLog.h; sourceTree = "<group>"; };
-		5FEE747824D43015009A29BF /* ZhugeCompres.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeCompres.m; sourceTree = "<group>"; };
-		5FEE747924D43015009A29BF /* Zhuge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Zhuge.h; sourceTree = "<group>"; };
-		5FEE747A24D43015009A29BF /* ZhugeJS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeJS.m; sourceTree = "<group>"; };
-		5FEE747B24D43015009A29BF /* ZhugeBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeBase64.m; sourceTree = "<group>"; };
-		5FEE747C24D43015009A29BF /* ZhugeConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeConfig.m; sourceTree = "<group>"; };
-		5FEE747E24D43015009A29BF /* ZGSharedDur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGSharedDur.h; sourceTree = "<group>"; };
-		5FEE747F24D43015009A29BF /* NSObject+Zhuge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Zhuge.h"; sourceTree = "<group>"; };
-		5FEE748024D43015009A29BF /* UIViewController+Zhuge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Zhuge.m"; sourceTree = "<group>"; };
-		5FEE748124D43015009A29BF /* ZGReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGReachability.m; sourceTree = "<group>"; };
-		5FEE748224D43015009A29BF /* ZGHttpHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGHttpHelper.m; sourceTree = "<group>"; };
-		5FEE748324D43015009A29BF /* UIApplication+Zhuge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+Zhuge.h"; sourceTree = "<group>"; };
-		5FEE748424D43015009A29BF /* ZGUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGUtil.h; sourceTree = "<group>"; };
-		5FEE748524D43015009A29BF /* ZGSqliteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGSqliteManager.h; sourceTree = "<group>"; };
-		5FEE748624D43015009A29BF /* ZGSharedDur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGSharedDur.m; sourceTree = "<group>"; };
-		5FEE748724D43015009A29BF /* UIApplication+Zhuge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+Zhuge.m"; sourceTree = "<group>"; };
-		5FEE748824D43015009A29BF /* UIViewController+Zhuge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Zhuge.h"; sourceTree = "<group>"; };
-		5FEE748924D43015009A29BF /* ZGHttpHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGHttpHelper.h; sourceTree = "<group>"; };
-		5FEE748A24D43015009A29BF /* ZGReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGReachability.h; sourceTree = "<group>"; };
-		5FEE748B24D43015009A29BF /* NSObject+Zhuge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Zhuge.m"; sourceTree = "<group>"; };
-		5FEE748C24D43015009A29BF /* ZGUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGUtil.m; sourceTree = "<group>"; };
-		5FEE748D24D43015009A29BF /* ZGSqliteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGSqliteManager.m; sourceTree = "<group>"; };
-		5FEE748F24D43015009A29BF /* DLServerInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLServerInterface.h; sourceTree = "<group>"; };
-		5FEE749024D43015009A29BF /* DLServerResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLServerResponse.m; sourceTree = "<group>"; };
-		5FEE749124D43015009A29BF /* DLServerRequestQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLServerRequestQueue.m; sourceTree = "<group>"; };
-		5FEE749224D43015009A29BF /* DSError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSError.m; sourceTree = "<group>"; };
-		5FEE749324D43015009A29BF /* DLServerRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLServerRequest.h; sourceTree = "<group>"; };
-		5FEE749424D43015009A29BF /* DLPreferenceHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLPreferenceHelper.h; sourceTree = "<group>"; };
-		5FEE749524D43015009A29BF /* DLTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLTime.h; sourceTree = "<group>"; };
-		5FEE749624D43015009A29BF /* DSEncodingUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSEncodingUtils.m; sourceTree = "<group>"; };
-		5FEE749724D43015009A29BF /* clearNewUsage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clearNewUsage.h; sourceTree = "<group>"; };
-		5FEE749824D43015009A29BF /* DeepShareImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeepShareImpl.h; sourceTree = "<group>"; };
-		5FEE749924D43015009A29BF /* DLStrongMatchHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLStrongMatchHelper.h; sourceTree = "<group>"; };
-		5FEE749A24D43015009A29BF /* DLConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLConfig.h; sourceTree = "<group>"; };
-		5FEE749B24D43015009A29BF /* DeepShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeepShare.m; sourceTree = "<group>"; };
-		5FEE749C24D43015009A29BF /* DLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLViewController.m; sourceTree = "<group>"; };
-		5FEE749D24D43015009A29BF /* getNewUsage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = getNewUsage.h; sourceTree = "<group>"; };
-		5FEE749E24D43015009A29BF /* DLSystemObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLSystemObserver.h; sourceTree = "<group>"; };
-		5FEE749F24D43015009A29BF /* DLServerRequestQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLServerRequestQueue.h; sourceTree = "<group>"; };
-		5FEE74A024D43015009A29BF /* DSError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSError.h; sourceTree = "<group>"; };
-		5FEE74A124D43015009A29BF /* DLServerResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLServerResponse.h; sourceTree = "<group>"; };
-		5FEE74A224D43015009A29BF /* DLServerInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLServerInterface.m; sourceTree = "<group>"; };
-		5FEE74A324D43015009A29BF /* clearNewUsage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = clearNewUsage.m; sourceTree = "<group>"; };
-		5FEE74A424D43015009A29BF /* DSEncodingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSEncodingUtils.h; sourceTree = "<group>"; };
-		5FEE74A524D43015009A29BF /* DLTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLTime.m; sourceTree = "<group>"; };
-		5FEE74A624D43015009A29BF /* DLPreferenceHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLPreferenceHelper.m; sourceTree = "<group>"; };
-		5FEE74A724D43015009A29BF /* DLServerRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLServerRequest.m; sourceTree = "<group>"; };
-		5FEE74A924D43015009A29BF /* NewvalueChange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewvalueChange.h; sourceTree = "<group>"; };
-		5FEE74AA24D43015009A29BF /* registerOpen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = registerOpen.h; sourceTree = "<group>"; };
-		5FEE74AB24D43015009A29BF /* CallClose.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallClose.m; sourceTree = "<group>"; };
-		5FEE74AC24D43015009A29BF /* registerInstall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = registerInstall.h; sourceTree = "<group>"; };
-		5FEE74AD24D43015009A29BF /* NewvalueChange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewvalueChange.m; sourceTree = "<group>"; };
-		5FEE74AE24D43015009A29BF /* registerOpen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = registerOpen.m; sourceTree = "<group>"; };
-		5FEE74AF24D43015009A29BF /* registerInstall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = registerInstall.m; sourceTree = "<group>"; };
-		5FEE74B024D43015009A29BF /* CallClose.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallClose.h; sourceTree = "<group>"; };
-		5FEE74B124D43015009A29BF /* DLStrongMatchHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLStrongMatchHelper.m; sourceTree = "<group>"; };
-		5FEE74B224D43015009A29BF /* DeepShareImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeepShareImpl.m; sourceTree = "<group>"; };
-		5FEE74B324D43015009A29BF /* DLParam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLParam.h; sourceTree = "<group>"; };
-		5FEE74B424D43015009A29BF /* DLSystemObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLSystemObserver.m; sourceTree = "<group>"; };
-		5FEE74B524D43015009A29BF /* getNewUsage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = getNewUsage.m; sourceTree = "<group>"; };
-		5FEE74B624D43015009A29BF /* DLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLViewController.h; sourceTree = "<group>"; };
-		5FEE74B724D43015009A29BF /* DeepShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeepShare.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +479,297 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5F021FEE268DA2A400D9EEF1 /* DeepShare */ = {
+			isa = PBXGroup;
+			children = (
+				5F021FEF268DA2A400D9EEF1 /* DLServerInterface.h */,
+				5F021FF0268DA2A400D9EEF1 /* DLServerResponse.m */,
+				5F021FF1268DA2A400D9EEF1 /* DLServerRequestQueue.m */,
+				5F021FF2268DA2A400D9EEF1 /* DSError.m */,
+				5F021FF3268DA2A400D9EEF1 /* DLServerRequest.h */,
+				5F021FF4268DA2A400D9EEF1 /* DLPreferenceHelper.h */,
+				5F021FF5268DA2A400D9EEF1 /* DLTime.h */,
+				5F021FF6268DA2A400D9EEF1 /* DSEncodingUtils.m */,
+				5F021FF7268DA2A400D9EEF1 /* clearNewUsage.h */,
+				5F021FF8268DA2A400D9EEF1 /* DeepShareImpl.h */,
+				5F021FF9268DA2A400D9EEF1 /* DLStrongMatchHelper.h */,
+				5F021FFA268DA2A400D9EEF1 /* DLConfig.h */,
+				5F021FFB268DA2A400D9EEF1 /* DeepShare.m */,
+				5F021FFC268DA2A400D9EEF1 /* DLViewController.m */,
+				5F021FFD268DA2A400D9EEF1 /* getNewUsage.h */,
+				5F021FFE268DA2A400D9EEF1 /* DLSystemObserver.h */,
+				5F021FFF268DA2A400D9EEF1 /* DLServerRequestQueue.h */,
+				5F022000268DA2A400D9EEF1 /* DSError.h */,
+				5F022001268DA2A400D9EEF1 /* DLServerResponse.h */,
+				5F022002268DA2A400D9EEF1 /* DLServerInterface.m */,
+				5F022003268DA2A400D9EEF1 /* clearNewUsage.m */,
+				5F022004268DA2A400D9EEF1 /* DSEncodingUtils.h */,
+				5F022005268DA2A400D9EEF1 /* DLTime.m */,
+				5F022006268DA2A400D9EEF1 /* DLPreferenceHelper.m */,
+				5F022007268DA2A400D9EEF1 /* DLServerRequest.m */,
+				5F022008268DA2A400D9EEF1 /* Request */,
+				5F022011268DA2A400D9EEF1 /* DLStrongMatchHelper.m */,
+				5F022012268DA2A400D9EEF1 /* DeepShareImpl.m */,
+				5F022013268DA2A400D9EEF1 /* DLParam.h */,
+				5F022014268DA2A400D9EEF1 /* DLSystemObserver.m */,
+				5F022015268DA2A400D9EEF1 /* getNewUsage.m */,
+				5F022016268DA2A400D9EEF1 /* DLViewController.h */,
+				5F022017268DA2A400D9EEF1 /* DeepShare.h */,
+			);
+			path = DeepShare;
+			sourceTree = "<group>";
+		};
+		5F022008268DA2A400D9EEF1 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				5F022009268DA2A400D9EEF1 /* NewvalueChange.h */,
+				5F02200A268DA2A400D9EEF1 /* registerOpen.h */,
+				5F02200B268DA2A400D9EEF1 /* CallClose.m */,
+				5F02200C268DA2A400D9EEF1 /* registerInstall.h */,
+				5F02200D268DA2A400D9EEF1 /* NewvalueChange.m */,
+				5F02200E268DA2A400D9EEF1 /* registerOpen.m */,
+				5F02200F268DA2A400D9EEF1 /* registerInstall.m */,
+				5F022010268DA2A400D9EEF1 /* CallClose.h */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		5F022018268DA2A400D9EEF1 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		5F022019268DA2A400D9EEF1 /* ZGCore */ = {
+			isa = PBXGroup;
+			children = (
+				5F02201B268DA2A400D9EEF1 /* ZAConstants.h */,
+				5F022026268DA2A400D9EEF1 /* ZAConstants.m */,
+				5F02201F268DA2A400D9EEF1 /* ZAConstants+Private.h */,
+				5F022021268DA2A400D9EEF1 /* ZGLog.h */,
+				5F022024268DA2A400D9EEF1 /* Zhuge.h */,
+				5F02201A268DA2A400D9EEF1 /* Zhuge.m */,
+				5F02201E268DA2A400D9EEF1 /* ZhugeConfig.h */,
+				5F022027268DA2A400D9EEF1 /* ZhugeConfig.m */,
+				5F02201D268DA2A400D9EEF1 /* ZhugeConstants.h */,
+				5F022020268DA2A400D9EEF1 /* ZhugeEventProperty.h */,
+				5F022022268DA2A400D9EEF1 /* ZhugeHeaders.h */,
+				5F02201C268DA2A400D9EEF1 /* ZhugeJS.h */,
+				5F022025268DA2A400D9EEF1 /* ZhugeJS.m */,
+				5F022023268DA2A400D9EEF1 /* ZhugePrivates.h */,
+			);
+			path = ZGCore;
+			sourceTree = "<group>";
+		};
+		5F022028268DA2A400D9EEF1 /* ZGSee */ = {
+			isa = PBXGroup;
+			children = (
+				5F022029268DA2A400D9EEF1 /* ZGSharedDur.h */,
+				5F02202A268DA2A400D9EEF1 /* NSObject+Zhuge.h */,
+				5F02202B268DA2A400D9EEF1 /* ZGReachability.m */,
+				5F02202C268DA2A400D9EEF1 /* ZGHttpHelper.m */,
+				5F02202D268DA2A400D9EEF1 /* ZGUtil.h */,
+				5F02202E268DA2A400D9EEF1 /* ZGSqliteManager.h */,
+				5F02202F268DA2A400D9EEF1 /* ZGSharedDur.m */,
+				5F022030268DA2A400D9EEF1 /* ZGHttpHelper.h */,
+				5F022031268DA2A400D9EEF1 /* ZGReachability.h */,
+				5F022032268DA2A400D9EEF1 /* NSObject+Zhuge.m */,
+				5F022033268DA2A400D9EEF1 /* ZGUtil.m */,
+				5F022034268DA2A400D9EEF1 /* ZGSqliteManager.m */,
+			);
+			path = ZGSee;
+			sourceTree = "<group>";
+		};
+		5F022035268DA2A400D9EEF1 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				5F022036268DA2A400D9EEF1 /* ZhugeCompres.h */,
+				5F022037268DA2A400D9EEF1 /* ZASwizzle.m */,
+				5F022038268DA2A400D9EEF1 /* ZADeviceId.h */,
+				5F022039268DA2A400D9EEF1 /* ZGDeviceInfo.h */,
+				5F02203A268DA2A400D9EEF1 /* ZGCMMotionManager.m */,
+				5F02203B268DA2A400D9EEF1 /* ZGRequestManager.h */,
+				5F02203C268DA2A400D9EEF1 /* ZhugeBase64.h */,
+				5F02203D268DA2A400D9EEF1 /* ZGUtils.m */,
+				5F02203E268DA2A400D9EEF1 /* ZGLocationManager.h */,
+				5F02203F268DA2A400D9EEF1 /* ZGRequest.h */,
+				5F022040268DA2A400D9EEF1 /* ZASwizzle.h */,
+				5F022041268DA2A400D9EEF1 /* ZhugeCompres.m */,
+				5F022042268DA2A400D9EEF1 /* ZADeviceId.m */,
+				5F022043268DA2A400D9EEF1 /* ZGRequestManager.m */,
+				5F022044268DA2A400D9EEF1 /* ZGDeviceInfo.m */,
+				5F022045268DA2A400D9EEF1 /* ZGCMMotionManager.h */,
+				5F022046268DA2A400D9EEF1 /* ZGRequest.m */,
+				5F022047268DA2A400D9EEF1 /* ZGLocationManager.m */,
+				5F022048268DA2A400D9EEF1 /* ZhugeBase64.m */,
+				5F022049268DA2A400D9EEF1 /* ZGUtils.h */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		5F02204A268DA2A400D9EEF1 /* JSBridge */ = {
+			isa = PBXGroup;
+			children = (
+				5F02204B268DA2A400D9EEF1 /* WKWebView+ZABridge.m */,
+				5F02204C268DA2A400D9EEF1 /* WKWebView+ZABridge.h */,
+			);
+			path = JSBridge;
+			sourceTree = "<group>";
+		};
+		5F02204D268DA2A400D9EEF1 /* AutoTrack */ = {
+			isa = PBXGroup;
+			children = (
+				5F02204E268DA2A400D9EEF1 /* UIGestureRecognizer+Zhuge.h */,
+				5F02204F268DA2A400D9EEF1 /* ZADelegateProxy.h */,
+				5F022050268DA2A400D9EEF1 /* NSObject+ZACellClick.h */,
+				5F022051268DA2A400D9EEF1 /* ZhugeAutoTrackUtils.m */,
+				5F022052268DA2A400D9EEF1 /* ZAMethodHelper.h */,
+				5F022053268DA2A400D9EEF1 /* ZAAutoTrackProperty.h */,
+				5F022054268DA2A400D9EEF1 /* UIApplication+Zhuge.h */,
+				5F022055268DA2A400D9EEF1 /* UIViewController+AutoTrack.m */,
+				5F022056268DA2A400D9EEF1 /* ZhugeSwizzle.m */,
+				5F022057268DA2A400D9EEF1 /* ZAClassHelper.h */,
+				5F022058268DA2A400D9EEF1 /* UIScrollView+AutoTrack.h */,
+				5F022059268DA2A400D9EEF1 /* ZAViews.h */,
+				5F02205A268DA2A400D9EEF1 /* NSObject+ZACellClick.m */,
+				5F02205B268DA2A400D9EEF1 /* ZADelegateProxy.m */,
+				5F02205C268DA2A400D9EEF1 /* UIGestureRecognizer+Zhuge.m */,
+				5F02205D268DA2A400D9EEF1 /* UIViewController+AutoTrack.h */,
+				5F02205E268DA2A400D9EEF1 /* UIApplication+Zhuge.m */,
+				5F02205F268DA2A400D9EEF1 /* ZAMethodHelper.m */,
+				5F022060268DA2A500D9EEF1 /* ZhugeAutoTrackUtils.h */,
+				5F022061268DA2A500D9EEF1 /* ZAClassHelper.m */,
+				5F022062268DA2A500D9EEF1 /* ZhugeSwizzle.h */,
+				5F022063268DA2A500D9EEF1 /* UIScrollView+AutoTrack.m */,
+				5F022064268DA2A500D9EEF1 /* ZAViews.m */,
+			);
+			path = AutoTrack;
+			sourceTree = "<group>";
+		};
+		5F022065268DA2A500D9EEF1 /* Codeless */ = {
+			isa = PBXGroup;
+			children = (
+				5F022066268DA2A500D9EEF1 /* MPObjectSerializerContext.h */,
+				5F022067268DA2A500D9EEF1 /* ZGAbstractABTestDesignerMessage.m */,
+				5F022068268DA2A500D9EEF1 /* MPPropertyDescription.h */,
+				5F022069268DA2A500D9EEF1 /* MPUICollectionViewBinding.m */,
+				5F02206A268DA2A500D9EEF1 /* ZGEventBinding.h */,
+				5F02206B268DA2A500D9EEF1 /* MPUIFontToNSDictionaryValueTransformer.m */,
+				5F02206C268DA2A500D9EEF1 /* ShakeGesture.m */,
+				5F02206D268DA2A500D9EEF1 /* MPClassDescription.h */,
+				5F02206E268DA2A500D9EEF1 /* ZGABTestDesignerClearRequestMessage.h */,
+				5F02206F268DA2A500D9EEF1 /* MPUIImageToNSDictionaryValueTransformer.m */,
+				5F022070268DA2A500D9EEF1 /* MPApplicationStateSerializer.h */,
+				5F022071268DA2A500D9EEF1 /* _MPTweakBindObserver.h */,
+				5F022072268DA2A500D9EEF1 /* UIColor+MPColor.m */,
+				5F022073268DA2A500D9EEF1 /* SelectorEvaluator.m */,
+				5F022074268DA2A500D9EEF1 /* MPDisplayTrigger.h */,
+				5F022075268DA2A500D9EEF1 /* MPCGAffineTransformToNSDictionaryValueTransformer.m */,
+				5F022076268DA2A500D9EEF1 /* ZGABTestDesignerChangeResponseMessage.m */,
+				5F022077268DA2A500D9EEF1 /* ZGABTestDesignerDeviceInfoResponseMessage.h */,
+				5F022078268DA2A500D9EEF1 /* MPEnumDescription.m */,
+				5F022079268DA2A500D9EEF1 /* ZGABTestDesignerDisconnectMessage.h */,
+				5F02207A268DA2A500D9EEF1 /* MPABTestDesignerSnapshotResponseMessage.m */,
+				5F02207B268DA2A500D9EEF1 /* SessionMetadata.m */,
+				5F02207C268DA2A500D9EEF1 /* MPObjectSerializerConfig.m */,
+				5F02207D268DA2A500D9EEF1 /* MPCGRectToNSDictionaryValueTransformer.m */,
+				5F02207E268DA2A500D9EEF1 /* MPNSNumberToCGFloatValueTransformer.m */,
+				5F02207F268DA2A500D9EEF1 /* MPUITableViewBinding.m */,
+				5F022080268DA2A500D9EEF1 /* ZGVariant.h */,
+				5F022081268DA2A500D9EEF1 /* ZGABTestDesignerSnapshotRequestMessage.m */,
+				5F022082268DA2A500D9EEF1 /* UIImage+MPImageEffects.h */,
+				5F022083268DA2A500D9EEF1 /* MPABTestDesignerTweakResponseMessage.m */,
+				5F022084268DA2A500D9EEF1 /* ZGABTestDesignerConnection.h */,
+				5F022085268DA2A500D9EEF1 /* UIImage+MPAverageColor.h */,
+				5F022086268DA2A500D9EEF1 /* MPDesignerEventBindingResponseMesssage.m */,
+				5F022087268DA2A500D9EEF1 /* MPDesignerSessionCollection.h */,
+				5F022088268DA2A500D9EEF1 /* MPTweakStore.h */,
+				5F022089268DA2A500D9EEF1 /* MPNSAttributedStringToNSDictionaryValueTransformer.m */,
+				5F02208A268DA2A500D9EEF1 /* MPABTestDesignerTweakRequestMessage.h */,
+				5F02208B268DA2A500D9EEF1 /* ZGWebSocket.h */,
+				5F02208C268DA2A500D9EEF1 /* MPUIControlBinding.h */,
+				5F02208D268DA2A500D9EEF1 /* ZGABTestDesignerClearResponseMessage.m */,
+				5F02208E268DA2A500D9EEF1 /* NSInvocation+MPHelpers.m */,
+				5F02208F268DA2A500D9EEF1 /* UIView+MPHelpers.m */,
+				5F022090268DA2A500D9EEF1 /* MPCGSizeToNSDictionaryValueTransformer.m */,
+				5F022091268DA2A500D9EEF1 /* MPFoundation.h */,
+				5F022092268DA2A500D9EEF1 /* MPSwizzle.m */,
+				5F022093268DA2A500D9EEF1 /* NSThread+Helpers.h */,
+				5F022094268DA2A500D9EEF1 /* MPObjectIdentifierProvider.h */,
+				5F022095268DA2A500D9EEF1 /* MPObjectIdentityProvider.m */,
+				5F022096268DA2A500D9EEF1 /* MPTweak.m */,
+				5F022097268DA2A500D9EEF1 /* ZGABTestDesignerChangeRequestMessage.m */,
+				5F022098268DA2A500D9EEF1 /* ZGABTestDesignerDeviceInfoRequestMessage.m */,
+				5F022099268DA2A500D9EEF1 /* MPSwizzler.h */,
+				5F02209A268DA2A500D9EEF1 /* MPObjectSelector.h */,
+				5F02209B268DA2A500D9EEF1 /* MPObjectSerializer.h */,
+				5F02209C268DA2A500D9EEF1 /* MPSequenceGenerator.m */,
+				5F02209D268DA2A500D9EEF1 /* MPTweakInline.m */,
+				5F02209E268DA2A500D9EEF1 /* MPTypeDescription.m */,
+				5F02209F268DA2A500D9EEF1 /* SelectorEvaluator.h */,
+				5F0220A0268DA2A500D9EEF1 /* _MPTweakBindObserver.m */,
+				5F0220A1268DA2A500D9EEF1 /* UIColor+MPColor.h */,
+				5F0220A2268DA2A500D9EEF1 /* MPApplicationStateSerializer.m */,
+				5F0220A3268DA2A500D9EEF1 /* MPPassThroughValueTransformer.m */,
+				5F0220A4268DA2A500D9EEF1 /* ZGABTestDesignerClearRequestMessage.m */,
+				5F0220A5268DA2A500D9EEF1 /* ShakeGesture.h */,
+				5F0220A6268DA2A500D9EEF1 /* MPClassDescription.m */,
+				5F0220A7268DA2A500D9EEF1 /* ZGEventBinding.m */,
+				5F0220A8268DA2A500D9EEF1 /* MPUICollectionViewBinding.h */,
+				5F0220A9268DA2A500D9EEF1 /* MPPropertyDescription.m */,
+				5F0220AA268DA2A500D9EEF1 /* MPObjectSerializerContext.m */,
+				5F0220AB268DA2A500D9EEF1 /* ZGAbstractABTestDesignerMessage.h */,
+				5F0220AC268DA2A500D9EEF1 /* MPABTestDesignerTweakResponseMessage.h */,
+				5F0220AD268DA2A500D9EEF1 /* UIImage+MPImageEffects.m */,
+				5F0220AE268DA2A500D9EEF1 /* ZGABTestDesignerSnapshotRequestMessage.h */,
+				5F0220AF268DA2A500D9EEF1 /* ZGVariant.m */,
+				5F0220B0268DA2A500D9EEF1 /* MPUITableViewBinding.h */,
+				5F0220B1268DA2A500D9EEF1 /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m */,
+				5F0220B2268DA2A500D9EEF1 /* MPObjectSerializerConfig.h */,
+				5F0220B3268DA2A500D9EEF1 /* ZGABTestDesignerMessage.h */,
+				5F0220B4268DA2A500D9EEF1 /* ZGABTestDesignerDisconnectMessage.m */,
+				5F0220B5268DA2A500D9EEF1 /* SessionMetadata.h */,
+				5F0220B6268DA2A500D9EEF1 /* MPABTestDesignerSnapshotResponseMessage.h */,
+				5F0220B7268DA2A500D9EEF1 /* MPEnumDescription.h */,
+				5F0220B8268DA2A500D9EEF1 /* ZGABTestDesignerDeviceInfoResponseMessage.m */,
+				5F0220B9268DA2A500D9EEF1 /* ZGABTestDesignerChangeResponseMessage.h */,
+				5F0220BA268DA2A500D9EEF1 /* MPUIColorToNSStringValueTransformer.m */,
+				5F0220BB268DA2A500D9EEF1 /* MPDesignerTrackMessage.m */,
+				5F0220BC268DA2A500D9EEF1 /* MPDisplayTrigger.m */,
+				5F0220BD268DA2A500D9EEF1 /* UIView+MPHelpers.h */,
+				5F0220BE268DA2A500D9EEF1 /* ZGABTestDesignerClearResponseMessage.h */,
+				5F0220BF268DA2A500D9EEF1 /* NSInvocation+MPHelpers.h */,
+				5F0220C0268DA2A500D9EEF1 /* MPUIControlBinding.m */,
+				5F0220C1268DA2A500D9EEF1 /* MPCGPointToNSDictionaryValueTransformer.m */,
+				5F0220C2268DA2A500D9EEF1 /* ZGWebSocket.m */,
+				5F0220C3268DA2A500D9EEF1 /* MPABTestDesignerTweakRequestMessage.m */,
+				5F0220C4268DA2A500D9EEF1 /* MPTweakStore.m */,
+				5F0220C5268DA2A500D9EEF1 /* MPTweakInlineInternal.h */,
+				5F0220C6268DA2A500D9EEF1 /* MPBOOLToNSNumberValueTransformer.m */,
+				5F0220C7268DA2A500D9EEF1 /* UIImage+MPAverageColor.m */,
+				5F0220C8268DA2A500D9EEF1 /* ZGABTestDesignerConnection.m */,
+				5F0220C9268DA2A500D9EEF1 /* MPTypeDescription.h */,
+				5F0220CA268DA2A500D9EEF1 /* MPTweakInline.h */,
+				5F0220CB268DA2A500D9EEF1 /* MPSequenceGenerator.h */,
+				5F0220CC268DA2A500D9EEF1 /* MPDesignerEventBindingRequestMesssage.m */,
+				5F0220CD268DA2A500D9EEF1 /* MPObjectSerializer.m */,
+				5F0220CE268DA2A500D9EEF1 /* MPValueTransformers.h */,
+				5F0220CF268DA2A500D9EEF1 /* MPSwizzler.m */,
+				5F0220D0268DA2A500D9EEF1 /* MPDesignerEventBindingMessage.h */,
+				5F0220D1268DA2A500D9EEF1 /* MPObjectSelector.m */,
+				5F0220D2268DA2A500D9EEF1 /* ZGABTestDesignerDeviceInfoRequestMessage.h */,
+				5F0220D3268DA2A500D9EEF1 /* ZGABTestDesignerChangeRequestMessage.h */,
+				5F0220D4268DA2A500D9EEF1 /* MPTweak.h */,
+				5F0220D5268DA2A500D9EEF1 /* MPCGColorRefToNSStringValueTransformer.m */,
+				5F0220D6268DA2A500D9EEF1 /* MPObjectIdentityProvider.h */,
+				5F0220D7268DA2A500D9EEF1 /* NSThread+Helpers.m */,
+				5F0220D8268DA2A500D9EEF1 /* MPCATransform3DToNSDictionaryValueTransformer.m */,
+				5F0220D9268DA2A500D9EEF1 /* MPSwizzle.h */,
+			);
+			path = Codeless;
+			sourceTree = "<group>";
+		};
 		5FBA14A0237A8CBC00976A39 = {
 			isa = PBXGroup;
 			children = (
@@ -236,157 +797,17 @@
 		5FEE745424D43015009A29BF /* Zhugeio */ = {
 			isa = PBXGroup;
 			children = (
+				5F02204D268DA2A400D9EEF1 /* AutoTrack */,
+				5F022065268DA2A500D9EEF1 /* Codeless */,
+				5F021FEE268DA2A400D9EEF1 /* DeepShare */,
+				5F02204A268DA2A400D9EEF1 /* JSBridge */,
+				5F022018268DA2A400D9EEF1 /* Resources */,
+				5F022035268DA2A400D9EEF1 /* Utils */,
+				5F022019268DA2A400D9EEF1 /* ZGCore */,
+				5F022028268DA2A400D9EEF1 /* ZGSee */,
 				5F9AA15525AD8D5D00BD12B8 /* Info.plist */,
-				5FEE745524D43015009A29BF /* ZGCategory */,
-				5FEE745E24D43015009A29BF /* Utils */,
-				5FEE746724D43015009A29BF /* AutoTrack */,
-				5FEE746E24D43015009A29BF /* ZGCore */,
-				5FEE747D24D43015009A29BF /* ZGSee */,
-				5FEE748E24D43015009A29BF /* ZGShare */,
 			);
 			path = Zhugeio;
-			sourceTree = "<group>";
-		};
-		5FEE745524D43015009A29BF /* ZGCategory */ = {
-			isa = PBXGroup;
-			children = (
-				5FEE745A24D43015009A29BF /* NSObject+ZGAutoTrack.h */,
-				5FEE745824D43015009A29BF /* NSObject+ZGAutoTrack.m */,
-				5FEE745C24D43015009A29BF /* UICollectionView+ZGAnalytics.h */,
-				5FEE745624D43015009A29BF /* UICollectionView+ZGAnalytics.m */,
-				5FEE745724D43015009A29BF /* UITableView+ZGAnalytics.h */,
-				5FEE745B24D43015009A29BF /* UITableView+ZGAnalytics.m */,
-			);
-			path = ZGCategory;
-			sourceTree = "<group>";
-		};
-		5FEE745E24D43015009A29BF /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				5F9AA14F25AD8C5900BD12B8 /* ZGDeviceInfo.h */,
-				5F9AA15025AD8C5900BD12B8 /* ZGDeviceInfo.m */,
-				5FEE745F24D43015009A29BF /* Aspects.h */,
-				5FEE746424D43015009A29BF /* Aspects.m */,
-				5FEE746324D43015009A29BF /* ZGCMMotionManager.h */,
-				5FEE746024D43015009A29BF /* ZGCMMotionManager.m */,
-				5FEE746224D43015009A29BF /* ZGLocationManager.h */,
-				5FEE746524D43015009A29BF /* ZGLocationManager.m */,
-				5FEE746624D43015009A29BF /* ZGUtils.h */,
-				5FEE746124D43015009A29BF /* ZGUtils.m */,
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
-		5FEE746724D43015009A29BF /* AutoTrack */ = {
-			isa = PBXGroup;
-			children = (
-				5FEE746824D43015009A29BF /* UIGestureRecognizer+Zhuge.h */,
-				5FEE746924D43015009A29BF /* ZhugeAutoTrackUtils.m */,
-				5FEE746A24D43015009A29BF /* ZhugeSwizzle.m */,
-				5FEE746B24D43015009A29BF /* UIGestureRecognizer+Zhuge.m */,
-				5FEE746C24D43015009A29BF /* ZhugeAutoTrackUtils.h */,
-				5FEE746D24D43015009A29BF /* ZhugeSwizzle.h */,
-			);
-			path = AutoTrack;
-			sourceTree = "<group>";
-		};
-		5FEE746E24D43015009A29BF /* ZGCore */ = {
-			isa = PBXGroup;
-			children = (
-				5FEE747724D43015009A29BF /* ZGLog.h */,
-				5FEE747924D43015009A29BF /* Zhuge.h */,
-				5FEE746F24D43015009A29BF /* Zhuge.m */,
-				5FEE747524D43015009A29BF /* ZhugeBase64.h */,
-				5FEE747B24D43015009A29BF /* ZhugeBase64.m */,
-				5FEE747024D43015009A29BF /* ZhugeCompres.h */,
-				5FEE747824D43015009A29BF /* ZhugeCompres.m */,
-				5FEE747424D43015009A29BF /* ZhugeConfig.h */,
-				5FEE747C24D43015009A29BF /* ZhugeConfig.m */,
-				5FEE747324D43015009A29BF /* ZhugeConstants.h */,
-				5FEE747624D43015009A29BF /* ZhugeEventProperty.h */,
-				5FEE747124D43015009A29BF /* ZhugeEvents.h */,
-				5FEE747224D43015009A29BF /* ZhugeJS.h */,
-				5FEE747A24D43015009A29BF /* ZhugeJS.m */,
-			);
-			path = ZGCore;
-			sourceTree = "<group>";
-		};
-		5FEE747D24D43015009A29BF /* ZGSee */ = {
-			isa = PBXGroup;
-			children = (
-				5FEE747E24D43015009A29BF /* ZGSharedDur.h */,
-				5FEE747F24D43015009A29BF /* NSObject+Zhuge.h */,
-				5FEE748024D43015009A29BF /* UIViewController+Zhuge.m */,
-				5FEE748124D43015009A29BF /* ZGReachability.m */,
-				5FEE748224D43015009A29BF /* ZGHttpHelper.m */,
-				5FEE748324D43015009A29BF /* UIApplication+Zhuge.h */,
-				5FEE748424D43015009A29BF /* ZGUtil.h */,
-				5FEE748524D43015009A29BF /* ZGSqliteManager.h */,
-				5FEE748624D43015009A29BF /* ZGSharedDur.m */,
-				5FEE748724D43015009A29BF /* UIApplication+Zhuge.m */,
-				5FEE748824D43015009A29BF /* UIViewController+Zhuge.h */,
-				5FEE748924D43015009A29BF /* ZGHttpHelper.h */,
-				5FEE748A24D43015009A29BF /* ZGReachability.h */,
-				5FEE748B24D43015009A29BF /* NSObject+Zhuge.m */,
-				5FEE748C24D43015009A29BF /* ZGUtil.m */,
-				5FEE748D24D43015009A29BF /* ZGSqliteManager.m */,
-			);
-			path = ZGSee;
-			sourceTree = "<group>";
-		};
-		5FEE748E24D43015009A29BF /* ZGShare */ = {
-			isa = PBXGroup;
-			children = (
-				5FEE748F24D43015009A29BF /* DLServerInterface.h */,
-				5FEE749024D43015009A29BF /* DLServerResponse.m */,
-				5FEE749124D43015009A29BF /* DLServerRequestQueue.m */,
-				5FEE749224D43015009A29BF /* DSError.m */,
-				5FEE749324D43015009A29BF /* DLServerRequest.h */,
-				5FEE749424D43015009A29BF /* DLPreferenceHelper.h */,
-				5FEE749524D43015009A29BF /* DLTime.h */,
-				5FEE749624D43015009A29BF /* DSEncodingUtils.m */,
-				5FEE749724D43015009A29BF /* clearNewUsage.h */,
-				5FEE749824D43015009A29BF /* DeepShareImpl.h */,
-				5FEE749924D43015009A29BF /* DLStrongMatchHelper.h */,
-				5FEE749A24D43015009A29BF /* DLConfig.h */,
-				5FEE749B24D43015009A29BF /* DeepShare.m */,
-				5FEE749C24D43015009A29BF /* DLViewController.m */,
-				5FEE749D24D43015009A29BF /* getNewUsage.h */,
-				5FEE749E24D43015009A29BF /* DLSystemObserver.h */,
-				5FEE749F24D43015009A29BF /* DLServerRequestQueue.h */,
-				5FEE74A024D43015009A29BF /* DSError.h */,
-				5FEE74A124D43015009A29BF /* DLServerResponse.h */,
-				5FEE74A224D43015009A29BF /* DLServerInterface.m */,
-				5FEE74A324D43015009A29BF /* clearNewUsage.m */,
-				5FEE74A424D43015009A29BF /* DSEncodingUtils.h */,
-				5FEE74A524D43015009A29BF /* DLTime.m */,
-				5FEE74A624D43015009A29BF /* DLPreferenceHelper.m */,
-				5FEE74A724D43015009A29BF /* DLServerRequest.m */,
-				5FEE74A824D43015009A29BF /* Request */,
-				5FEE74B124D43015009A29BF /* DLStrongMatchHelper.m */,
-				5FEE74B224D43015009A29BF /* DeepShareImpl.m */,
-				5FEE74B324D43015009A29BF /* DLParam.h */,
-				5FEE74B424D43015009A29BF /* DLSystemObserver.m */,
-				5FEE74B524D43015009A29BF /* getNewUsage.m */,
-				5FEE74B624D43015009A29BF /* DLViewController.h */,
-				5FEE74B724D43015009A29BF /* DeepShare.h */,
-			);
-			path = ZGShare;
-			sourceTree = "<group>";
-		};
-		5FEE74A824D43015009A29BF /* Request */ = {
-			isa = PBXGroup;
-			children = (
-				5FEE74A924D43015009A29BF /* NewvalueChange.h */,
-				5FEE74AA24D43015009A29BF /* registerOpen.h */,
-				5FEE74AB24D43015009A29BF /* CallClose.m */,
-				5FEE74AC24D43015009A29BF /* registerInstall.h */,
-				5FEE74AD24D43015009A29BF /* NewvalueChange.m */,
-				5FEE74AE24D43015009A29BF /* registerOpen.m */,
-				5FEE74AF24D43015009A29BF /* registerInstall.m */,
-				5FEE74B024D43015009A29BF /* CallClose.h */,
-			);
-			path = Request;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -396,55 +817,119 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5FEE74D824D43015009A29BF /* Zhuge.h in Headers */,
-				5FEE74D524D43015009A29BF /* ZhugeEventProperty.h in Headers */,
-				5FEE74D624D43015009A29BF /* ZGLog.h in Headers */,
-				5FEE74D124D43015009A29BF /* ZhugeJS.h in Headers */,
-				5FEE74D024D43015009A29BF /* ZhugeEvents.h in Headers */,
-				5FEE74D324D43015009A29BF /* ZhugeConfig.h in Headers */,
-				5FEE74FD24D43015009A29BF /* DSError.h in Headers */,
-				5FEE74FA24D43015009A29BF /* getNewUsage.h in Headers */,
-				5FEE74C824D43015009A29BF /* UIGestureRecognizer+Zhuge.h in Headers */,
-				5FEE74DC24D43015009A29BF /* ZGSharedDur.h in Headers */,
-				5F9AA15125AD8C5900BD12B8 /* ZGDeviceInfo.h in Headers */,
-				5FEE74F624D43015009A29BF /* DLStrongMatchHelper.h in Headers */,
-				5FEE750F24D43015009A29BF /* DLParam.h in Headers */,
-				5FEE74F224D43015009A29BF /* DLTime.h in Headers */,
-				5FEE74D424D43015009A29BF /* ZhugeBase64.h in Headers */,
-				5FEE750624D43015009A29BF /* registerOpen.h in Headers */,
-				5FEE74F124D43015009A29BF /* DLPreferenceHelper.h in Headers */,
-				5FEE74E724D43015009A29BF /* ZGHttpHelper.h in Headers */,
-				5FEE750524D43015009A29BF /* NewvalueChange.h in Headers */,
-				5FEE74B924D43015009A29BF /* UITableView+ZGAnalytics.h in Headers */,
-				5FEE74C024D43015009A29BF /* Aspects.h in Headers */,
-				5FEE74E824D43015009A29BF /* ZGReachability.h in Headers */,
-				5FEE751224D43015009A29BF /* DLViewController.h in Headers */,
-				5FEE74E324D43015009A29BF /* ZGSqliteManager.h in Headers */,
-				5FEE74E124D43015009A29BF /* UIApplication+Zhuge.h in Headers */,
-				5FEE74CD24D43015009A29BF /* ZhugeSwizzle.h in Headers */,
-				5FEE74FE24D43015009A29BF /* DLServerResponse.h in Headers */,
-				5FEE750124D43015009A29BF /* DSEncodingUtils.h in Headers */,
-				5FEE74F724D43015009A29BF /* DLConfig.h in Headers */,
-				5FEE74DD24D43015009A29BF /* NSObject+Zhuge.h in Headers */,
-				5FEE74F524D43015009A29BF /* DeepShareImpl.h in Headers */,
-				5FEE74BC24D43015009A29BF /* NSObject+ZGAutoTrack.h in Headers */,
-				5FEE750824D43015009A29BF /* registerInstall.h in Headers */,
-				5FEE74F024D43015009A29BF /* DLServerRequest.h in Headers */,
-				5FEE74C424D43015009A29BF /* ZGCMMotionManager.h in Headers */,
-				5FEE74C324D43015009A29BF /* ZGLocationManager.h in Headers */,
-				5FEE74E224D43015009A29BF /* ZGUtil.h in Headers */,
-				5FEE74E624D43015009A29BF /* UIViewController+Zhuge.h in Headers */,
-				5FEE74F424D43015009A29BF /* clearNewUsage.h in Headers */,
-				5FEE74FC24D43015009A29BF /* DLServerRequestQueue.h in Headers */,
-				5FEE751324D43015009A29BF /* DeepShare.h in Headers */,
-				5FEE74FB24D43015009A29BF /* DLSystemObserver.h in Headers */,
-				5FEE74BE24D43015009A29BF /* UICollectionView+ZGAnalytics.h in Headers */,
-				5FEE750C24D43015009A29BF /* CallClose.h in Headers */,
-				5FEE74EC24D43015009A29BF /* DLServerInterface.h in Headers */,
-				5FEE74CC24D43015009A29BF /* ZhugeAutoTrackUtils.h in Headers */,
-				5FEE74C724D43015009A29BF /* ZGUtils.h in Headers */,
-				5FEE74D224D43015009A29BF /* ZhugeConstants.h in Headers */,
-				5FEE74CF24D43015009A29BF /* ZhugeCompres.h in Headers */,
+				5F022105268DA2A500D9EEF1 /* ZhugeConstants.h in Headers */,
+				5F022106268DA2A500D9EEF1 /* ZhugeConfig.h in Headers */,
+				5F02210C268DA2A500D9EEF1 /* Zhuge.h in Headers */,
+				5F02210A268DA2A500D9EEF1 /* ZhugeHeaders.h in Headers */,
+				5F022108268DA2A500D9EEF1 /* ZhugeEventProperty.h in Headers */,
+				5F02210B268DA2A500D9EEF1 /* ZhugePrivates.h in Headers */,
+				5F022104268DA2A500D9EEF1 /* ZhugeJS.h in Headers */,
+				5F0221A0268DA2A600D9EEF1 /* UIView+MPHelpers.h in Headers */,
+				5F0220EB268DA2A500D9EEF1 /* DSError.h in Headers */,
+				5F022191268DA2A600D9EEF1 /* ZGABTestDesignerSnapshotRequestMessage.h in Headers */,
+				5F022150268DA2A600D9EEF1 /* MPClassDescription.h in Headers */,
+				5F0221BC268DA2A600D9EEF1 /* MPSwizzle.h in Headers */,
+				5F022136268DA2A600D9EEF1 /* ZAMethodHelper.h in Headers */,
+				5F022167268DA2A600D9EEF1 /* ZGABTestDesignerConnection.h in Headers */,
+				5F02216B268DA2A600D9EEF1 /* MPTweakStore.h in Headers */,
+				5F0220FA268DA2A500D9EEF1 /* CallClose.h in Headers */,
+				5F0220F6268DA2A500D9EEF1 /* registerInstall.h in Headers */,
+				5F02218B268DA2A600D9EEF1 /* MPUICollectionViewBinding.h in Headers */,
+				5F022163268DA2A600D9EEF1 /* ZGVariant.h in Headers */,
+				5F022100268DA2A500D9EEF1 /* DLViewController.h in Headers */,
+				5F02213C268DA2A600D9EEF1 /* UIScrollView+AutoTrack.h in Headers */,
+				5F022110268DA2A500D9EEF1 /* ZGSharedDur.h in Headers */,
+				5F0221A2268DA2A600D9EEF1 /* NSInvocation+MPHelpers.h in Headers */,
+				5F02214B268DA2A600D9EEF1 /* MPPropertyDescription.h in Headers */,
+				5F022154268DA2A600D9EEF1 /* _MPTweakBindObserver.h in Headers */,
+				5F022132268DA2A600D9EEF1 /* UIGestureRecognizer+Zhuge.h in Headers */,
+				5F022177268DA2A600D9EEF1 /* MPObjectIdentifierProvider.h in Headers */,
+				5F022134268DA2A600D9EEF1 /* NSObject+ZACellClick.h in Headers */,
+				5F0220E3268DA2A500D9EEF1 /* DeepShareImpl.h in Headers */,
+				5F022144268DA2A600D9EEF1 /* ZhugeAutoTrackUtils.h in Headers */,
+				5F02213D268DA2A600D9EEF1 /* ZAViews.h in Headers */,
+				5F022182268DA2A600D9EEF1 /* SelectorEvaluator.h in Headers */,
+				5F022165268DA2A600D9EEF1 /* UIImage+MPImageEffects.h in Headers */,
+				5F02219A268DA2A600D9EEF1 /* MPEnumDescription.h in Headers */,
+				5F022151268DA2A600D9EEF1 /* ZGABTestDesignerClearRequestMessage.h in Headers */,
+				5F0221B3268DA2A600D9EEF1 /* MPDesignerEventBindingMessage.h in Headers */,
+				5F022196268DA2A600D9EEF1 /* ZGABTestDesignerMessage.h in Headers */,
+				5F022137268DA2A600D9EEF1 /* ZAAutoTrackProperty.h in Headers */,
+				5F022131268DA2A600D9EEF1 /* WKWebView+ZABridge.h in Headers */,
+				5F0220DA268DA2A500D9EEF1 /* DLServerInterface.h in Headers */,
+				5F0221B5268DA2A600D9EEF1 /* ZGABTestDesignerDeviceInfoRequestMessage.h in Headers */,
+				5F02211F268DA2A500D9EEF1 /* ZGDeviceInfo.h in Headers */,
+				5F022107268DA2A500D9EEF1 /* ZAConstants+Private.h in Headers */,
+				5F022149268DA2A600D9EEF1 /* MPObjectSerializerContext.h in Headers */,
+				5F022109268DA2A500D9EEF1 /* ZGLog.h in Headers */,
+				5F022111268DA2A500D9EEF1 /* NSObject+Zhuge.h in Headers */,
+				5F02217C268DA2A600D9EEF1 /* MPSwizzler.h in Headers */,
+				5F0220E0268DA2A500D9EEF1 /* DLTime.h in Headers */,
+				5F022138268DA2A600D9EEF1 /* UIApplication+Zhuge.h in Headers */,
+				5F022193268DA2A600D9EEF1 /* MPUITableViewBinding.h in Headers */,
+				5F022146268DA2A600D9EEF1 /* ZhugeSwizzle.h in Headers */,
+				5F022117268DA2A500D9EEF1 /* ZGHttpHelper.h in Headers */,
+				5F0220DE268DA2A500D9EEF1 /* DLServerRequest.h in Headers */,
+				5F02215C268DA2A600D9EEF1 /* ZGABTestDesignerDisconnectMessage.h in Headers */,
+				5F022188268DA2A600D9EEF1 /* ShakeGesture.h in Headers */,
+				5F022198268DA2A600D9EEF1 /* SessionMetadata.h in Headers */,
+				5F0220E8268DA2A500D9EEF1 /* getNewUsage.h in Headers */,
+				5F022133268DA2A600D9EEF1 /* ZADelegateProxy.h in Headers */,
+				5F02216D268DA2A600D9EEF1 /* MPABTestDesignerTweakRequestMessage.h in Headers */,
+				5F022114268DA2A500D9EEF1 /* ZGUtil.h in Headers */,
+				5F0221A8268DA2A600D9EEF1 /* MPTweakInlineInternal.h in Headers */,
+				5F0221B1268DA2A600D9EEF1 /* MPValueTransformers.h in Headers */,
+				5F022199268DA2A600D9EEF1 /* MPABTestDesignerSnapshotResponseMessage.h in Headers */,
+				5F022174268DA2A600D9EEF1 /* MPFoundation.h in Headers */,
+				5F02218E268DA2A600D9EEF1 /* ZGAbstractABTestDesignerMessage.h in Headers */,
+				5F02218F268DA2A600D9EEF1 /* MPABTestDesignerTweakResponseMessage.h in Headers */,
+				5F022168268DA2A600D9EEF1 /* UIImage+MPAverageColor.h in Headers */,
+				5F02212B268DA2A600D9EEF1 /* ZGCMMotionManager.h in Headers */,
+				5F022125268DA2A500D9EEF1 /* ZGRequest.h in Headers */,
+				5F02211C268DA2A500D9EEF1 /* ZhugeCompres.h in Headers */,
+				5F0220EF268DA2A500D9EEF1 /* DSEncodingUtils.h in Headers */,
+				5F02213B268DA2A600D9EEF1 /* ZAClassHelper.h in Headers */,
+				5F022118268DA2A500D9EEF1 /* ZGReachability.h in Headers */,
+				5F02214D268DA2A600D9EEF1 /* ZGEventBinding.h in Headers */,
+				5F022124268DA2A500D9EEF1 /* ZGLocationManager.h in Headers */,
+				5F022157268DA2A600D9EEF1 /* MPDisplayTrigger.h in Headers */,
+				5F0220EA268DA2A500D9EEF1 /* DLServerRequestQueue.h in Headers */,
+				5F022141268DA2A600D9EEF1 /* UIViewController+AutoTrack.h in Headers */,
+				5F022103268DA2A500D9EEF1 /* ZAConstants.h in Headers */,
+				5F0220E2268DA2A500D9EEF1 /* clearNewUsage.h in Headers */,
+				5F022153268DA2A600D9EEF1 /* MPApplicationStateSerializer.h in Headers */,
+				5F022195268DA2A600D9EEF1 /* MPObjectSerializerConfig.h in Headers */,
+				5F0220E4268DA2A500D9EEF1 /* DLStrongMatchHelper.h in Headers */,
+				5F0221A1268DA2A600D9EEF1 /* ZGABTestDesignerClearResponseMessage.h in Headers */,
+				5F02217D268DA2A600D9EEF1 /* MPObjectSelector.h in Headers */,
+				5F0220E5268DA2A500D9EEF1 /* DLConfig.h in Headers */,
+				5F02217E268DA2A600D9EEF1 /* MPObjectSerializer.h in Headers */,
+				5F0220FD268DA2A500D9EEF1 /* DLParam.h in Headers */,
+				5F022101268DA2A500D9EEF1 /* DeepShare.h in Headers */,
+				5F02212F268DA2A600D9EEF1 /* ZGUtils.h in Headers */,
+				5F0220F4268DA2A500D9EEF1 /* registerOpen.h in Headers */,
+				5F02216E268DA2A600D9EEF1 /* ZGWebSocket.h in Headers */,
+				5F022184268DA2A600D9EEF1 /* UIColor+MPColor.h in Headers */,
+				5F0221B9268DA2A600D9EEF1 /* MPObjectIdentityProvider.h in Headers */,
+				5F02215A268DA2A600D9EEF1 /* ZGABTestDesignerDeviceInfoResponseMessage.h in Headers */,
+				5F022115268DA2A500D9EEF1 /* ZGSqliteManager.h in Headers */,
+				5F022122268DA2A500D9EEF1 /* ZhugeBase64.h in Headers */,
+				5F0221B7268DA2A600D9EEF1 /* MPTweak.h in Headers */,
+				5F02216F268DA2A600D9EEF1 /* MPUIControlBinding.h in Headers */,
+				5F0220F3268DA2A500D9EEF1 /* NewvalueChange.h in Headers */,
+				5F02216A268DA2A600D9EEF1 /* MPDesignerSessionCollection.h in Headers */,
+				5F0221B6268DA2A600D9EEF1 /* ZGABTestDesignerChangeRequestMessage.h in Headers */,
+				5F022121268DA2A500D9EEF1 /* ZGRequestManager.h in Headers */,
+				5F0220DF268DA2A500D9EEF1 /* DLPreferenceHelper.h in Headers */,
+				5F0221AE268DA2A600D9EEF1 /* MPSequenceGenerator.h in Headers */,
+				5F02211E268DA2A500D9EEF1 /* ZADeviceId.h in Headers */,
+				5F0220E9268DA2A500D9EEF1 /* DLSystemObserver.h in Headers */,
+				5F022176268DA2A600D9EEF1 /* NSThread+Helpers.h in Headers */,
+				5F0221AC268DA2A600D9EEF1 /* MPTypeDescription.h in Headers */,
+				5F0221AD268DA2A600D9EEF1 /* MPTweakInline.h in Headers */,
+				5F02219C268DA2A600D9EEF1 /* ZGABTestDesignerChangeResponseMessage.h in Headers */,
+				5F022126268DA2A500D9EEF1 /* ZASwizzle.h in Headers */,
+				5F0220EC268DA2A500D9EEF1 /* DLServerResponse.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,49 +1001,120 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5FEE74E024D43015009A29BF /* ZGHttpHelper.m in Sources */,
-				5FEE74EF24D43015009A29BF /* DSError.m in Sources */,
-				5FEE74ED24D43015009A29BF /* DLServerResponse.m in Sources */,
-				5FEE74EA24D43015009A29BF /* ZGUtil.m in Sources */,
-				5FEE74E524D43015009A29BF /* UIApplication+Zhuge.m in Sources */,
-				5FEE74C224D43015009A29BF /* ZGUtils.m in Sources */,
-				5FEE74BD24D43015009A29BF /* UITableView+ZGAnalytics.m in Sources */,
-				5FEE74EB24D43015009A29BF /* ZGSqliteManager.m in Sources */,
-				5FEE74E424D43015009A29BF /* ZGSharedDur.m in Sources */,
-				5FEE750D24D43015009A29BF /* DLStrongMatchHelper.m in Sources */,
-				5FEE751024D43015009A29BF /* DLSystemObserver.m in Sources */,
-				5FEE74DF24D43015009A29BF /* ZGReachability.m in Sources */,
-				5FEE74F824D43015009A29BF /* DeepShare.m in Sources */,
-				5FEE74F924D43015009A29BF /* DLViewController.m in Sources */,
-				5FEE74BA24D43015009A29BF /* NSObject+ZGAutoTrack.m in Sources */,
-				5FEE74B824D43015009A29BF /* UICollectionView+ZGAnalytics.m in Sources */,
-				5FEE74DE24D43015009A29BF /* UIViewController+Zhuge.m in Sources */,
-				5FEE750224D43015009A29BF /* DLTime.m in Sources */,
-				5FEE74C524D43015009A29BF /* Aspects.m in Sources */,
-				5FEE750924D43015009A29BF /* NewvalueChange.m in Sources */,
-				5FEE74E924D43015009A29BF /* NSObject+Zhuge.m in Sources */,
-				5FEE750724D43015009A29BF /* CallClose.m in Sources */,
-				5FEE74CA24D43015009A29BF /* ZhugeSwizzle.m in Sources */,
-				5FEE74CB24D43015009A29BF /* UIGestureRecognizer+Zhuge.m in Sources */,
-				5FEE751124D43015009A29BF /* getNewUsage.m in Sources */,
-				5FEE74CE24D43015009A29BF /* Zhuge.m in Sources */,
-				5FEE74D724D43015009A29BF /* ZhugeCompres.m in Sources */,
-				5FEE750A24D43015009A29BF /* registerOpen.m in Sources */,
-				5FEE74DA24D43015009A29BF /* ZhugeBase64.m in Sources */,
-				5FEE74C624D43015009A29BF /* ZGLocationManager.m in Sources */,
-				5FEE74C924D43015009A29BF /* ZhugeAutoTrackUtils.m in Sources */,
-				5FEE750B24D43015009A29BF /* registerInstall.m in Sources */,
-				5F9AA15225AD8C5900BD12B8 /* ZGDeviceInfo.m in Sources */,
-				5FEE750024D43015009A29BF /* clearNewUsage.m in Sources */,
-				5FEE750E24D43015009A29BF /* DeepShareImpl.m in Sources */,
-				5FEE74FF24D43015009A29BF /* DLServerInterface.m in Sources */,
-				5FEE74C124D43015009A29BF /* ZGCMMotionManager.m in Sources */,
-				5FEE74DB24D43015009A29BF /* ZhugeConfig.m in Sources */,
-				5FEE750424D43015009A29BF /* DLServerRequest.m in Sources */,
-				5FEE74D924D43015009A29BF /* ZhugeJS.m in Sources */,
-				5FEE750324D43015009A29BF /* DLPreferenceHelper.m in Sources */,
-				5FEE74EE24D43015009A29BF /* DLServerRequestQueue.m in Sources */,
-				5FEE74F324D43015009A29BF /* DSEncodingUtils.m in Sources */,
+				5F0220EE268DA2A500D9EEF1 /* clearNewUsage.m in Sources */,
+				5F0221B8268DA2A600D9EEF1 /* MPCGColorRefToNSStringValueTransformer.m in Sources */,
+				5F02215D268DA2A600D9EEF1 /* MPABTestDesignerSnapshotResponseMessage.m in Sources */,
+				5F02215E268DA2A600D9EEF1 /* SessionMetadata.m in Sources */,
+				5F0221BB268DA2A600D9EEF1 /* MPCATransform3DToNSDictionaryValueTransformer.m in Sources */,
+				5F022102268DA2A500D9EEF1 /* Zhuge.m in Sources */,
+				5F02211A268DA2A500D9EEF1 /* ZGUtil.m in Sources */,
+				5F02210F268DA2A500D9EEF1 /* ZhugeConfig.m in Sources */,
+				5F02217F268DA2A600D9EEF1 /* MPSequenceGenerator.m in Sources */,
+				5F022120268DA2A500D9EEF1 /* ZGCMMotionManager.m in Sources */,
+				5F0220DD268DA2A500D9EEF1 /* DSError.m in Sources */,
+				5F02212A268DA2A600D9EEF1 /* ZGDeviceInfo.m in Sources */,
+				5F0220F8268DA2A500D9EEF1 /* registerOpen.m in Sources */,
+				5F02219B268DA2A600D9EEF1 /* ZGABTestDesignerDeviceInfoResponseMessage.m in Sources */,
+				5F02219F268DA2A600D9EEF1 /* MPDisplayTrigger.m in Sources */,
+				5F02217A268DA2A600D9EEF1 /* ZGABTestDesignerChangeRequestMessage.m in Sources */,
+				5F0221B4268DA2A600D9EEF1 /* MPObjectSelector.m in Sources */,
+				5F0221BA268DA2A600D9EEF1 /* NSThread+Helpers.m in Sources */,
+				5F02212C268DA2A600D9EEF1 /* ZGRequest.m in Sources */,
+				5F02218A268DA2A600D9EEF1 /* ZGEventBinding.m in Sources */,
+				5F022148268DA2A600D9EEF1 /* ZAViews.m in Sources */,
+				5F022171268DA2A600D9EEF1 /* NSInvocation+MPHelpers.m in Sources */,
+				5F02213F268DA2A600D9EEF1 /* ZADelegateProxy.m in Sources */,
+				5F0220E6268DA2A500D9EEF1 /* DeepShare.m in Sources */,
+				5F02218C268DA2A600D9EEF1 /* MPPropertyDescription.m in Sources */,
+				5F022172268DA2A600D9EEF1 /* UIView+MPHelpers.m in Sources */,
+				5F022164268DA2A600D9EEF1 /* ZGABTestDesignerSnapshotRequestMessage.m in Sources */,
+				5F022186268DA2A600D9EEF1 /* MPPassThroughValueTransformer.m in Sources */,
+				5F0220F7268DA2A500D9EEF1 /* NewvalueChange.m in Sources */,
+				5F022155268DA2A600D9EEF1 /* UIColor+MPColor.m in Sources */,
+				5F022170268DA2A600D9EEF1 /* ZGABTestDesignerClearResponseMessage.m in Sources */,
+				5F0220DC268DA2A500D9EEF1 /* DLServerRequestQueue.m in Sources */,
+				5F02214F268DA2A600D9EEF1 /* ShakeGesture.m in Sources */,
+				5F0221AB268DA2A600D9EEF1 /* ZGABTestDesignerConnection.m in Sources */,
+				5F0220F5268DA2A500D9EEF1 /* CallClose.m in Sources */,
+				5F0221A5268DA2A600D9EEF1 /* ZGWebSocket.m in Sources */,
+				5F0221A4268DA2A600D9EEF1 /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
+				5F0221A3268DA2A600D9EEF1 /* MPUIControlBinding.m in Sources */,
+				5F0221A6268DA2A600D9EEF1 /* MPABTestDesignerTweakRequestMessage.m in Sources */,
+				5F0221AA268DA2A600D9EEF1 /* UIImage+MPAverageColor.m in Sources */,
+				5F022130268DA2A600D9EEF1 /* WKWebView+ZABridge.m in Sources */,
+				5F022140268DA2A600D9EEF1 /* UIGestureRecognizer+Zhuge.m in Sources */,
+				5F02215B268DA2A600D9EEF1 /* MPEnumDescription.m in Sources */,
+				5F0220DB268DA2A500D9EEF1 /* DLServerResponse.m in Sources */,
+				5F022139268DA2A600D9EEF1 /* UIViewController+AutoTrack.m in Sources */,
+				5F0221A7268DA2A600D9EEF1 /* MPTweakStore.m in Sources */,
+				5F022159268DA2A600D9EEF1 /* ZGABTestDesignerChangeResponseMessage.m in Sources */,
+				5F02215F268DA2A600D9EEF1 /* MPObjectSerializerConfig.m in Sources */,
+				5F022147268DA2A600D9EEF1 /* UIScrollView+AutoTrack.m in Sources */,
+				5F02214C268DA2A600D9EEF1 /* MPUICollectionViewBinding.m in Sources */,
+				5F02218D268DA2A600D9EEF1 /* MPObjectSerializerContext.m in Sources */,
+				5F0220FF268DA2A500D9EEF1 /* getNewUsage.m in Sources */,
+				5F02212D268DA2A600D9EEF1 /* ZGLocationManager.m in Sources */,
+				5F0220E7268DA2A500D9EEF1 /* DLViewController.m in Sources */,
+				5F022173268DA2A600D9EEF1 /* MPCGSizeToNSDictionaryValueTransformer.m in Sources */,
+				5F02211D268DA2A500D9EEF1 /* ZASwizzle.m in Sources */,
+				5F0220ED268DA2A500D9EEF1 /* DLServerInterface.m in Sources */,
+				5F022156268DA2A600D9EEF1 /* SelectorEvaluator.m in Sources */,
+				5F022194268DA2A600D9EEF1 /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m in Sources */,
+				5F022175268DA2A600D9EEF1 /* MPSwizzle.m in Sources */,
+				5F022161268DA2A600D9EEF1 /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
+				5F022190268DA2A600D9EEF1 /* UIImage+MPImageEffects.m in Sources */,
+				5F022112268DA2A500D9EEF1 /* ZGReachability.m in Sources */,
+				5F022142268DA2A600D9EEF1 /* UIApplication+Zhuge.m in Sources */,
+				5F02210E268DA2A500D9EEF1 /* ZAConstants.m in Sources */,
+				5F022169268DA2A600D9EEF1 /* MPDesignerEventBindingResponseMesssage.m in Sources */,
+				5F022166268DA2A600D9EEF1 /* MPABTestDesignerTweakResponseMessage.m in Sources */,
+				5F0220FB268DA2A500D9EEF1 /* DLStrongMatchHelper.m in Sources */,
+				5F022158268DA2A600D9EEF1 /* MPCGAffineTransformToNSDictionaryValueTransformer.m in Sources */,
+				5F02213A268DA2A600D9EEF1 /* ZhugeSwizzle.m in Sources */,
+				5F022179268DA2A600D9EEF1 /* MPTweak.m in Sources */,
+				5F022135268DA2A600D9EEF1 /* ZhugeAutoTrackUtils.m in Sources */,
+				5F02217B268DA2A600D9EEF1 /* ZGABTestDesignerDeviceInfoRequestMessage.m in Sources */,
+				5F02216C268DA2A600D9EEF1 /* MPNSAttributedStringToNSDictionaryValueTransformer.m in Sources */,
+				5F022178268DA2A600D9EEF1 /* MPObjectIdentityProvider.m in Sources */,
+				5F0220F0268DA2A500D9EEF1 /* DLTime.m in Sources */,
+				5F0221B2268DA2A600D9EEF1 /* MPSwizzler.m in Sources */,
+				5F022116268DA2A500D9EEF1 /* ZGSharedDur.m in Sources */,
+				5F0221A9268DA2A600D9EEF1 /* MPBOOLToNSNumberValueTransformer.m in Sources */,
+				5F022127268DA2A500D9EEF1 /* ZhugeCompres.m in Sources */,
+				5F0221B0268DA2A600D9EEF1 /* MPObjectSerializer.m in Sources */,
+				5F0220FE268DA2A500D9EEF1 /* DLSystemObserver.m in Sources */,
+				5F022181268DA2A600D9EEF1 /* MPTypeDescription.m in Sources */,
+				5F022189268DA2A600D9EEF1 /* MPClassDescription.m in Sources */,
+				5F022128268DA2A500D9EEF1 /* ZADeviceId.m in Sources */,
+				5F022192268DA2A600D9EEF1 /* ZGVariant.m in Sources */,
+				5F022129268DA2A600D9EEF1 /* ZGRequestManager.m in Sources */,
+				5F022197268DA2A600D9EEF1 /* ZGABTestDesignerDisconnectMessage.m in Sources */,
+				5F022187268DA2A600D9EEF1 /* ZGABTestDesignerClearRequestMessage.m in Sources */,
+				5F02219D268DA2A600D9EEF1 /* MPUIColorToNSStringValueTransformer.m in Sources */,
+				5F022123268DA2A500D9EEF1 /* ZGUtils.m in Sources */,
+				5F02214E268DA2A600D9EEF1 /* MPUIFontToNSDictionaryValueTransformer.m in Sources */,
+				5F02213E268DA2A600D9EEF1 /* NSObject+ZACellClick.m in Sources */,
+				5F022183268DA2A600D9EEF1 /* _MPTweakBindObserver.m in Sources */,
+				5F022145268DA2A600D9EEF1 /* ZAClassHelper.m in Sources */,
+				5F0220F2268DA2A500D9EEF1 /* DLServerRequest.m in Sources */,
+				5F0221AF268DA2A600D9EEF1 /* MPDesignerEventBindingRequestMesssage.m in Sources */,
+				5F022152268DA2A600D9EEF1 /* MPUIImageToNSDictionaryValueTransformer.m in Sources */,
+				5F0220F1268DA2A500D9EEF1 /* DLPreferenceHelper.m in Sources */,
+				5F022162268DA2A600D9EEF1 /* MPUITableViewBinding.m in Sources */,
+				5F022160268DA2A600D9EEF1 /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
+				5F02214A268DA2A600D9EEF1 /* ZGAbstractABTestDesignerMessage.m in Sources */,
+				5F022180268DA2A600D9EEF1 /* MPTweakInline.m in Sources */,
+				5F022143268DA2A600D9EEF1 /* ZAMethodHelper.m in Sources */,
+				5F02211B268DA2A500D9EEF1 /* ZGSqliteManager.m in Sources */,
+				5F02219E268DA2A600D9EEF1 /* MPDesignerTrackMessage.m in Sources */,
+				5F022119268DA2A500D9EEF1 /* NSObject+Zhuge.m in Sources */,
+				5F02210D268DA2A500D9EEF1 /* ZhugeJS.m in Sources */,
+				5F0220FC268DA2A500D9EEF1 /* DeepShareImpl.m in Sources */,
+				5F022113268DA2A500D9EEF1 /* ZGHttpHelper.m in Sources */,
+				5F02212E268DA2A600D9EEF1 /* ZhugeBase64.m in Sources */,
+				5F0220E1268DA2A500D9EEF1 /* DSEncodingUtils.m in Sources */,
+				5F022185268DA2A600D9EEF1 /* MPApplicationStateSerializer.m in Sources */,
+				5F0220F9268DA2A500D9EEF1 /* registerInstall.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

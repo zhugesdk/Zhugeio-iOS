@@ -2,7 +2,7 @@
 //  ZhugeJS.m
 //  HelloZhuge
 //
-//  Created by jiaokang on 2016/10/18.
+//  Created by Zhugeio on 2016/10/18.
 //  Copyright © 2016年 37degree. All rights reserved.
 //
 
@@ -46,10 +46,10 @@
 -(void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message{
 
     if ([@"zhugeTracker" isEqualToString:message.name]) {
-        ZhugeDebug(@"H5传递消息：%@",message.body);
+        ZGLogInfo(@"H5传递消息：%@",message.body);
         NSDictionary *type = message.body;
         if (![type isKindOfClass:[NSDictionary class]] || ![type objectForKey:@"type"]) {
-            ZhugeDebug(@"不合法的JS消息： %@",message.body);
+            ZGLogDebug(@"不合法的JS消息： %@",message.body);
             return;
         }
         if ([type[@"type"] isEqualToString:@"track"]) {
@@ -74,8 +74,20 @@
             }
             [property setObject:name forKey:@"$eid"];
             [zhuge autoTrack:property];
+        }else if ([type[@"type"] isEqualToString:@"dr"]) {
+            
+            NSString *name = [type valueForKey:@"name"];
+            Zhuge *zhuge = [Zhuge sharedInstance];
+            id prop = [type valueForKey:@"prop"];
+            NSMutableDictionary *property = [NSMutableDictionary dictionary];
+            if (prop) {
+                [property addEntriesFromDictionary:prop];
+            }
+            [property setObject:name forKey:@"$eid"];
+            [zhuge trackDurationOnPage:property];
+            
         } else{
-            ZhugeDebug(@"未识别的JS消息类型： %@",message.body);
+            ZGLogError(@"未识别的JS消息类型： %@",message.body);
         }
     }
 }

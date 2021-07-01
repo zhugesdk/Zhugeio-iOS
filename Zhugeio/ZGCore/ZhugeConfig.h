@@ -7,7 +7,7 @@
 #import <Foundation/Foundation.h>
 
 /* SDK版本 */
-#define ZG_SDK_VERSION @"3.4.10"
+#define ZG_SDK_VERSION @"3.4.16"
 
 /* 默认应用版本 */
 #define ZG_APP_VERSION [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
@@ -46,7 +46,11 @@
 @property (nonatomic, assign) BOOL sessionEnable;
 
 @property (nonatomic, assign) BOOL exceptionTrack;
-// 是否开启实时调试(默认:关闭)
+
+/**
+ * 是否开启实时调试
+ * 默认 NO
+ */
 @property (nonatomic, assign) BOOL debug;
 
 /**
@@ -58,21 +62,52 @@
  */
 //@property (nonatomic,assign) NSInteger trackerLevel;
 
-//用户是否开启ZGSee 默认 NO
-@property (nonatomic,assign) BOOL zgSeeEnable;
-//全埋点是否开启 默认NO
-@property (nonatomic,assign) BOOL autoTrackEnable;
-
-//RN 全埋点是否开启 默认NO
-@property (nonatomic, assign) BOOL enableRNAutoTrack;
 
 /**
- * 开启 WebView Track 默认NO
- * 预留配置项
+ * 用户是否开启ZGSee
+ * 默认 NO
  */
-//@property (nonatomic, assign) BOOL enableWebViewTrack;
+@property (nonatomic,assign) BOOL zgSeeEnable;
 
-// log 日志 开关  （ 请在debug 模式下 使用 ！！！！）
+/**
+ * 全埋点是否开启
+ * 默认NO
+ */
+@property (nonatomic,assign) BOOL autoTrackEnable;
+
+/**
+ * 开启自动统计页面停留时长
+ * 默认 NO
+ */
+@property (nonatomic,assign) BOOL isEnableDurationOnPage;
+
+/**
+ * 开启曝光采集 
+ * 默认 NO
+ */
+@property (nonatomic,assign) BOOL isEnableExpTrack;
+
+/**
+ * RN 全埋点是否开启
+ * 默认NO
+ */
+@property (nonatomic, assign) BOOL isEnableRNAutoTrack;
+
+/**
+ * 可视化埋点开关
+ * 默认 NO
+ */
+@property (nonatomic, assign) BOOL enableCodeless;
+
+/**
+ * 开启 WebView Track
+ * 默认NO
+ */
+@property (nonatomic, assign) BOOL enableJavaScriptBridge;
+
+/**
+ * log 日志 开关  （ 请在debug 模式下 使用 ！！！！）
+ */
 @property (nonatomic, assign) BOOL enableLoger;
 
 
@@ -82,5 +117,5 @@
 // 是否推送到生产环境，默认YES(推送时指定deviceToken上传到开发环境或生产环境)
 @property (nonatomic, assign) BOOL apsProduction;
 
--(BOOL) isSeeEnable;
+-(BOOL)isSeeEnable;
 @end
