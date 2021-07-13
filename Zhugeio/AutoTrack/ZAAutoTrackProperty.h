@@ -29,7 +29,7 @@
 @property (nonatomic, copy, readonly) NSString *zhugeio_elementPosition;
 
 /// 获取 view 所在的 viewController，或者当前的 viewController
-@property (nonatomic, readonly) UIViewController<ZAAutoTrackViewControllerProperty> *zhugeio_viewController;
+//@property (nonatomic, readonly) UIViewController<ZAAutoTrackViewControllerProperty> *zhugeio_viewController;
 
 @end
 

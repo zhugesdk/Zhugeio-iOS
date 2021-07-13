@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * 开启曝光采集 Exposure
  */
-//- (void)enableExpTrack;
+- (void)enableExpTrack;
 
 
 /**

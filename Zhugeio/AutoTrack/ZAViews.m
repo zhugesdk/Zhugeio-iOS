@@ -28,7 +28,7 @@
 
 - (void)zhugeioExpTrack:(NSString *)eventId withNumber:(NSNumber *)number {
     self.zhugeioAttributesValue = eventId;
-    self.zhugeioAttributesUniqueTag = number;
+    
     self.zhugeioAttributesDonotTrackExp = NO;
 }
 
@@ -40,7 +40,7 @@
 
 - (void)zhugeioExpTrack:(NSString *)eventId withNumber:(NSNumber *)number andVariable:(NSDictionary<NSString *,id> *)variable {
     self.zhugeioAttributesValue = eventId;
-    self.zhugeioAttributesUniqueTag = number;
+    
     self.zhugeioAttributesVariable = variable;
     self.zhugeioAttributesDonotTrackExp = NO;
 }

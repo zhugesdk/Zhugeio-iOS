@@ -82,7 +82,7 @@ NSString * const gc_VCKey = nil;
             ![self isKindOfClass:[UINavigationController class]] ||
             [self isKindOfClass:[UIPageViewController class]] ||
             [self isKindOfClass:[UISplitViewController class]]) {
-        
+
             if (self.view.subviews.count > 0) {
                 [self checkoutSubviews:self.view];
             }
@@ -297,19 +297,29 @@ NSString * const gc_VCKey = nil;
     return [(NSArray *)dictonary[@"private"] containsObject:NSStringFromClass(viewController.class)];
 }
 
+//UITableView *tableView = (UITableView *)scrollView;
+//NSArray *cells = [tableView visibleCells];
+//if (cells.count > 0) {
+//    [self checkoutScrollViewCells:cells];
+//}
 
 - (void)checkoutSubviews:(UIView *)view {
     
+    if ([view isKindOfClass:[UITableView class]] ||
+        [view isKindOfClass:[UICollectionView class]]) {
+        return;
+    }
+    
     [view.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull view, NSUInteger index, BOOL * _Nonnull stop) {
-       
+
         if (view.zhugeioAttributesValue && !view.zhugeioAttributesDonotTrackExp) {
             [self trackExpEvent:view.zhugeioAttributesValue properties:view.zhugeioAttributesVariable];
         }
-        
+
         if (view.subviews.count > 0) {
             [self checkoutSubviews:view];
         }
-        
+
     }];
 }
 

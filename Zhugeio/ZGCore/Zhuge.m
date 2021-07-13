@@ -341,7 +341,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     dispatch_once(&once, ^ {
         NSError *error = NULL;
         
-
         //$AppViewScreen
         if (!self.viewDidAppearIsHook) {
             [UIViewController za_swizzleMethod:@selector(viewDidAppear:) withMethod:@selector(za_autotrack_viewDidAppear:) error:NULL];
@@ -390,13 +389,18 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 
 - (void)enableZGSee {
     
-//    static dispatch_once_t onceToken;
-//    dispatch_once(&onceToken, ^{
-//        // $ZGSee
-//        [UIApplication za_swizzleMethod:@selector(sendEvent:) withMethod:@selector(za_sendEvent:) error:NULL];
-//
-//        [UIViewController za_swizzleClassMethod:@selector(viewDidAppear:) withClassMethod:@selector(za_autotrack_viewDidAppear:) error:NULL];
-//    });
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        self.viewDidAppearIsHook  = self.viewDidAppearIsHook ? YES : NO;
+        // $ZGSee
+        [UIApplication za_swizzleMethod:@selector(sendEvent:) withMethod:@selector(za_sendEvent:) error:NULL];
+
+        if (!self.viewDidAppearIsHook) {
+            [UIViewController za_swizzleClassMethod:@selector(viewDidAppear:) withClassMethod:@selector(za_autotrack_viewDidAppear:) error:NULL];
+            self.viewDidAppearIsHook = YES;
+        }
+        
+    });
     
     [self.config setZgSeeEnable:YES];
 }
@@ -409,7 +413,10 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     dispatch_once(&onceToken, ^{
         
         if (!self.viewDidAppearIsHook) {
+            
+            [UIView za_swizzleMethod:@selector(layoutSubviews) withMethod:@selector(za_layoutSubviews) error:NULL];
             [UIViewController za_swizzleMethod:@selector(viewDidAppear:) withMethod:@selector(za_autotrack_viewDidAppear:) error:NULL];
+
             self.viewDidAppearIsHook = YES;
         }
     });
