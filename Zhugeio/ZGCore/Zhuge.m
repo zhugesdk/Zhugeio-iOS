@@ -413,12 +413,13 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     dispatch_once(&onceToken, ^{
         
         if (!self.viewDidAppearIsHook) {
-            
-            [UIView za_swizzleMethod:@selector(layoutSubviews) withMethod:@selector(za_layoutSubviews) error:NULL];
+        
             [UIViewController za_swizzleMethod:@selector(viewDidAppear:) withMethod:@selector(za_autotrack_viewDidAppear:) error:NULL];
 
             self.viewDidAppearIsHook = YES;
         }
+        
+        [UIView za_swizzleMethod:@selector(layoutSubviews) withMethod:@selector(za_layoutSubviews) error:NULL];
     });
     
     [self.config setIsEnableExpTrack:YES];
