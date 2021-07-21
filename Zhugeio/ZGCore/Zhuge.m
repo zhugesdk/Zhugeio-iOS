@@ -750,6 +750,11 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         @try {
             NSMutableDictionary *data = [NSMutableDictionary dictionaryWithCapacity:2];
             NSMutableDictionary *pr = [self eventData];
+            if (self.envInfo) {
+                NSMutableDictionary *data = [self addSymbloToDic:[self.envInfo objectForKey:@"event"]];
+                [pr addEntriesFromDictionary:data];
+            }
+
             [pr addEntriesFromDictionary:info];
             [data setObject:pr forKey:@"pr"];
             [data setObject:@"abp" forKey:@"dt"];
