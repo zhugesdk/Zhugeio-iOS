@@ -52,8 +52,8 @@ NSString * const gc_VCKey = nil;
             //页面变化的时候初始化date
             [ZGSharedDur shareInstance].durDate = [NSDate date];
             _imageData = [[ZGSharedDur shareInstance] pixData];
-            [self taskData:[[ZGSharedDur shareInstance] getViewToPath:self.view]];
             [[ZGSharedDur shareInstance] zhugeSetCurrentVC:NSStringFromClass(self.class)];
+            [self taskData:[[ZGSharedDur shareInstance] getViewToPath:self.view]];
         }
     }
     
@@ -149,21 +149,21 @@ NSString * const gc_VCKey = nil;
 }
 
 - (void)checkAutoTrackPageView{
-    if (![[Zhuge sharedInstance].config autoTrackEnable]) {
-        return;
-    }
-    @try {
-        UIViewController *viewController = (UIViewController *)self;
-        if (![viewController.parentViewController isKindOfClass:[UIViewController class]] ||
-            [viewController.parentViewController isKindOfClass:[UITabBarController class]] ||
-            [viewController.parentViewController isKindOfClass:[UINavigationController class]] ||
-            [viewController.parentViewController isKindOfClass:[UIPageViewController class]] ||
-            [viewController.parentViewController isKindOfClass:[UISplitViewController class]]) {
-            [viewController autoTrackPageView];
+    if ([[Zhuge sharedInstance].config autoTrackEnable]) {
+        @try {
+            UIViewController *viewController = (UIViewController *)self;
+            if (![viewController.parentViewController isKindOfClass:[UIViewController class]] ||
+                [viewController.parentViewController isKindOfClass:[UITabBarController class]] ||
+                [viewController.parentViewController isKindOfClass:[UINavigationController class]] ||
+                [viewController.parentViewController isKindOfClass:[UIPageViewController class]] ||
+                [viewController.parentViewController isKindOfClass:[UISplitViewController class]]) {
+                [viewController autoTrackPageView];
+            }
+        }@catch(NSException *ex){
+            ZGLogDebug([NSString stringWithFormat:@"controller :%@, error:%@",[self zhugeScreenName],[ex reason] ]);
         }
-    }@catch(NSException *ex){
-        ZGLogDebug([NSString stringWithFormat:@"controller :%@, error:%@",[self zhugeScreenName],[ex reason] ]);
     }
+    
 }
 
 -(void)autoTrackPageView{
@@ -194,7 +194,6 @@ NSString * const gc_VCKey = nil;
 //整理并上传数据
 - (void)taskData:(NSString *)viewPath {
     ZGSharedDur * dur = [ZGSharedDur shareInstance];
-    
     NSMutableDictionary * dic = [NSMutableDictionary dictionary];
     dic[@"$pix"] = _imageData;
     dic[@"$page"] = viewPath;
@@ -268,7 +267,8 @@ NSString * const gc_VCKey = nil;
                                           @"UIEditUserWordController",
                                           @"_UIContextMenuActionsOnlyViewController",
                                           @"UISystemInputAssistantViewController",
-                                          @"UICandidateViewController"];
+                                          @"UICandidateViewController",
+                                          @"UINavigationController"];
     return [blackListViewControllers containsObject:NSStringFromClass(viewController.class)];
 }
 

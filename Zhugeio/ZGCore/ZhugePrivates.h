@@ -64,6 +64,7 @@
 
 @property (nonatomic, strong) NSMutableArray *ignoredViewTypeList;
 
+@property (nonatomic, assign) BOOL isInitSDK;
 
 
 #pragma mark - Codeless

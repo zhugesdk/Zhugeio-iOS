@@ -148,6 +148,8 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
             [self sessionStart];
         }
         
+        self.isInitSDK = YES;
+        
     }
     @catch (NSException *exception) {
         ZGLogDebug(@"startWithAppKey exception %@",exception);
@@ -413,7 +415,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     dispatch_once(&onceToken, ^{
         
         if (!self.viewDidAppearIsHook) {
-        
+            
             [UIViewController za_swizzleMethod:@selector(viewDidAppear:) withMethod:@selector(za_autotrack_viewDidAppear:) error:NULL];
 
             self.viewDidAppearIsHook = YES;
@@ -755,7 +757,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
                 NSMutableDictionary *data = [self addSymbloToDic:[self.envInfo objectForKey:@"event"]];
                 [pr addEntriesFromDictionary:data];
             }
-
+            
             [pr addEntriesFromDictionary:info];
             [data setObject:pr forKey:@"pr"];
             [data setObject:@"abp" forKey:@"dt"];
@@ -1285,6 +1287,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 #pragma mark - 推送信息
 // 上报推送已读
 - (void)trackPush:(NSDictionary *)userInfo type:(NSString *) type {
+    
     @try {
         ZGLogDebug(@"push payload: %@", userInfo);
         if (userInfo && userInfo[@"mid"]) {
@@ -1501,6 +1504,10 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 #pragma mark - 事件上报
 // 事件加入待发队列
 - (void)enqueueEvent:(NSMutableDictionary *)event {
+    if (!self.isInitSDK) {
+        ZGLogWarning(@"初始化 SDK 之后才能开始统计数据");
+        return;
+    }
     dispatch_async(self.serialQueue, ^{
         [self syncEnqueueEvent:event];
     });
