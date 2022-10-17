@@ -45,6 +45,10 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
     [self initWithAppKey:appKey launchOptions:launchOptions withDelegate:nil];
 }
 
+- (void)startWithAppKey:(nonnull NSString*)appKey {
+    [self initWithAppKey:appKey launchOptions:nil withDelegate:nil];
+}
+
 - (void)startWithAppKey:(NSString *)appKey launchOptions:(NSDictionary *)launchOptions {
     [self initWithAppKey:appKey launchOptions:launchOptions withDelegate:nil];
 }
@@ -144,11 +148,11 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
             [DeepShare initWithAppID:self.appKey withLaunchOptions:launchOptions withDelegate:self];
         }
         
+        self.isInitSDK = YES;
+        
         if (!self.sessionId) {
             [self sessionStart];
         }
-        
-        self.isInitSDK = YES;
         
     }
     @catch (NSException *exception) {
@@ -185,16 +189,38 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
     NSArray *events = @[e];
     NSString *eventData = [self encodeAPIData:[self wrapEvents:events]];
 
-    ZGLogInfo(@"上传崩溃事件：%@",eventData);
-    NSData *eventDataBefore = [eventData dataUsingEncoding:NSUTF8StringEncoding];
-    NSData *zlibedData = [eventDataBefore zgZlibDeflate];
-    NSString *event = [zlibedData zgBase64EncodedString];
-    NSString *result = [[event stringByReplacingOccurrencesOfString:@"\r" withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-    NSString *requestData = [NSString stringWithFormat:@"method=event_statis_srv.upload&compress=1&event=%@", result];
-
-    BOOL success = [self request:@"/APIPOOL/" WithData:requestData andError:nil];
+//    ZGLogInfo(@"上传崩溃事件：%@",eventData);
     
-    success ? ZGLogDebug(@"上传崩溃事件成功") : ZGLogDebug(@"上传崩溃事件失败");
+    if (self.config.enableEncrypt && self.config.encryptType == 1) {
+        ZGLogDebug(@"启用了AES+RSA加密方式");
+        ///对数据进行AES加密
+        NSString *key = [RSA_AES randomly16BitString];
+        
+        NSString *en = [RSA_AES AES256Encrypt:eventData key:key];
+
+        ///对key进行RSA加密
+        NSString *rsaKeyIV = [RSA_AES encryptUseRSA:[NSString stringWithFormat:@"%@,%@", key,key] pubkey:self.config.uploadPubkey];
+
+//        ZGLogDebug(@"加密前数据: %@ \n 加密前key: %@ \n加密后key: %@ \n加密后数据: %@", eventData, [NSString stringWithFormat:@"%@,%@",key,iv], rsaKeyIV, en);
+
+        
+        NSString *requestData = [NSString stringWithFormat:@"method=event_statis_srv.upload&compress=1&encrypt=1&type=1&key=%@&event=%@", rsaKeyIV,en];
+        BOOL success = [self request:@"/APIPOOL/" WithData:requestData andError:nil];
+        
+        success ? ZGLogDebug(@"上传崩溃事件成功") : ZGLogDebug(@"上传崩溃事件失败");
+        
+    } else {
+        NSData *eventDataBefore = [eventData dataUsingEncoding:NSUTF8StringEncoding];
+        NSData *zlibedData = [eventDataBefore zgZlibDeflate];
+        NSString *event = [zlibedData zgBase64EncodedString];
+        NSString *result = [[event stringByReplacingOccurrencesOfString:@"\r" withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        NSString *requestData = [NSString stringWithFormat:@"method=event_statis_srv.upload&compress=1&encrypt=0&event=%@", result];
+
+        BOOL success = [self request:@"/APIPOOL/" WithData:requestData andError:nil];
+        
+        success ? ZGLogDebug(@"上传崩溃事件成功") : ZGLogDebug(@"上传崩溃事件失败");
+    }
+    
     
     if (previousHandler) {
         previousHandler(exception);
@@ -434,6 +460,25 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     self.envInfo[@"device"] = info;
 }
 
+/**
+ * 配置加密的rsa公钥
+ */
+- (void)setUploadRsaPubKey:(nonnull NSString*)pubKey {
+    if (pubKey && pubKey.length>0) {
+        self.config.uploadPubkey = pubKey;
+    }else{
+        ZGLogError(@"传入的公钥不合法，请检查:%@",pubKey);
+    }
+}
+
+/**
+ * 开启加密上传和加密策略
+ */
+- (void)enableEncryptUpload:(BOOL)encrypt CryptoType:(int)cryptoType {
+    self.config.enableEncrypt = encrypt;
+    self.config.encryptType = cryptoType;
+}
+
 - (NSString *)getDid {
     if (!self.deviceId) {
         self.deviceId = [ZADeviceId getZADeviceId];
@@ -552,7 +597,9 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
             [[UIApplication sharedApplication] endBackgroundTask:self.taskId];
             self.taskId = UIBackgroundTaskInvalid;
         }];
-        
+        if (self.sessionId) {
+            [self sessionEnd];
+        }
         [self flush];
         //进入到后台以后再去上传数据  sid已经为空
 //        [self zgSeeUpLoadNumData:50 cacheBool:NO];
@@ -834,6 +881,10 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     NSMutableDictionary *tempDic = [[NSMutableDictionary alloc] initWithDictionary:properties];
     NSString *price = [NSString stringWithFormat:@"%@",properties[ZhugeEventRevenuePrice]];
     NSString *number = [NSString stringWithFormat:@"%@",properties[ZhugeEventRevenueProductQuantity]];
+    if (price.length == 0 || number.length == 0) {
+        ZGLogDebug(@"价格和数量不能为空");
+        return;
+    }
     //price转化成NSDecimalNumber
     NSDecimalNumber *priceDec = [NSDecimalNumber decimalNumberWithString:price];
     //number转化成NSDecimalNumber
@@ -1555,23 +1606,49 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
             ZGLogDebug(@"开始上报事件(本次上报事件数:%lu, 队列内事件总数:%lu, 今天已经发送:%lu, 限额:%lu)", (unsigned long)[events count], (unsigned long)[queue count], (unsigned long)self.sendCount, (unsigned long)self.config.sendMaxSizePerDay);
             
             NSString *eventData = [self encodeAPIData:[self wrapEvents:events]];
-            ZGLogDebug(@"上传事件：%@",eventData);
-            NSData *eventDataBefore = [eventData dataUsingEncoding:NSUTF8StringEncoding];
-            NSData *zlibedData = [eventDataBefore zgZlibDeflate];
-            NSString *event = [zlibedData zgBase64EncodedString];
-            NSString *result = [[event stringByReplacingOccurrencesOfString:@"\r" withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+//            ZGLogDebug(@"上传事件：%@",eventData);
             
-            NSString *requestData = [NSString stringWithFormat:@"method=event_statis_srv.upload&compress=1&event=%@", result];
-            
-            BOOL success = [self request:@"/APIPOOL/" WithData:requestData andError:nil];
+            if (self.config.enableEncrypt && self.config.encryptType == 1) {
+                ZGLogDebug(@"启用了AES+RSA加密方式");
+                ///对数据进行AES加密
+                NSString *key = [RSA_AES randomly16BitString];
+                
 
-            if (success) {
-                ZGLogDebug(@"上传事件成功");
-                self.sendCount += sendBatchSize;
-                [queue removeObjectsInArray:events];
+                NSString *en = [RSA_AES AES256Encrypt:eventData key:key];
+                
+                ///对key进行RSA加密
+                NSString *rsaKeyIV = [RSA_AES encryptUseRSA:[NSString stringWithFormat:@"%@,%@",key, key] pubkey:self.config.uploadPubkey];
+
+                ZGLogDebug(@"加密前数据: %@ \n 加密前key: %@ \n加密后key: %@ \n加密后数据: %@", eventData, key, rsaKeyIV, en);
+                
+
+                NSString *requestData = [NSString stringWithFormat:@"method=event_statis_srv.upload&compress=1&encrypt=1&type=1&key=%@&event=%@", rsaKeyIV,en];
+                ZGLogDebug(@"上传数据==%@", requestData);
+                BOOL success = [self request:@"/APIPOOL/" WithData:requestData andError:nil];
+                if (success) {
+                    ZGLogDebug(@"上传事件成功");
+                    self.sendCount += sendBatchSize;
+                    [queue removeObjectsInArray:events];
+                } else {
+                    ZGLogDebug(@"上传事件失败");
+                    break;
+                }
+                                
             } else {
-                ZGLogDebug(@"上传事件失败");
-                break;
+                NSData *eventDataBefore = [eventData dataUsingEncoding:NSUTF8StringEncoding];
+                NSData *zlibedData = [eventDataBefore zgZlibDeflate];
+                NSString *event = [zlibedData zgBase64EncodedString];
+                NSString *result = [[event stringByReplacingOccurrencesOfString:@"\r" withString:@""] stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                NSString *requestData = [NSString stringWithFormat:@"method=event_statis_srv.upload&compress=1&encrypt=0&event=%@", result];
+                BOOL success = [self request:@"/APIPOOL/" WithData:requestData andError:nil];
+                if (success) {
+                    ZGLogDebug(@"上传事件成功");
+                    self.sendCount += sendBatchSize;
+                    [queue removeObjectsInArray:events];
+                } else {
+                    ZGLogDebug(@"上传事件失败");
+                    break;
+                }
             }
         }
     }

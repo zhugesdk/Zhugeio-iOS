@@ -23,6 +23,9 @@
         self.sessionEnable = YES;
         self.apsProduction = YES;
         self.serverPolicy = -1;
+//        self.enableEncrypt = YES;
+//        self.encryptType = 1;
+        self.uploadPubkey = @"-----BEGIN PUBLIC KEY-----\nMIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEA5FhCfmlBx2dlDoAs9U9WgnFd4BXbPJoT52ptYB1t6zcxpv3bYzRrUvEqy0utrrUqkJPCGR5rFG+K4ph2ywoz9VpdjAyEFeAmik7nGgd0AxhJK9Vjl2GsEsJ7FBoHkDLbXdiDOnJflvPXlqfOwte+Tr4tZAUVm2PYGbVlgwQdUlM/dLPmPpRp5wVauv+waLBPcIVBMgNPl9xUqU4KLCtMj/OzHetdJEWMM3bk3s1TpgE8fR+T+63RvQ4ydveC/do2NIFqK2NoO7dIE5YFUwh0ImVV7nDZkgGYu/+i9/6zN4H4GqUKfSRMEhj7EsR3iMVkLVhC1LXfTxeHgHWRL8mVhi7s/SF2E+UDghBleW1/iQbCj3VVypjGBTIdp1kTfNrEJSEtsirnzqMDZRKVsocd4RMb/rLsYmI8VlUNZJSI0Vqr6ywH1mFM92lqzH1y2H4RGVkpbUqmfUiH3aCzRsN271im26vV16XU7LDSPqMr4l4P9sOszo6YwyC/6cXZduzlAgMBAAE=\n-----END PUBLIC KEY-----";
     }
     
     return self;

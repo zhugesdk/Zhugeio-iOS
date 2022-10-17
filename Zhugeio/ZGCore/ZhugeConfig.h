@@ -7,7 +7,7 @@
 #import <Foundation/Foundation.h>
 
 /* SDK版本 */
-#define ZG_SDK_VERSION @"3.4.23"
+#define ZG_SDK_VERSION @"3.4.25"
 
 /* 默认应用版本 */
 #define ZG_APP_VERSION [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
@@ -118,4 +118,22 @@
 @property (nonatomic, assign) BOOL apsProduction;
 
 -(BOOL)isSeeEnable;
+
+/**
+ * 上传数据加密rsa 公钥
+ */
+@property (nonatomic, copy) NSString *uploadPubkey;
+
+/**
+ * 上传数据是否加密
+ */
+@property (nonatomic, assign) BOOL enableEncrypt;
+
+    
+/**
+ * 上传数据加密策略：1：res加密
+ */
+@property (nonatomic, assign) int encryptType;
+
+
 @end

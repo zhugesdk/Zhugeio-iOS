@@ -83,12 +83,25 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)enableExpTrack;
 
+/**
+ * 配置加密的rsa公钥
+    
+ */
+- (void)setUploadRsaPubKey:(nonnull NSString*)pubKey;
+
+
+/**
+ * 开启加密上传和加密策略
+ */
+- (void)enableEncryptUpload:(BOOL)encrypt CryptoType:(int)cryptoType;
 
 /**
  开启诸葛统计。
  @param appKey 应用Key，网站上注册应用时自动获得
  @param launchOptions 启动项
  */
+- (void)startWithAppKey:(nonnull NSString*)appKey;
+
 - (void)startWithAppKey:(nonnull NSString*)appKey launchOptions:(nullable NSDictionary*)launchOptions;
 
 - (void)startWithAppKey:(nonnull NSString *)appKey andDid:(nonnull NSString*)did launchOptions:(nullable NSDictionary *)launchOptions;

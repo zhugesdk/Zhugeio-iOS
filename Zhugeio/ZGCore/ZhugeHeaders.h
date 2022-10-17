@@ -72,5 +72,6 @@
 #pragma mark -
 #import <WebKit/WebKit.h>
 #import "ZhugeJS.h"
+#import "RSA+AES.h"
 
 #endif /* ZhugeHeaders_h */

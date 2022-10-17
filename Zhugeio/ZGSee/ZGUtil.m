@@ -211,7 +211,7 @@ static NSData *base64_decode(NSString *str){
     
     CCCryptorStatus cryptStatus = CCCrypt(kCCEncrypt,
                                           kCCAlgorithmAES128,
-                                          kCCOptionPKCS7Padding | kCCOptionECBMode,   //这里用的 NoPadding的填充方式
+                                          kCCOptionPKCS7Padding,   //这里用的 NoPadding的填充方式
                                           //除此以外还有 kCCOptionPKCS7Padding 和 kCCOptionECBMode
                                           keyPtr,
                                           kCCKeySizeAES128,
@@ -248,7 +248,7 @@ static NSData *base64_decode(NSString *str){
     size_t numBytesCrypted = 0;
     CCCryptorStatus cryptStatus = CCCrypt(kCCDecrypt,
                                           kCCAlgorithmAES128,
-                                          kCCOptionPKCS7Padding | kCCOptionECBMode,
+                                          kCCOptionPKCS7Padding,
                                           keyPtr,
                                           kCCBlockSizeAES128,
                                           ivPtr,
