@@ -78,6 +78,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)enableZGSee;
 
+-(void)enableIDFACollect;
+
 /**
  * 开启曝光采集 Exposure
  */

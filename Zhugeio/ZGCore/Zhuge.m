@@ -10,7 +10,7 @@
 #import "Zhuge.h"
 #import "ZGLog.h"
 #import "ZhugePrivates.h"
-
+#import "ZGIDFAUtil.h"
 
 @implementation Zhuge
 
@@ -40,6 +40,9 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
     return _config;
 }
 
+-(void)enableIDFACollect{
+    self.config.idfaCollect = YES;
+}
 - (void)startWithAppKey:(NSString *)appKey andDid:(NSString *)did launchOptions:(NSDictionary *)launchOptions{
     self.deviceId = did;
     [self initWithAppKey:appKey launchOptions:launchOptions withDelegate:nil];
@@ -729,6 +732,13 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
                 pr[@"$sid"] = self.sessionId;
                 pr[@"$vn"] = self.config.appVersion;
                 pr[@"$sc"]= @0;
+                if(self.config.idfaCollect){
+                    NSString *idfaString = [ZGIDFAUtil idfa];
+                    if(!idfaString){
+                        idfaString = @"";
+                    }
+                    pr[@"$idfa"] = idfaString;
+                }
                 e[@"pr"] = pr;
                 [self enqueueEvent:e];
             }

@@ -7,7 +7,7 @@
 //
 
 #import "ZGRequestManager.h"
-
+#import "Zhuge.h"
 @interface ZGRequestManager ()
 
 @end
@@ -29,10 +29,25 @@
         if (sharedSession == nil) {
             NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
             sessionConfig.timeoutIntervalForRequest = 30.0;
+            if([Zhuge sharedInstance].config.idfaCollect){
+                NSDictionary *header = sessionConfig.HTTPAdditionalHeaders;
+                if(header){
+                    [header setValue:[self getUserAgent] forKey:@"User-Agent"];
+                } else {
+                    header = [NSDictionary dictionaryWithObject:[self getUserAgent] forKey:@"User-Agent"];
+                }
+                sessionConfig.HTTPAdditionalHeaders = header;
+            }
             sharedSession = [NSURLSession sessionWithConfiguration:sessionConfig];
         }
     }
     return sharedSession;
+}
+
++(NSString *)getUserAgent{
+    NSString  *oldAgent = [NSString stringWithFormat:@"Mozilla/5.0 (%@; CPU iPhone OS %@ like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148", [[UIDevice currentDevice] model], [[[UIDevice currentDevice] systemVersion] stringByReplacingOccurrencesOfString:@"." withString:@"_"]];
+    return oldAgent;
+    
 }
 
 - (void)requestUrl:(NSString *)url {

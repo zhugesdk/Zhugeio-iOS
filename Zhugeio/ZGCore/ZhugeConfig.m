@@ -22,6 +22,7 @@
         self.cacheMaxSize = 3000;
         self.sessionEnable = YES;
         self.apsProduction = YES;
+        self.idfaCollect = NO;
         self.serverPolicy = -1;
 //        self.enableEncrypt = YES;
 //        self.encryptType = 1;

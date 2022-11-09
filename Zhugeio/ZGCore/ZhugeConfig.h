@@ -7,7 +7,7 @@
 #import <Foundation/Foundation.h>
 
 /* SDK版本 */
-#define ZG_SDK_VERSION @"3.4.25"
+#define ZG_SDK_VERSION @"3.4.27"
 
 /* 默认应用版本 */
 #define ZG_APP_VERSION [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
@@ -46,6 +46,8 @@
 @property (nonatomic, assign) BOOL sessionEnable;
 
 @property (nonatomic, assign) BOOL exceptionTrack;
+
+@property (nonatomic, assign) BOOL idfaCollect;
 
 /**
  * 是否开启实时调试
