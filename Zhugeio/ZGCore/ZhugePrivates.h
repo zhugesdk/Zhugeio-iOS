@@ -18,6 +18,8 @@
 @property (nonatomic, copy) NSString *appKey;
 @property (nonatomic, copy) NSString *userId;
 @property (nonatomic, copy) NSString *deviceId;
+@property (nonatomic, copy) NSString *appId;
+@property (nonatomic, copy) NSString *appSocketToken;
 @property (nonatomic, strong) NSNumber *sessionId;
 @property (nonatomic, strong) NSDate *screenShotTime;
 @property (nonatomic, copy) NSString *deviceToken;
@@ -32,6 +34,8 @@
 @property (nonatomic, copy) NSString *net;
 @property (nonatomic, copy) NSString *radio;
 @property (nonatomic, copy) NSString *cr;
+//最后一次成功上传归因数据时的应用版本
+@property (nonatomic, copy) NSString *lastUploadAdInfoAppVersion;
 @property (nonatomic, strong) NSMutableDictionary *eventTimeDic;
 @property (nonatomic, strong) NSMutableDictionary *envInfo;
 @property (nonatomic, assign) NSInteger  zhugeSeeReal;
@@ -72,6 +76,8 @@
 @property (nonatomic, strong) ShakeGesture *shakeGesture;
 @property (nonatomic, strong) ZGABTestDesignerConnection *abtestDesignerConnection;
 @property (nonatomic, copy) NSString *websocketUrl;
+@property (nonatomic, copy) NSString *visualizationWebsocketUrl;
+@property (nonatomic, copy) NSString *getVisualizationDataUrl;
 @property (nonatomic, copy) NSString *codelessEventsUrl;
 @property (nonatomic, strong) NSSet *variants;
 @property (nonatomic, strong) NSSet *eventBindings;

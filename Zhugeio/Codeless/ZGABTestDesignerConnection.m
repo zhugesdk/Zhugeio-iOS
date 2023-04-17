@@ -15,6 +15,8 @@
 #import "MPDesignerSessionCollection.h"
 #import "MPSwizzler.h"
 #import "ZGLog.h"
+#import "UIWindow+ZGView.h"
+#import "ZGVisualizationManager.h"
 
 NSString * const kSessionVariantKey = @"session_variant";
 static NSString * const kStartLoadingAnimationKey = @"MPConnectivityBarLoadingAnimation";
@@ -44,7 +46,16 @@ static NSString * const kFinishLoadingAnimationKey = @"MPConnectivityBarFinishLo
     UIView *_recordingView;
     CALayer *_indeterminateLayer;
     void (^_connectCallback)(void);
+    void (^_didOpenCallback)(void);
+    void (^_messageCallback)(id message);
     void (^_disconnectCallback)(void);
+}
+
+- (instancetype)initWithURL:(NSURL *)url keepTrying:(BOOL)keepTrying connectCallback:(void (^)(void))connectCallback didOpenCallback:(void(^)(void))didOpenCallback messageCallback:(void(^)(id message))messageCallback  disconnectCallback:(void (^)(void))disconnectCallback{
+    ZGABTestDesignerConnection * connection = [self initWithURL:url keepTrying:keepTrying connectCallback:connectCallback disconnectCallback:disconnectCallback];
+    _didOpenCallback = didOpenCallback;
+    _messageCallback = messageCallback;
+    return connection;
 }
 
 - (instancetype)initWithURL:(NSURL *)url keepTrying:(BOOL)keepTrying connectCallback:(void (^)(void))connectCallback disconnectCallback:(void (^)(void))disconnectCallback
@@ -169,6 +180,15 @@ static NSString * const kFinishLoadingAnimationKey = @"MPConnectivityBarFinishLo
     }
 }
 
+//发送登录的消息
+- (void)sendLoginMessage:(id<ZGABTestDesignerMessage>)message
+{
+    if(_webSocket.readyState == MPWebSocketStateOpen){
+        NSString *jsonString = [[NSString alloc] initWithData:[message JSONData] encoding:NSUTF8StringEncoding];
+       [_webSocket send:jsonString];
+    }
+}
+
 - (id <ZGABTestDesignerMessage>)designerMessageForMessage:(id)message
 {
 //    ZGLogInfo(@"raw message: %@", message);
@@ -209,17 +229,30 @@ static NSString * const kFinishLoadingAnimationKey = @"MPConnectivityBarFinishLo
             _connectCallback();
         }
     }
-    id<ZGABTestDesignerMessage> designerMessage = [self designerMessageForMessage:message];
-    ZGLogInfo(@"WebSocket received message: %@", [designerMessage debugDescription]);
-    NSOperation *commandOperation = [designerMessage responseCommandWithConnection:self];
-
-    if (commandOperation) {
-        [_commandQueue addOperation:commandOperation];
+    
+    if([ZGVisualizationManager shareCustomerManger].enableDebugVisualization == YES){
+        if(_messageCallback){
+            _messageCallback(message);
+        }
+        ZGLogInfo(@"WebSocket received message: %@", message);
+    }else{
+        id<ZGABTestDesignerMessage> designerMessage = [self designerMessageForMessage:message];
+        ZGLogInfo(@"WebSocket received message: %@", [designerMessage debugDescription]);
+        NSOperation *commandOperation = [designerMessage responseCommandWithConnection:self];
+        if (commandOperation) {
+            [_commandQueue addOperation:commandOperation];
+        }
     }
 }
 
 - (void)webSocketDidOpen:(ZGWebSocket *)webSocket
 {
+    if([ZGVisualizationManager shareCustomerManger].enableDebugVisualization == YES && !_connected){
+        _connected = YES;
+        if(_didOpenCallback){
+            _didOpenCallback();
+        }
+    }
     ZGLogDebug(@"WebSocket %@ did open.", webSocket);
     _commandQueue.suspended = NO;
     [self showConnectedViewWithLoading:YES];
@@ -244,7 +277,6 @@ static NSString * const kFinishLoadingAnimationKey = @"MPConnectivityBarFinishLo
 - (void)webSocket:(ZGWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean
 {
     ZGLogDebug(@"WebSocket did close with code '%d' reason '%@'.", (int)code, reason);
-
     _commandQueue.suspended = YES;
     [_commandQueue cancelAllOperations];
     [self hideConnectedView];
@@ -260,7 +292,8 @@ static NSString * const kFinishLoadingAnimationKey = @"MPConnectivityBarFinishLo
 
 - (void)showConnectedViewWithLoading:(BOOL)isLoading {
     if (!self.connectivityIndicatorWindow) {
-        UIWindow *mainWindow = [[Zhuge sharedUIApplication] delegate].window;
+        // [[Zhuge sharedUIApplication] delegate].window; 新创建的应用会崩溃
+        UIWindow *mainWindow = [UIWindow zg_currentWindow];
         self.connectivityIndicatorWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, mainWindow.frame.size.width, 4.f)];
         self.connectivityIndicatorWindow.backgroundColor = [UIColor clearColor];
         self.connectivityIndicatorWindow.windowLevel = UIWindowLevelAlert;

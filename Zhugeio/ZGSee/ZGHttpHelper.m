@@ -61,15 +61,20 @@
                                                        timeoutInterval:60];
     
     [request setHTTPMethod:@"POST"];
+    //设置HTTPHeader中Content-Type的值
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:[NSJSONSerialization dataWithJSONObject:params options:0 error:nil]];
+    //设置请求session
+    NSURLSession *session = [NSURLSession sharedSession];
     
-    //创建一个新的队列（开启新线程）
-    NSOperationQueue *queue = [NSOperationQueue new];
-    //发送异步请求，请求完以后返回的数据，通过completionHandler参数来调用
-    [NSURLConnection sendAsynchronousRequest:request
-                                       queue:queue
-                           completionHandler:block];
-    //    return result;
+    //设置网络请求的返回接收器
+    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            block(response,data,error);
+        });
+    }];
+    //开始请求
+    [dataTask resume];
     
 }
 +(void)sendRequestForUrl:(NSString *)urlString FinishBlock:(void (^)(NSURLResponse *, NSData *, NSError *))block{

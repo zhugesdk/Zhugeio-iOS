@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSURLSession *)sharedURLSession;
 
++ (NSURLSession *)defaultURLSession;
+
 - (void)requestUrl:(NSString *)url;
 
 @end

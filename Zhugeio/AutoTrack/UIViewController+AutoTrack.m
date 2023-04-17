@@ -9,7 +9,7 @@
 #import <objc/runtime.h>
 #import "ZhugeHeaders.h"
 #import "ZGLog.h"
-
+#import "ZGVisualizationManager.h"
 
 static double _diff = 0;
 static CFAbsoluteTime _start;
@@ -187,6 +187,9 @@ NSString * const gc_VCKey = nil;
         
         [data addEntriesFromDictionary:copy];
     }
+
+    //添加可视化埋点的逻辑
+    [[ZGVisualizationManager shareCustomerManger] zg_pvUPloadWithVCStr:[self zhugeScreenName] info:data.mutableCopy];
     
     [zhuge autoTrack:data];
 }

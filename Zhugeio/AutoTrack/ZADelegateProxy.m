@@ -12,6 +12,7 @@
 #import "NSObject+ZACellClick.h"
 #import "ZGLog.h"
 #import <objc/message.h>
+#import "ZGVisualizationManager.h"
 
 
 typedef void (*ZhugeDidSelectImplementation)(id, SEL, UIScrollView *, NSIndexPath *);
@@ -123,12 +124,17 @@ typedef void (*ZhugeDidSelectImplementation)(id, SEL, UIScrollView *, NSIndexPat
     if (target != scrollView.delegate) {
         return;
     }
+    
+    //非全埋点,不作处理
+    if(Zhuge.sharedInstance.config.autoTrackEnable == NO){
+        return;
+    }
 
     NSMutableDictionary *properties = [ZhugeAutoTrackUtils propertiesWithAutoTrackObject:(UIScrollView<ZAAutoTrackViewProperty> *)scrollView didSelectedAtIndexPath:indexPath];
     if (!properties) {
         return; 
     }
-    
+
     [[Zhuge sharedInstance] autoTrack:properties];
     
 }
@@ -136,11 +142,15 @@ typedef void (*ZhugeDidSelectImplementation)(id, SEL, UIScrollView *, NSIndexPat
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     SEL methodSelector = @selector(tableView:didSelectRowAtIndexPath:);
     [ZADelegateProxy invokeWithTarget:self selector:methodSelector scrollView:tableView indexPath:indexPath];
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    [[ZGVisualizationManager shareCustomerManger] zg_identificationAndUPloadWithView:cell];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     SEL methodSelector = @selector(collectionView:didSelectItemAtIndexPath:);
     [ZADelegateProxy invokeWithTarget:self selector:methodSelector scrollView:collectionView indexPath:indexPath];
+    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+    [[ZGVisualizationManager shareCustomerManger] zg_identificationAndUPloadWithView:cell];
 }
 
 @end

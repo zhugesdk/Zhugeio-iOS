@@ -90,13 +90,13 @@ float var_z = 0;
                 } else {
                     trigger = 0;
                 }
-                if (trigger >= 14) {
+//                if (trigger >= 14) {
                     if (self.delegate) {
                         [self.delegate onShakeGestureDo];
                     }
                     trigger = 0;
                     state = STATE0;
-                }
+//                }
             default:
                 break;
         }

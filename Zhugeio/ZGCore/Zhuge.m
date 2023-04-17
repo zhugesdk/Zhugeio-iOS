@@ -10,8 +10,12 @@
 #import "Zhuge.h"
 #import "ZGLog.h"
 #import "ZhugePrivates.h"
+#import "ZGVisualizationManager.h"
+#import "UIControl+ZGClick.h"
+#import "ZGVisualizationSocketMessage.h"
 #import "ZGIDFAUtil.h"
-
+#import <AdServices/AdServices.h>
+#import <iAd/iAd.h>
 @implementation Zhuge
 
 static NSUncaughtExceptionHandler *previousHandler;
@@ -32,6 +36,8 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
         sharedInstance = [[[self class] alloc] init];
         sharedInstance.config = [[ZhugeConfig alloc] init];
         sharedInstance.eventTimeDic = [[NSMutableDictionary alloc]init];
+        sharedInstance.visualizationWebsocketUrl = @"wss://saas.zhugeio.com";
+        sharedInstance.getVisualizationDataUrl = @"https://saas.zhugeio.com";
     });
     return sharedInstance;
 }
@@ -143,7 +149,25 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
 #else
             self.shakeGesture = [[ShakeGesture alloc] init];
             self.shakeGesture.delegate = self;
+            [self.shakeGesture startShakeGesture];
 #endif
+        }
+        
+        if(self.config.enableVisualization){
+            [self enableAutoTrack];
+            static dispatch_once_t once;
+            dispatch_once(&once, ^ {
+                NSError *error = NULL;
+                [UIControl zhuge_swizzleMethod:@selector(addTarget:action:forControlEvents:)
+                                    withMethod:@selector(zg_addTarget:action:forControlEvents:)
+                                             error:&error];
+                if (error) {
+                    ZGLogError(@"swizzle application action failed ,%@",error);
+                    error = NULL;
+                }
+            });
+            //请求可视化事件列表数据
+            [self requestVisualizationPageTrackDatas];
         }
         
         if (delegate) {
@@ -414,7 +438,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         
         
     });
-    
+    //不管是打开全埋点还是打开了可视化埋点.均要开启全埋点
     [self.config setAutoTrackEnable:YES];
 }
 
@@ -562,6 +586,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         if ([self.config isSeeEnable]) {
             [self zgSeeStart];
         }
+        [self checkAdService];
         [self uploadDeviceInfo];
 //        [self startFlushTimer];
         if (self.config.enableCodeless) {
@@ -682,6 +707,96 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     return radio;
 }
 #endif
+
+#pragma mark -广告归因
+-(void) checkAdService{
+    if(!self.config.idfaCollect){
+        return;
+    }
+    if(self.lastUploadAdInfoAppVersion && [self.config.appVersion isEqualToString:self.lastUploadAdInfoAppVersion]){
+        //当前版本已上传过归因数据，不再上传
+        return;
+    }
+    if (@available(iOS 14.3, *)) {
+        NSError *error;
+        NSString *token = [AAAttribution attributionTokenWithError:&error];
+        if (token != nil) {
+            dispatch_async(self.serialQueue, ^{
+                [self checkUseADServiceWithToken:token];
+            });
+        } else {
+            if(error){
+                ZGLogWarning(@"request ad token error , %d",error);
+            }
+        }
+    } else {
+        // Check for iOS 10 attribution implementation
+        if (![[ADClient sharedClient] respondsToSelector:@selector(requestAttributionDetailsWithBlock:)]) {
+            return;
+        }
+        dispatch_async(self.serialQueue, ^{
+            [[ADClient sharedClient] requestAttributionDetailsWithBlock:^(NSDictionary *attributionDetails, NSError *error) {
+                // Look inside of the returned dictionary for all attribution details
+                if(!attributionDetails){
+                    return;
+                }
+                NSDictionary *dic = [attributionDetails valueForKey:@"Version3.1"];
+                if(dic){
+                    BOOL status = [[dic objectForKey:@"iad-attribution"] boolValue];
+                    if(status){
+                        [self buildADData:dic];
+                    }
+                }
+            }];
+        });
+    }
+}
+
+-(void)checkUseADServiceWithToken:(NSString *)token{
+    // 发送POST请求归因数据
+    NSString *urlString = @"https://api-adservices.apple.com/api/v1/";
+    NSURL *URL = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+    [request addValue:@"text/plain" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPMethod:@"POST"];
+    NSData* postData = [token dataUsingEncoding:NSUTF8StringEncoding];
+    [request setHTTPBody:postData];
+    [[[ZGRequestManager defaultURLSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable responseData, NSURLResponse * _Nullable urlResponse, NSError * _Nullable error) {
+        if(!responseData){
+            return;
+        }
+        NSError *resError;
+        NSMutableDictionary *resDic = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:&resError];
+        BOOL value = [[resDic valueForKey:@"attribution"] boolValue];
+        if(value){
+            [self buildADData:resDic];
+        }
+          
+    }] resume];
+}
+
+-(void)buildADData:(NSDictionary*) adData{
+    NSMutableDictionary *e = [NSMutableDictionary dictionary];
+    e[@"dt"] = @"adtf";
+    NSMutableDictionary *pr = [self buildCommonData];
+    pr[@"$channel_type"] = @5;
+    NSError *error;
+    
+    NSData *jsonData = [self JSONSerializeObject:adData];
+    if (jsonData) {
+        NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        pr[@"$apple_ad"] = jsonString;
+    }
+    NSString *idfaString = [ZGIDFAUtil idfa];
+    if(!idfaString){
+        idfaString = @"";
+    }
+    pr[@"$idfa"] = idfaString;
+    pr[@"$sl"] = @"zh";
+    e[@"pr"] = pr;
+    [self enqueueEvent:e];
+    self.lastUploadAdInfoAppVersion = self.config.appVersion;
+}
 
 #pragma mark - 生成事件
 /**
@@ -825,6 +940,16 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         }
     });
     
+}
+
+/// 可视化埋点上报
+/// - Parameter properties: 上报数据
+- (void)zgVisualizationTrack:(nonnull NSDictionary *)properties{
+    if (![properties objectForKey:@"eventName"]) {
+        ZGLogDebug(@"visualization track with illegal content %@",properties);
+        return;
+    }
+    [self track:properties[@"eventName"] properties:properties];
 }
 
 - (void)startTrack:(NSString *)eventName{
@@ -1754,6 +1879,11 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     return [self filePathForData:@"see-state"];
 }
 
+// 可视化对比路径
+- (NSString *)visualizationFilePath {
+    return [self filePathForData:@"visualization"];
+}
+
 - (void)archive {
     @try {
         [self archiveEvents];
@@ -1764,6 +1894,18 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         ZGLogDebug(@"archive exception %@",exception);
     }
 }
+
+- (void)archiveVisualization:(NSArray *)visualizationDatas {
+    @try{
+        NSString *filePath = [self visualizationFilePath];
+        if (![NSKeyedArchiver archiveRootObject:visualizationDatas toFile:filePath]) {
+            ZGLogDebug(@"zhuge保存可视化比对数据失败");
+        }
+    }@catch (NSException *e){
+        ZGLogDebug(@"zhuge保存可视化比对数据失败.%@",e);
+    }
+}
+
 - (void)archiveEvents {
     NSString *filePath = [self eventsFilePath];
     NSMutableArray *eventsQueueCopy = [NSMutableArray arrayWithArray:[self.eventsQueue copy]];
@@ -1778,6 +1920,9 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     [p setValue:self.userId forKey:@"userId"];
     [p setValue:self.deviceId forKey:@"deviceId"];
     [p setValue:self.sessionId forKey:@"sessionId"];
+    if(self.lastUploadAdInfoAppVersion){
+        [p setValue:self.lastUploadAdInfoAppVersion forKey:@"lastUploadAdAppVersion"];
+    }
     NSDateFormatter *DateFormatter=[[NSDateFormatter alloc] init];
     [DateFormatter setDateFormat:@"yyyyMMdd"];
     NSString *today = [DateFormatter stringFromDate:[NSDate date]];
@@ -1809,12 +1954,14 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     }
 }
 
+
 - (void)unarchive {
     @try {
         [self unarchiveEvents];
         [self unarchiveProperties];
         [self unarchiveSeeState];
         [self unarchiveEnvironmentInfo];
+        [self unarchiveVisualization];
     }
     @catch (NSException *exception) {
         ZGLogDebug(@"unarchive exception %@",exception);
@@ -1863,6 +2010,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         if (!self.deviceId) {
             self.deviceId = properties[@"deviceId"] ? properties[@"deviceId"] : [ZADeviceId getZADeviceId];
         }
+        self.lastUploadAdInfoAppVersion = properties[@"lastUploadAdAppVersion"] ? properties[@"lastUploadAdAppVersion"]:@"";
 
         self.sessionId = [properties[@"sessionId"] integerValue] > 0? properties[@"sessionId"] : nil;
         NSDateFormatter *DateFormatter=[[NSDateFormatter alloc] init];
@@ -1877,6 +2025,11 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     if (seeState) {
         self.localZhugeSeeState = YES;
     }
+}
+
+- (void)unarchiveVisualization{
+    NSArray * dataArr = (NSArray *)[self unarchiveFromFile:[self visualizationFilePath] deleteFile:NO];
+    [ZGVisualizationManager shareCustomerManger].localCompareArr = dataArr;
 }
 
 #pragma mark - RNAutoTrack
@@ -1917,6 +2070,26 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         ZGLogDebug(@"传入的url不合法，请检查:%@",url);
     }
 }
+
+- (void)setupVisualizationWebSocketUrl:(NSString *)url {
+    if (url && url.length > 0) {
+        self.visualizationWebsocketUrl = url;
+    } else {
+        ZGLogDebug(@"传入的url不合法，请检查:%@",url);
+    }
+}
+
+- (void)setupVisualizationTrackDataUrl:(NSString *)url {
+    if (url && url.length > 0) {
+        if(![url isEqualToString:self.getVisualizationDataUrl]){
+            self.getVisualizationDataUrl = url;
+            [self requestVisualizationPageTrackDatas];
+        }
+    } else {
+        ZGLogDebug(@"传入的url不合法，请检查:%@",url);
+    }
+}
+
 - (void)connectToWebSocket {
     [self connectToABTestDesigner:NO];
 }
@@ -2091,6 +2264,172 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     } @catch (NSException *exception) {
         ZGLogError(@"%@ error: %@", self, exception);
     }
+}
+
+#pragma mark - 可视化埋点
+
+-(void)zg_startVisualizationDebuggingTrack:(NSURL *)url{
+    [ZGVisualizationManager shareCustomerManger].enableDebugVisualization = YES;
+    // 获取数据
+    NSDictionary * urlDict = [self zg_getParamsWithUrlString:url.absoluteString];
+    self.appId = urlDict[@"appId"];
+    self.appSocketToken = urlDict[@"token"];
+    NSString * websocketUrl = [NSString stringWithFormat:@"%@/eventtracking/ws?socketToken=%@&appId=%@&origin=2",self.visualizationWebsocketUrl,self.appSocketToken,self.appId];
+    [ZGVisualizationManager shareCustomerManger].zg_reportTime = self.config.debugVisualizationTime;
+    [self zg_updatePageData];
+    [self zg_visualizationConnectTestDesigner:websocketUrl];
+}
+
+- (NSDictionary *)zg_getParamsWithUrlString:(NSString*)urlString {
+    if(urlString.length==0) {
+        NSLog(@"链接为空！");
+        return @{};
+    }
+    //先截取问号
+    NSArray* allElements = [urlString componentsSeparatedByString:@"?"];
+    NSMutableDictionary* params = [NSMutableDictionary dictionary];//待set的参数字典
+    
+    if(allElements.count == 2) {
+        //有参数或者?后面为空
+        NSString* paramsString = allElements[1];
+        //获取参数对
+        NSArray*paramsArray = [paramsString componentsSeparatedByString:@"&"];
+        if(paramsArray.count>=2) {
+            for(NSInteger i =0; i < paramsArray.count; i++) {
+                NSString* singleParamString = paramsArray[i];
+                NSArray* singleParamSet = [singleParamString componentsSeparatedByString:@"="];
+                if(singleParamSet.count==2) {
+                    NSString* key = singleParamSet[0];
+                    NSString* value = singleParamSet[1];
+                    if(key.length>0|| value.length>0) {
+                        [params setObject: value.length>0? value:@"" forKey:key.length>0?key:@""];
+                    }
+                }
+            }
+        }else if(paramsArray.count == 1) {//无 &。url只有?后一个参数
+            NSString* singleParamString = paramsArray[0];
+            
+            NSArray* singleParamSet = [singleParamString componentsSeparatedByString:@"="];
+            if(singleParamSet.count==2) {
+                NSString* key = singleParamSet[0];
+                NSString* value = singleParamSet[1];
+                if(key.length>0 || value.length>0) {
+                    [params setObject:value.length>0?value:@""forKey:key.length>0?key:@""];
+                }
+            }else{
+                //问号后面啥也没有 xxxx?  无需处理
+            }
+        }
+        //整合url及参数
+        return params;
+    }else if(allElements.count>2) {
+        NSLog(@"链接不合法！链接包含多个\"?\"");
+        return @{};
+    }else{
+        NSLog(@"链接不包含参数！");
+        return @{};
+    }
+}
+
+- (void)zg_visualizationConnectTestDesigner:(NSString *)websocketUrl {
+    if ([ZGVisualizationManager shareCustomerManger].enableDebugVisualization == NO) { return; }
+    self.websocketUrl = websocketUrl;
+    
+    NSString *designerURLString = self.websocketUrl;
+    NSURL *designerURL = [NSURL URLWithString:designerURLString];
+    
+    ZGLogDebug(@"Websocket url == %@", designerURLString);
+    __weak Zhuge *weakSelf = self;
+    void (^didOpenCallback)(void) = ^{
+        __strong Zhuge *strongSelf = weakSelf;
+        [Zhuge sharedUIApplication].idleTimerDisabled = YES;
+        //链接上就设置
+        [ZGVisualizationManager shareCustomerManger].websocketConnent = YES;
+        if (strongSelf) {
+            static dispatch_once_t onceToken;
+            dispatch_once(&onceToken, ^{
+                [[ZGVisualizationManager shareCustomerManger] zg_startDebuggingTrack];
+            });
+        }
+    };
+    void (^messageCallback)(id message) = ^(id message){
+        __strong Zhuge *strongSelf = weakSelf;
+        if([message isKindOfClass:[NSString class]]){
+            NSDictionary * msgDict = [ZGVisualizationManager getDictWithPageData:message];
+            NSNumber *type = msgDict[@"type"];
+            NSDictionary *dataDict = msgDict[@"data"];
+            if(type.intValue == 5){
+                NSString *event = dataDict[@"event"];
+                if([event isEqualToString:@"update"]){
+                    [strongSelf requestVisualizationPageTrackDatas];
+                }else if([event isEqualToString:@"fetchPageData"]){
+                    //更新当前的页面
+                    [ZGVisualizationManager.shareCustomerManger updatePageData];
+                }
+            }
+        }
+    };
+    void (^disconnectCallback)(void) = ^{
+        __strong Zhuge *strongSelf = weakSelf;
+        if (strongSelf) {
+            [ZGVisualizationManager shareCustomerManger].websocketConnent = NO;
+            [Zhuge sharedUIApplication].idleTimerDisabled = NO;
+//            [[ZGVisualizationManager shareCustomerManger]zg_stopDebuggingTrack];
+        }
+    };
+    self.abtestDesignerConnection = [[ZGABTestDesignerConnection alloc] initWithURL:designerURL keepTrying:YES connectCallback:nil didOpenCallback:didOpenCallback messageCallback:messageCallback disconnectCallback:disconnectCallback];
+}
+
+-(void)zg_updatePageData{
+    __weak Zhuge *weakSelf = self;
+    [[ZGVisualizationManager shareCustomerManger] setPageUpdateBlock:^(NSDictionary * _Nonnull jsonDict) {
+        ZGABTestDesignerConnection *connection = weakSelf.abtestDesignerConnection;
+        ZGVisualizationSocketMessage *message = [[ZGVisualizationSocketMessage alloc]initWithType:@"5" otherData:@{@"event": @"pageData"} andPayload:jsonDict];
+        [connection sendLoginMessage:message];
+    }];
+    
+    
+    [[ZGVisualizationManager shareCustomerManger] setPageCheckBlock:^(NSDictionary * _Nonnull jsonDict) {
+        ZGABTestDesignerConnection *connection = weakSelf.abtestDesignerConnection;
+        ZGVisualizationSocketMessage *message = [[ZGVisualizationSocketMessage alloc]initWithType:@"5" otherData:@{@"event": @"trigger"} andPayload:jsonDict];
+        [connection sendLoginMessage:message];
+    }];
+    
+    
+    
+}
+
+/// 请求可视化埋点可视化事件列表数据
+-(void)requestVisualizationPageTrackDatas{
+    
+    if(!self.appKey){
+        return;
+    }
+    
+    NSMutableDictionary * dic = [NSMutableDictionary dictionaryWithDictionary:@{
+        @"appKey": self.appKey,
+        @"endpointType": @5
+    }];
+    __weak typeof(self) weakSelf = self;
+    NSString * allUrl = [NSString stringWithFormat:@"%@/zg/web/v2/tracking/view/app/event/all",self.getVisualizationDataUrl];
+    //@"https://rt2.zhugeio.com/zg/web/v2/tracking/view/app/event/all";
+    [ZGHttpHelper post:allUrl RequestParams:dic FinishBlock:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
+         if (httpResponse.statusCode == 200) {
+             NSString *result =[[ NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+             NSDictionary * resultDict = [ZGVisualizationManager getDictWithPageData:result];
+             NSString * code = resultDict[@"code"];
+             NSArray * dataArr = resultDict[@"data"];
+             if([code isEqualToString:@"109000"] && [dataArr isKindOfClass:[NSArray class]]){
+                  ZGLogDebug(@"zg获取可视化数据成功--%@",dataArr);
+                  NSArray * visualizationDatas = dataArr;
+                  [weakSelf archiveVisualization:visualizationDatas];
+                  ZGVisualizationManager.shareCustomerManger.localCompareArr = visualizationDatas;
+             }
+         } else {
+             ZGLogDebug(@"zg获取可视化数据失败--%@",connectionError);
+         }
+     }];
 }
 
 @end

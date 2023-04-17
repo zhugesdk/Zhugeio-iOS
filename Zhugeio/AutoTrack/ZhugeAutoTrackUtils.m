@@ -217,6 +217,11 @@ id isNil(id obj) {
 }
 
 + (void)zhugeAutoTrackClick:(UIView *)view withController:(UIViewController *)controller andTag:( NSString *)tag{
+    
+    if(![Zhuge sharedInstance].config.autoTrackEnable){
+        return;
+    }
+    
     @try {
         if (!view) {
             NSLog(@"autoTrackError illegal view %@ in %@",view?[view description]:@"null",tag);

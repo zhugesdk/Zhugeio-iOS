@@ -12,6 +12,7 @@
 #import <objc/runtime.h>
 #import <objc/message.h>
 #import "ZhugeAutoTrackUtils.h"
+#import "ZGVisualizationManager.h"
 
 
 static UITouch *_touch;
@@ -54,10 +55,16 @@ static NSMutableDictionary *_dataDic;
     } @catch (NSException *exception) {
         NSLog(@"%@ error: %@", self, exception);
     }
+    //可视化埋点.
+    [[ZGVisualizationManager shareCustomerManger] zg_identificationAndUPloadWithView:from];
     return [self zhuge_sendAction:action to:to from:from forEvent:event];
 }
 
 - (void)zhuge_track:(SEL)action to:(id)to from:(id)from forEvent:(UIEvent *)event {
+    //非全埋点不处理
+    if(Zhuge.sharedInstance.config.autoTrackEnable == NO){
+        return;
+    }
     // ViewType 被忽略
     if ([to isKindOfClass:[UITabBar class]]) {
         return;

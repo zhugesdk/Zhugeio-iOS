@@ -7,7 +7,7 @@
 #import <Foundation/Foundation.h>
 
 /* SDK版本 */
-#define ZG_SDK_VERSION @"3.4.27"
+#define ZG_SDK_VERSION @"3.5.0"
 
 /* 默认应用版本 */
 #define ZG_APP_VERSION [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
@@ -102,8 +102,23 @@
 @property (nonatomic, assign) BOOL enableCodeless;
 
 /**
- * 开启 WebView Track
- * 默认NO
+ * 新的可视化埋点开关 默认 NO, 设置为YES开启后,就会上报可视化埋点的埋点事件,设置为YES时也会开启全埋点
+ */
+@property (nonatomic, assign) BOOL enableVisualization;
+
+/**
+ * 新的可视化埋点调试上报时长 默认 2s
+ */
+@property (nonatomic, assign) NSInteger debugVisualizationTime;
+
+/**
+ *  全埋点和可视化埋点均默认处理了UILabel与UIImageView的手势情况.如有新自定义视图需要识别.可添加到该集合中. 例如:@[@"ZGTestGestureView"];则ZGTestGestureView以及其继承的子类添加手势以后均可被识别到.
+ */
+@property (nonatomic, strong) NSArray * customGestureViews;
+
+/**
+ * 开启 WebView Track 默认NO
+ * 预留配置项
  */
 @property (nonatomic, assign) BOOL enableJavaScriptBridge;
 

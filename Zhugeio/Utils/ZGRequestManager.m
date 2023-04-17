@@ -44,6 +44,18 @@
     return sharedSession;
 }
 
++ (NSURLSession *)defaultURLSession {
+    static NSURLSession *defaultSession = nil;
+    @synchronized(self) {
+        if (defaultSession == nil) {
+            NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+            sessionConfig.timeoutIntervalForRequest = 60.0;
+            defaultSession = [NSURLSession sessionWithConfiguration:sessionConfig];
+        }
+    }
+    return defaultSession;
+}
+
 +(NSString *)getUserAgent{
     NSString  *oldAgent = [NSString stringWithFormat:@"Mozilla/5.0 (%@; CPU iPhone OS %@ like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148", [[UIDevice currentDevice] model], [[[UIDevice currentDevice] systemVersion] stringByReplacingOccurrencesOfString:@"." withString:@"_"]];
     return oldAgent;

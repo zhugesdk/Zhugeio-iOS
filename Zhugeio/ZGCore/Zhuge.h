@@ -167,6 +167,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)autoTrack:(nonnull NSDictionary *)properties;
 
+/// 可视化埋点上报
+/// - Parameter properties: 上报数据
+- (void)zgVisualizationTrack:(nonnull NSDictionary *)properties;
+
 /**
  * @param properties 页面时长需携带的属性
  */
@@ -212,6 +216,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)setupCodelessWebsocketUrl:(NSString *)url;
 - (void)setupCodelessEventsUrl:(NSString *)url;
+
+/// 可视化埋点的socket URL
+- (void)setupVisualizationWebSocketUrl:(NSString *)url;
+/// 可视化埋点获取埋点数据的URL
+- (void)setupVisualizationTrackDataUrl:(NSString *)url;
+
+/// 与PC端链接.开始可视化埋点工作.
+/// @param url 扫码获取的地址
+-(void)zg_startVisualizationDebuggingTrack:(NSURL *)url;
 
 @end
 

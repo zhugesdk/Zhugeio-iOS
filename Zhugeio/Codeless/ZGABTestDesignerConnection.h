@@ -21,4 +21,9 @@ extern NSString *const kSessionVariantKey;
 - (void)sendMessage:(id<ZGABTestDesignerMessage>)message;
 - (void)close;
 
+// 可视化-发送登录的消息
+- (void)sendLoginMessage:(id<ZGABTestDesignerMessage>)message;
+// 可视化-初始化方法.
+- (instancetype)initWithURL:(NSURL *)url keepTrying:(BOOL)keepTrying connectCallback:(void (^)(void))connectCallback didOpenCallback:(void(^)(void))didOpenCallback messageCallback:(void(^)(id message))messageCallback  disconnectCallback:(void (^)(void))disconnectCallback;
+
 @end
