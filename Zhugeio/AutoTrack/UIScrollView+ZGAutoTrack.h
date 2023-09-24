@@ -9,19 +9,19 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UITableView (AutoTrack)
+@interface UITableView (ZGAutoTrack)
 
 - (void)zhugeio_setDelegate:(id <UITableViewDelegate>)delegate;
 
 @end
 
-@interface UICollectionView (AutoTrack)
+@interface UICollectionView (ZGAutoTrack)
 
 - (void)zhugeio_setDelegate:(id <UICollectionViewDelegate>)delegate;
 
 @end
 
-@interface UIScrollView (AutoTrack)
+@interface UIScrollView (ZGAutoTrack)
 
 @end
 

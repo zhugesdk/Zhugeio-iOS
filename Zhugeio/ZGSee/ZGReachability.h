@@ -16,7 +16,7 @@ typedef enum : NSInteger {
     ZGNotReachable = 0,
     ZGReachableViaWiFi,
     ZGReachableViaWWAN
-} NetworkStatus;
+} ZGNetworkStatus;
 
 #pragma mark IPv6 Support
 //Reachability fully support IPv6.  For full details, see ReadMe.md.
@@ -53,7 +53,7 @@ extern NSString *kReachabilityChangedNot;
 - (BOOL)startNotifier;
 - (void)stopNotifier;
 
-- (NetworkStatus)currentReachabilityStatus;
+- (ZGNetworkStatus)currentReachabilityStatus;
 
 /*!
  * WWAN may be available, but not active until a connection has been established. WiFi may require a connection for VPN on Demand.

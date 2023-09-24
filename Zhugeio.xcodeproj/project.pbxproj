@@ -199,22 +199,18 @@
 		DC0C20C329ECE4BC00A053F5 /* ZAAutoTrackProperty.h in Headers */ = {isa = PBXBuildFile; fileRef = DC0C1FC629ECE4BB00A053F5 /* ZAAutoTrackProperty.h */; };
 		DC0C20C429ECE4BC00A053F5 /* UIApplication+Zhuge.h in Headers */ = {isa = PBXBuildFile; fileRef = DC0C1FC729ECE4BB00A053F5 /* UIApplication+Zhuge.h */; };
 		DC0C20C529ECE4BC00A053F5 /* UIView+ZAExpView.h in Headers */ = {isa = PBXBuildFile; fileRef = DC0C1FC829ECE4BB00A053F5 /* UIView+ZAExpView.h */; };
-		DC0C20C629ECE4BC00A053F5 /* UIViewController+AutoTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0C1FC929ECE4BB00A053F5 /* UIViewController+AutoTrack.m */; };
 		DC0C20C729ECE4BC00A053F5 /* ZhugeSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0C1FCA29ECE4BB00A053F5 /* ZhugeSwizzle.m */; };
 		DC0C20C829ECE4BC00A053F5 /* ZAClassHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = DC0C1FCB29ECE4BB00A053F5 /* ZAClassHelper.h */; };
-		DC0C20C929ECE4BC00A053F5 /* UIScrollView+AutoTrack.h in Headers */ = {isa = PBXBuildFile; fileRef = DC0C1FCC29ECE4BB00A053F5 /* UIScrollView+AutoTrack.h */; };
 		DC0C20CA29ECE4BC00A053F5 /* ZAViews.h in Headers */ = {isa = PBXBuildFile; fileRef = DC0C1FCD29ECE4BB00A053F5 /* ZAViews.h */; };
 		DC0C20CB29ECE4BC00A053F5 /* NSObject+ZACellClick.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0C1FCE29ECE4BB00A053F5 /* NSObject+ZACellClick.m */; };
 		DC0C20CC29ECE4BC00A053F5 /* ZADelegateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0C1FCF29ECE4BB00A053F5 /* ZADelegateProxy.m */; };
 		DC0C20CD29ECE4BC00A053F5 /* UIGestureRecognizer+Zhuge.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0C1FD029ECE4BB00A053F5 /* UIGestureRecognizer+Zhuge.m */; };
 		DC0C20CE29ECE4BC00A053F5 /* UIView+ZAExpView.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0C1FD129ECE4BB00A053F5 /* UIView+ZAExpView.m */; };
-		DC0C20CF29ECE4BC00A053F5 /* UIViewController+AutoTrack.h in Headers */ = {isa = PBXBuildFile; fileRef = DC0C1FD229ECE4BB00A053F5 /* UIViewController+AutoTrack.h */; };
 		DC0C20D029ECE4BC00A053F5 /* UIApplication+Zhuge.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0C1FD329ECE4BB00A053F5 /* UIApplication+Zhuge.m */; };
 		DC0C20D129ECE4BC00A053F5 /* ZAMethodHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0C1FD429ECE4BB00A053F5 /* ZAMethodHelper.m */; };
 		DC0C20D229ECE4BC00A053F5 /* ZhugeAutoTrackUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = DC0C1FD529ECE4BB00A053F5 /* ZhugeAutoTrackUtils.h */; };
 		DC0C20D329ECE4BC00A053F5 /* ZAClassHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0C1FD629ECE4BB00A053F5 /* ZAClassHelper.m */; };
 		DC0C20D429ECE4BC00A053F5 /* ZhugeSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = DC0C1FD729ECE4BB00A053F5 /* ZhugeSwizzle.h */; };
-		DC0C20D529ECE4BC00A053F5 /* UIScrollView+AutoTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0C1FD829ECE4BB00A053F5 /* UIScrollView+AutoTrack.m */; };
 		DC0C20D629ECE4BC00A053F5 /* ZAViews.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0C1FD929ECE4BB00A053F5 /* ZAViews.m */; };
 		DC0C20D729ECE4BC00A053F5 /* ZhugeCompres.h in Headers */ = {isa = PBXBuildFile; fileRef = DC0C1FDB29ECE4BB00A053F5 /* ZhugeCompres.h */; };
 		DC0C20D829ECE4BC00A053F5 /* ZASwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0C1FDC29ECE4BB00A053F5 /* ZASwizzle.m */; };
@@ -258,6 +254,10 @@
 		DC0C20FE29ECE4BC00A053F5 /* UIImage+ZGDifference.h in Headers */ = {isa = PBXBuildFile; fileRef = DC0C200329ECE4BB00A053F5 /* UIImage+ZGDifference.h */; };
 		DC0C20FF29ECE4BC00A053F5 /* UIControl+ZGClick.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0C200429ECE4BB00A053F5 /* UIControl+ZGClick.m */; };
 		DC0C210029ECE4BC00A053F5 /* NSString+ZGMD5.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0C200529ECE4BB00A053F5 /* NSString+ZGMD5.m */; };
+		DCE37AF22AC073F9006C1B29 /* UIScrollView+ZGAutoTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE37AEE2AC073F9006C1B29 /* UIScrollView+ZGAutoTrack.m */; };
+		DCE37AF32AC073F9006C1B29 /* UIViewController+ZGAutoTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE37AEF2AC073F9006C1B29 /* UIViewController+ZGAutoTrack.m */; };
+		DCE37AF42AC073F9006C1B29 /* UIViewController+ZGAutoTrack.h in Headers */ = {isa = PBXBuildFile; fileRef = DCE37AF02AC073F9006C1B29 /* UIViewController+ZGAutoTrack.h */; };
+		DCE37AF52AC073F9006C1B29 /* UIScrollView+ZGAutoTrack.h in Headers */ = {isa = PBXBuildFile; fileRef = DCE37AF12AC073F9006C1B29 /* UIScrollView+ZGAutoTrack.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -455,22 +455,18 @@
 		DC0C1FC629ECE4BB00A053F5 /* ZAAutoTrackProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZAAutoTrackProperty.h; sourceTree = "<group>"; };
 		DC0C1FC729ECE4BB00A053F5 /* UIApplication+Zhuge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+Zhuge.h"; sourceTree = "<group>"; };
 		DC0C1FC829ECE4BB00A053F5 /* UIView+ZAExpView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ZAExpView.h"; sourceTree = "<group>"; };
-		DC0C1FC929ECE4BB00A053F5 /* UIViewController+AutoTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+AutoTrack.m"; sourceTree = "<group>"; };
 		DC0C1FCA29ECE4BB00A053F5 /* ZhugeSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeSwizzle.m; sourceTree = "<group>"; };
 		DC0C1FCB29ECE4BB00A053F5 /* ZAClassHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZAClassHelper.h; sourceTree = "<group>"; };
-		DC0C1FCC29ECE4BB00A053F5 /* UIScrollView+AutoTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+AutoTrack.h"; sourceTree = "<group>"; };
 		DC0C1FCD29ECE4BB00A053F5 /* ZAViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZAViews.h; sourceTree = "<group>"; };
 		DC0C1FCE29ECE4BB00A053F5 /* NSObject+ZACellClick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ZACellClick.m"; sourceTree = "<group>"; };
 		DC0C1FCF29ECE4BB00A053F5 /* ZADelegateProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZADelegateProxy.m; sourceTree = "<group>"; };
 		DC0C1FD029ECE4BB00A053F5 /* UIGestureRecognizer+Zhuge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+Zhuge.m"; sourceTree = "<group>"; };
 		DC0C1FD129ECE4BB00A053F5 /* UIView+ZAExpView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ZAExpView.m"; sourceTree = "<group>"; };
-		DC0C1FD229ECE4BB00A053F5 /* UIViewController+AutoTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+AutoTrack.h"; sourceTree = "<group>"; };
 		DC0C1FD329ECE4BB00A053F5 /* UIApplication+Zhuge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+Zhuge.m"; sourceTree = "<group>"; };
 		DC0C1FD429ECE4BB00A053F5 /* ZAMethodHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZAMethodHelper.m; sourceTree = "<group>"; };
 		DC0C1FD529ECE4BB00A053F5 /* ZhugeAutoTrackUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeAutoTrackUtils.h; sourceTree = "<group>"; };
 		DC0C1FD629ECE4BB00A053F5 /* ZAClassHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZAClassHelper.m; sourceTree = "<group>"; };
 		DC0C1FD729ECE4BB00A053F5 /* ZhugeSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeSwizzle.h; sourceTree = "<group>"; };
-		DC0C1FD829ECE4BB00A053F5 /* UIScrollView+AutoTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+AutoTrack.m"; sourceTree = "<group>"; };
 		DC0C1FD929ECE4BB00A053F5 /* ZAViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZAViews.m; sourceTree = "<group>"; };
 		DC0C1FDB29ECE4BB00A053F5 /* ZhugeCompres.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeCompres.h; sourceTree = "<group>"; };
 		DC0C1FDC29ECE4BB00A053F5 /* ZASwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZASwizzle.m; sourceTree = "<group>"; };
@@ -514,6 +510,10 @@
 		DC0C200329ECE4BB00A053F5 /* UIImage+ZGDifference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ZGDifference.h"; sourceTree = "<group>"; };
 		DC0C200429ECE4BB00A053F5 /* UIControl+ZGClick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+ZGClick.m"; sourceTree = "<group>"; };
 		DC0C200529ECE4BB00A053F5 /* NSString+ZGMD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+ZGMD5.m"; sourceTree = "<group>"; };
+		DCE37AEE2AC073F9006C1B29 /* UIScrollView+ZGAutoTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+ZGAutoTrack.m"; sourceTree = "<group>"; };
+		DCE37AEF2AC073F9006C1B29 /* UIViewController+ZGAutoTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ZGAutoTrack.m"; sourceTree = "<group>"; };
+		DCE37AF02AC073F9006C1B29 /* UIViewController+ZGAutoTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ZGAutoTrack.h"; sourceTree = "<group>"; };
+		DCE37AF12AC073F9006C1B29 /* UIScrollView+ZGAutoTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+ZGAutoTrack.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -797,6 +797,10 @@
 		DC0C1FC029ECE4BB00A053F5 /* AutoTrack */ = {
 			isa = PBXGroup;
 			children = (
+				DCE37AF12AC073F9006C1B29 /* UIScrollView+ZGAutoTrack.h */,
+				DCE37AEE2AC073F9006C1B29 /* UIScrollView+ZGAutoTrack.m */,
+				DCE37AF02AC073F9006C1B29 /* UIViewController+ZGAutoTrack.h */,
+				DCE37AEF2AC073F9006C1B29 /* UIViewController+ZGAutoTrack.m */,
 				DC0C1FC129ECE4BB00A053F5 /* UIGestureRecognizer+Zhuge.h */,
 				DC0C1FC229ECE4BB00A053F5 /* ZADelegateProxy.h */,
 				DC0C1FC329ECE4BB00A053F5 /* NSObject+ZACellClick.h */,
@@ -805,22 +809,18 @@
 				DC0C1FC629ECE4BB00A053F5 /* ZAAutoTrackProperty.h */,
 				DC0C1FC729ECE4BB00A053F5 /* UIApplication+Zhuge.h */,
 				DC0C1FC829ECE4BB00A053F5 /* UIView+ZAExpView.h */,
-				DC0C1FC929ECE4BB00A053F5 /* UIViewController+AutoTrack.m */,
 				DC0C1FCA29ECE4BB00A053F5 /* ZhugeSwizzle.m */,
 				DC0C1FCB29ECE4BB00A053F5 /* ZAClassHelper.h */,
-				DC0C1FCC29ECE4BB00A053F5 /* UIScrollView+AutoTrack.h */,
 				DC0C1FCD29ECE4BB00A053F5 /* ZAViews.h */,
 				DC0C1FCE29ECE4BB00A053F5 /* NSObject+ZACellClick.m */,
 				DC0C1FCF29ECE4BB00A053F5 /* ZADelegateProxy.m */,
 				DC0C1FD029ECE4BB00A053F5 /* UIGestureRecognizer+Zhuge.m */,
 				DC0C1FD129ECE4BB00A053F5 /* UIView+ZAExpView.m */,
-				DC0C1FD229ECE4BB00A053F5 /* UIViewController+AutoTrack.h */,
 				DC0C1FD329ECE4BB00A053F5 /* UIApplication+Zhuge.m */,
 				DC0C1FD429ECE4BB00A053F5 /* ZAMethodHelper.m */,
 				DC0C1FD529ECE4BB00A053F5 /* ZhugeAutoTrackUtils.h */,
 				DC0C1FD629ECE4BB00A053F5 /* ZAClassHelper.m */,
 				DC0C1FD729ECE4BB00A053F5 /* ZhugeSwizzle.h */,
-				DC0C1FD829ECE4BB00A053F5 /* UIScrollView+AutoTrack.m */,
 				DC0C1FD929ECE4BB00A053F5 /* ZAViews.m */,
 			);
 			path = AutoTrack;
@@ -893,7 +893,6 @@
 				DC0C208F29ECE4BC00A053F5 /* Zhuge.h in Headers */,
 				DC0C203129ECE4BC00A053F5 /* MPFoundation.h in Headers */,
 				DC0C204C29ECE4BC00A053F5 /* MPABTestDesignerTweakResponseMessage.h in Headers */,
-				DC0C20CF29ECE4BC00A053F5 /* UIViewController+AutoTrack.h in Headers */,
 				DC0C20E829ECE4BC00A053F5 /* ZGCMMotionManager.h in Headers */,
 				DC0C200629ECE4BB00A053F5 /* MPObjectSerializerContext.h in Headers */,
 				DC0C202C29ECE4BC00A053F5 /* MPUIControlBinding.h in Headers */,
@@ -969,6 +968,7 @@
 				DC0C208A29ECE4BC00A053F5 /* ZAConstants+Private.h in Headers */,
 				DC0C203A29ECE4BC00A053F5 /* MPObjectSelector.h in Headers */,
 				DC0C202829ECE4BC00A053F5 /* MPTweakStore.h in Headers */,
+				DCE37AF42AC073F9006C1B29 /* UIViewController+ZGAutoTrack.h in Headers */,
 				DC0C209D29ECE4BC00A053F5 /* DeepShareImpl.h in Headers */,
 				DC0C20E029ECE4BC00A053F5 /* ZGLocationManager.h in Headers */,
 				DC0C20F129ECE4BC00A053F5 /* NSTimer+ZGWeakTimer.h in Headers */,
@@ -988,11 +988,11 @@
 				DC0C20E529ECE4BC00A053F5 /* ZGIDFAUtil.h in Headers */,
 				DC0C209A29ECE4BC00A053F5 /* DLTime.h in Headers */,
 				DC0C20DB29ECE4BC00A053F5 /* ZGDeviceInfo.h in Headers */,
+				DCE37AF52AC073F9006C1B29 /* UIScrollView+ZGAutoTrack.h in Headers */,
 				DC0C209829ECE4BC00A053F5 /* DLServerRequest.h in Headers */,
 				DC0C202A29ECE4BC00A053F5 /* MPABTestDesignerTweakRequestMessage.h in Headers */,
 				DC0C205729ECE4BC00A053F5 /* MPEnumDescription.h in Headers */,
 				DC0C200A29ECE4BC00A053F5 /* ZGEventBinding.h in Headers */,
-				DC0C20C929ECE4BC00A053F5 /* UIScrollView+AutoTrack.h in Headers */,
 				DC0C208C29ECE4BC00A053F5 /* ZGLog.h in Headers */,
 				DC0C207A29ECE4BC00A053F5 /* ZGSharedDur.h in Headers */,
 				DC0C20F529ECE4BC00A053F5 /* NSString+ZGMD5.h in Headers */,
@@ -1112,7 +1112,6 @@
 				DC0C20E329ECE4BC00A053F5 /* ZhugeCompres.m in Sources */,
 				DC0C209729ECE4BC00A053F5 /* DSError.m in Sources */,
 				DC0C200B29ECE4BC00A053F5 /* MPUIFontToNSDictionaryValueTransformer.m in Sources */,
-				DC0C20C629ECE4BC00A053F5 /* UIViewController+AutoTrack.m in Sources */,
 				DC0C20F229ECE4BC00A053F5 /* UIImage+ZGDifference.m in Sources */,
 				DC0C209329ECE4BC00A053F5 /* ZhugeConfig.m in Sources */,
 				DC0C204D29ECE4BC00A053F5 /* UIImage+MPImageEffects.m in Sources */,
@@ -1135,6 +1134,7 @@
 				DC0C203829ECE4BC00A053F5 /* ZGABTestDesignerDeviceInfoRequestMessage.m in Sources */,
 				DC0C20B829ECE4BC00A053F5 /* DLSystemObserver.m in Sources */,
 				DC0C208429ECE4BC00A053F5 /* RSA+AES.m in Sources */,
+				DCE37AF22AC073F9006C1B29 /* UIScrollView+ZGAutoTrack.m in Sources */,
 				DC0C202929ECE4BC00A053F5 /* MPNSAttributedStringToNSDictionaryValueTransformer.m in Sources */,
 				DC0C206C29ECE4BC00A053F5 /* MPDesignerEventBindingRequestMesssage.m in Sources */,
 				DC0C20D129ECE4BC00A053F5 /* ZAMethodHelper.m in Sources */,
@@ -1157,6 +1157,7 @@
 				DC0C20AF29ECE4BC00A053F5 /* CallClose.m in Sources */,
 				DC0C204229ECE4BC00A053F5 /* MPApplicationStateSerializer.m in Sources */,
 				DC0C206329ECE4BC00A053F5 /* MPABTestDesignerTweakRequestMessage.m in Sources */,
+				DCE37AF32AC073F9006C1B29 /* UIViewController+ZGAutoTrack.m in Sources */,
 				DC0C20E929ECE4BC00A053F5 /* ZGRequest.m in Sources */,
 				DC0C20E629ECE4BC00A053F5 /* ZGRequestManager.m in Sources */,
 				DC0C20CB29ECE4BC00A053F5 /* NSObject+ZACellClick.m in Sources */,
@@ -1165,7 +1166,6 @@
 				DC0C206829ECE4BC00A053F5 /* ZGABTestDesignerConnection.m in Sources */,
 				DC0C206729ECE4BC00A053F5 /* UIImage+MPAverageColor.m in Sources */,
 				DC0C203729ECE4BC00A053F5 /* ZGABTestDesignerChangeRequestMessage.m in Sources */,
-				DC0C20D529ECE4BC00A053F5 /* UIScrollView+AutoTrack.m in Sources */,
 				DC0C20DF29ECE4BC00A053F5 /* ZGUtils.m in Sources */,
 				DC0C20A829ECE4BC00A053F5 /* clearNewUsage.m in Sources */,
 				DC0C20DC29ECE4BC00A053F5 /* ZGCMMotionManager.m in Sources */,

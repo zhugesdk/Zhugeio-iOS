@@ -50,7 +50,7 @@
 #import "ZhugeAutoTrackUtils.h"
 
 #pragma mark - ZG Category Headers
-#import "UIViewController+AutoTrack.h"
+#import "UIViewController+ZGAutoTrack.h"
 #import "UIApplication+Zhuge.h"
 #import "UIGestureRecognizer+Zhuge.h"
 #import "ZAViews.h"

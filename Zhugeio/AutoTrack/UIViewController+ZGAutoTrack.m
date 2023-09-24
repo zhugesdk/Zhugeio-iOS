@@ -5,7 +5,7 @@
 //  Created by Good_Morning_ on 2021/6/11.
 //
 
-#import "UIViewController+AutoTrack.h"
+#import "UIViewController+ZGAutoTrack.h"
 #import <objc/runtime.h>
 #import "ZhugeHeaders.h"
 #import "ZGLog.h"
@@ -18,7 +18,7 @@ static CFAbsoluteTime _end;
 static NSData *_imageData;
 NSString * const gc_VCKey = nil;
 
-@implementation UIViewController (AutoTrack)
+@implementation UIViewController (ZGAutoTrack)
 
 - (NSString *)zhugeScreenName {
     return NSStringFromClass([self class]);

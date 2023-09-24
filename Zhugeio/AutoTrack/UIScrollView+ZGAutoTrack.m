@@ -5,11 +5,11 @@
 //  Created by Good_Morning_ on 2021/4/12.
 //
 
-#import "UIScrollView+AutoTrack.h"
+#import "UIScrollView+ZGAutoTrack.h"
 #import "ZADelegateProxy.h"
 #import "NSObject+ZGResponseID.h"
 
-@implementation UITableView (AutoTrack)
+@implementation UITableView (ZGAutoTrack)
 
 - (void)zhugeio_setDelegate:(id <UITableViewDelegate>)delegate {
     [self zhugeio_setDelegate:delegate];
@@ -26,7 +26,7 @@
 
 @end
 
-@implementation UICollectionView (AutoTrack)
+@implementation UICollectionView (ZGAutoTrack)
 
 - (void)zhugeio_setDelegate:(id<UICollectionViewDelegate>)delegate {
     [self zhugeio_setDelegate:delegate];
@@ -45,7 +45,7 @@
 @end
 
 
-@implementation UIScrollView (AutoTrack)
+@implementation UIScrollView (ZGAutoTrack)
 
 
 

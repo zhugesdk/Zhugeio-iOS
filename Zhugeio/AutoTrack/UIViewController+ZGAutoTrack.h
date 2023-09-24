@@ -9,7 +9,7 @@
 
 
 
-@interface UIViewController (AutoTrack)
+@interface UIViewController (ZGAutoTrack)
 
 - (NSString *)zhugeScreenName;
 
