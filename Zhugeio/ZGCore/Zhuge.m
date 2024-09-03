@@ -729,26 +729,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
                 ZGLogWarning(@"request ad token error , %d",error);
             }
         }
-    } else {
-        // Check for iOS 10 attribution implementation
-        if (![[ADClient sharedClient] respondsToSelector:@selector(requestAttributionDetailsWithBlock:)]) {
-            return;
-        }
-        dispatch_async(self.serialQueue, ^{
-            [[ADClient sharedClient] requestAttributionDetailsWithBlock:^(NSDictionary *attributionDetails, NSError *error) {
-                // Look inside of the returned dictionary for all attribution details
-                if(!attributionDetails){
-                    return;
-                }
-                NSDictionary *dic = [attributionDetails valueForKey:@"Version3.1"];
-                if(dic){
-                    BOOL status = [[dic objectForKey:@"iad-attribution"] boolValue];
-                    if(status){
-                        [self buildADData:dic];
-                    }
-                }
-            }];
-        });
     }
 }
 
