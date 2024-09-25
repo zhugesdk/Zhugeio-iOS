@@ -15,7 +15,6 @@
 #import "ZGVisualizationSocketMessage.h"
 #import "ZGIDFAUtil.h"
 #import <AdServices/AdServices.h>
-#import <iAd/iAd.h>
 @implementation Zhuge
 
 static NSUncaughtExceptionHandler *previousHandler;
@@ -151,6 +150,9 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
             self.shakeGesture.delegate = self;
             [self.shakeGesture startShakeGesture];
 #endif
+        }
+        if (self.config.autoTrackEnable) {
+            [self enableAutoTrack];
         }
         
         if(self.config.enableVisualization){
@@ -964,7 +966,9 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
             NSNumber *end = @([[NSDate date] timeIntervalSince1970]);
             ZGLogDebug(@"endTrack %@ at time : %@",eventName,end);
             NSMutableDictionary *dic = properties?[self addSymbloToDic:properties]:[NSMutableDictionary dictionary];
-            dic[@"$dru"] = [NSNumber numberWithUnsignedLongLong:(end.doubleValue - start.doubleValue)*1000];
+            NSNumber *dru = [NSNumber numberWithUnsignedLongLong:(end.doubleValue - start.doubleValue)*1000];
+            dic[@"$dru"] = dru;
+            dic[@"_$duration$_"] = dru;
             dic[@"$eid"] = eventName;
             int32_t value =  OSAtomicIncrement32(&self->_sessionCount);
             dic[@"$sc"] = [NSNumber numberWithInt:value];

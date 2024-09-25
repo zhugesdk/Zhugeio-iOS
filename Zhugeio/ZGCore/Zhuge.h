@@ -71,7 +71,6 @@ NS_ASSUME_NONNULL_BEGIN
  * 开启全埋点采集
  */
 - (void)enableAutoTrack;
-- (BOOL)isAutoTrackEnable;
 
 /**
  * 开启视屏采集
