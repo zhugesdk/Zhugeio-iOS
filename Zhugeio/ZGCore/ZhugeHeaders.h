@@ -37,7 +37,6 @@
 #import "ZGSqliteManager.h"
 #import "ZGDeviceInfo.h"
 #import "ZhugeSwizzle.h"
-#import "ZGLocationManager.h"
 #import "ZGCMMotionManager.h"
 #import "ZGRequestManager.h"
 #import "ZGUtils.h"

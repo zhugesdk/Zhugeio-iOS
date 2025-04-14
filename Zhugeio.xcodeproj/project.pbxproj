@@ -221,7 +221,6 @@
 		DC0C20DD29ECE4BC00A053F5 /* ZGRequestManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DC0C1FE129ECE4BB00A053F5 /* ZGRequestManager.h */; };
 		DC0C20DE29ECE4BC00A053F5 /* ZhugeBase64.h in Headers */ = {isa = PBXBuildFile; fileRef = DC0C1FE229ECE4BB00A053F5 /* ZhugeBase64.h */; };
 		DC0C20DF29ECE4BC00A053F5 /* ZGUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0C1FE329ECE4BB00A053F5 /* ZGUtils.m */; };
-		DC0C20E029ECE4BC00A053F5 /* ZGLocationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DC0C1FE429ECE4BB00A053F5 /* ZGLocationManager.h */; };
 		DC0C20E129ECE4BC00A053F5 /* ZGRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = DC0C1FE529ECE4BB00A053F5 /* ZGRequest.h */; };
 		DC0C20E229ECE4BC00A053F5 /* ZASwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = DC0C1FE629ECE4BB00A053F5 /* ZASwizzle.h */; };
 		DC0C20E329ECE4BC00A053F5 /* ZhugeCompres.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0C1FE729ECE4BB00A053F5 /* ZhugeCompres.m */; };
@@ -231,7 +230,6 @@
 		DC0C20E729ECE4BC00A053F5 /* ZGDeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0C1FEB29ECE4BB00A053F5 /* ZGDeviceInfo.m */; };
 		DC0C20E829ECE4BC00A053F5 /* ZGCMMotionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DC0C1FEC29ECE4BB00A053F5 /* ZGCMMotionManager.h */; };
 		DC0C20E929ECE4BC00A053F5 /* ZGRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0C1FED29ECE4BB00A053F5 /* ZGRequest.m */; };
-		DC0C20EA29ECE4BC00A053F5 /* ZGLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0C1FEE29ECE4BB00A053F5 /* ZGLocationManager.m */; };
 		DC0C20EB29ECE4BC00A053F5 /* ZhugeBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0C1FEF29ECE4BB00A053F5 /* ZhugeBase64.m */; };
 		DC0C20EC29ECE4BC00A053F5 /* ZGUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = DC0C1FF029ECE4BB00A053F5 /* ZGUtils.h */; };
 		DC0C20ED29ECE4BC00A053F5 /* ZGVisualizationSocketMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = DC0C1FF229ECE4BB00A053F5 /* ZGVisualizationSocketMessage.h */; };
@@ -477,7 +475,6 @@
 		DC0C1FE129ECE4BB00A053F5 /* ZGRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGRequestManager.h; sourceTree = "<group>"; };
 		DC0C1FE229ECE4BB00A053F5 /* ZhugeBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhugeBase64.h; sourceTree = "<group>"; };
 		DC0C1FE329ECE4BB00A053F5 /* ZGUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGUtils.m; sourceTree = "<group>"; };
-		DC0C1FE429ECE4BB00A053F5 /* ZGLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGLocationManager.h; sourceTree = "<group>"; };
 		DC0C1FE529ECE4BB00A053F5 /* ZGRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGRequest.h; sourceTree = "<group>"; };
 		DC0C1FE629ECE4BB00A053F5 /* ZASwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZASwizzle.h; sourceTree = "<group>"; };
 		DC0C1FE729ECE4BB00A053F5 /* ZhugeCompres.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeCompres.m; sourceTree = "<group>"; };
@@ -487,7 +484,6 @@
 		DC0C1FEB29ECE4BB00A053F5 /* ZGDeviceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGDeviceInfo.m; sourceTree = "<group>"; };
 		DC0C1FEC29ECE4BB00A053F5 /* ZGCMMotionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGCMMotionManager.h; sourceTree = "<group>"; };
 		DC0C1FED29ECE4BB00A053F5 /* ZGRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGRequest.m; sourceTree = "<group>"; };
-		DC0C1FEE29ECE4BB00A053F5 /* ZGLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZGLocationManager.m; sourceTree = "<group>"; };
 		DC0C1FEF29ECE4BB00A053F5 /* ZhugeBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhugeBase64.m; sourceTree = "<group>"; };
 		DC0C1FF029ECE4BB00A053F5 /* ZGUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGUtils.h; sourceTree = "<group>"; };
 		DC0C1FF229ECE4BB00A053F5 /* ZGVisualizationSocketMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZGVisualizationSocketMessage.h; sourceTree = "<group>"; };
@@ -838,7 +834,6 @@
 				DC0C1FE129ECE4BB00A053F5 /* ZGRequestManager.h */,
 				DC0C1FE229ECE4BB00A053F5 /* ZhugeBase64.h */,
 				DC0C1FE329ECE4BB00A053F5 /* ZGUtils.m */,
-				DC0C1FE429ECE4BB00A053F5 /* ZGLocationManager.h */,
 				DC0C1FE529ECE4BB00A053F5 /* ZGRequest.h */,
 				DC0C1FE629ECE4BB00A053F5 /* ZASwizzle.h */,
 				DC0C1FE729ECE4BB00A053F5 /* ZhugeCompres.m */,
@@ -848,7 +843,6 @@
 				DC0C1FEB29ECE4BB00A053F5 /* ZGDeviceInfo.m */,
 				DC0C1FEC29ECE4BB00A053F5 /* ZGCMMotionManager.h */,
 				DC0C1FED29ECE4BB00A053F5 /* ZGRequest.m */,
-				DC0C1FEE29ECE4BB00A053F5 /* ZGLocationManager.m */,
 				DC0C1FEF29ECE4BB00A053F5 /* ZhugeBase64.m */,
 				DC0C1FF029ECE4BB00A053F5 /* ZGUtils.h */,
 			);
@@ -970,7 +964,6 @@
 				DC0C202829ECE4BC00A053F5 /* MPTweakStore.h in Headers */,
 				DCE37AF42AC073F9006C1B29 /* UIViewController+ZGAutoTrack.h in Headers */,
 				DC0C209D29ECE4BC00A053F5 /* DeepShareImpl.h in Headers */,
-				DC0C20E029ECE4BC00A053F5 /* ZGLocationManager.h in Headers */,
 				DC0C20F129ECE4BC00A053F5 /* NSTimer+ZGWeakTimer.h in Headers */,
 				DC0C20FD29ECE4BC00A053F5 /* ZGVisualizedTool.h in Headers */,
 				DC0C209F29ECE4BC00A053F5 /* DLConfig.h in Headers */,
@@ -1195,7 +1188,6 @@
 				DC0C200729ECE4BB00A053F5 /* ZGAbstractABTestDesignerMessage.m in Sources */,
 				DC0C204F29ECE4BC00A053F5 /* ZGVariant.m in Sources */,
 				DC0C205C29ECE4BC00A053F5 /* MPDisplayTrigger.m in Sources */,
-				DC0C20EA29ECE4BC00A053F5 /* ZGLocationManager.m in Sources */,
 				DC0C205829ECE4BC00A053F5 /* ZGABTestDesignerDeviceInfoResponseMessage.m in Sources */,
 				DC0C201229ECE4BC00A053F5 /* UIColor+MPColor.m in Sources */,
 				DC0C203529ECE4BC00A053F5 /* MPObjectIdentityProvider.m in Sources */,
