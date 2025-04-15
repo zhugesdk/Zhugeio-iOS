@@ -7,7 +7,7 @@
 #import <Foundation/Foundation.h>
 
 /* SDK版本 */
-#define ZG_SDK_VERSION @"3.5.5"
+#define ZG_SDK_VERSION @"3.7.6"
 
 /* 默认应用版本 */
 #define ZG_APP_VERSION [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
@@ -142,13 +142,18 @@
 @property (nonatomic, copy) NSString *uploadPubkey;
 
 /**
+ * 上传数据加密sm2 公钥
+ */
+@property (nonatomic, copy) NSString *uploadSM2Pubkey;
+
+/**
  * 上传数据是否加密
  */
 @property (nonatomic, assign) BOOL enableEncrypt;
 
     
 /**
- * 上传数据加密策略：1：res加密
+ * 上传数据加密策略：1：res加密  2: 国密sm2 sm4
  */
 @property (nonatomic, assign) int encryptType;
 

@@ -28,6 +28,9 @@ typedef void (*ZhugeDidSelectImplementation)(id, SEL, UIScrollView *, NSIndexPat
 }
 
 + (void)hookDidSelectMethodWithDelegate:(id)delegate {
+    if (object_isClass(delegate)) {
+        return;
+    }
     // 当前代理对象已经处理过
     if ([delegate zhugeio_className]) {
         return;
@@ -86,14 +89,7 @@ typedef void (*ZhugeDidSelectImplementation)(id, SEL, UIScrollView *, NSIndexPat
     [ZAClassHelper registerClass:dynamicClass];
     
     // 替换代理对象所归属的类
-    if ([ZAClassHelper setObject:delegate toClass:dynamicClass]) {
-        // 在对象释放时, 释放创建的子类
-        [delegate zhugeio_registerDeallocBlock:^{
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                [ZAClassHelper disposeClass:dynamicClass];
-            });
-        }];
-    }
+    [ZAClassHelper setObject:delegate toClass:dynamicClass];
 }
 
 @end

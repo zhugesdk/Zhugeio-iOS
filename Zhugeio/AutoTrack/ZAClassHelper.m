@@ -33,7 +33,7 @@
 }
 
 + (BOOL)setObject:(id)object toClass:(Class)cla {
-    if (cla && object) {
+    if (cla && object && object_getClass(object) != cla) {
         return object_setClass(object, cla);
     }
     return NO;

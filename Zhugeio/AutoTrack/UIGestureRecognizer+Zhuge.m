@@ -17,6 +17,9 @@
 - (void)trackGestureRecognizerAppClick:(UIGestureRecognizer *)gesture {
     @try {
         UIView *view = gesture.view;
+        if ([[Zhuge sharedInstance] isViewTypeIgnored:view]) {
+            return;
+        }
         /*
          ps: 暂只采集 UILabel 和 UIImageView
          若需要添加其他类型的.可设置[Zhuge sharedInstance].config.customGestureViews = @[@"ZGTestGestureView"];

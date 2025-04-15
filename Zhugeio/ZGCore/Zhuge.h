@@ -9,29 +9,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol ZGDeepShareDelete <NSObject>
-
-- (void)zgOnInappDataReturned:(nullable NSDictionary *)params withError:(nullable NSError *)error;
-
-@end
-
 
 @interface Zhuge : NSObject
-
-@property (nonatomic, weak) _Nullable id <ZGDeepShareDelete> delegate;
-
-#pragma mark - DeepShare
-/** 处理Apple-registered URL schemes
- * @param url 系统回调传回的URL
- * @return bool URL是否被成功识别处理
- */
-+ (BOOL)handleURL:(nullable NSURL *)url;
-
-/**
- * 让DeepShare通过NSUserActivity进行页面转换，成功则返回true，否则返回false
- * @param userActivity userActivity存储了页面跳转的信息，包括来源与目的页面
- */
-+ (BOOL)continueUserActivity:(nullable NSUserActivity *)userActivity;
 
 #pragma mark - 获取实例
 
@@ -71,6 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
  * 开启全埋点采集
  */
 - (void)enableAutoTrack;
+- (BOOL)isAutoTrackEnable;
 
 /**
  * 开启视屏采集
@@ -90,9 +70,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)setUploadRsaPubKey:(nonnull NSString*)pubKey;
 
+/**
+ * 配置加密的sm2公钥
+    
+ */
+- (void)setUploadSM2PubKey:(nonnull NSString*)pubSM2Key;
 
 /**
- * 开启加密上传和加密策略
+ * 开启加密上传和加密策略, 1: rsa  2: sm
  */
 - (void)enableEncryptUpload:(BOOL)encrypt CryptoType:(int)cryptoType;
 

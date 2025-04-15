@@ -11,8 +11,8 @@
 
 #pragma mark - URL
 
-static NSString *const ZG_BASE_API = @"https://u.zhugeapi.com";
-static NSString *const ZG_BACKUP_API = @"https://ubak.zhugeio.com";
+static NSString *const ZG_BASE_API = @"https://su.zhugeio.com/apipool";
+static NSString *const ZG_BACKUP_API = @"https://subak.zhugeio.com/apipool";
 
 
 #pragma mark - NSUserDefault KEY

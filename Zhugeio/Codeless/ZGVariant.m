@@ -565,7 +565,7 @@ static NSMapTable *originalCache;
                     // Ensure we only send strings to the transform method
                     if (![argTuple[1] isKindOfClass:[NSString class]]) continue;
                     
-                    id arg = transformValue(argTuple[0], argTuple[1]);
+                    id arg = zgTransformValue(argTuple[0], argTuple[1]);
                     
                     // Unpack NSValues to their base types.
                     if ([arg isKindOfClass:[NSValue class]]) {

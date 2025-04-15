@@ -69,6 +69,9 @@ static NSMutableDictionary *_dataDic;
     if ([to isKindOfClass:[UITabBar class]]) {
         return;
     }
+    if ([[Zhuge sharedInstance] isViewTypeIgnored:to]) {
+        return;
+    }
     BOOL isTabBar = [from isKindOfClass:[UITabBarItem class]] && [to isKindOfClass:[UITabBarController class]];
     
     

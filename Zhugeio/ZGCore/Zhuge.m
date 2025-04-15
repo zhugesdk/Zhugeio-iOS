@@ -15,6 +15,10 @@
 #import "ZGVisualizationSocketMessage.h"
 #import "ZGIDFAUtil.h"
 #import <AdServices/AdServices.h>
+//#import "GMSm4Utils.h"
+//#import "GMSm2Utils.h"
+//#import "GMSm2Bio.h"
+//#import "GMUtils.h"
 @implementation Zhuge
 
 static NSUncaughtExceptionHandler *previousHandler;
@@ -122,6 +126,7 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
         
         // SDK配置
         if(self.config) {
+            ZGLogInfo(@"SDK appkey %@", self.appKey);
             ZGLogInfo(@"SDK系统配置: %@", self.config);
         }
         if (self.config.debug) {
@@ -151,9 +156,6 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
             [self.shakeGesture startShakeGesture];
 #endif
         }
-        if (self.config.autoTrackEnable) {
-            [self enableAutoTrack];
-        }
         
         if(self.config.enableVisualization){
             [self enableAutoTrack];
@@ -170,11 +172,6 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
             });
             //请求可视化事件列表数据
             [self requestVisualizationPageTrackDatas];
-        }
-        
-        if (delegate) {
-            self.delegate = delegate;
-            [DeepShare initWithAppID:self.appKey withLaunchOptions:launchOptions withDelegate:self];
         }
         
         self.isInitSDK = YES;
@@ -238,6 +235,43 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
         
         success ? ZGLogDebug(@"上传崩溃事件成功") : ZGLogDebug(@"上传崩溃事件失败");
         
+    }else if (self.config.enableEncrypt && self.config.encryptType == 2) {
+        //        国密算法对应关系：AES --> SM4，RSA --> SM2
+                ZGLogDebug(@"启用了SM4+SM2加密方式");
+        // 生成 SM4 密钥。返回值：长度为 32 字节 Hex 编码格式字符串密钥
+//        NSString * key = [GMSm4Utils createSm4Key];    //类似:F51397DEC6ABD9EE0295F473F880B8A3
+        // SM4 加密数据
+//        NSString *en = [GMSm4Utils ecbDefaultEncryptText:eventData key:key];
+        // SM2 公钥获取ASN1格式的
+//        NSString * pub = self.config.uploadSM2Pubkey;
+//        if([pub containsString:@"-----BEGIN PUBLIC KEY-----"]){
+//            pub = [GMSm2Bio readPublicKeyFromPemString:self.config.uploadSM2Pubkey];
+//        }
+        // 对key进行SM2非对称加密
+//        NSString *sm2KeyIV = [GMSm2Utils encryptText:[NSString stringWithFormat:@"%@,%@",key, key] publicKey:pub];
+        // asn1解码上传
+//        sm2KeyIV = [GMSm2Utils asn1DecodeToC1C3C2:sm2KeyIV];
+        
+        /*
+            处理pem格式密钥
+            NSString * pri = @"-----BEGIN PRIVATE KEY-----\nMIGTAgEAMBMGByqGSM49AgEGCCqBHM9VAYItBHkwdwIBAQQgzZEKbKY0/AOXrNdVhL9Hge2FO9DnXfOHCjx2LqRKqO+gCgYIKoEcz1UBgi2hRANCAASEJNjsoXh31/P1edLNlBrmGiy99ImcgMtkiGjlWSNT1czMjVQxI5X0gvzcm2iunFzgFRmse2s6cKdUM9sxm3BF\n-----END PRIVATE KEY-----";//  @"A0F8FE45F006F3CE258DC93E27351768DDA8D33C073CD7D7CC82F8A2ED7F20D9";
+           将pem私钥进行ASN.1解码,得到ASN.1私钥字符串
+            pri = [GMSm2Bio readPrivateKeyFromPemString:pri];
+         */
+        /*
+            验证解密
+            NSString * pri = @"00a3562aa22fee343b31ce90c0abc36cd7373bd231fbe754d0aeb02c471d48e7f2";
+            sm2KeyIV = [GMSm2Utils asn1EncodeWithC1C3C2:sm2KeyIV];
+            NSString * deSm2KeyIV = [GMSm2Utils decryptToText:sm2KeyIV privateKey:pri];
+            NSString * deKey1 = [deSm2KeyIV componentsSeparatedByString:@","].firstObject;
+            NSString * deEventData = [GMSm4Utils ecbDefaultDecryptText:en key:deKey1];
+         */
+    
+//        NSString *requestData = [NSString stringWithFormat:@"method=event_statis_srv.upload&compress=1&encrypt=1&type=2&key=%@&event=%@", sm2KeyIV,en];
+//        BOOL success = [self request:@"/APIPOOL/" WithData:requestData andError:nil];
+//        
+//        success ? ZGLogDebug(@"上传崩溃事件成功") : ZGLogDebug(@"上传崩溃事件失败");
+        
     } else {
         NSData *eventDataBefore = [eventData dataUsingEncoding:NSUTF8StringEncoding];
         NSData *zlibedData = [eventDataBefore zgZlibDeflate];
@@ -260,69 +294,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     [[Zhuge sharedInstance]trackException:exception];
 }
 
-#pragma mark - DeepShare
-- (void)onInappDataReturned: (NSDictionary *) params withError: (NSError *) error  tag:(NSString *)tag{
-    self.utmDic = [[NSMutableDictionary alloc] init];
-    if (!error) {
-        self.utmDic[@"$utm_source"] = params[@"utm_source"];
-        self.utmDic[@"$utm_medium"] = params[@"utm_medium"];
-        self.utmDic[@"$utm_campaign"] = params[@"utm_campaign"];
-        self.utmDic[@"$utm_content"] = params[@"utm_content"];
-        self.utmDic[@"$utm_term"] = params[@"utm_term"];
-        if (params[@"$zg_did"]) {
-            self.deviceId = params[@"$zg_did"];
-        }
-        if (params.allKeys.count > 0) {
-            if ([tag isEqualToString: REQ_TAG_REGISTER_INSTALL]) {
-                self.utmDic[@"$utm_type"] = @"1";
-            }
-            if ([tag isEqualToString:@"t_register_open"]) {
-                self.utmDic[@"$utm_type"] = @"0";
-            }
-        }
-        else {
-            if ([tag isEqualToString: REQ_TAG_REGISTER_INSTALL]) {
-                self.utmDic[@"$utm_type"] = @"3";
-            }
-            if ([tag isEqualToString:@"t_register_open"]) {
-                self.utmDic[@"$utm_type"] = @"2";
-            }
-        }
-        
-        if ([tag isEqualToString:REQ_TAG_REGISTER_INSTALL]) {
-            ZGLogInfo(@"安装进来的");
-        }
-        if ([tag isEqualToString:@"t_register_open"]) {
-            ZGLogInfo(@"打开进来的");
-        }
-        
-        if ([self.delegate respondsToSelector:@selector(zgOnInappDataReturned:withError:)]) {
-            [self.delegate zgOnInappDataReturned:self.utmDic withError:error];
-        }
-    } else {
-        ZGLogError(@"DeepShare init error id: %ld %@",error.code, error);
-    }
-    
-    self.flushBool = YES;
-    
-    if (self.archiveEventQueue.count>0) {
-        NSMutableArray * flushAry = [NSMutableArray array];
-        for (NSDictionary * dic in self.archiveEventQueue) {
-            [dic[@"pr"] addEntriesFromDictionary:self.utmDic];
-            [flushAry addObject:dic];
-        }
-        dispatch_async(self.serialQueue, ^{
-            [self flushQueue: flushAry];
-            self.archiveEventQueue = [NSMutableArray array];
-        });
-    }
-}
-+ (BOOL)handleURL:(NSURL *)url {
-    return [DeepShare handleURL:url];
-}
-+ (BOOL)continueUserActivity:(NSUserActivity *)userActivity {
-    return [DeepShare continueUserActivity:userActivity];
-}
 
 #pragma mark - 诸葛配置
 - (void)setUtm:(nonnull NSDictionary *)utmInfo {
@@ -351,7 +322,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 
 - (void)setUploadURL:(NSString *)url andBackupUrl:(NSString *)backupUrl{
     if (url && url.length>0) {
-        self.apiURL = [ZGUtils parseUrl: url];
+        self.apiURL = url;
         self.backupURL = backupUrl;
     }else{
         ZGLogError(@"传入的url不合法，请检查:%@",url);
@@ -497,6 +468,18 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         self.config.uploadPubkey = pubKey;
     }else{
         ZGLogError(@"传入的公钥不合法，请检查:%@",pubKey);
+    }
+}
+
+/**
+ * 配置加密的sm2公钥
+    
+ */
+- (void)setUploadSM2PubKey:(nonnull NSString*)pubSM2Key{
+    if (pubSM2Key && pubSM2Key.length>0) {
+        self.config.uploadSM2Pubkey = pubSM2Key;
+    }else{
+        ZGLogError(@"传入的SM2公钥不合法，请检查:%@",pubSM2Key);
     }
 }
 
@@ -903,12 +886,19 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     if (!self.sessionId) {
         [self sessionStart];
     }
+    NSDictionary *eventInfo = nil;
+    if (self.envInfo) {
+        NSDictionary  *eventObj = [self.envInfo objectForKey:@"event"];
+        if (eventObj) {
+            eventInfo = [NSDictionary dictionaryWithDictionary:eventObj];
+        }
+    }
     dispatch_async(self.serialQueue, ^{
         @try {
             NSMutableDictionary *data = [NSMutableDictionary dictionaryWithCapacity:2];
             NSMutableDictionary *pr = [self eventData];
-            if (self.envInfo) {
-                NSMutableDictionary *data = [self addSymbloToDic:[self.envInfo objectForKey:@"event"]];
+            if (eventInfo) {
+                NSMutableDictionary *data = [self addSymbloToDic:eventInfo];
                 [pr addEntriesFromDictionary:data];
             }
             
@@ -1542,14 +1532,17 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 }
 #pragma mark - 编码&解码
 - (NSMutableDictionary *)addSymbloToDic:(NSDictionary *)dic{
+    if (!dic) {
+        return [NSMutableDictionary dictionary];
+    }
     NSMutableDictionary *copy = [NSMutableDictionary dictionaryWithCapacity:[dic count]];
     for (NSString *key in dic) {
         id value = dic[key];
         if ([key containsString:@"$"]) {
-            [copy setValue:value forKey:key];
+            [copy setObject:value forKey:key];
         } else {
             NSString *newKey = [NSString stringWithFormat:@"_%@",key];
-            [copy setValue:value forKey:newKey];
+            [copy setObject:value forKey:newKey];
         }
         
     }
@@ -1753,7 +1746,51 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
                     break;
                 }
                                 
-            } else {
+            }else if (self.config.enableEncrypt && self.config.encryptType == 2){
+                //        国密算法对应关系：AES --> SM4，RSA --> SM2
+                        ZGLogDebug(@"启用了SM4+SM2加密方式");
+                // 生成 SM4 密钥。返回值：长度为 32 字节 Hex 编码格式字符串密钥
+//                NSString * key = [GMSm4Utils createSm4Key];    //类似:F51397DEC6ABD9EE0295F473F880B8A3
+//                // SM4 加密数据
+//                NSString *en = [GMSm4Utils ecbDefaultEncryptText:eventData key:key];
+//                // SM2 公钥获取ASN1格式的
+//                NSString * pub = self.config.uploadSM2Pubkey;
+//                if([pub containsString:@"-----BEGIN PUBLIC KEY-----"]){
+//                    pub = [GMSm2Bio readPublicKeyFromPemString:self.config.uploadSM2Pubkey];
+//                }
+//                // 对key进行SM2非对称加密
+//                NSString *sm2KeyIV = [GMSm2Utils encryptText:[NSString stringWithFormat:@"%@,%@",key, key] publicKey:pub];
+//                // asn1解码上传
+//                sm2KeyIV = [GMSm2Utils asn1DecodeToC1C3C2:sm2KeyIV];
+                
+                /*
+                    处理pem格式密钥
+                    NSString * pri = @"-----BEGIN PRIVATE KEY-----\nMIGTAgEAMBMGByqGSM49AgEGCCqBHM9VAYItBHkwdwIBAQQgzZEKbKY0/AOXrNdVhL9Hge2FO9DnXfOHCjx2LqRKqO+gCgYIKoEcz1UBgi2hRANCAASEJNjsoXh31/P1edLNlBrmGiy99ImcgMtkiGjlWSNT1czMjVQxI5X0gvzcm2iunFzgFRmse2s6cKdUM9sxm3BF\n-----END PRIVATE KEY-----";//  @"A0F8FE45F006F3CE258DC93E27351768DDA8D33C073CD7D7CC82F8A2ED7F20D9";
+                   将pem私钥进行ASN.1解码,得到ASN.1私钥字符串
+                    pri = [GMSm2Bio readPrivateKeyFromPemString:pri];
+                 */
+                /*
+                    验证解密
+                    NSString * pri = @"00a3562aa22fee343b31ce90c0abc36cd7373bd231fbe754d0aeb02c471d48e7f2";
+                    sm2KeyIV = [GMSm2Utils asn1EncodeWithC1C3C2:sm2KeyIV];
+                    NSString * deSm2KeyIV = [GMSm2Utils decryptToText:sm2KeyIV privateKey:pri];
+                    NSString * deKey1 = [deSm2KeyIV componentsSeparatedByString:@","].firstObject;
+                    NSString * deEventData = [GMSm4Utils ecbDefaultDecryptText:en key:deKey1];
+                 */
+            
+//                NSString *requestData = [NSString stringWithFormat:@"method=event_statis_srv.upload&compress=1&encrypt=1&type=2&key=%@&event=%@", sm2KeyIV,en];
+//                ZGLogDebug(@"上传数据==%@", requestData);
+//                BOOL success = [self request:@"/APIPOOL/" WithData:requestData andError:nil];
+//                if (success) {
+//                    ZGLogDebug(@"上传事件成功");
+//                    self.sendCount += sendBatchSize;
+//                    [queue removeObjectsInArray:events];
+//                } else {
+//                    ZGLogDebug(@"上传事件失败");
+//                    break;
+//                }
+                        
+            }else {
                 NSData *eventDataBefore = [eventData dataUsingEncoding:NSUTF8StringEncoding];
                 NSData *zlibedData = [eventDataBefore zgZlibDeflate];
                 NSString *event = [zlibedData zgBase64EncodedString];
@@ -1782,9 +1819,9 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     while (!success && retry < 3) {
         NSURL *URL = nil;
         if (retry > 0 && self.backupURL) {
-            URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/apipool/",self.backupURL]];
+            URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@",self.backupURL]];
         }else{
-            URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",self.apiURL,endpoint]];
+            URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@",self.apiURL]];
         }
         ZGLogDebug(@"api request url = %@ , retry = %d",URL,retry);
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
@@ -2018,6 +2055,9 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 
 #pragma mark - RNAutoTrack
 - (void)ignoreViewType:(Class)aClass {
+    if(!aClass){
+        return;
+    }
     [self.ignoredViewTypeList addObject:aClass];
 }
 - (BOOL)isViewTypeIgnored:(Class)aClass {

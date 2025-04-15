@@ -59,7 +59,7 @@
 
 @end
 
-__unused static id transformValue(id value, NSString *toType)
+__unused static id zgTransformValue(id value, NSString *toType)
 {
     assert(value != nil);
 
