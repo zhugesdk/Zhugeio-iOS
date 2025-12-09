@@ -218,7 +218,7 @@ id isNil(id obj) {
 
 + (void)zhugeAutoTrackClick:(UIView *)view withController:(UIViewController *)controller andTag:( NSString *)tag{
     
-    if(![Zhuge sharedInstance].config.autoTrackEnable){
+    if([Zhuge autoTrackInstance].count <= 0){
         return;
     }
     
@@ -227,7 +227,6 @@ id isNil(id obj) {
             NSLog(@"autoTrackError illegal view %@ in %@",view?[view description]:@"null",tag);
             return;
         }
-        Zhuge * zhuge = [Zhuge sharedInstance];
         NSString *content = @"";
         NSString *path = @"";
         if ([view isKindOfClass:[UIBarItem class]]) {
@@ -268,8 +267,10 @@ id isNil(id obj) {
         } else {
             
         }
-        
-        [zhuge autoTrack:data];
+        NSArray *array = [Zhuge autoTrackInstance];
+        for (Zhuge *zhuge in array) {
+            [zhuge autoTrack:data];
+        }
     } @catch (NSException *exception) {
         NSLog(@"autoTrack exception %@: %@",[exception name],[exception reason]);
     }

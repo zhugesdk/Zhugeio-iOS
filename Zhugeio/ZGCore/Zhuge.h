@@ -19,27 +19,35 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (nonnull Zhuge*)sharedInstance;
 
++(nonnull Zhuge *)newInstance;
+/**
+ *  全埋点和可视化埋点均默认处理了UILabel与UIImageView的手势情况.如有新自定义视图需要识别.可添加到该集合中. 例如:@[@"ZGTestGestureView"];则ZGTestGestureView以及其继承的子类添加手势以后均可被识别到.
+ */
++(void) setCustomGestureViews:(NSArray*) views;
++(NSArray *)getCustomGestureViews;
++(void)openLog;
++(BOOL)isLogEnable;
 /**
  * 获得诸葛配置实例。
  */
 - (nonnull ZhugeConfig *)config;
 
 /**
- * 获得诸葛配置实例。
+ * 设置utm信息。
  */
 -(void)setUtm:(nonnull NSDictionary *)utmInfo;
 
 /**
  * 获得诸葛设备ID。
  */
-- (nonnull NSString *)getDid;
++ (nonnull NSString *)getDid;
 - (nonnull NSString *)getSid;
 
 #pragma mark - 开启统计
 /**
  诸葛上传地址
  */
-- (void)setUploadURL:(nonnull NSString*)url andBackupUrl:(nullable NSString *)backupUrl;
+//- (void)setUploadURL:(nonnull NSString*)url andBackupUrl:(nullable NSString *)backupUrl;
 
 /**
  * 自动统计页面停留时长
@@ -50,14 +58,14 @@ NS_ASSUME_NONNULL_BEGIN
  * 开启全埋点采集
  */
 - (void)enableAutoTrack;
-- (BOOL)isAutoTrackEnable;
+//- (BOOL)isAutoTrackEnable;
 
 /**
  * 开启视屏采集
  */
-- (void)enableZGSee;
+//- (void)enableZGSee;
 
--(void)enableIDFACollect;
+//-(void)enableIDFACollect;
 
 /**
  * 开启曝光采集 Exposure
@@ -68,34 +76,29 @@ NS_ASSUME_NONNULL_BEGIN
  * 配置加密的rsa公钥
     
  */
-- (void)setUploadRsaPubKey:(nonnull NSString*)pubKey;
+//- (void)setUploadRsaPubKey:(nonnull NSString*)pubKey;
 
 /**
  * 配置加密的sm2公钥
     
  */
-- (void)setUploadSM2PubKey:(nonnull NSString*)pubSM2Key;
+//- (void)setUploadSM2PubKey:(nonnull NSString*)pubSM2Key;
 
 /**
  * 开启加密上传和加密策略, 1: rsa  2: sm
  */
-- (void)enableEncryptUpload:(BOOL)encrypt CryptoType:(int)cryptoType;
+//- (void)enableEncryptUpload:(BOOL)encrypt CryptoType:(int)cryptoType;
 
 /**
  开启诸葛统计。
  @param appKey 应用Key，网站上注册应用时自动获得
  @param launchOptions 启动项
  */
-- (void)startWithAppKey:(nonnull NSString*)appKey;
+- (void)startWithConfig:(nonnull ZhugeConfig*)config;
 
-- (void)startWithAppKey:(nonnull NSString*)appKey launchOptions:(nullable NSDictionary*)launchOptions;
+- (void)startWithConfig:(nonnull ZhugeConfig*)config launchOptions:(nullable NSDictionary*)launchOptions;
 
-- (void)startWithAppKey:(nonnull NSString *)appKey andDid:(nonnull NSString*)did launchOptions:(nullable NSDictionary *)launchOptions;
-
-// 需要DeepShare时，调用此 star 方法
-- (void)startWithAppKey:(nonnull NSString*)appKey launchOptions:(nullable NSDictionary*)launchOptions delegate:(nonnull id)delegate;
-
-- (void)startWithAppKey:(nonnull NSString *)appKey andDid:(nonnull NSString *)did launchOptions:(nullable NSDictionary *)launchOptions withDelegate:(nonnull id)delegate;
+- (void)startWithConfig:(nonnull ZhugeConfig *)config andDid:(nonnull NSString*)did launchOptions:(nullable NSDictionary *)launchOptions;
 
 
 #pragma mark - 追踪用户行为
@@ -116,10 +119,15 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * 设置事件环境信息，通过这个地方存入的信息将会给之后传入的每一个事件添加环境信息
  */
-- (void)setSuperProperty:(nonnull NSDictionary *)info;
+-(void)setSuperProperty:(nonnull NSDictionary *)info;
 
-- (void)setPlatform:(nonnull NSDictionary *)info;
+-(void)addSuperProperty:(nonnull NSDictionary*)info;
 
+-(void)addSuperPropertyWithKey:(nonnull NSString*)key value:(nullable NSString *) value;
+-(void)deleteSuperPropertyWithKey:(nonnull NSString*)key;
+-(void)clearSuperProperty;
+-(void)setPlatform:(nonnull NSDictionary *)info;
+-(NSDictionary *)getSuperProperties;
 /**
  * 追踪自定义事件。
  * @param event      事件名称
@@ -164,7 +172,7 @@ NS_ASSUME_NONNULL_BEGIN
  * 向 WKWebView 注入 Message Handler
  * @param webView 需要注入的 wkwebView
 */
-- (void)addScriptMessageHandlerWithWebView:(WKWebView *)webView;
++ (void)addScriptMessageHandlerWithWebView:(WKWebView *)webView;
 
 
 // 处理接收到的消息
@@ -174,42 +182,24 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setThirdPartyPushUserId:(nonnull NSString *)userId forChannel:(ZGPushChannel) channel;
 
 // 处理AppSee数据上传
-- (void)setZhuGeSeeEvent:(nonnull NSMutableDictionary *)userInfo;
 
-
-/**
- * 忽略某一类型的 View
- * @param aClass View 对应的 Class
- */
-- (void)ignoreViewType:(Class)aClass;
-
-/**
- * 判断某个 View 类型是否被忽略
- * @param aClass Class View 对应的 Class
- * @return YES:被忽略; NO:没有被忽略
- */
-- (BOOL)isViewTypeIgnored:(Class)aClass;
 
 
 + (UIApplication *)sharedUIApplication;
 
-/**
- * 私有化部署需手动设置 URL
- *  1. Websocket URL
- *  2. 远程事件 URL
- */
-- (void)setupCodelessWebsocketUrl:(NSString *)url;
-- (void)setupCodelessEventsUrl:(NSString *)url;
-
-/// 可视化埋点的socket URL
-- (void)setupVisualizationWebSocketUrl:(NSString *)url;
-/// 可视化埋点获取埋点数据的URL
-- (void)setupVisualizationTrackDataUrl:(NSString *)url;
-
 /// 与PC端链接.开始可视化埋点工作.
 /// @param url 扫码获取的地址
--(void)zg_startVisualizationDebuggingTrack:(NSURL *)url;
-
++(void)zg_startVisualizationDebuggingTrack:(NSURL *)url;
+//开启广告ID收集
++(void)enableIDFACollect;
+//是否开启了广告ID收集
++(BOOL)isIDFAEnable;
++(NSArray *)allInstance;
++(NSArray *)autoTrackInstance;
++(NSArray *)durationOnPageInstance;
++(NSArray *)exposeInstance;
++(NSArray *)visualInstance;
++(Zhuge *)getInstanceForKey:(NSString *)appkey;
 @end
 
 

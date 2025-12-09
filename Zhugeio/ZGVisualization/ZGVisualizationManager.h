@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL websocketConnent;
 
 /// 比对数组
-@property (nonatomic, strong) NSArray * localCompareArr;
+@property (nonatomic, strong) NSMutableDictionary * compareDic;
 
 /// 页面发生变化时.页面信息回调
 @property (nonatomic, copy) void(^pageUpdateBlock)(NSDictionary *jsonDict);

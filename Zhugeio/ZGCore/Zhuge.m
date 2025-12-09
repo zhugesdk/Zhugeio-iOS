@@ -19,7 +19,35 @@
 //#import "GMSm2Utils.h"
 //#import "GMSm2Bio.h"
 //#import "GMUtils.h"
+
+static NSMutableDictionary *instanceDic;
+static NSMutableArray *autoTrackInstance;
+static NSMutableArray *durationInstance;
+static NSMutableArray *exposeInstance;
+static NSMutableArray *visualInstance;
+static NSArray *customGestureViewArray;
+static NSString *deviceId;
+static BOOL idfaCollect;
+// 判断 viewDidAppear 是否已经被 hook
+static BOOL viewDidAppearIsHook;
+// 判断 viewDidDisappear 是否已经被 hook
+static BOOL viewDidDisappearIsHook;
+static BOOL logEnable;
+
 @implementation Zhuge
+
++(void)initialize{
+    instanceDic = [[NSMutableDictionary alloc]init];
+    autoTrackInstance = [[NSMutableArray alloc] init];
+    durationInstance = [[NSMutableArray alloc] init];
+    exposeInstance = [[NSMutableArray alloc] init];
+    visualInstance = [[NSMutableArray alloc] init];
+    customGestureViewArray = [NSArray array];
+    deviceId = nil;
+    idfaCollect = NO;
+    viewDidAppearIsHook = NO;
+    viewDidDisappearIsHook = NO;
+}
 
 static NSUncaughtExceptionHandler *previousHandler;
 static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReachabilityFlags flags, void *info) {
@@ -32,6 +60,13 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
 }
 
 #pragma mark - 初始化
++(Zhuge *)newInstance{
+    Zhuge *instance = [[[self class] alloc] init];
+    instance.config = [[ZhugeConfig alloc] init];
+    instance.eventTimeDic = [[NSMutableDictionary alloc] init];
+    return instance;
+}
+
 + (Zhuge *)sharedInstance {
     static Zhuge *sharedInstance = nil;
     static dispatch_once_t onceToken;
@@ -39,94 +74,121 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
         sharedInstance = [[[self class] alloc] init];
         sharedInstance.config = [[ZhugeConfig alloc] init];
         sharedInstance.eventTimeDic = [[NSMutableDictionary alloc]init];
-        sharedInstance.visualizationWebsocketUrl = @"wss://saas.zhugeio.com";
-        sharedInstance.getVisualizationDataUrl = @"https://saas.zhugeio.com";
     });
     return sharedInstance;
 }
 
++(void)enableIDFACollect{
+    idfaCollect = YES;
+}
++(BOOL)isIDFAEnable{
+    return idfaCollect;
+}
++(NSArray *)allInstance{
+    return [instanceDic allValues];
+}
++(NSArray *)durationOnPageInstance{
+    return durationInstance;
+}
++(NSArray *)exposeInstance{
+    return exposeInstance;
+}
++(NSArray *)autoTrackInstance{
+    return autoTrackInstance;
+}
++(NSArray *)visualInstance{
+    return visualInstance;
+}
++(void)setCustomGestureViews:(NSArray *)views{
+    customGestureViewArray = views;
+}
++(NSArray *)getCustomGestureViews{
+    return customGestureViewArray;
+}
++(Zhuge *)getInstanceForKey:(NSString *)appkey{
+    return [instanceDic objectForKey:appkey];
+}
++(void)openLog{
+    logEnable = YES;
+}
++ (BOOL)isLogEnable{
+    return logEnable;
+}
 - (ZhugeConfig *)config {
     return _config;
 }
 
--(void)enableIDFACollect{
-    self.config.idfaCollect = YES;
-}
-- (void)startWithAppKey:(NSString *)appKey andDid:(NSString *)did launchOptions:(NSDictionary *)launchOptions{
-    self.deviceId = did;
-    [self initWithAppKey:appKey launchOptions:launchOptions withDelegate:nil];
-}
-
-- (void)startWithAppKey:(nonnull NSString*)appKey {
-    [self initWithAppKey:appKey launchOptions:nil withDelegate:nil];
+- (void)startWithConfig:(ZhugeConfig *)config andDid:(NSString *)did launchOptions:(NSDictionary *)launchOptions{
+    if (!deviceId || deviceId.length == 0) {
+        deviceId = did;
+    }
+    [self initWithConfig:config launchOptions:launchOptions withDelegate:nil];
 }
 
-- (void)startWithAppKey:(NSString *)appKey launchOptions:(NSDictionary *)launchOptions {
-    [self initWithAppKey:appKey launchOptions:launchOptions withDelegate:nil];
+- (void)startWithConfig:(ZhugeConfig *)config {
+    [self initWithConfig:config launchOptions:nil withDelegate:nil];
+}
+
+- (void)startWithConfig:(ZhugeConfig *)config launchOptions:(NSDictionary *)launchOptions {
+    [self initWithConfig:config launchOptions:launchOptions withDelegate:nil];
 }
 
 // 需要DeepShare时，调用此 star 方法
-- (void)startWithAppKey:(NSString *)appKey launchOptions:(NSDictionary *)launchOptions delegate:(id)delegate {
-    [self initWithAppKey:appKey launchOptions:launchOptions withDelegate:delegate];
+- (void)startWithConfig:(ZhugeConfig *)config launchOptions:(NSDictionary *)launchOptions delegate:(id)delegate {
+    [self initWithConfig:config launchOptions:launchOptions withDelegate:delegate];
 }
 
-- (void)startWithAppKey:(NSString *)appKey andDid:(NSString *)did launchOptions:(NSDictionary *)launchOptions withDelegate:(id)delegate {
-    self.deviceId = did;
-    [self initWithAppKey:appKey launchOptions:launchOptions withDelegate:delegate];
+- (void)startWithConfig:(ZhugeConfig *)config andDid:(NSString *)did launchOptions:(NSDictionary *)launchOptions withDelegate:(id)delegate {
+    if (!deviceId || deviceId.length == 0) {
+        deviceId = did;
+    }
+    [self initWithConfig:config launchOptions:launchOptions withDelegate:delegate];
 }
 
-- (void)initWithAppKey:(NSString *)appKey launchOptions:(NSDictionary *)launchOptions withDelegate:(id)delegate{
+- (void)initWithConfig:(ZhugeConfig *)config launchOptions:(NSDictionary *)launchOptions withDelegate:(id)delegate{
     @try {
-        if (appKey == nil || [appKey length] == 0) {
+        if (self.isInitSDK) {
+            ZGLogError(@"已经初始化完成。");
+            return;
+        }
+        if (config.appKey == nil || [config.appKey length] == 0) {
             ZGLogError(@"appKey不能为空。");
             return;
         }
-        self.appKey = appKey;
+        self.config = config;
         self.flushBool = NO;
         self.userId = @"";
-        self.deviceToken = @"";
         self.sessionId = nil;
         self.net = @"";
         self.radio = @"";
         self.telephonyInfo = [[CTTelephonyNetworkInfo alloc] init];
         self.taskId = UIBackgroundTaskInvalid;
-        NSString *label = [NSString stringWithFormat:@"io.zhuge.%@.%p", appKey, self];
+        NSString *label = [NSString stringWithFormat:@"io.zhuge.%@.%p", config.appKey, self];
         self.serialQueue = dispatch_queue_create([label UTF8String], DISPATCH_QUEUE_SERIAL);
         self.eventsQueue = [[NSMutableArray alloc] init];
         self.archiveEventQueue = [[NSMutableArray alloc] init];
-        self.ignoredViewTypeList = [[NSMutableArray alloc] init];
+//        self.ignoredViewTypeList = [[NSMutableArray alloc] init];
         self.variants = [NSSet set];
         self.eventBindings = [NSSet set];
         self.cr = [self carrier];
         
-//        [[ZGSqliteManager shareManager] openDataBase];
-        
-        if (!self.apiURL || self.apiURL.length == 0) {
-            self.apiURL = ZG_BASE_API;
-            self.backupURL = ZG_BACKUP_API;
-        }
-        
-        if (!self.websocketUrl || self.websocketUrl.length == 0) {
-            self.websocketUrl = CODELESS_WEB_SOCKET_URL;
-            self.codelessEventsUrl = CODELESS_GET_EVENTS_URL;
-        }
-        
-        
-        if (self.config.zgSeeEnable) {
-            //初始化zhugesee变量
-            self.zhugeSeeNet = @"4";
-            self.zhugeSeeReal = 1;
-            //判断是否开启zgSee
-            [self zgSeeBool];
+
+        if (self.config.isEnableDurationOnPage) {
+            [self enabelDurationOnPage];
         }
         
         if (self.config.enableJavaScriptBridge) {
             [self swizzleWebViewMethod];
         }
-        
+        if (self.config.autoTrackEnable) {
+            [self enableAutoTrack];
+        }
+        if (self.config.isEnableExpTrack) {
+            [self enableExpTrack];
+        }
         // SDK配置
         if(self.config) {
-            ZGLogInfo(@"SDK appkey %@", self.appKey);
+            ZGLogInfo(@"SDK appkey %@", self.config.appKey);
             ZGLogInfo(@"SDK系统配置: %@", self.config);
         }
         if (self.config.debug) {
@@ -139,25 +201,26 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
             [self trackPush:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey] type:@"launch"];
         }
         
-        if (!self.deviceId) {
-            self.deviceId = [ZADeviceId getZADeviceId];
+        if (!deviceId) {
+            deviceId = [ZADeviceId getZADeviceId];
         }
         if (self.config.exceptionTrack) {
             previousHandler = NSGetUncaughtExceptionHandler();
             NSSetUncaughtExceptionHandler(&ZhugeUncaughtExceptionHandler);
         }
         
-        if (self.config.enableCodeless) {
-#if TARGET_IPHONE_SIMULATOR
-            [self connectToWebSocket];
-#else
-            self.shakeGesture = [[ShakeGesture alloc] init];
-            self.shakeGesture.delegate = self;
-            [self.shakeGesture startShakeGesture];
-#endif
-        }
+//        if (self.config.enableCodeless) {
+//#if TARGET_IPHONE_SIMULATOR
+//            [self connectToWebSocket];
+//#else
+//            self.shakeGesture = [[ShakeGesture alloc] init];
+//            self.shakeGesture.delegate = self;
+//            [self.shakeGesture startShakeGesture];
+//#endif
+//        }
         
         if(self.config.enableVisualization){
+            [visualInstance addObject:self];
             [self enableAutoTrack];
             static dispatch_once_t once;
             dispatch_once(&once, ^ {
@@ -175,7 +238,7 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
         }
         
         self.isInitSDK = YES;
-        
+        [instanceDic setObject:self forKey:self.config.appKey];
         if (!self.sessionId) {
             [self sessionStart];
         }
@@ -240,17 +303,17 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
                 ZGLogDebug(@"启用了SM4+SM2加密方式");
         // 生成 SM4 密钥。返回值：长度为 32 字节 Hex 编码格式字符串密钥
 //        NSString * key = [GMSm4Utils createSm4Key];    //类似:F51397DEC6ABD9EE0295F473F880B8A3
-        // SM4 加密数据
+//        // SM4 加密数据
 //        NSString *en = [GMSm4Utils ecbDefaultEncryptText:eventData key:key];
-        // SM2 公钥获取ASN1格式的
+//        // SM2 公钥获取ASN1格式的
 //        NSString * pub = self.config.uploadSM2Pubkey;
 //        if([pub containsString:@"-----BEGIN PUBLIC KEY-----"]){
 //            pub = [GMSm2Bio readPublicKeyFromPemString:self.config.uploadSM2Pubkey];
 //        }
-        // 对key进行SM2非对称加密
-//        NSString *sm2KeyIV = [GMSm2Utils encryptText:[NSString stringWithFormat:@"%@,%@",key, key] publicKey:pub];
-        // asn1解码上传
-//        sm2KeyIV = [GMSm2Utils asn1DecodeToC1C3C2:sm2KeyIV];
+//        // 对key进行SM2非对称加密
+//        NSString *sm2KeyIV = [ZGGMSm2Utils encryptText:[NSString stringWithFormat:@"%@,%@",key, key] publicKey:pub];
+//        // asn1解码上传
+//        sm2KeyIV = [ZGGMSm2Utils asn1DecodeToC1C3C2:sm2KeyIV];
         
         /*
             处理pem格式密钥
@@ -261,8 +324,8 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
         /*
             验证解密
             NSString * pri = @"00a3562aa22fee343b31ce90c0abc36cd7373bd231fbe754d0aeb02c471d48e7f2";
-            sm2KeyIV = [GMSm2Utils asn1EncodeWithC1C3C2:sm2KeyIV];
-            NSString * deSm2KeyIV = [GMSm2Utils decryptToText:sm2KeyIV privateKey:pri];
+            sm2KeyIV = [ZGGMSm2Utils asn1EncodeWithC1C3C2:sm2KeyIV];
+            NSString * deSm2KeyIV = [ZGGMSm2Utils decryptToText:sm2KeyIV privateKey:pri];
             NSString * deKey1 = [deSm2KeyIV componentsSeparatedByString:@","].firstObject;
             NSString * deEventData = [GMSm4Utils ecbDefaultDecryptText:en key:deKey1];
          */
@@ -291,7 +354,10 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
 }
 // 出现崩溃时的回调函数
 void ZhugeUncaughtExceptionHandler(NSException * exception){
-    [[Zhuge sharedInstance]trackException:exception];
+    NSArray *array = [instanceDic allValues];
+    for (Zhuge *sdk in array) {
+        [sdk trackException:exception];
+    }
 }
 
 
@@ -320,59 +386,118 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     }
 }
 
-- (void)setUploadURL:(NSString *)url andBackupUrl:(NSString *)backupUrl{
-    if (url && url.length>0) {
-        self.apiURL = url;
-        self.backupURL = backupUrl;
-    }else{
-        ZGLogError(@"传入的url不合法，请检查:%@",url);
-    }
-}
+//- (void)setUploadURL:(NSString *)url andBackupUrl:(NSString *)backupUrl{
+//    if (url && url.length>0) {
+//        self.apiURL = [ZGUtils parseUrl: url];
+//        self.backupURL = backupUrl;
+//    }else{
+//        ZGLogError(@"传入的url不合法，请检查:%@",url);
+//    }
+//}
 
 
 - (void)setSuperProperty:(NSDictionary *)info{
+    dispatch_async(self.serialQueue, ^{
+        if (!self.envInfo) {
+            self.envInfo = [[NSMutableDictionary alloc] init];
+        }
+        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:info];
+        self.envInfo[@"event"] = dic;
+    });
 
+}
+-(NSDictionary *)getSuperProperties{
+    if (!self.envInfo) {
+        return [NSDictionary dictionary];
+    }
+    NSMutableDictionary *event = [self mutableEventDictionaryCreatingIfNeeded:YES];
+    return event;
+
+}
+
+-(void)clearSuperProperty{
+    if (!self.envInfo) {
+        return;
+    }
+    dispatch_async(self.serialQueue, ^{
+        [self.envInfo removeObjectForKey:@"event"];
+    });
+}
+
+-(void)deleteSuperPropertyWithKey:(NSString *)key{
     if (!self.envInfo) {
         self.envInfo = [[NSMutableDictionary alloc] init];
+        return;
     }
-    self.envInfo[@"event"] = info;
+    dispatch_async(self.serialQueue, ^{
+        NSMutableDictionary *event = [self mutableEventDictionaryCreatingIfNeeded:NO];
+        [event removeObjectForKey:key];
+        self.envInfo[@"event"] = event;
+    });
+}
+-(void)addSuperProperty:(NSDictionary *)info{
+    if (!self.envInfo) {
+        self.envInfo = [[NSMutableDictionary alloc] init];
+        return;
+    }
+    if (![info isKindOfClass:[NSDictionary class]]) return;
+    dispatch_async(self.serialQueue, ^{
+        NSMutableDictionary *event = [self mutableEventDictionaryCreatingIfNeeded:YES];
+        [event addEntriesFromDictionary:info];
+        self.envInfo[@"event"] = event;
+    });
+}
+
+-(void)addSuperPropertyWithKey:(NSString *)key value:(NSString *)value{
+    if (!value) {
+        [self deleteSuperPropertyWithKey:key];
+        return;
+    }
+    dispatch_async(self.serialQueue, ^{
+       if (!value) {
+           NSMutableDictionary *event = [self mutableEventDictionaryCreatingIfNeeded:NO];
+           [event removeObjectForKey:key];
+           self.envInfo[@"event"] = event;
+       } else {
+           NSMutableDictionary *event = [self mutableEventDictionaryCreatingIfNeeded:YES];
+           [event setObject:value forKey:key];
+           self.envInfo[@"event"] = event;
+       }
+    });
 }
 
 - (void)enabelDurationOnPage {
-    
-    self.viewDidAppearIsHook  = self.viewDidAppearIsHook ? YES : NO;
-    self.viewDidDisappearIsHook = self.viewDidDisappearIsHook ? YES : NO;
-    
+    if (![durationInstance containsObject:self]) {
+        [durationInstance addObject:self];
+    }
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         //$AppViewScreen
-        if (!self.viewDidAppearIsHook) {
+        if (!viewDidAppearIsHook) {
             [UIViewController za_swizzleMethod:@selector(viewDidAppear:) withMethod:@selector(za_autotrack_viewDidAppear:) error:NULL];
-            self.viewDidAppearIsHook = YES;
+            viewDidAppearIsHook = YES;
         }
         
-        if (!self.viewDidDisappearIsHook) {
+        if (!viewDidDisappearIsHook) {
             [UIViewController za_swizzleMethod:@selector(viewDidDisappear:) withMethod:@selector(za_autotrack_viewDidDisappear:) error:NULL];
-            self.viewDidDisappearIsHook = YES;
+            viewDidDisappearIsHook = YES;
         }
         
     });
-    
-    [self.config setIsEnableDurationOnPage:YES];
 }
 
 - (void)enableAutoTrack{
-    
-    self.viewDidAppearIsHook  = self.viewDidAppearIsHook ? YES : NO;
-    
+    if (![autoTrackInstance containsObject:self]) {
+        [autoTrackInstance addObject:self];
+    }
     static dispatch_once_t once;
     dispatch_once(&once, ^ {
         NSError *error = NULL;
         
         //$AppViewScreen
-        if (!self.viewDidAppearIsHook) {
+        if (!viewDidAppearIsHook) {
             [UIViewController za_swizzleMethod:@selector(viewDidAppear:) withMethod:@selector(za_autotrack_viewDidAppear:) error:NULL];
-            self.viewDidAppearIsHook = YES;
+            viewDidAppearIsHook = YES;
         }
         
         
@@ -415,36 +540,18 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     [self.config setAutoTrackEnable:YES];
 }
 
-- (void)enableZGSee {
-    
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        self.viewDidAppearIsHook  = self.viewDidAppearIsHook ? YES : NO;
-        // $ZGSee
-        [UIApplication za_swizzleMethod:@selector(sendEvent:) withMethod:@selector(za_sendEvent:) error:NULL];
-
-        if (!self.viewDidAppearIsHook) {
-            [UIViewController za_swizzleClassMethod:@selector(viewDidAppear:) withClassMethod:@selector(za_autotrack_viewDidAppear:) error:NULL];
-            self.viewDidAppearIsHook = YES;
-        }
-        
-    });
-    
-    [self.config setZgSeeEnable:YES];
-}
-
 - (void)enableExpTrack {
-    
-    self.viewDidAppearIsHook  = self.viewDidAppearIsHook ? YES : NO;
-    
+    if (![exposeInstance containsObject:self]) {
+        [exposeInstance addObject:self];
+    }
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         
-        if (!self.viewDidAppearIsHook) {
+        if (!viewDidAppearIsHook) {
             
             [UIViewController za_swizzleMethod:@selector(viewDidAppear:) withMethod:@selector(za_autotrack_viewDidAppear:) error:NULL];
 
-            self.viewDidAppearIsHook = YES;
+            viewDidAppearIsHook = YES;
         }
         
         [UIView za_swizzleMethod:@selector(layoutSubviews) withMethod:@selector(za_layoutSubviews) error:NULL];
@@ -491,12 +598,12 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     self.config.encryptType = cryptoType;
 }
 
-- (NSString *)getDid {
-    if (!self.deviceId) {
-        self.deviceId = [ZADeviceId getZADeviceId];
++ (NSString *)getDid {
+    if (!deviceId) {
+        deviceId = [ZADeviceId getZADeviceId];
     }
     
-    return self.deviceId;
+    return deviceId;
 }
 - (NSString *)getSid{
     
@@ -567,24 +674,20 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         if (!self.sessionId) {
             [self sessionStart];
         }
-
-        if ([self.config isSeeEnable]) {
-            [self zgSeeStart];
-        }
         [self checkAdService];
         [self uploadDeviceInfo];
-//        [self startFlushTimer];
-        if (self.config.enableCodeless) {
-            [self checkForDecideResponseWithCompletion:^( NSSet *eventBindings) {
-                
-                dispatch_sync(dispatch_get_main_queue(), ^(){
-                    for (ZGEventBinding *binding in eventBindings) {
-                        [binding execute];
-                    }
-                });
-                
-            } useCathe:NO];
-        }
+        [self startFlushTimer];
+//        if (self.config.enableCodeless) {
+//            [self checkForDecideResponseWithCompletion:^( NSSet *eventBindings) {
+//                
+//                dispatch_sync(dispatch_get_main_queue(), ^(){
+//                    for (ZGEventBinding *binding in eventBindings) {
+//                        [binding execute];
+//                    }
+//                });
+//                
+//            } useCathe:NO];
+//        }
         
     }
     @catch (NSException *exception) {
@@ -596,7 +699,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     @try {
         self.isForeground = NO;
         [self sessionEnd];
-//        [self stopFlushTimer];
+        [self stopFlushTimer];
     }
     @catch (NSException *exception) {
         ZGLogDebug(@"applicationWillResignActive exception %@",exception);
@@ -613,7 +716,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         if (self.sessionId) {
             [self sessionEnd];
         }
-        [self flush];
+        [self forceFlush];
         //进入到后台以后再去上传数据  sid已经为空
 //        [self zgSeeUpLoadNumData:50 cacheBool:NO];
 
@@ -695,7 +798,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 
 #pragma mark -广告归因
 -(void) checkAdService{
-    if(!self.config.idfaCollect){
+    if(!idfaCollect){
         return;
     }
     if(self.lastUploadAdInfoAppVersion && [self.config.appVersion isEqualToString:self.lastUploadAdInfoAppVersion]){
@@ -795,7 +898,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         if (!self.sessionId) {
             //毫秒偏移量
             self.sessionCount = 0;
-            self.seeCount = 0;
             self.sessionId = [NSNumber numberWithLongLong:[[NSDate date] timeIntervalSince1970] *1000];
             self.lastSessionId = self.sessionId;
             [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",self.lastSessionId] forKey:ZG_LAST_SESSIONID];
@@ -812,7 +914,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
                 pr[@"$sid"] = self.sessionId;
                 pr[@"$vn"] = self.config.appVersion;
                 pr[@"$sc"]= @0;
-                if(self.config.idfaCollect){
+                if(idfaCollect){
                     NSString *idfaString = [ZGIDFAUtil idfa];
                     if(!idfaString){
                         idfaString = @"";
@@ -886,19 +988,12 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     if (!self.sessionId) {
         [self sessionStart];
     }
-    NSDictionary *eventInfo = nil;
-    if (self.envInfo) {
-        NSDictionary  *eventObj = [self.envInfo objectForKey:@"event"];
-        if (eventObj) {
-            eventInfo = [NSDictionary dictionaryWithDictionary:eventObj];
-        }
-    }
     dispatch_async(self.serialQueue, ^{
         @try {
             NSMutableDictionary *data = [NSMutableDictionary dictionaryWithCapacity:2];
             NSMutableDictionary *pr = [self eventData];
-            if (eventInfo) {
-                NSMutableDictionary *data = [self addSymbloToDic:eventInfo];
+            if (self.envInfo) {
+                NSMutableDictionary *data = [self addSymbloToDic:[self.envInfo objectForKey:@"event"]];
                 [pr addEntriesFromDictionary:data];
             }
             
@@ -955,7 +1050,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
             [self.eventTimeDic removeObjectForKey:eventName];
             NSNumber *end = @([[NSDate date] timeIntervalSince1970]);
             ZGLogDebug(@"endTrack %@ at time : %@",eventName,end);
-            NSMutableDictionary *dic = properties?[self addSymbloToDic:properties]:[NSMutableDictionary dictionary];
+            NSMutableDictionary *dic = [NSMutableDictionary dictionary];
             NSNumber *dru = [NSNumber numberWithUnsignedLongLong:(end.doubleValue - start.doubleValue)*1000];
             dic[@"$dru"] = dru;
             dic[@"_$duration$_"] = dru;
@@ -969,6 +1064,10 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
                     NSMutableDictionary *data = [self addSymbloToDic:info];
                     [dic addEntriesFromDictionary:data];
                 }
+            }
+            if ([properties isKindOfClass: [NSDictionary class]]) {
+                NSDictionary *copy = [self addSymbloToDic:properties];
+                [dic addEntriesFromDictionary:copy];
             }
             NSMutableDictionary *e = [NSMutableDictionary dictionaryWithCapacity:2];
             [e setObject:dic forKey:@"pr"];
@@ -1018,15 +1117,15 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
             [self sessionStart];
         }
         NSMutableDictionary *pr = [self eventData];
-        if (properties) {
-            [pr addEntriesFromDictionary:[self conversionRevenuePropertiesKey:properties]];
-        }
         if (self.envInfo) {
             NSDictionary *info = [self.envInfo objectForKey:@"event"];
             if (info) {
                 NSMutableDictionary *dic = [self addSymbloToDic:info];
                 [pr addEntriesFromDictionary:dic];
             }
+        }
+        if (properties) {
+            [pr addEntriesFromDictionary:[self conversionRevenuePropertiesKey:properties]];
         }
         pr[@"$eid"] = event;
         int32_t value =  OSAtomicIncrement32(&_sessionCount);
@@ -1063,15 +1162,15 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
             [self sessionStart];
         }
         NSMutableDictionary *pr = [self eventData];
-        if (properties) {
-            [pr addEntriesFromDictionary:[self addSymbloToDic:properties]];
-        }
         if (self.envInfo) {
             NSDictionary *info = [self.envInfo objectForKey:@"event"];
             if (info) {
                 NSMutableDictionary *dic = [self addSymbloToDic:info];
                 [pr addEntriesFromDictionary:dic];
             }
+        }
+        if (properties) {
+            [pr addEntriesFromDictionary:[self addSymbloToDic:properties]];
         }
         pr[@"$eid"] = event;
         int32_t value =  OSAtomicIncrement32(&_sessionCount);
@@ -1151,7 +1250,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         pr[@"$mkr"] = @"Apple";
         // 系统
         pr[@"$os"] = @"iOS";
-        pr[@"$zs"] = self.localZhugeSeeState?@"1":@"";
         // 是否破解
         pr[@"$private"] =[ZGDeviceInfo isPirated] ? @1 : @0;
         //分辨率
@@ -1177,7 +1275,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         [self sessionStart];
     }
     
-    NSMutableDictionary *dic = properties?[self addSymbloToDic:properties]:[NSMutableDictionary dictionary];
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     int32_t value =  OSAtomicIncrement32(&self->_sessionCount);
     dic[@"$sc"] = [NSNumber numberWithInt:value];
     [dic addEntriesFromDictionary:[self eventData]];
@@ -1189,260 +1287,16 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
             [dic addEntriesFromDictionary:data];
         }
     }
+    if ([properties isKindOfClass: [NSDictionary class]]) {
+        NSDictionary *copy = [self addSymbloToDic:properties];
+        [dic addEntriesFromDictionary:copy];
+    }
     NSMutableDictionary *e = [NSMutableDictionary dictionaryWithCapacity:2];
     [e setObject:dic forKey:@"pr"];
     [e setObject:@"abp" forKey:@"dt"];
     [self enqueueEvent:e];
 }
 
-
-#pragma mark --- 采集开始会话数据
-- (void)zgSeeStart {
-    //保存到本地  --  当然你可以在下次启动的时候，上传这个log
-    NSMutableArray * dataArray = [NSMutableArray array];
-    NSMutableDictionary * prDic = [NSMutableDictionary dictionary];
-    if (self.userId.length > 0) {
-        prDic[@"$cuid"] = self.userId;
-    }
-    self.screenShotTime = nil;
-    prDic[@"$ct"] = [NSNumber numberWithUnsignedInteger:[[NSDate date] timeIntervalSince1970] *1000];
-    prDic[@"$sid"] = [NSString stringWithFormat:@"%@",self.sessionId];
-    prDic[@"$net"] = self.net;
-    prDic[@"$os"] = @"iOS";
-    prDic[@"$ov"] = [[UIDevice currentDevice] systemVersion];;
-//    prDic[@"$dv"] = [self getSysInfoByName:"hw.machine"];
-    prDic[@"$dv"] = [ZGDeviceInfo getDeviceModel];
-    prDic[@"$br"] = @"Apple";
-    prDic[@"$av"] = self.config.appVersion;
-    prDic[@"Ssc"] = @0;
-    OSAtomicIncrement32(&self->_seeCount);
-    prDic[@"$cr"] = self.cr;
-    
-    NSMutableDictionary * sqlDic = [NSMutableDictionary dictionary];
-    NSMutableDictionary * dataDic = [NSMutableDictionary dictionary];
-    dataDic[@"pr"] = prDic;
-    dataDic[@"dt"] = @"ss";
-//    dataDic[@"key"] = @"";
-    
-    //数据库存储
-    sqlDic[@"sid"] = self.sessionId;
-    sqlDic[@"data"] = [ZGUtils dictionaryToJson:dataDic];
-    
-    
-    //实时上传操作 把数据放置Array
-    [dataArray addObject:dataDic];
-    NSMutableDictionary *aryDic = [self wrapEvents:dataArray];
-    //对整体数据进行压缩编码
-    NSString * str = [[[[self encodeAPIData:aryDic] dataUsingEncoding:NSUTF8StringEncoding] zgZlibDeflate] zgBase64EncodedString];
-    NSString *dicStr = [NSString stringWithFormat: @"event=%@",str];
-    
-    // 判断sid是否为空
-    if (self.sessionId != nil) {
-        //判断是否打开开关
-        if (self.zhugeSeeReal == 0 && ([self.zhugeSeeNet isEqualToString:self.net] || [self.zhugeSeeNet isEqualToString:@"1"])) {
-            // 判断是否需要实时上传
-            [ZGHttpHelper post:[ZGUtils getZGSeeUploadUrl:self.apiURL] RequestStr:dicStr FinishBlock:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                 NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
-                 if (httpResponse.statusCode == 200) {
-                     ZGLogDebug(@"zgSeeEnd --- 数据上传成功");
-                 } else {
-                     ZGLogDebug(@"zgSeeEnd --- 数据上传失败  %@",connectionError);
-                 }
-             }];
-        } else {
-//            NSInteger dicNumber = 999;
-//            BOOL addBool = [[ZGSqliteManager shareManager] addZGSeeCoreDataDic:sqlDic dicNumber:dicNumber];
-//            if (addBool == YES) {
-//                ZGLogDebug(@"zgSeeEnd --- 添加至数据库成功");
-//            } else {
-//                ZGLogDebug(@"zgSeeEnd --- 添加至数据库失败");
-//            }
-        }
-    }
-}
-#pragma mark --- 上传zhugesee数据
-- (void)zgSeeBool {
-    //是否开启ZGSee
-    NSString *url = [ZGUtils getZGSeePolicyUrl:self.apiURL appkey:self.appKey];
-    __block NSDictionary * dic = nil;
-    __block NSNumber *policy = nil;
-    __block NSNumber * real = nil;
-    __weak typeof(self) weakSelf = self;
-    [ZGHttpHelper sendRequestForUrl:url FinishBlock:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        ZGLogDebug(@"请求 ZGSee 服务器 == %@ StatusCode == %ld",url,httpResponse.statusCode);
-        if (httpResponse.statusCode == 200 && data){
-            dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-            if (dic == nil) {
-                NSLog(@"check appsee error. Data will be lose.");
-                return;
-            }
-            policy = [dic objectForKey:@"policy"];
-            if (policy == nil) {
-                strongSelf.config.serverPolicy = -1;
-            }else{
-                strongSelf.config.serverPolicy = [policy integerValue];
-            }
-            real = [dic objectForKey:@"real"];
-            strongSelf.zhugeSeeReal = [real integerValue];
-            strongSelf.zhugeSeeNet = [NSString stringWithFormat:@"%@", [dic objectForKey:@"net"]];
-            strongSelf.ZGPublicKey = [dic objectForKey:@"rsa-public"];
-            strongSelf.ZGPublicMD5 = [dic objectForKey:@"rsa-md5"];
-        } else {
-            ZGLogDebug(@"zgSee --- 出现异常 %@",connectionError);
-        }
-    }];
-}
-- (void)zgSeeUpLoadNumData:(NSInteger)numData cacheBool:(BOOL)cacheBool {
-    //如果打开开关 则先把库存数据上传
-    NSMutableArray * ary = [[ZGSqliteManager shareManager] uploaddataStoredNumData:numData];
-    //如果CoreData没有数据 则结束上传缓存数据
-    if (ary.count < 1) {
-        return;
-    }
-    
-    NSMutableArray * dataArray = [NSMutableArray array];
-    NSString * sid = @"";
-    for (NSMutableDictionary * dic in ary) {
-        NSMutableDictionary * data = [NSMutableDictionary dictionary];
-        data = [self dictionaryWithJsonString:dic[@"data"]];
-        sid = dic[@"sid"];
-        [dataArray addObject:data];
-    }
-    
-    if (![[NSString stringWithFormat:@"%@",sid] isEqualToString:[NSString stringWithFormat:@"%@",self.sessionId]]) {
-        NSMutableDictionary * dic = [NSMutableDictionary dictionary];
-        dic = [self wrapEvents:dataArray];
-        //对整体数据进行压缩编码
-        NSString * dicStr = [[[[self encodeAPIData:dic] dataUsingEncoding:NSUTF8StringEncoding] zgZlibDeflate] zgBase64EncodedString];
-        if ([self.zhugeSeeNet isEqualToString:self.net] || [self.zhugeSeeNet isEqualToString:@"1"]) {
-            [ZGHttpHelper post:[ZGUtils getZGSeeUploadUrl:self.apiURL] RequestStr:dicStr FinishBlock:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                 NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
-                 if (httpResponse.statusCode == 200) {
-                     ZGLogDebug(@"ZGSee --- 数据上传成功");
-                     [[ZGSqliteManager shareManager] deletezgSeeCoreDataSid:sid];
-//                     [self zgSeeUpLoadNumData:numData cacheBool:cacheBool];
-                     
-                 } else {
-                     ZGLogDebug(@"ZGSee --- 数据上传失败  %@",connectionError);
-                 }
-             }];
-        }
-    }
-}
-
-#pragma mark 诸葛see 数据采集
-- (void)setZhuGeSeeEvent:(NSMutableDictionary *)seeData {
-    if (!self.sessionId) {
-        return;
-    }
-    if (!self.localZhugeSeeState) {
-        self.localZhugeSeeState = YES;
-        [self trackDeviceInfo];
-        dispatch_async(self.serialQueue, ^{
-            [self archiveSeeState];
-        });
-    }
-    @try {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            
-            //子线程中开始网络请求数据
-            NSMutableArray * dataArray = [NSMutableArray array];
-            //更新数据模型
-            NSMutableDictionary * prDic = seeData;
-            
-            prDic[@"$ival"] = @([self getCurrentIval]);
-            if (self.userId.length > 0) {
-                prDic[@"$cuid"] = self.userId;
-            }
-            prDic[@"$ct"] = [NSNumber numberWithUnsignedInteger:[[NSDate date] timeIntervalSince1970] *1000];
-            prDic[@"$sid"] = self.sessionId;
-            prDic[@"$net"] = self.net;
-            prDic[@"$os"] = @"iOS";
-            prDic[@"$sc"] =[NSNumber numberWithInt:self.seeCount];
-            OSAtomicIncrement32(&self->_seeCount);
-            prDic[@"$ov"] = [[UIDevice currentDevice] systemVersion];;
-            prDic[@"$av"] = self.config.appVersion;
-            prDic[@"$cr"]  = self.cr;
-//            prDic[@"$dv"] = [self getSysInfoByName:"hw.machine"];
-            prDic[@"$dv"] = [ZGDeviceInfo getDeviceModel];
-            prDic[@"$br"] = @"Apple";
-            prDic[@"$dru"] = @([[ZGSharedDur shareInstance] durInterval]);
-            NSString *pixD =[seeData[@"$pix"] zgBase64EncodedString];
-            prDic[@"$pix"] = pixD;
-
-            
-            NSData *prData =  [NSJSONSerialization dataWithJSONObject:prDic options:0 error:nil];
-
-            NSString * aesKeyData = [ZGUtils random128BitAESKey];
-            //生成秘钥
-            NSString * aesKey = [ZGUtil encryptString:aesKeyData publicKey:self.ZGPublicKey];
-            //压缩并且加密数据
-            NSString *event = [ZGUtil AES128Encrypt:[prData zgZlibDeflate] sesKey:aesKeyData];
-            
-            //整理数据
-            NSMutableDictionary * dataDic = [NSMutableDictionary dictionary];
-            dataDic[@"key"] = aesKey;
-            dataDic[@"dt"] = @"zgsee";
-            dataDic[@"rsa-md5"] = self.ZGPublicMD5;
-            dataDic[@"pr"] = event;
-            
-            //存储数据库
-            NSMutableDictionary * sqlDic = [NSMutableDictionary dictionary];
-            sqlDic[@"sid"] = self.sessionId;
-            sqlDic[@"data"] = [ZGUtils dictionaryToJson:dataDic];
-            
-            
-            [dataArray addObject:dataDic];
-            NSMutableDictionary *wrappedDic =  [self wrapEvents:dataArray];
-            NSData *wrappedData =  [NSJSONSerialization dataWithJSONObject:wrappedDic options:0 error:nil];
-            NSString * str = [[wrappedData zgZlibDeflate]zgBase64EncodedString];
-
-            //对整体数据进行压缩编码
-            NSString *dicStr = [NSString stringWithFormat: @"event=%@",str];
-
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                // 判断sid是否为空
-                if (self.sessionId != nil) {
-                    //判断是否打开开关
-                    if (self.zhugeSeeReal == 0 && ([self.zhugeSeeNet isEqualToString:self.net] || [self.zhugeSeeNet isEqualToString:@"1"])) {
-                        // 判断是否需要实时上传
-                        [ZGHttpHelper post:[ZGUtils getZGSeeUploadUrl:self.apiURL] RequestStr:dicStr FinishBlock:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
-                             if (httpResponse.statusCode == 200) {
-                                 ZGLogDebug(@"ZGSee --- 数据上传成功");
-                             } else {
-                                 ZGLogDebug(@"ZGSee --- 数据上传失败  %@",connectionError);
-                             }
-                         }];
-                    } else {
-//                        NSInteger dicNumber = 999;
-//
-//                        BOOL addBool = [[ZGSqliteManager shareManager] addZGSeeCoreDataDic:sqlDic dicNumber:dicNumber];
-//                        if (addBool == YES) {
-//                            ZGLogDebug(@"zgSee --- 添加至数据库成功");
-//                        } else {
-//                            ZGLogDebug(@"zgSee --- 添加至数据库失败");
-//                        }
-                    }
-                }
-            });
-        });
-    }
-    @catch (NSException *exception) {
-        ZGLogDebug(@"trackDeviceInfo exception, %@",exception);
-    }
-    
-}
-- (CGFloat)getCurrentIval{
-    if (!self.screenShotTime) {
-        self.screenShotTime = [NSDate date];
-        return 0;
-    }
-    CGFloat ival = [[NSDate date] timeIntervalSinceDate:self.screenShotTime];
-    return ival;
-}
 
 #pragma mark - 推送信息
 // 上报推送已读
@@ -1515,14 +1369,17 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
  // 上传之前包装数据
 - (NSMutableDictionary *)wrapEvents:(NSArray *)events{
     NSMutableDictionary *batch = [NSMutableDictionary dictionary];
-    batch[@"ak"]    = self.appKey;
+    batch[@"ak"]    = self.config.appKey;
+    if (self.config.businessKey.length > 0) {
+        batch[@"business"] = self.config.businessKey;
+    }
     batch[@"debug"] = self.config.debug?@1:@0;
     batch[@"sln"]   = @"itn";
     batch[@"owner"] = @"zg";
     batch[@"pl"]    = @"ios";
     batch[@"sdk"]   = @"zg-ios";
     batch[@"sdkv"]  = self.config.sdkVersion;
-    NSDictionary *dic = @{@"did":[self getDid]};
+    NSDictionary *dic = @{@"did":[Zhuge getDid]};
     batch[@"usr"]   = dic;
     batch[@"ut"]    = [ZGUtils currentDate];
     //取毫秒偏移量
@@ -1533,16 +1390,16 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 #pragma mark - 编码&解码
 - (NSMutableDictionary *)addSymbloToDic:(NSDictionary *)dic{
     if (!dic) {
-        return [NSMutableDictionary dictionary];
+        return  [NSMutableDictionary dictionary];
     }
     NSMutableDictionary *copy = [NSMutableDictionary dictionaryWithCapacity:[dic count]];
     for (NSString *key in dic) {
         id value = dic[key];
-        if ([key containsString:@"$"]) {
-            [copy setObject:value forKey:key];
+        if ([key hasPrefix:@"$"] || [key hasPrefix:@"_"]) {
+            [copy setValue:value forKey:key];
         } else {
             NSString *newKey = [NSString stringWithFormat:@"_%@",key];
-            [copy setObject:value forKey:newKey];
+            [copy setValue:value forKey:newKey];
         }
         
     }
@@ -1644,7 +1501,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         if (self.config.sendInterval > 0) {
             self.timer = [NSTimer scheduledTimerWithTimeInterval:self.config.sendInterval
                                                           target:self
-                                                        selector:@selector(flush)
+                                                        selector:@selector(forceFlush)
                                                         userInfo:nil
                                                          repeats:YES];
             
@@ -1677,7 +1534,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 }
 
 - (void)syncEnqueueEvent:(NSMutableDictionary *)event {
-    ZGLogDebug(@"产生事件: %@", event);
+    ZGLogDebug(@"%@ -产生事件: %@",self.config.appKey, event);
     
     if (self.flushBool == YES) {
         [self.eventsQueue addObject:event];
@@ -1696,11 +1553,18 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 }
 
 - (void)flush {
+    if (self.eventsQueue.count < self.config.limitCount) {
+        return;
+    }
     dispatch_async(self.serialQueue, ^{
         [self flushQueue: self->_eventsQueue];
     });
 }
-
+- (void)forceFlush {
+    dispatch_async(self.serialQueue, ^{
+        [self flushQueue: self->_eventsQueue];
+    });
+}
 - (void)flushQueue:(NSMutableArray *)queue {
     @try {
         while ([queue count] > 0) {
@@ -1709,7 +1573,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
                 return;
             }
             
-            NSUInteger sendBatchSize = ([queue count] > 50) ? 50 : [queue count];
+            NSUInteger sendBatchSize = ([queue count] > 25) ? 25 : [queue count];
             if (self.sendCount + sendBatchSize >= self.config.sendMaxSizePerDay) {
                 sendBatchSize = self.config.sendMaxSizePerDay - self.sendCount;
             }
@@ -1748,7 +1612,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
                                 
             }else if (self.config.enableEncrypt && self.config.encryptType == 2){
                 //        国密算法对应关系：AES --> SM4，RSA --> SM2
-                        ZGLogDebug(@"启用了SM4+SM2加密方式");
+                ZGLogDebug(@"启用国密 , 但是sdk未支持。请更换国密版本sdk");
                 // 生成 SM4 密钥。返回值：长度为 32 字节 Hex 编码格式字符串密钥
 //                NSString * key = [GMSm4Utils createSm4Key];    //类似:F51397DEC6ABD9EE0295F473F880B8A3
 //                // SM4 加密数据
@@ -1761,8 +1625,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 //                // 对key进行SM2非对称加密
 //                NSString *sm2KeyIV = [GMSm2Utils encryptText:[NSString stringWithFormat:@"%@,%@",key, key] publicKey:pub];
 //                // asn1解码上传
-//                sm2KeyIV = [GMSm2Utils asn1DecodeToC1C3C2:sm2KeyIV];
-                
+//                sm2KeyIV = [GMSm2Utils asn1DecodeToC1C3C2:sm2KeyIV];                
                 /*
                     处理pem格式密钥
                     NSString * pri = @"-----BEGIN PRIVATE KEY-----\nMIGTAgEAMBMGByqGSM49AgEGCCqBHM9VAYItBHkwdwIBAQQgzZEKbKY0/AOXrNdVhL9Hge2FO9DnXfOHCjx2LqRKqO+gCgYIKoEcz1UBgi2hRANCAASEJNjsoXh31/P1edLNlBrmGiy99ImcgMtkiGjlWSNT1czMjVQxI5X0gvzcm2iunFzgFRmse2s6cKdUM9sxm3BF\n-----END PRIVATE KEY-----";//  @"A0F8FE45F006F3CE258DC93E27351768DDA8D33C073CD7D7CC82F8A2ED7F20D9";
@@ -1772,8 +1635,8 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
                 /*
                     验证解密
                     NSString * pri = @"00a3562aa22fee343b31ce90c0abc36cd7373bd231fbe754d0aeb02c471d48e7f2";
-                    sm2KeyIV = [GMSm2Utils asn1EncodeWithC1C3C2:sm2KeyIV];
-                    NSString * deSm2KeyIV = [GMSm2Utils decryptToText:sm2KeyIV privateKey:pri];
+                    sm2KeyIV = [ZGGMSm2Utils asn1EncodeWithC1C3C2:sm2KeyIV];
+                    NSString * deSm2KeyIV = [ZGGMSm2Utils decryptToText:sm2KeyIV privateKey:pri];
                     NSString * deKey1 = [deSm2KeyIV componentsSeparatedByString:@","].firstObject;
                     NSString * deEventData = [GMSm4Utils ecbDefaultDecryptText:en key:deKey1];
                  */
@@ -1816,12 +1679,14 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 - (BOOL)request:(NSString *)endpoint WithData:(NSString *)requestData andError:(NSError *)error {
     __block BOOL success = NO;
     __block int  retry = 0;
+    NSString *backupUrl = [self.config getUploadBackupUrl];
+    NSString *uploadUrl = [self.config getUploadUrl];
     while (!success && retry < 3) {
         NSURL *URL = nil;
-        if (retry > 0 && self.backupURL) {
-            URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@",self.backupURL]];
+        if (retry > 0 && backupUrl) {
+            URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@",backupUrl]];
         }else{
-            URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@",self.apiURL]];
+            URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@",uploadUrl]];
         }
         ZGLogDebug(@"api request url = %@ , retry = %d",URL,retry);
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
@@ -1879,7 +1744,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 #pragma  mark - 持久化
 // 文件根路径
 - (NSString *)filePathForData:(NSString *)data {
-    NSString *filename = [NSString stringWithFormat:@"zhuge-%@-%@.plist", self.appKey, data];
+    NSString *filename = [NSString stringWithFormat:@"zhuge-%@-%@.plist", self.config.appKey, data];
     return [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject]
             stringByAppendingPathComponent:filename];
 }
@@ -1894,10 +1759,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 // 属性路径
 - (NSString *)propertiesFilePath {
     return [self filePathForData:@"properties"];
-}
-// 属性路径
-- (NSString *)seeStateFilePath {
-    return [self filePathForData:@"see-state"];
 }
 
 // 可视化对比路径
@@ -1939,7 +1800,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     NSString *filePath = [self propertiesFilePath];
     NSMutableDictionary *p = [NSMutableDictionary dictionary];
     [p setValue:self.userId forKey:@"userId"];
-    [p setValue:self.deviceId forKey:@"deviceId"];
+    [p setValue:deviceId forKey:@"deviceId"];
     [p setValue:self.sessionId forKey:@"sessionId"];
     if(self.lastUploadAdInfoAppVersion){
         [p setValue:self.lastUploadAdInfoAppVersion forKey:@"lastUploadAdAppVersion"];
@@ -1952,16 +1813,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     ZGLogDebug(@"保存属性到 %@: %@",  filePath, p);
     if (![NSKeyedArchiver archiveRootObject:p toFile:filePath]) {
         ZGLogDebug(@"属性保存失败");
-    }
-}
-- (void)archiveSeeState{
-    @try{
-        NSString *filePath = [self seeStateFilePath];
-        if (![NSKeyedArchiver archiveRootObject:@"YES" toFile:filePath]) {
-            ZGLogDebug(@"zhuge see state保存失败");
-        }
-    }@catch (NSException *e){
-        ZGLogDebug(@"保存see state失败.%@",e);
     }
 }
 - (void)archiveEnvironmentInfo{
@@ -1980,7 +1831,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     @try {
         [self unarchiveEvents];
         [self unarchiveProperties];
-        [self unarchiveSeeState];
         [self unarchiveEnvironmentInfo];
         [self unarchiveVisualization];
     }
@@ -2028,8 +1878,8 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     NSDictionary *properties = (NSDictionary *)[self unarchiveFromFile:[self propertiesFilePath] deleteFile:NO];
     if (properties) {
         self.userId = properties[@"userId"] ? properties[@"userId"] : @"";
-        if (!self.deviceId) {
-            self.deviceId = properties[@"deviceId"] ? properties[@"deviceId"] : [ZADeviceId getZADeviceId];
+        if (!deviceId) {
+            deviceId = properties[@"deviceId"] ? properties[@"deviceId"] : [ZADeviceId getZADeviceId];
         }
         self.lastUploadAdInfoAppVersion = properties[@"lastUploadAdAppVersion"] ? properties[@"lastUploadAdAppVersion"]:@"";
 
@@ -2041,34 +1891,42 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         self.sendCount = properties[sendCountKey] ? [properties[sendCountKey] intValue] : 0;
     }
 }
-- (void)unarchiveSeeState{
-    NSString *seeState = (NSString *)[self unarchiveFromFile:[self seeStateFilePath] deleteFile:NO];
-    if (seeState) {
-        self.localZhugeSeeState = YES;
-    }
-}
 
 - (void)unarchiveVisualization{
     NSArray * dataArr = (NSArray *)[self unarchiveFromFile:[self visualizationFilePath] deleteFile:NO];
-    [ZGVisualizationManager shareCustomerManger].localCompareArr = dataArr;
+    if (dataArr && _config.enableVisualization) {
+        [[ZGVisualizationManager shareCustomerManger].compareDic setObject:dataArr forKey:self.config.appKey];
+    }
 }
 
 #pragma mark - RNAutoTrack
-- (void)ignoreViewType:(Class)aClass {
-    if(!aClass){
-        return;
-    }
-    [self.ignoredViewTypeList addObject:aClass];
-}
-- (BOOL)isViewTypeIgnored:(Class)aClass {
-    for (Class obj in self.ignoredViewTypeList) {
-        if ([aClass isSubclassOfClass:obj]) {
-            return YES;
-        }
-    }
-    return NO;
-}
+//- (void)ignoreViewType:(Class)aClass {
+//    [self.ignoredViewTypeList addObject:aClass];
+//}
+//- (BOOL)isViewTypeIgnored:(Class)aClass {
+//    for (Class obj in self.ignoredViewTypeList) {
+//        if ([aClass isSubclassOfClass:obj]) {
+//            return YES;
+//        }
+//    }
+//    return NO;
+//}
 
+- (NSMutableDictionary *)mutableEventDictionaryCreatingIfNeeded:(BOOL)createIfNeeded {
+    if (!self.envInfo) {
+        self.envInfo = [NSMutableDictionary dictionary];
+    }
+    id existing = self.envInfo[@"event"];
+    if ([existing isKindOfClass:[NSMutableDictionary class]]) {
+        return existing;
+    } else if ([existing isKindOfClass:[NSDictionary class]]) {
+        return [NSMutableDictionary dictionaryWithDictionary:existing];
+    } else if (createIfNeeded) {
+        return [NSMutableDictionary dictionary];
+    } else {
+        return nil;
+    }
+}
 
 #pragma mark - Codeless
 + (UIApplication *)sharedUIApplication {
@@ -2077,100 +1935,13 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     }
     return nil;
 }
-- (void)onShakeGestureDo {
-    [self connectToWebSocket];
-}
-- (void)setupCodelessWebsocketUrl:(NSString *)url {
-    if (url && url.length > 0) {
-        self.websocketUrl = url;
-    } else {
-        ZGLogDebug(@"传入的url不合法，请检查:%@",url);
-    }
-}
-- (void)setupCodelessEventsUrl:(NSString *)url {
-    if (url && url.length > 0) {
-        self.codelessEventsUrl = url;
-    } else {
-        ZGLogDebug(@"传入的url不合法，请检查:%@",url);
-    }
-}
 
-- (void)setupVisualizationWebSocketUrl:(NSString *)url {
-    if (url && url.length > 0) {
-        self.visualizationWebsocketUrl = url;
-    } else {
-        ZGLogDebug(@"传入的url不合法，请检查:%@",url);
-    }
-}
-
-- (void)setupVisualizationTrackDataUrl:(NSString *)url {
-    if (url && url.length > 0) {
-        if(![url isEqualToString:self.getVisualizationDataUrl]){
-            self.getVisualizationDataUrl = url;
-            [self requestVisualizationPageTrackDatas];
-        }
-    } else {
-        ZGLogDebug(@"传入的url不合法，请检查:%@",url);
-    }
-}
-
-- (void)connectToWebSocket {
-    [self connectToABTestDesigner:NO];
-}
-- (void)connectToABTestDesigner:(BOOL)reconnect {
-    
-    if (self.config.enableCodeless == NO) { return; }
-    
-//        NSString *designerURLString = @"wss://switchboard.mixpanel.com/connect?key=ac42f38893a82565a3e55a86321be361&type=device";
-//    NSString *designerURLString = [NSString stringWithFormat:@"%@/codeless/connect?ctype=client&platform=ios&appkey=%@", self.websocketUrl, self.appKey];
-    NSString *designerURLString = [NSString stringWithFormat:@"%@/connect?ctype=client&platform=ios&appkey=%@", self.websocketUrl, self.appKey];
-    NSURL *designerURL = [NSURL URLWithString:designerURLString];
-    ZGLogDebug(@"Websocket url == %@", designerURLString);
-    __weak Zhuge *weakSelf = self;
-    void (^connectCallback)(void) = ^{
-        __strong Zhuge *strongSelf = weakSelf;
-    
-        [Zhuge sharedUIApplication].idleTimerDisabled = YES;
-        if (strongSelf) {
-            for (ZGVariant *variant in self.variants) {
-                [variant stop];
-            }
-            for (ZGEventBinding *binding in self.eventBindings) {
-                [binding stop];
-            }
-            ZGABTestDesignerConnection *connection = strongSelf.abtestDesignerConnection;
-            void (^block)(id, SEL, NSString*, id) = ^(id obj, SEL sel, NSString *event_name, id params) {
-                MPDesignerTrackMessage *message = [MPDesignerTrackMessage messageWithPayload:@{@"event_name": event_name}];
-                [connection sendMessage:message];
-            };
-
-            [MPSwizzler swizzleSelector:@selector(track:properties:) onClass:[Zhuge class] withBlock:block named:@"track_properties"];
-        }
-    };
-    void (^disconnectCallback)(void) = ^{
-        __strong Zhuge *strongSelf = weakSelf;
-        
-        [Zhuge sharedUIApplication].idleTimerDisabled = NO;
-        if (strongSelf) {
-            for (ZGVariant *variant in self.variants) {
-                [variant execute];
-            }
-            for (ZGEventBinding *binding in self.eventBindings) {
-                [binding execute];
-            }
-            [MPSwizzler unswizzleSelector:@selector(track:properties:) onClass:[Zhuge class] named:@"track_properties"];
-        }
-    };
-    self.abtestDesignerConnection = [[ZGABTestDesignerConnection alloc] initWithURL:designerURL
-                                                                         keepTrying:reconnect
-                                                                    connectCallback:connectCallback
-                                                                 disconnectCallback:disconnectCallback];
-}
 - (void)checkForDecideResponseWithCompletion:(void (^)(NSSet *eventBinding))completion useCathe:(BOOL)useCache{
     dispatch_async(self.serialQueue, ^{
         
         if (!useCache) {
-            NSString* urlString = [NSString stringWithFormat:@"%@/v1/events/codeless/appkey/%@/platform/2?app_version=%@&updateTimeId=%@",self.codelessEventsUrl,self.appKey,self.config.appVersion,@"0"];
+            NSString *codelessUrl = self.config.visualEventUrl;
+            NSString* urlString = [NSString stringWithFormat:@"%@/v1/events/codeless/appkey/%@/platform/2?app_version=%@&updateTimeId=%@",codelessUrl,self.config.appKey,self.config.appVersion,@"0"];
             ZGLogDebug(@"%@请求远程事件: %@",self,urlString);
             
             NSURL *URL = [NSURL URLWithString:urlString];
@@ -2268,43 +2039,55 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     });
 }
 
-- (void)addScriptMessageHandlerWithWebView:(WKWebView *)webView {
++ (void)addScriptMessageHandlerWithWebView:(WKWebView *)webView {
     NSAssert([webView isKindOfClass:[WKWebView class]], @"此注入方案只支持 WKWebView！❌");
     if (![webView isKindOfClass:[WKWebView class]]) {
         return;
     }
-
-    @try {
-        
-        if (self.config.enableJavaScriptBridge) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        @try {
             //获取当前 WebView 的 WKUserContentController
             WKUserContentController *contentController = webView.configuration.userContentController;
 
-            //给 WKUserContentController 设置一个js脚本控制器 
+            //给 WKUserContentController 设置一个js脚本控制器
             [contentController removeScriptMessageHandlerForName:ZA_SCRIPT_MESSAGE_HANDLER_NAME];
-            [contentController addScriptMessageHandler:[[ZhugeJS alloc]init] name:ZA_SCRIPT_MESSAGE_HANDLER_NAME];
+            if (@available(iOS 14.0, *)) {
+                [contentController addScriptMessageHandlerWithReply:[[ZhugeJS alloc]init] contentWorld: [WKContentWorld pageWorld] name:ZA_SCRIPT_MESSAGE_HANDLER_NAME];
+            } else {
+                [contentController addScriptMessageHandler:[[ZhugeJS alloc]init] name:ZA_SCRIPT_MESSAGE_HANDLER_NAME];
+            }
+        
+        } @catch (NSException *exception) {
+            ZGLogError(@"%@ error: %@", self, exception);
         }
-
-    } @catch (NSException *exception) {
-        ZGLogError(@"%@ error: %@", self, exception);
-    }
+    });
 }
 
 #pragma mark - 可视化埋点
 
--(void)zg_startVisualizationDebuggingTrack:(NSURL *)url{
++(void)zg_startVisualizationDebuggingTrack:(NSURL *)url{
     [ZGVisualizationManager shareCustomerManger].enableDebugVisualization = YES;
     // 获取数据
     NSDictionary * urlDict = [self zg_getParamsWithUrlString:url.absoluteString];
-    self.appId = urlDict[@"appId"];
-    self.appSocketToken = urlDict[@"token"];
-    NSString * websocketUrl = [NSString stringWithFormat:@"%@/eventtracking/ws?socketToken=%@&appId=%@&origin=2",self.visualizationWebsocketUrl,self.appSocketToken,self.appId];
-    [ZGVisualizationManager shareCustomerManger].zg_reportTime = self.config.debugVisualizationTime;
-    [self zg_updatePageData];
-    [self zg_visualizationConnectTestDesigner:websocketUrl];
+    NSString  *appKey = urlDict[@"appKey"];
+    if (!appKey || appKey.length == 0) {
+        NSLog(@"可视化ws未找到appKey，请联系zhuge！");
+        return;
+    }
+    Zhuge *zhuge = instanceDic[appKey];
+    if (!zhuge) {
+        NSLog(@"%@对应主体未初始化，请先初始化zhuge",appKey);
+        return;
+    }
+    zhuge.appId = urlDict[@"appId"];
+    zhuge.appSocketToken = urlDict[@"token"];
+    NSString * websocketUrl = [NSString stringWithFormat:@"%@/eventtracking/ws?socketToken=%@&appId=%@&origin=2",zhuge.config.visualWebsocketUrl,zhuge.appSocketToken,zhuge.appId];
+    [ZGVisualizationManager shareCustomerManger].zg_reportTime = zhuge.config.debugVisualizationTime;
+    [zhuge zg_updatePageData];
+    [zhuge zg_visualizationConnectTestDesigner:websocketUrl];
 }
-
-- (NSDictionary *)zg_getParamsWithUrlString:(NSString*)urlString {
++ (NSDictionary *)zg_getParamsWithUrlString:(NSString*)urlString {
     if(urlString.length==0) {
         NSLog(@"链接为空！");
         return @{};
@@ -2357,9 +2140,8 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 
 - (void)zg_visualizationConnectTestDesigner:(NSString *)websocketUrl {
     if ([ZGVisualizationManager shareCustomerManger].enableDebugVisualization == NO) { return; }
-    self.websocketUrl = websocketUrl;
-    
-    NSString *designerURLString = self.websocketUrl;
+
+    NSString *designerURLString = websocketUrl;
     NSURL *designerURL = [NSURL URLWithString:designerURLString];
     
     ZGLogDebug(@"Websocket url == %@", designerURLString);
@@ -2426,16 +2208,16 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 /// 请求可视化埋点可视化事件列表数据
 -(void)requestVisualizationPageTrackDatas{
     
-    if(!self.appKey){
+    if(!self.config.appKey){
         return;
     }
     
     NSMutableDictionary * dic = [NSMutableDictionary dictionaryWithDictionary:@{
-        @"appKey": self.appKey,
+        @"appKey": self.config.appKey,
         @"endpointType": @5
     }];
     __weak typeof(self) weakSelf = self;
-    NSString * allUrl = [NSString stringWithFormat:@"%@/zg/web/v2/tracking/view/app/event/all",self.getVisualizationDataUrl];
+    NSString * allUrl = [NSString stringWithFormat:@"%@/zg/web/v2/tracking/view/app/event/all",self.config.visualEventUrl];
     //@"https://rt2.zhugeio.com/zg/web/v2/tracking/view/app/event/all";
     [ZGHttpHelper post:allUrl RequestParams:dic FinishBlock:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
          NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
@@ -2448,7 +2230,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
                   ZGLogDebug(@"zg获取可视化数据成功--%@",dataArr);
                   NSArray * visualizationDatas = dataArr;
                   [weakSelf archiveVisualization:visualizationDatas];
-                  ZGVisualizationManager.shareCustomerManger.localCompareArr = visualizationDatas;
+                  [ZGVisualizationManager.shareCustomerManger.compareDic setObject:visualizationDatas forKey:self.config.appKey];
              }
          } else {
              ZGLogDebug(@"zg获取可视化数据失败--%@",connectionError);

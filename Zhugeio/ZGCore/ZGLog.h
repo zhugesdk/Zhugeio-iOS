@@ -57,7 +57,7 @@ static inline os_log_t zhugeioLog() {
 
 
 static inline void ZGLogDebug(NSString *format, ...) {
-    if (![Zhuge sharedInstance].config.enableLoger) return;
+    if (![Zhuge isLogEnable]) return;
     va_list arg_list;
     va_start(arg_list, format);
     NSString *formattedString = [[NSString alloc] initWithFormat:format arguments:arg_list];
@@ -71,7 +71,7 @@ static inline void ZGLogDebug(NSString *format, ...) {
 }
 
 static inline void ZGLogInfo(NSString *format, ...) {
-    if (![Zhuge sharedInstance].config.enableLoger) return;
+    if (![Zhuge isLogEnable]) return;
     va_list arg_list;
     va_start(arg_list, format);
     NSString *formattedString = [[NSString alloc] initWithFormat:format arguments:arg_list];
@@ -85,7 +85,7 @@ static inline void ZGLogInfo(NSString *format, ...) {
 }
 
 static inline void ZGLogWarning(NSString *format, ...) {
-    if (![Zhuge sharedInstance].config.enableLoger) return;
+    if (![Zhuge isLogEnable]) return;
     va_list arg_list;
     va_start(arg_list, format);
     NSString *formattedString = [[NSString alloc] initWithFormat:format arguments:arg_list];
@@ -99,7 +99,7 @@ static inline void ZGLogWarning(NSString *format, ...) {
 }
 
 static inline void ZGLogError(NSString *format, ...) {
-    if (![Zhuge sharedInstance].config.enableLoger) return;
+    if (![Zhuge isLogEnable]) return;
     va_list arg_list;
     va_start(arg_list, format);
     NSString *formattedString = [[NSString alloc] initWithFormat:format arguments:arg_list];

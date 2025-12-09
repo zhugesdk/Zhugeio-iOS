@@ -40,25 +40,17 @@ NSString * const gc_VCKey = nil;
 - (void)za_autotrack_viewDidAppear:(BOOL)animated {
     
     // $AutoTrack
-    if ([Zhuge sharedInstance].config.autoTrackEnable && ![self isBlackListViewController:self]) {
-        Zhuge * zhuge = [Zhuge sharedInstance];
+    if ([Zhuge autoTrackInstance].count > 0 && ![self isBlackListViewController:self]) {
     //    zhuge.url = NSStringFromClass(self.class);
     //    [_controllers addObject:NSStringFromClass(self.class)];
     //    if (_controllers.count > 1) {
     //        zhuge.ref = _controllers[_controllers.count - 2];
     //    }
         [self checkAutoTrackPageView];
-        if ([zhuge.config isSeeEnable] && [[ZGSharedDur shareInstance] permitCreateImage] && [self isKindOfClass:[UIViewController class]] && ![self isKindOfClass:[UITabBarController class]] && ![self isKindOfClass:[UINavigationController class]]){
-            //页面变化的时候初始化date
-            [ZGSharedDur shareInstance].durDate = [NSDate date];
-            _imageData = [[ZGSharedDur shareInstance] pixData];
-            [[ZGSharedDur shareInstance] zhugeSetCurrentVC:NSStringFromClass(self.class)];
-            [self taskData:[[ZGSharedDur shareInstance] getViewToPath:self.view]];
-        }
     }
     
     // $DurationOnPage
-    if ([Zhuge sharedInstance].config.isEnableDurationOnPage && ![self isBlackListViewController:self]) {
+    if ([Zhuge durationOnPageInstance].count > 0 && ![self isBlackListViewController:self]) {
         @try {
 //            UIViewController *viewController = (UIViewController *)self;
             if (![self isKindOfClass:[UIViewController class]] ||
@@ -76,7 +68,7 @@ NSString * const gc_VCKey = nil;
     }
     
     // $ZAExposure
-    if ([Zhuge sharedInstance].config.isEnableExpTrack) {
+    if ([Zhuge exposeInstance].count > 0) {
         if (![self isKindOfClass:[UIViewController class]] ||
             [self isKindOfClass:[UITabBarController class]] ||
             ![self isKindOfClass:[UINavigationController class]] ||
@@ -97,7 +89,7 @@ NSString * const gc_VCKey = nil;
 // 页面消失
 - (void)za_autotrack_viewDidDisappear:(BOOL)animated {
     
-    if ([Zhuge sharedInstance].config.isEnableDurationOnPage && ![self isBlackListViewController:self]) {
+    if ([Zhuge durationOnPageInstance].count > 0 && ![self isBlackListViewController:self]) {
         if (![self isKindOfClass:[UIViewController class]] ||
             [self isKindOfClass:[UITabBarController class]] ||
             ![self isKindOfClass:[UINavigationController class]] ||
@@ -135,13 +127,16 @@ NSString * const gc_VCKey = nil;
 //        _diff = _end - _start > 0 ? _end - _start : 1;
 
         NSMutableDictionary *properties = [[NSMutableDictionary alloc] init];
-        properties[@"$dr"] = [NSNumber numberWithDouble:_diff * 1000];
+        NSInteger drTime = (NSInteger)round(_diff * 1000);
+        properties[@"$dr"] = @(drTime);
 //        properties[@"$dr"] = [NSString stringWithFormat:@"%.0f",_diff];
         properties[@"$page_url"] = pageName;
         properties[@"$eid"] = @"dr";
         properties[@"$page_title"] = [self zhugeScreenTitle];
-        [[Zhuge sharedInstance] trackDurationOnPage:properties];
-        
+        NSArray *array = [Zhuge durationOnPageInstance];
+        for (Zhuge *zhuge in array) {
+            [zhuge trackDurationOnPage:properties];
+        }
     }
     @catch (NSException *exception) {
         ZGLogDebug(@"end track properties exception %@",exception);
@@ -149,7 +144,7 @@ NSString * const gc_VCKey = nil;
 }
 
 - (void)checkAutoTrackPageView{
-    if ([[Zhuge sharedInstance].config autoTrackEnable]) {
+    if ([Zhuge autoTrackInstance].count > 0) {
         @try {
             UIViewController *viewController = (UIViewController *)self;
             if (![viewController.parentViewController isKindOfClass:[UIViewController class]] ||
@@ -167,7 +162,6 @@ NSString * const gc_VCKey = nil;
 }
 
 -(void)autoTrackPageView{
-    Zhuge * zhuge = [Zhuge sharedInstance];
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
     [data setObject:@"pv" forKey:@"$eid"];
     [data setObject:[self zhugeScreenName] forKey:@"$page_url"];
@@ -190,25 +184,10 @@ NSString * const gc_VCKey = nil;
 
     //添加可视化埋点的逻辑
     [[ZGVisualizationManager shareCustomerManger] zg_pvUPloadWithVCStr:[self zhugeScreenName] info:data.mutableCopy];
-    
-    [zhuge autoTrack:data];
-}
-
-//整理并上传数据
-- (void)taskData:(NSString *)viewPath {
-    ZGSharedDur * dur = [ZGSharedDur shareInstance];
-    NSMutableDictionary * dic = [NSMutableDictionary dictionary];
-    dic[@"$pix"] = _imageData;
-    dic[@"$page"] = viewPath;
-    dic[@"$pel"] = @[];
-    NSString *gap = [dur getCurrentGap];
-    [dur updateCommanGapData];
-    dic[@"$gap"] = gap;
-    dic[@"$eid"] = @"zgsee-change";
-    dic[@"$rd"] = @(0);
-    dic[@"$pn"] = NSStringFromClass([self class]);
-    dic[@"$wh"] = @[@([UIScreen mainScreen ].bounds.size.width),@([UIScreen mainScreen ].bounds.size.height)];
-    [[Zhuge sharedInstance] setZhuGeSeeEvent:dic];
+    NSArray *array = [Zhuge autoTrackInstance];
+    for (Zhuge *zhuge in array) {
+        [zhuge autoTrack:data];
+    }
 }
 
 // 系统生成的 ViewController 黑名单
@@ -328,7 +307,10 @@ NSString * const gc_VCKey = nil;
 
 
 - (void)trackExpEvent:(NSString *)eid properties:(NSDictionary *)pro {
-    [[Zhuge sharedInstance] track:eid properties:pro];
+    NSArray *array = [Zhuge exposeInstance];
+    for (Zhuge *zhuge in array) {
+        [zhuge track:eid properties: pro];
+    }
 }
 
 

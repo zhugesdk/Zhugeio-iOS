@@ -7,7 +7,7 @@
 #import <Foundation/Foundation.h>
 
 /* SDK版本 */
-#define ZG_SDK_VERSION @"3.7.6"
+#define ZG_SDK_VERSION @"4.1.3"
 
 /* 默认应用版本 */
 #define ZG_APP_VERSION [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
@@ -30,12 +30,14 @@
 @property (nonatomic, copy)NSString *appName;
 // 渠道(默认:@"App Store")
 @property (nonatomic, copy) NSString *channel;
-// 两次会话时间间隔(默认:30秒)
-@property (nonatomic, assign) NSUInteger sessionInterval;
 
 #pragma mark - 发送策略
 // 上报时间间隔(默认:10秒)
 @property  NSUInteger sendInterval;
+
+//达到该数值开始上报数据
+@property NSUInteger limitCount;
+
 // 每天最大上报事件数，超出部分缓存到本地(默认:50000个)
 @property (nonatomic, assign) NSUInteger sendMaxSizePerDay;
 // 本地缓存事件数(默认:3000个)
@@ -47,7 +49,6 @@
 
 @property (nonatomic, assign) BOOL exceptionTrack;
 
-@property (nonatomic, assign) BOOL idfaCollect;
 
 /**
  * 是否开启实时调试
@@ -69,7 +70,7 @@
  * 用户是否开启ZGSee
  * 默认 NO
  */
-@property (nonatomic,assign) BOOL zgSeeEnable;
+//@property (nonatomic,assign) BOOL zgSeeEnable;
 
 /**
  * 全埋点是否开启
@@ -93,13 +94,13 @@
  * RN 全埋点是否开启
  * 默认NO
  */
-@property (nonatomic, assign) BOOL isEnableRNAutoTrack;
+//@property (nonatomic, assign) BOOL isEnableRNAutoTrack;
 
 /**
  * 可视化埋点开关
  * 默认 NO
  */
-@property (nonatomic, assign) BOOL enableCodeless;
+//@property (nonatomic, assign) BOOL enableCodeless;
 
 /**
  * 新的可视化埋点开关 默认 NO, 设置为YES开启后,就会上报可视化埋点的埋点事件,设置为YES时也会开启全埋点
@@ -111,10 +112,6 @@
  */
 @property (nonatomic, assign) NSInteger debugVisualizationTime;
 
-/**
- *  全埋点和可视化埋点均默认处理了UILabel与UIImageView的手势情况.如有新自定义视图需要识别.可添加到该集合中. 例如:@[@"ZGTestGestureView"];则ZGTestGestureView以及其继承的子类添加手势以后均可被识别到.
- */
-@property (nonatomic, strong) NSArray * customGestureViews;
 
 /**
  * 开启 WebView Track 默认NO
@@ -123,16 +120,20 @@
 @property (nonatomic, assign) BOOL enableJavaScriptBridge;
 
 /**
+ 是否使用app的全局属性覆盖h5事件的属性。默认情况下，全局属性优先级比传入的事件属性低。但是h5交互时，用户希望使用app的
+ 全局属性覆盖h5事件的，可以打开这个选项
+ */
+@property (nonatomic, assign) BOOL overwriteH5ProWithAppSuperPro;
+
+
+/**
  * log 日志 开关  （ 请在debug 模式下 使用 ！！！！）
  */
-@property (nonatomic, assign) BOOL enableLoger;
+//@property (nonatomic, assign) BOOL enableLoger;
 
 
 //服务端策略
 @property (nonatomic, assign) NSInteger serverPolicy;
-
-// 是否推送到生产环境，默认YES(推送时指定deviceToken上传到开发环境或生产环境)
-@property (nonatomic, assign) BOOL apsProduction;
 
 -(BOOL)isSeeEnable;
 
@@ -146,6 +147,7 @@
  */
 @property (nonatomic, copy) NSString *uploadSM2Pubkey;
 
+@property (nonatomic, copy) NSString *businessKey;
 /**
  * 上传数据是否加密
  */
@@ -157,5 +159,17 @@
  */
 @property (nonatomic, assign) int encryptType;
 
+@property (nonatomic,copy) NSString *appKey;
+/// 可视化埋点的socket URL
+@property (nonatomic,copy) NSString *visualWebsocketUrl;
+/// 可视化埋点获取埋点数据的URL
+@property (nonatomic,copy) NSString *visualEventUrl;
+
+// 设置埋点数据上传地址
+- (void)setUploadURL:(nonnull NSString*)url andBackupUrl:(nullable NSString *)backupUrl;
+
+- (void)enableEncryptUpload:(BOOL)encrypt CryptoType:(int)cryptoType;
+-(NSString*)getUploadUrl;
+-(NSString*)getUploadBackupUrl;
 
 @end

@@ -27,7 +27,6 @@
 #pragma mark - ZG Headers
 #import "ZhugeConfig.h"
 #import "ZhugeEventProperty.h"
-#import "ZhugeConstants.h"
 #import "ZhugeCompres.h"
 #import "ZhugeBase64.h"
 #import "ZGHttpHelper.h"

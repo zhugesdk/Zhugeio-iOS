@@ -25,7 +25,7 @@
     if ([self isKindOfClass:[UITableViewCell class]] || [self isKindOfClass:[UICollectionViewCell class]]) {
         if ( self.zhugeioAttributesValue &&
             !self.zhugeioAttributesDonotTrackExp &&
-            [Zhuge sharedInstance].config.isEnableExpTrack) {
+            [Zhuge exposeInstance].count > 0) {
             [self trackExpEvent:self.zhugeioAttributesValue properties:self.zhugeioAttributesVariable];
         }
     }
@@ -35,7 +35,10 @@
 }
 
 - (void)trackExpEvent:(NSString *)eid properties:(NSDictionary *)pro {
-    [[Zhuge sharedInstance] track:eid properties:pro];
+    NSArray *array = [Zhuge exposeInstance];
+    for (Zhuge *zhuge in array) {
+        [zhuge track:eid properties:pro];
+    }
 }
 
 

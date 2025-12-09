@@ -13,16 +13,11 @@
     
 }
 
-@property (nonatomic, copy) NSString *apiURL;
-@property (nonatomic, copy) NSString *backupURL;
-@property (nonatomic, copy) NSString *appKey;
 @property (nonatomic, copy) NSString *userId;
-@property (nonatomic, copy) NSString *deviceId;
 @property (nonatomic, copy) NSString *appId;
 @property (nonatomic, copy) NSString *appSocketToken;
 @property (nonatomic, strong) NSNumber *sessionId;
 @property (nonatomic, strong) NSDate *screenShotTime;
-@property (nonatomic, copy) NSString *deviceToken;
 @property (nonatomic) UIBackgroundTaskIdentifier taskId;
 @property (nonatomic, strong) dispatch_queue_t serialQueue;
 @property (nonatomic, strong) NSMutableArray *eventsQueue;
@@ -56,11 +51,6 @@
 
 @property (nonatomic, strong) CMMotionManager *motionManager;
 
-// 判断 viewDidAppear 是否已经被 hook
-@property (nonatomic, assign) BOOL viewDidAppearIsHook;
-// 判断 viewDidDisappear 是否已经被 hook
-@property (nonatomic, assign) BOOL viewDidDisappearIsHook;
-
 /**
  * 根据deepShare是否已经返回结果来判断是否开始上传数据 默认为NO。
  */
@@ -75,10 +65,6 @@
 
 @property (nonatomic, strong) ShakeGesture *shakeGesture;
 @property (nonatomic, strong) ZGABTestDesignerConnection *abtestDesignerConnection;
-@property (nonatomic, copy) NSString *websocketUrl;
-@property (nonatomic, copy) NSString *visualizationWebsocketUrl;
-@property (nonatomic, copy) NSString *getVisualizationDataUrl;
-@property (nonatomic, copy) NSString *codelessEventsUrl;
 @property (nonatomic, strong) NSSet *variants;
 @property (nonatomic, strong) NSSet *eventBindings;
 @property (nonatomic, strong) NSNumber *preTime;

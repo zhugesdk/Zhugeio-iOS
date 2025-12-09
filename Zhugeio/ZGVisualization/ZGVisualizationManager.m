@@ -48,6 +48,7 @@ static ZGVisualizationManager *_manger = nil;
         _manger.zgZIndexLevel = 0;
         _manger.zg_reportTime = 2;
         _manger.zgOnceHandleTagKey = YES;
+        _manger.compareDic = [NSMutableDictionary dictionary];
         //调试
         _manger.zg_hasTestDebug = NO;
         
@@ -131,7 +132,7 @@ static ZGVisualizationManager *_manger = nil;
     if([self.zg_timer isValid]){
         [self.zg_timer invalidate];
     }
-    self.zg_timer                   = nil;
+    self.zg_timer = nil;
 }
 
 
@@ -144,7 +145,7 @@ static ZGVisualizationManager *_manger = nil;
     }
     
     //开启可视化.并且未开启全埋点.
-    if([Zhuge sharedInstance].config.enableVisualization == NO){
+    if([Zhuge visualInstance].count <= 0){
         return;
     }
     
@@ -158,20 +159,31 @@ static ZGVisualizationManager *_manger = nil;
     NSString * viewNameStr = [self getCurrentViewNameWithView:view];
     
     //根据已缓存的.进行遍历比对查找
-    [self.localCompareArr enumerateObjectsUsingBlock:^(NSDictionary*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSString * elementConditions = obj[@"elementConditions"];
-        if(elementConditions){
-            NSDictionary * dict = [ZGVisualizationManager getDictWithPageData:elementConditions];
-            NSString * identification =  dict[@"id"];
-            NSString * viewName =  dict[@"viewName"];
-            NSString * index =  dict[@"index"];
-            
-            if ([idStr isEqualToString:identification] && (viewName == nil || [viewName isEqualToString:viewNameStr]) && (index == nil || index.integerValue == supViewIndex)) {
-                *stop = YES;
-                [self zgUploadVisualizationData:obj];
-            }
+    NSArray *keys = [self.compareDic allKeys];
+    for (NSString *key in keys) {
+        Zhuge *visualSDK = [Zhuge getInstanceForKey:key];
+        if (!visualSDK) {
+            continue;
         }
-    }];
+        if (!visualSDK.config.enableVisualization) {
+            continue;
+        }
+        NSArray *infoArrays = [self.compareDic objectForKey:key];
+        [infoArrays enumerateObjectsUsingBlock:^(NSDictionary*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSString * elementConditions = obj[@"elementConditions"];
+            if(elementConditions){
+                NSDictionary * dict = [ZGVisualizationManager getDictWithPageData:elementConditions];
+                NSString * identification =  dict[@"id"];
+                NSString * viewName =  dict[@"viewName"];
+                NSString * index =  dict[@"index"];
+                
+                if ([idStr isEqualToString:identification] && (viewName == nil || [viewName isEqualToString:viewNameStr]) && (index == nil || index.integerValue == supViewIndex)) {
+                    *stop = YES;
+                    [self zgUploadVisualizationData:obj forKey:key];
+                }
+            }
+        }];
+    }
 }
 
 /// 传入一个vcStr.判断该页面是否埋点.
@@ -183,26 +195,41 @@ static ZGVisualizationManager *_manger = nil;
     }
     
     //开启可视化.并且未开启全埋点.
-    if([Zhuge sharedInstance].config.enableVisualization == NO){
+    if([Zhuge visualInstance].count <= 0){
         return;
     }
     
     //根据已缓存的.进行遍历比对查找
-    [self.localCompareArr enumerateObjectsUsingBlock:^(NSDictionary*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSString * pagePath = obj[@"pagePath"];
-        if ([vcStr isEqualToString:pagePath]) {
-            *stop = YES;
-            [self zgPVUploadVisualizationData:obj info:info];
+    NSArray *keys = [self.compareDic allKeys];
+    for (NSString *key in keys) {
+        Zhuge *visualSDK = [Zhuge getInstanceForKey:key];
+        if (!visualSDK) {
+            continue;
         }
-    }];
+        if (!visualSDK.config.enableVisualization) {
+            continue;
+        }
+        NSArray *infoArrays = [self.compareDic objectForKey:key];
+        [infoArrays enumerateObjectsUsingBlock:^(NSDictionary*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSString * pagePath = obj[@"pagePath"];
+            NSString *type = obj[@"eventType"];
+            if ([vcStr isEqualToString:pagePath] && ![@"click" isEqualToString:type]) {
+                [self zgPVUploadVisualizationData:obj info:info appKey:key];
+            }
+        }];
+    }
+    
 }
 
 /// 诸葛上报可视化页面埋点数据
--(void)zgPVUploadVisualizationData:(NSDictionary *)dataDict info:(NSMutableDictionary *)info{
+-(void)zgPVUploadVisualizationData:(NSDictionary *)dataDict info:(NSMutableDictionary *)info appKey:(NSString *)key{
     ZGLogDebug(@"zhugeio 缓存数据中匹配到页面埋点数据:%@",dataDict);
     //与可视化事件埋点保持一致
     if(self.websocketConnent == NO){
-        [[Zhuge sharedInstance]zgVisualizationTrack:dataDict];
+        Zhuge *zhuge = [Zhuge getInstanceForKey:key];
+        if (zhuge) {
+            [zhuge zgVisualizationTrack:dataDict];
+        }
     }
     if(self.pageCheckBlock){
         self.pageCheckBlock(dataDict);
@@ -210,10 +237,13 @@ static ZGVisualizationManager *_manger = nil;
 }
 
 /// 诸葛上报可视化事件埋点数据
--(void)zgUploadVisualizationData:(NSDictionary *)dataDict{
+-(void)zgUploadVisualizationData:(NSDictionary *)dataDict forKey:(NSString *) appkey{
     ZGLogDebug(@"zhugeio 缓存数据中匹配到事件埋点数据:%@",dataDict);
     if(self.websocketConnent == NO){
-        [[Zhuge sharedInstance]zgVisualizationTrack:dataDict];
+        Zhuge *zhuge = [Zhuge getInstanceForKey:appkey];
+        if (zhuge) {
+            [zhuge zgVisualizationTrack:dataDict];
+        }
     }
     if(self.pageCheckBlock){
         self.pageCheckBlock(dataDict);
@@ -687,7 +717,7 @@ static ZGVisualizationManager *_manger = nil;
 /// 判断当前传入的视图是否是需要可视化识别的添加手势的视图
 + (BOOL)zg_customGestureViewsHasContainCurrentView:(UIView *)currentView
 {
-    NSArray * views = [Zhuge sharedInstance].config.customGestureViews;
+    NSArray * views = [Zhuge getCustomGestureViews];
     __block  BOOL hasContain = NO;
     [views enumerateObjectsUsingBlock:^(NSString *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if([currentView isKindOfClass:NSClassFromString(obj)]){

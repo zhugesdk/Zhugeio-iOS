@@ -29,7 +29,7 @@
         if (sharedSession == nil) {
             NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
             sessionConfig.timeoutIntervalForRequest = 30.0;
-            if([Zhuge sharedInstance].config.idfaCollect){
+            if([Zhuge isIDFAEnable]){
                 NSDictionary *header = sessionConfig.HTTPAdditionalHeaders;
                 if(header){
                     [header setValue:[self getUserAgent] forKey:@"User-Agent"];

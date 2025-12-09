@@ -62,14 +62,11 @@ static NSMutableDictionary *_dataDic;
 
 - (void)zhuge_track:(SEL)action to:(id)to from:(id)from forEvent:(UIEvent *)event {
     //非全埋点不处理
-    if(Zhuge.sharedInstance.config.autoTrackEnable == NO){
+    if([Zhuge autoTrackInstance].count <= 0){
         return;
     }
     // ViewType 被忽略
     if ([to isKindOfClass:[UITabBar class]]) {
-        return;
-    }
-    if ([[Zhuge sharedInstance] isViewTypeIgnored:to]) {
         return;
     }
     BOOL isTabBar = [from isKindOfClass:[UITabBarItem class]] && [to isKindOfClass:[UITabBarController class]];
@@ -91,100 +88,13 @@ static NSMutableDictionary *_dataDic;
 }
 
 - (void)za_sendEvent:(UIEvent *)event {
-
-    ZGSharedDur *dur = [ZGSharedDur shareInstance];
-    BOOL isKeyboard = [dur isKeyboardShow];
-    if ([Zhuge sharedInstance].config.zgSeeEnable == YES &&
-        [[Zhuge sharedInstance].config isSeeEnable] &&
-        !isKeyboard &&
-        event.type==UIEventTypeTouches) {
-        //响应触摸事件（手指刚刚放上屏幕）
-        if (!_touch) {
-            _touch=[event.allTouches anyObject];
-        }
-        UIWindow * window=[[[UIApplication sharedApplication] delegate] window];
-
-        if ([[event.allTouches anyObject] phase] == UITouchPhaseBegan) {
-            //初始化坐标数组
-            if (!_pointArray) {
-                _pointArray = [[NSMutableArray alloc] init];
-            }
-
-            if (_pointArray.count > 0) {
-                [_pointArray removeAllObjects];
-            }
-
-            //记录开始触摸的点
-            _beginPoint = [_touch locationInView:window];
-
-            //坐标
-            _viewPath = [[ZGSharedDur shareInstance] getViewToPath:_touch.view];
-
-            //添加坐标
-            [_pointArray addObject:@[@(_beginPoint.x),@(_beginPoint.y)]];
-
-            //操作开始时间
-            _rdDate = [NSDate date];
-
-            //动作开始时 截图
-            _imageData = [[ZGSharedDur shareInstance] pixData];
-
-        }
-        if ([[event.allTouches anyObject] phase] == UITouchPhaseMoved) {
-            //移动Point
-            _movedPoint = [_touch locationInView:window];
-
-            //计算移动Point
-            CGPoint deltaPoint = CGPointMake((_beginPoint.x - _movedPoint.x), (_beginPoint.y - _movedPoint.y));
-
-            [self commitTranslation:deltaPoint movedPoint:_movedPoint];
-
-        }
-        if ([[event.allTouches anyObject] phase] == UITouchPhaseStationary) {
-
-            _imageData = [[ZGSharedDur shareInstance] pixData];
-
-        }
-        if ([[event.allTouches anyObject] phase] == UITouchPhaseEnded) {
-            //结束Point
-            _endPoint = [_touch locationInView:window];
-            //上传数据
-            [self taskData];
-
-            //清空有效移动倍数
-            directionNum = 1;
-        }
-        if ([[event.allTouches anyObject] phase] == UITouchPhaseCancelled) {
-
-        }
-    }
-
     [self za_sendEvent:event];
 
 }
 
 //整理并上传数据
 - (void)taskData {
-    ZGSharedDur * dur = [ZGSharedDur shareInstance];
-    if (!_dataDic) {
-        _dataDic = [[NSMutableDictionary alloc] init];
-    }
-    _dataDic[@"$pix"] = _imageData;
-    _dataDic[@"$page"] = _viewPath;
-    _dataDic[@"$dru"] = @([[ZGSharedDur shareInstance] durInterval]);
-    _dataDic[@"$pel"] = _pointArray;
-    NSString *gap = [dur getCurrentGap];
-    [dur updateCommanGapData];
-    _dataDic[@"$gap"] = gap;
-    _dataDic[@"$rd"] = @([[NSDate date] timeIntervalSinceDate:_rdDate]);
-    _dataDic[@"$wh"] = @[@([UIScreen mainScreen ].bounds.size.width),@([UIScreen mainScreen ].bounds.size.height)];
-    if (_pointArray.count>1) {
-        _dataDic[@"$eid"] = @"zgsee-scroll";
-    } else {
-        _dataDic[@"$eid"] = @"zgsee-click";
-    }
-    _dataDic[@"$pn"] = [[ZGSharedDur shareInstance] zhugeGetCurrentVC];
-    [[Zhuge sharedInstance] setZhuGeSeeEvent:_dataDic];
+    
 }
 
 #pragma mark --- 拖动手势方向

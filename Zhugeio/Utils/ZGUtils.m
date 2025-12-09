@@ -84,15 +84,16 @@
 //
 //}
 
-+ (NSString *)parseUrl:(NSString *) url{
++ (NSString *)parseUrl:(NSString *) string{
     NSString * result;
-    if ([url hasSuffix:@"/"]) {
-        result = [url substringToIndex:[url length] - 1];
-    }else{
-        result = url;
-    }
-    if ([result hasSuffix:@"/apipool"] || [result hasSuffix:@"/APIPOOL"] ) {
-        result = [result substringToIndex:[result length] - 8];
+    NSURL *url = [NSURL URLWithString:string];
+    NSString *scheme = url.scheme;
+    NSString *host = url.host;
+    NSNumber *port = url.port;
+    if (port) {
+        result = [NSString stringWithFormat:@"%@://%@:%@" ,scheme,host,port];
+    } else {
+        result = [NSString stringWithFormat:@"%@://%@" ,scheme,host];
     }
     return result;
 }

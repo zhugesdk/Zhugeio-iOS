@@ -120,9 +120,9 @@ typedef void (*ZhugeDidSelectImplementation)(id, SEL, UIScrollView *, NSIndexPat
     if (target != scrollView.delegate) {
         return;
     }
-    
+    NSArray *autoTrackArray = [Zhuge autoTrackInstance];
     //非全埋点,不作处理
-    if(Zhuge.sharedInstance.config.autoTrackEnable == NO){
+    if(autoTrackArray.count <= 0){
         return;
     }
 
@@ -130,9 +130,9 @@ typedef void (*ZhugeDidSelectImplementation)(id, SEL, UIScrollView *, NSIndexPat
     if (!properties) {
         return; 
     }
-
-    [[Zhuge sharedInstance] autoTrack:properties];
-    
+    for (Zhuge *zhuge in autoTrackArray) {
+        [zhuge autoTrack:properties];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
