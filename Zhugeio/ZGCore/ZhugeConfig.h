@@ -7,7 +7,7 @@
 #import <Foundation/Foundation.h>
 
 /* SDK版本 */
-#define ZG_SDK_VERSION @"4.1.3"
+#define ZG_SDK_VERSION @"4.3.0"
 
 /* 默认应用版本 */
 #define ZG_APP_VERSION [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
@@ -56,21 +56,6 @@
  */
 @property (nonatomic, assign) BOOL debug;
 
-/**
- * 追踪级别
- * 默认 0 关闭
- * setTrackerLevel: 1 只追踪用户行为事件
- * setTrackerLevel: 2 追踪设备信息 + 用户行为事件
- * 预留配置，暂时没用
- */
-//@property (nonatomic,assign) NSInteger trackerLevel;
-
-
-/**
- * 用户是否开启ZGSee
- * 默认 NO
- */
-//@property (nonatomic,assign) BOOL zgSeeEnable;
 
 /**
  * 全埋点是否开启
@@ -96,11 +81,6 @@
  */
 //@property (nonatomic, assign) BOOL isEnableRNAutoTrack;
 
-/**
- * 可视化埋点开关
- * 默认 NO
- */
-//@property (nonatomic, assign) BOOL enableCodeless;
 
 /**
  * 新的可视化埋点开关 默认 NO, 设置为YES开启后,就会上报可视化埋点的埋点事件,设置为YES时也会开启全埋点
@@ -126,16 +106,6 @@
 @property (nonatomic, assign) BOOL overwriteH5ProWithAppSuperPro;
 
 
-/**
- * log 日志 开关  （ 请在debug 模式下 使用 ！！！！）
- */
-//@property (nonatomic, assign) BOOL enableLoger;
-
-
-//服务端策略
-@property (nonatomic, assign) NSInteger serverPolicy;
-
--(BOOL)isSeeEnable;
 
 /**
  * 上传数据加密rsa 公钥

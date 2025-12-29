@@ -16,7 +16,6 @@ static NSString *const ZG_BACKUP_API = @"https://su.zhugeio.com";
 
 
 #pragma mark - NSUserDefault KEY
-static NSString *const ZG_LAST_SESSIONID = @"ZGLastSessionId";
 
 
 #pragma mark - 推送

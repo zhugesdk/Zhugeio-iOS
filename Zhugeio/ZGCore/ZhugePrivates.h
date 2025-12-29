@@ -9,10 +9,7 @@
 
 #import "Zhuge.h"
 
-@interface Zhuge ()<ShakeGestureDelegate> {
-    
-}
-
+@interface Zhuge ()
 @property (nonatomic, copy) NSString *userId;
 @property (nonatomic, copy) NSString *appId;
 @property (nonatomic, copy) NSString *appSocketToken;
@@ -33,41 +30,28 @@
 @property (nonatomic, copy) NSString *lastUploadAdInfoAppVersion;
 @property (nonatomic, strong) NSMutableDictionary *eventTimeDic;
 @property (nonatomic, strong) NSMutableDictionary *envInfo;
-@property (nonatomic, assign) NSInteger  zhugeSeeReal;
-@property (nonatomic, copy) NSString *zhugeSeeNet;
-@property (nonatomic, copy) NSString *ZGPublicKey;
-@property (nonatomic, copy) NSString *ZGPublicMD5;
 
-@property (nonatomic, strong) NSNumber *lastSessionId;
+
+@property (nonatomic, strong) NSNumber *lastSessionActiveTime;
 
 @property (nonatomic, assign) BOOL isForeground;
+@property (atomic, assign) BOOL allowUplode;
 @property (nonatomic) volatile int32_t sessionCount; //毫秒偏移量
-@property (nonatomic) volatile int32_t seeCount;
-@property (nonatomic, assign) BOOL localZhugeSeeState;
 
 @property (nonatomic, strong) NSMutableArray * archiveEventQueue;
 @property (nonatomic, strong) NSMutableDictionary * utmDic;
-@property (nonatomic, assign) int retryPost;
 
-@property (nonatomic, strong) CMMotionManager *motionManager;
 
-/**
- * 根据deepShare是否已经返回结果来判断是否开始上传数据 默认为NO。
- */
-@property (nonatomic, assign) BOOL flushBool;
 
 @property (nonatomic, strong) NSMutableArray *ignoredViewTypeList;
 
 @property (nonatomic, assign) BOOL isInitSDK;
+@property (nonatomic, strong) NSDate *uploadDate;
 
 
 #pragma mark - Codeless
 
-@property (nonatomic, strong) ShakeGesture *shakeGesture;
 @property (nonatomic, strong) ZGABTestDesignerConnection *abtestDesignerConnection;
-@property (nonatomic, strong) NSSet *variants;
-@property (nonatomic, strong) NSSet *eventBindings;
-@property (nonatomic, strong) NSNumber *preTime;
 
 @end
 

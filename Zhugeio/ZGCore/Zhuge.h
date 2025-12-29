@@ -27,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 +(NSArray *)getCustomGestureViews;
 +(void)openLog;
 +(BOOL)isLogEnable;
++(void)setPrivacyAgree:(BOOL) agree;
++(void)setPrivacyControl:(BOOL)enable;
 /**
  * 获得诸葛配置实例。
  */
@@ -45,11 +47,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - 开启统计
 /**
- 诸葛上传地址
- */
-//- (void)setUploadURL:(nonnull NSString*)url andBackupUrl:(nullable NSString *)backupUrl;
-
-/**
  * 自动统计页面停留时长
  */
 - (void)enabelDurationOnPage;
@@ -58,36 +55,10 @@ NS_ASSUME_NONNULL_BEGIN
  * 开启全埋点采集
  */
 - (void)enableAutoTrack;
-//- (BOOL)isAutoTrackEnable;
-
-/**
- * 开启视屏采集
- */
-//- (void)enableZGSee;
-
-//-(void)enableIDFACollect;
-
 /**
  * 开启曝光采集 Exposure
  */
 - (void)enableExpTrack;
-
-/**
- * 配置加密的rsa公钥
-    
- */
-//- (void)setUploadRsaPubKey:(nonnull NSString*)pubKey;
-
-/**
- * 配置加密的sm2公钥
-    
- */
-//- (void)setUploadSM2PubKey:(nonnull NSString*)pubSM2Key;
-
-/**
- * 开启加密上传和加密策略, 1: rsa  2: sm
- */
-//- (void)enableEncryptUpload:(BOOL)encrypt CryptoType:(int)cryptoType;
 
 /**
  开启诸葛统计。

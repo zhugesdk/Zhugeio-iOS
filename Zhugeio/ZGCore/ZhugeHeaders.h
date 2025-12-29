@@ -21,7 +21,6 @@
 #include <net/if.h>
 #include <net/if_dl.h>
 #include <libkern/OSAtomic.h>
-#import <CoreMotion/CoreMotion.h>
 
 
 #pragma mark - ZG Headers
@@ -29,18 +28,15 @@
 #import "ZhugeEventProperty.h"
 #import "ZhugeCompres.h"
 #import "ZhugeBase64.h"
-#import "ZGHttpHelper.h"
 #import "ZhugeConstants.h"
-#import "ZGSharedDur.h"
-#import "ZGUtil.h"
 #import "ZGSqliteManager.h"
 #import "ZGDeviceInfo.h"
 #import "ZhugeSwizzle.h"
-#import "ZGCMMotionManager.h"
 #import "ZGRequestManager.h"
 #import "ZGUtils.h"
 #import "ZASwizzle.h"
 #import "ZADeviceId.h"
+#import "ZhugeEncryptAvailability.h"
 
 
 #pragma mark - AutoTrack
@@ -56,14 +52,7 @@
 
 #pragma mark - Codeless Headers
 
-#import "ShakeGesture.h"
 #import "ZGABTestDesignerConnection.h"
-#import "ZGVariant.h"
-#import "ZGEventBinding.h"
-#import "MPDesignerEventBindingMessage.h"
-#import "MPSwizzler.h"
-
-
 
 
 #pragma mark -
