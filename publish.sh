@@ -71,7 +71,7 @@ echo "📦 检测到当前版本: $VERSION"
 
 # 2. 预检：验证 Podspec
 echo "🔍 正在进行本地验证 (pod lib lint)..."
-pod lib lint "$PODSPEC" --allow-warnings --verbose
+pod lib lint "$PODSPEC" --allow-warnings
 
 # 3. 提交 Git 变更
 if [ -n "$(git status --porcelain)" ]; then

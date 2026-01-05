@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "ZhugeioAnalytics"
-  s.version      = "4.1.3"
+  s.version      = "4.3.0"
   s.summary      = "iOS tracking library for Zhugeio Analytics, The function is all ready finishing."
   s.homepage     = "http://zhugeio.com"
   s.license      = "MIT"
@@ -8,6 +8,8 @@ Pod::Spec.new do |s|
   s.platform     = :ios, "9.0"
   s.source       = { :git => "https://github.com/zhugesdk/Zhugeio-iOS.git", :tag => s.version }
   s.requires_arc = true
+  s.static_framework = true
+
   s.frameworks = 'UIKit', 'Foundation', 'SystemConfiguration'
   s.default_subspecs = 'Core'
 
