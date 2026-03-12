@@ -33,6 +33,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (BOOL)isDateToday:(NSDate *)date;
 
+/**
+检查是否有任何前台活跃的 Scene
+ */
++(BOOL)hasAnyForegroundScene;
+
 @end
 
 NS_ASSUME_NONNULL_END

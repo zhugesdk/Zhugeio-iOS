@@ -15,7 +15,6 @@ extern NSString * const ZgLogManagerDidAddLogNotification;
 + (instancetype)shared;
 - (void)addLog:(NSString *)log;
 - (NSArray<NSString *> *)allLogs;
-- (void)cleanLog;
 @end
 NS_ASSUME_NONNULL_END
 

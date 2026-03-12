@@ -12,14 +12,17 @@ Pod::Spec.new do |s|
 
   s.frameworks = 'UIKit', 'Foundation', 'SystemConfiguration'
   s.default_subspecs = 'Core'
-
+  # 隐私清单资源
+  s.resource_bundles = {
+    'ZhugeioAnanlytics' => ['Zhugeio/Resources/PrivacyInfo.xcprivacy']
+  }
   s.subspec 'Core' do |ss|
-    ss.source_files = ['Zhugeio/ZGCore/**/*.{m,h}']
+    ss.source_files = ['Zhugeio/Classes/ZGCore/**/*.{m,h}']
   
   end
 
   s.subspec 'GMEncrypt' do |ss|
-    ss.source_files = 'Zhugeio/GMEncrypt/**/*.{m,h}'
+    ss.source_files = 'Zhugeio/Classes/GMEncrypt/**/*.{m,h}'
     ss.frameworks = "Security"
     ss.dependency "GMOpenSSL"
   end

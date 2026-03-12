@@ -95,5 +95,13 @@
     return  [calendar isDateInToday:date];
 }
 
++(BOOL)hasAnyForegroundScene{
+    for (UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
+        if (scene.activationState == UISceneActivationStateForegroundActive) {
+            return YES;
+        }
+    }
+    return NO;
+}
 
 @end

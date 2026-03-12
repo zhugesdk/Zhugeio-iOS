@@ -8,6 +8,7 @@
 
 
 #import "Zhuge.h"
+#import "ZhugeDbAdapter.h"
 
 @interface Zhuge ()
 @property (nonatomic, copy) NSString *userId;
@@ -17,6 +18,7 @@
 @property (nonatomic, strong) NSDate *screenShotTime;
 @property (nonatomic) UIBackgroundTaskIdentifier taskId;
 @property (nonatomic, strong) dispatch_queue_t serialQueue;
+@property (nonatomic, strong) dispatch_queue_t uploadQueue;
 @property (nonatomic, strong) NSMutableArray *eventsQueue;
 @property (nonatomic, strong) ZhugeConfig *config;
 @property (nonatomic, strong) NSTimer *timer;
@@ -41,7 +43,7 @@
 @property (nonatomic, strong) NSMutableArray * archiveEventQueue;
 @property (nonatomic, strong) NSMutableDictionary * utmDic;
 
-
+@property (nonatomic, strong) ZhugeDbAdapter *dbAdapter;
 
 @property (nonatomic, strong) NSMutableArray *ignoredViewTypeList;
 

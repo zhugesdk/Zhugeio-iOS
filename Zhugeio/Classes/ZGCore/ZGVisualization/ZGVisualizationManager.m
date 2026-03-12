@@ -54,6 +54,18 @@ static ZGVisualizationManager *_manger = nil;
         _manger.zg_hasTestDebug = NO;
         
         //监听程序进入前台和后台
+        // iOS 13+ 使用 Scene 生命周期通知
+        if (@available(iOS 13.0, *)) {
+            [[NSNotificationCenter defaultCenter] addObserver:_manger
+                                                     selector:@selector(sceneDidEnterBackground:)
+                                                         name:UISceneDidEnterBackgroundNotification
+                                                       object:nil];
+            [[NSNotificationCenter defaultCenter] addObserver:_manger
+                                                     selector:@selector(sceneWillEnterForeground:)
+                                                         name:UISceneWillEnterForegroundNotification
+                                                       object:nil];
+        }
+        // Application 通知作为兜底
         [[NSNotificationCenter defaultCenter] addObserver:_manger
                                                  selector:@selector(enterBackGround:)
                                                      name:UIApplicationDidEnterBackgroundNotification
@@ -759,6 +771,21 @@ static ZGVisualizationManager *_manger = nil;
 }
 - (void)enterForeGround:(NSNotificationCenter *)notification{
     self.hasEnterBackGround = NO;
+}
+
+#pragma mark - Scene 生命周期 (iOS 13+)
+
+- (void)sceneDidEnterBackground:(NSNotification *)notification API_AVAILABLE(ios(13.0)) {
+    if (self.hasEnterBackGround || [ZGUtils hasAnyForegroundScene]) {
+        return;
+    }
+    self.hasEnterBackGround = YES;
+}
+
+- (void)sceneWillEnterForeground:(NSNotification *)notification API_AVAILABLE(ios(13.0)) {
+    if (self.hasEnterBackGround) {
+        self.hasEnterBackGround = NO;
+    }
 }
 
 -(NSMutableArray *)allShowClickViews
