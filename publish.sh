@@ -3,7 +3,7 @@
 set -e
 
 PODSPEC="ZhugeioAnalytics.podspec"
-CONFIG_HEADER="Zhugeio/ZGCore/ZhugeConfig.h"
+CONFIG_HEADER="Zhugeio/Classes/ZGCore/ZhugeConfig.h"
 
 # ==========================================
 # 模式 1: 修改版本号 (传入了版本号参数)
