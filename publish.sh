@@ -98,6 +98,14 @@ echo "☁️ 发布到 CocoaPods..."
 
 if pod trunk push "$PODSPEC" --allow-warnings; then
     echo "🎉 发布完成！版本: $VERSION"
+
+    # 6. 调用 zip_sdk.sh 生成源码压缩包
+    if [ -f "./zip_sdk.sh" ]; then
+        echo "📦 正在生成源码压缩包..."
+        ./zip_sdk.sh
+    else
+        echo "⚠️ 找不到 zip_sdk.sh，跳过压缩包生成。"
+    fi
 else
     echo "❌ 发布失败！"
     exit 1
