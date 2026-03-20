@@ -88,7 +88,11 @@ static char * ZGSupViewZIndex = "ZGSupViewZIndex";
 
     // 1. UIKit 内部类
     if ([className hasPrefix:@"_"]) return YES;
-
+    NSRange dotRange = [className rangeOfString:@"."];
+    if (dotRange.location != NSNotFound) {
+        NSString *localName = [className substringFromIndex:dotRange.location + 1];
+        if ([localName hasPrefix:@"_"]) return YES; // UIKit._UIXxx → 忽略
+    }
     // 2. LayoutGuide 忽略
     if ([view isKindOfClass:[UILayoutGuide class]]) return YES;
 

@@ -486,6 +486,10 @@ static ZGVisualizationManager *_manger = nil;
     if(![supView zg_isVisible] || supView.userInteractionEnabled == NO){
         return;
     }
+    // 过滤 UITabBar 及其内部所有子视图
+    if ([supView isKindOfClass:[UITabBar class]]) {
+        return;
+    }
     UIWindow *keyWindow = [UIWindow zg_currentWindow];
     if(zindex == 0){
         [self addMuItem:supView muArr:muArr zindex:zindex classStr:classStr keyWindow:keyWindow];
