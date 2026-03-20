@@ -2,17 +2,41 @@
 
 set -e
 
+# ==========================================
+# 配置
+# ==========================================
 PODSPEC="ZhugeioAnalytics.podspec"
 CONFIG_HEADER="Zhugeio/Classes/ZGCore/ZhugeConfig.h"
 
 # ==========================================
-# 模式 1: 修改版本号 (传入了版本号参数)
-# 举例: ./publish.sh 4.1.4
+# 帮助信息
 # ==========================================
-if [ -n "$1" ]; then
-    NEW_VERSION="$1"
+usage() {
+    echo "🛠  Zhugeio SDK 发布工具"
+    echo ""
+    echo "用法:"
+    echo "  $0 -v <new_version>  # 修改版本号 (更新 Podspec 和 ZhugeConfig.h)"
+    echo "  $0 -r                # 执行正式发布流程"
+    echo ""
+    echo "示例:"
+    echo "  $0 -v 4.3.2"
+    echo "  $0 -r"
+    exit 1
+}
+
+# ==========================================
+# 流程 1: 修改版本号
+# ==========================================
+update_version() {
+    local NEW_VERSION="$1"
+
+    if [ -z "$NEW_VERSION" ]; then
+        echo "❌ 错误: 请提供版本号"
+        usage
+    fi
+
     echo "🛠  模式: 修改版本号 -> $NEW_VERSION"
-    
+
     # 简单的版本号格式校验
     if [[ ! "$NEW_VERSION" =~ ^[0-9]+(\.[0-9]+)+([-a-zA-Z0-9.]+)?$ ]]; then
          echo "❌ 错误: 版本号格式看起来不对: '$NEW_VERSION'"
@@ -44,69 +68,98 @@ if [ -n "$1" ]; then
     git diff "$PODSPEC" "$CONFIG_HEADER"
     echo "========================================"
     echo "✨ 版本号修改完成 (未提交代码)。"
-    echo "👉 确认无误后，请运行不带参数的 ./publish.sh 进行正式发布。"
-    exit 0
-fi
+    echo "👉 确认无误后，请运行 $0 -r 进行正式发布。"
+}
 
 # ==========================================
-# 模式 2: 正式发布流程 (无参数)
+# 流程 2: 正式发布
 # ==========================================
-echo "🚀 模式: 正式发布"
+perform_release() {
+    echo "🚀 模式: 正式发布"
 
-# 1. 提取 podspec 版本号
-if [ ! -f "$PODSPEC" ]; then
-  echo "❌ 找不到 $PODSPEC"
-  exit 1
-fi
-
-# 提取版本号
-VERSION=$(grep -E 's.version\s*=' "$PODSPEC" | sed -E 's/.*"([0-9.]+)".*/\1/')
-
-if [ -z "$VERSION" ]; then
-  echo "❌ 无法从 $PODSPEC 中解析版本号"
-  exit 1
-fi
-
-echo "📦 检测到当前版本: $VERSION"
-
-# 2. 预检：验证 Podspec
-echo "🔍 正在进行本地验证 (pod lib lint)..."
-pod lib lint "$PODSPEC" --allow-warnings
-
-# 3. 提交 Git 变更
-if [ -n "$(git status --porcelain)" ]; then
-    echo "🔧 提交未保存的变更..."
-    git add .
-    git commit -m "release $VERSION" || echo "⚠️ 提交步骤无变更"
-    git push
-else
-    echo "✅ 工作区干净，无需提交"
-fi
-
-# 4. 创建并推送 Git Tag
-echo "🏷 处理 Git tag $VERSION..."
-
-if git rev-parse "$VERSION" >/dev/null 2>&1; then
-  echo "⚠️ Tag $VERSION 已存在"
-else
-  git tag "$VERSION"
-  git push origin "$VERSION"
-fi
-
-# 5. 执行 pod trunk push
-echo "☁️ 发布到 CocoaPods..."
-
-if pod trunk push "$PODSPEC" --allow-warnings; then
-    echo "🎉 发布完成！版本: $VERSION"
-
-    # 6. 调用 zip_sdk.sh 生成源码压缩包
-    if [ -f "./zip_sdk.sh" ]; then
-        echo "📦 正在生成源码压缩包..."
-        ./zip_sdk.sh
-    else
-        echo "⚠️ 找不到 zip_sdk.sh，跳过压缩包生成。"
+    # 1. 提取 podspec 版本号
+    if [ ! -f "$PODSPEC" ]; then
+      echo "❌ 找不到 $PODSPEC"
+      exit 1
     fi
-else
-    echo "❌ 发布失败！"
-    exit 1
+
+    # 提取版本号
+    local VERSION=$(grep -E 's.version\s*=' "$PODSPEC" | sed -E 's/.*"([0-9.]+)".*/\1/')
+
+    if [ -z "$VERSION" ]; then
+      echo "❌ 无法从 $PODSPEC 中解析版本号"
+      exit 1
+    fi
+
+    echo "📦 检测到当前版本: $VERSION"
+
+    # 2. 预检：验证 Podspec
+    echo "🔍 正在进行本地验证 (pod lib lint)..."
+    pod lib lint "$PODSPEC" --allow-warnings
+
+    # 3. 提交 Git 变更
+    if [ -n "$(git status --porcelain)" ]; then
+        echo "🔧 提交未保存的变更..."
+        git add .
+        git commit -m "release $VERSION" || echo "⚠️ 提交步骤无变更"
+        git push
+    else
+        echo "✅ 工作区干净，无需提交"
+    fi
+
+    # 4. 创建并推送 Git Tag
+    echo "🏷 处理 Git tag $VERSION..."
+
+    if git rev-parse "$VERSION" >/dev/null 2>&1; then
+      echo "⚠️ Tag $VERSION 已存在"
+    else
+      git tag "$VERSION"
+      git push origin "$VERSION"
+    fi
+
+    # 5. 执行 pod trunk push
+    echo "☁️ 发布到 CocoaPods..."
+
+    if pod trunk push "$PODSPEC" --allow-warnings; then
+        echo "🎉 发布完成！版本: $VERSION"
+
+        # 6. 调用 zip_sdk.sh 生成源码压缩包
+        if [ -f "./zip_sdk.sh" ]; then
+            echo "📦 正在生成源码压缩包..."
+            ./zip_sdk.sh
+        else
+            echo "⚠️ 找不到 zip_sdk.sh，跳过压缩包生成。"
+        fi
+    else
+        echo "❌ 发布失败！"
+        exit 1
+    fi
+}
+
+# ==========================================
+# 主逻辑
+# ==========================================
+
+# 如果没有参数，显示帮助
+if [ $# -eq 0 ]; then
+    usage
 fi
+
+while getopts "v:r" opt; do
+    case "$opt" in
+        v)
+            update_version "$OPTARG"
+            exit 0
+            ;;
+        r)
+            perform_release
+            exit 0
+            ;;
+        *)
+            usage
+            ;;
+    esac
+done
+
+# 如果匹配不到任何参数，显示帮助
+usage
