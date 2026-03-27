@@ -13,8 +13,8 @@
 #import "ZGVisualizationManager.h"
 #import "UIControl+ZGClick.h"
 #import "ZGVisualizationSocketMessage.h"
-#import "ZGIDFAUtil.h"
-#import <AdServices/AdServices.h>
+// #import "ZGIDFAUtil.h"
+// #import <AdServices/AdServices.h>
 //#import "GMSm4Utils.h"
 //#import "GMSm2Utils.h"
 //#import "GMSm2Bio.h"
@@ -571,7 +571,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         if ([self.config isSeeEnable]) {
             [self zgSeeStart];
         }
-        [self checkAdService];
+        // [self checkAdService];
         [self uploadDeviceInfo];
 //        [self startFlushTimer];
         if (self.config.enableCodeless) {
@@ -695,72 +695,72 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 
 #pragma mark -广告归因
 -(void) checkAdService{
-    if(!self.config.idfaCollect){
-        return;
-    }
-    if(self.lastUploadAdInfoAppVersion && [self.config.appVersion isEqualToString:self.lastUploadAdInfoAppVersion]){
-        //当前版本已上传过归因数据，不再上传
-        return;
-    }
-    if (@available(iOS 14.3, *)) {
-        NSError *error;
-        NSString *token = [AAAttribution attributionTokenWithError:&error];
-        if (token != nil) {
-            dispatch_async(self.serialQueue, ^{
-                [self checkUseADServiceWithToken:token];
-            });
-        } else {
-            if(error){
-                ZGLogWarning(@"request ad token error , %d",error);
-            }
-        }
-    }
+    // if(!self.config.idfaCollect){
+    //     return;
+    // }
+    // if(self.lastUploadAdInfoAppVersion && [self.config.appVersion isEqualToString:self.lastUploadAdInfoAppVersion]){
+    //     //当前版本已上传过归因数据，不再上传
+    //     return;
+    // }
+    // if (@available(iOS 14.3, *)) {
+    //     NSError *error;
+    //     NSString *token = [AAAttribution attributionTokenWithError:&error];
+    //     if (token != nil) {
+    //         dispatch_async(self.serialQueue, ^{
+    //             [self checkUseADServiceWithToken:token];
+    //         });
+    //     } else {
+    //         if(error){
+    //             ZGLogWarning(@"request ad token error , %d",error);
+    //         }
+    //     }
+    // }
 }
 
 -(void)checkUseADServiceWithToken:(NSString *)token{
-    // 发送POST请求归因数据
-    NSString *urlString = @"https://api-adservices.apple.com/api/v1/";
-    NSURL *URL = [NSURL URLWithString:urlString];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-    [request addValue:@"text/plain" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPMethod:@"POST"];
-    NSData* postData = [token dataUsingEncoding:NSUTF8StringEncoding];
-    [request setHTTPBody:postData];
-    [[[ZGRequestManager defaultURLSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable responseData, NSURLResponse * _Nullable urlResponse, NSError * _Nullable error) {
-        if(!responseData){
-            return;
-        }
-        NSError *resError;
-        NSMutableDictionary *resDic = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:&resError];
-        BOOL value = [[resDic valueForKey:@"attribution"] boolValue];
-        if(value){
-            [self buildADData:resDic];
-        }
+    // // 发送POST请求归因数据
+    // NSString *urlString = @"https://api-adservices.apple.com/api/v1/";
+    // NSURL *URL = [NSURL URLWithString:urlString];
+    // NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+    // [request addValue:@"text/plain" forHTTPHeaderField:@"Content-Type"];
+    // [request setHTTPMethod:@"POST"];
+    // NSData* postData = [token dataUsingEncoding:NSUTF8StringEncoding];
+    // [request setHTTPBody:postData];
+    // [[[ZGRequestManager defaultURLSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable responseData, NSURLResponse * _Nullable urlResponse, NSError * _Nullable error) {
+    //     if(!responseData){
+    //         return;
+    //     }
+    //     NSError *resError;
+    //     NSMutableDictionary *resDic = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:&resError];
+    //     BOOL value = [[resDic valueForKey:@"attribution"] boolValue];
+    //     if(value){
+    //         [self buildADData:resDic];
+    //     }
           
-    }] resume];
+    // }] resume];
 }
 
 -(void)buildADData:(NSDictionary*) adData{
-    NSMutableDictionary *e = [NSMutableDictionary dictionary];
-    e[@"dt"] = @"adtf";
-    NSMutableDictionary *pr = [self buildCommonData];
-    pr[@"$channel_type"] = @5;
-    NSError *error;
+    // NSMutableDictionary *e = [NSMutableDictionary dictionary];
+    // e[@"dt"] = @"adtf";
+    // NSMutableDictionary *pr = [self buildCommonData];
+    // pr[@"$channel_type"] = @5;
+    // NSError *error;
     
-    NSData *jsonData = [self JSONSerializeObject:adData];
-    if (jsonData) {
-        NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        pr[@"$apple_ad"] = jsonString;
-    }
-    NSString *idfaString = [ZGIDFAUtil idfa];
-    if(!idfaString){
-        idfaString = @"";
-    }
-    pr[@"$idfa"] = idfaString;
-    pr[@"$sl"] = @"zh";
-    e[@"pr"] = pr;
-    [self enqueueEvent:e];
-    self.lastUploadAdInfoAppVersion = self.config.appVersion;
+    // NSData *jsonData = [self JSONSerializeObject:adData];
+    // if (jsonData) {
+    //     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    //     pr[@"$apple_ad"] = jsonString;
+    // }
+    // NSString *idfaString = [ZGIDFAUtil idfa];
+    // if(!idfaString){
+    //     idfaString = @"";
+    // }
+    // pr[@"$idfa"] = idfaString;
+    // pr[@"$sl"] = @"zh";
+    // e[@"pr"] = pr;
+    // [self enqueueEvent:e];
+    // self.lastUploadAdInfoAppVersion = self.config.appVersion;
 }
 
 #pragma mark - 生成事件
@@ -813,11 +813,11 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
                 pr[@"$vn"] = self.config.appVersion;
                 pr[@"$sc"]= @0;
                 if(self.config.idfaCollect){
-                    NSString *idfaString = [ZGIDFAUtil idfa];
-                    if(!idfaString){
-                        idfaString = @"";
-                    }
-                    pr[@"$idfa"] = idfaString;
+                    // NSString *idfaString = [ZGIDFAUtil idfa];
+                    // if(!idfaString){
+                    //     idfaString = @"";
+                    // }
+                    // pr[@"$idfa"] = idfaString;
                 }
                 e[@"pr"] = pr;
                 [self enqueueEvent:e];
