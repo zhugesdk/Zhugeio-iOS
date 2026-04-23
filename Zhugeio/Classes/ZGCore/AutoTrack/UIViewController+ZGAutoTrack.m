@@ -11,9 +11,7 @@
 #import "ZGLog.h"
 #import "ZGVisualizationManager.h"
 
-static double _diff = 0;
-static CFAbsoluteTime _start;
-static CFAbsoluteTime _end;
+
 
 static NSData *_imageData;
 NSString * const gc_VCKey = nil;
@@ -25,6 +23,9 @@ NSString * const gc_VCKey = nil;
 }
 
 - (NSString *)zhugeScreenTitle {
+    if (self.zhugeioAttributesPageName) {
+        return self.zhugeioAttributesPageName;
+    }
     NSString *titleViewContent = [ZhugeAutoTrackUtils zhugeGetViewContent: self.navigationItem.titleView];
     if (titleViewContent && titleViewContent.length > 0) {
         return titleViewContent;
@@ -106,7 +107,8 @@ NSString * const gc_VCKey = nil;
         }
         
         NSNumber *ts = @([[NSDate date] timeIntervalSince1970]);
-        _start = CFAbsoluteTimeGetCurrent();
+        CFAbsoluteTime now = CFAbsoluteTimeGetCurrent();
+        objc_setAssociatedObject(self, @"zg_pageStartTime", @(now), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         ZGLogDebug(@"startTrack %@ at time : %@",pageName,ts);
         
     }
@@ -117,17 +119,26 @@ NSString * const gc_VCKey = nil;
 
 - (void)endTrackPage:(NSString *)pageName {
     @try {
-        _end = CFAbsoluteTimeGetCurrent();
-        _diff = _end - _start;
-//        _diff = _end - _start > 0 ? _end - _start : 1;
+        CFAbsoluteTime end = CFAbsoluteTimeGetCurrent();
+        NSNumber *startNumber = objc_getAssociatedObject(self, @"zg_pageStartTime");
+        CFAbsoluteTime start = startNumber ? [startNumber doubleValue] : end;
+        double diff = end - start;
 
         NSMutableDictionary *properties = [[NSMutableDictionary alloc] init];
-        NSInteger drTime = (NSInteger)round(_diff * 1000);
+        NSInteger drTime = (NSInteger)round(diff * 1000);
         properties[@"$dr"] = @(drTime);
-//        properties[@"$dr"] = [NSString stringWithFormat:@"%.0f",_diff];
         properties[@"$page_url"] = pageName;
         properties[@"$eid"] = @"dr";
         properties[@"$page_title"] = [self zhugeScreenTitle];
+        
+        if (self.zhugeioAttributesVariable && self.zhugeioAttributesVariable.count > 0) {
+            for (NSString *key in self.zhugeioAttributesVariable) {
+                id value = self.zhugeioAttributesVariable[key];
+                NSString *newKey = [NSString stringWithFormat:@"_%@",key];
+                [properties setValue:value forKey:newKey];
+            }
+        }
+
         NSArray *array = [Zhuge durationOnPageInstance];
         for (Zhuge *zhuge in array) {
             [zhuge trackDurationOnPage:properties];
@@ -165,19 +176,12 @@ NSString * const gc_VCKey = nil;
     [data setObject:[self zhugeScreenName] forKey:@"$page_url"];
     [data setObject:[self zhugeScreenTitle] forKey:@"$page_title"];
     
-    if (self.zhugeioAttributesPageName) {
-        [data setObject:self.zhugeioAttributesPageName forKey:@"$page_title"];
-    }
-    
-    if (self.zhugeioAttributesVariable) {
-        __block NSMutableDictionary *copy = [NSMutableDictionary dictionaryWithCapacity:[self.zhugeioAttributesVariable count]];
+    if (self.zhugeioAttributesVariable && self.zhugeioAttributesVariable.count > 0) {
         for (NSString *key in self.zhugeioAttributesVariable) {
             id value = self.zhugeioAttributesVariable[key];
             NSString *newKey = [NSString stringWithFormat:@"_%@",key];
-            [copy setValue:value forKey:newKey];
+            [data setValue:value forKey:newKey];
         }
-        
-        [data addEntriesFromDictionary:copy];
     }
 
     NSArray *array = [Zhuge autoTrackInstance];
@@ -288,14 +292,14 @@ NSString * const gc_VCKey = nil;
         return;
     }
     
-    [view.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull view, NSUInteger index, BOOL * _Nonnull stop) {
+    [view.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull subview, NSUInteger index, BOOL * _Nonnull stop) {
 
-        if (view.zhugeioAttributesValue && !view.zhugeioAttributesDonotTrackExp) {
-            [self trackExpEvent:view.zhugeioAttributesValue properties:view.zhugeioAttributesVariable];
+        if (subview.zhugeioAttributesValue && !subview.zhugeioAttributesDonotTrackExp) {
+            [self trackExpEvent:subview.zhugeioAttributesValue properties:subview.zhugeioAttributesVariable];
         }
 
-        if (view.subviews.count > 0) {
-            [self checkoutSubviews:view];
+        if (subview.subviews.count > 0) {
+            [self checkoutSubviews:subview];
         }
 
     }];

@@ -1,5 +1,5 @@
 //
-//  GMObjCDef.h
+//  ZGGMObjCDef.h
 //  Created by lifei on 2019/7/17.
 //  Copyright © 2019 lifei. All rights reserved.
 
@@ -32,32 +32,32 @@
  Gy  = 4FE342E2 FE1A7F9B 8EE7EB4A 7C0F9E16 2BCE3357 6B315ECE CBB64068 37BF51F5
  */
 
-#ifndef GMObjCDef_h
-#define GMObjCDef_h
+#ifndef ZGGMObjCDef_h
+#define ZGGMObjCDef_h
 
 #ifdef DEBUG
-#define GMLog(...) NSLog(__VA_ARGS__)
+#define ZGGMLog(...) NSLog(__VA_ARGS__)
 #else
-#define GMLog(...)
+#define ZGGMLog(...)
 #endif
 
 // 常用标准椭圆曲线，默认 NID_sm2，一般不需更改
-typedef NS_ENUM(int, GMCurveType) {
-    GMCurveType_sm2p256v1 = 1172,   // NID_sm2(默认)
-    GMCurveType_secp256k1 = 714,    // NID_secp256k1
-    GMCurveType_secp256r1 = 415     // NID_X9_62_prime256v1
+typedef NS_ENUM(int, ZGGMCurveType) {
+    ZGGMCurveType_sm2p256v1 = 1172,   // NID_sm2(默认)
+    ZGGMCurveType_secp256k1 = 714,    // NID_secp256k1
+    ZGGMCurveType_secp256r1 = 415     // NID_X9_62_prime256v1
 };
 
 // HMAC 算法主要类型
-typedef NS_ENUM(int, GMHashType) {
-    GMHashType_SM3 = 0,     // EVP_sm3(void)(默认)
-    GMHashType_MD5,         // EVP_md5(void)
-    GMHashType_SHA1,        // EVP_sha1(void)
-    GMHashType_SHA224,      // EVP_sha224(void)
-    GMHashType_SHA256,      // EVP_sha256(void)
-    GMHashType_SHA384,      // EVP_sha384(void)
-    GMHashType_SHA512       // EVP_sha512(void)
+typedef NS_ENUM(int, ZGGMHashType) {
+    ZGGMHashType_SM3 = 0,     // EVP_sm3(void)(默认)
+    ZGGMHashType_MD5,         // EVP_md5(void)
+    ZGGMHashType_SHA1,        // EVP_sha1(void)
+    ZGGMHashType_SHA224,      // EVP_sha224(void)
+    ZGGMHashType_SHA256,      // EVP_sha256(void)
+    ZGGMHashType_SHA384,      // EVP_sha384(void)
+    ZGGMHashType_SHA512       // EVP_sha512(void)
 };
 
-#endif /* GMObjCDef_h */
+#endif /* ZGGMObjCDef_h */
 

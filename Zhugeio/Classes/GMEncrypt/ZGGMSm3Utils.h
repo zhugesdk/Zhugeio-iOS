@@ -1,5 +1,5 @@
 //
-//  GMSm3Utils.h
+//  ZGGMSm3Utils.h
 //  BaseDemo
 //
 //  Created by lifei on 2019/8/2.
@@ -10,11 +10,11 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "GMUtils.h"
+#import "ZGGMUtils.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GMSm3Utils : NSObject
+@interface ZGGMSm3Utils : NSObject
 
 /// 提取文本字符串的摘要值。返回值：摘要值，16进制编码格式
 /// @param plaintext 待提取摘要的字符串
@@ -32,11 +32,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (nullable NSString *)hmacWithSm3:(NSData *)keyData plainData:(NSData *)plainData;
 
 /// HMAC 算法计算摘要。返回值：计算的摘要长度和原摘要算法长度相同，16进制编码格式
-/// @param type 选取的摘要算法，详见 GMObjCDef.h 中 GMHashType 枚举
+/// @param type 选取的摘要算法，详见 ZGGMObjCDef.h 中 ZGGMHashType 枚举
 /// @param key 密钥字符串，keyData: NSData 格式的 密钥
 /// @param plaintext 待计算的消息明文，plainData：NSData 格式的消息明文
-+ (nullable NSString *)hmac:(GMHashType)type key:(NSString *)key plaintext:(NSString *)plaintext;
-+ (nullable NSString *)hmac:(GMHashType)type keyData:(NSData *)keyData plainData:(NSData *)plainData;
++ (nullable NSString *)hmac:(ZGGMHashType)type key:(NSString *)key plaintext:(NSString *)plaintext;
++ (nullable NSString *)hmac:(ZGGMHashType)type keyData:(NSData *)keyData plainData:(NSData *)plainData;
 
 @end
 

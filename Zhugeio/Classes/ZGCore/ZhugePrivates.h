@@ -27,7 +27,6 @@
 @property (nonatomic, strong) CTTelephonyNetworkInfo *telephonyInfo;
 @property (nonatomic, copy) NSString *net;
 @property (nonatomic, copy) NSString *radio;
-@property (nonatomic, copy) NSString *cr;
 //最后一次成功上传归因数据时的应用版本
 @property (nonatomic, copy) NSString *lastUploadAdInfoAppVersion;
 @property (nonatomic, strong) NSMutableDictionary *eventTimeDic;
@@ -39,6 +38,9 @@
 @property (nonatomic, assign) BOOL isForeground;
 @property (atomic, assign) BOOL allowUplode;
 @property (nonatomic) volatile int32_t sessionCount; //毫秒偏移量
+
+@property (atomic, assign) BOOL isResumedFromBackground;
+@property (atomic, strong) NSNumber *foregroundStartTime;
 
 @property (nonatomic, strong) NSMutableArray * archiveEventQueue;
 @property (nonatomic, strong) NSMutableDictionary * utmDic;

@@ -13,7 +13,7 @@
 @implementation UIView(ZAExposure)
 
 - (void)setZhugeioExpScale:(double)zhugeioExpScale {
-    objc_setAssociatedObject(self, @"zhugeioExpScale", [NSNumber numberWithDouble:zhugeioExpScale], OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, @"zhugeioExpScale", [NSNumber numberWithDouble:zhugeioExpScale], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (double)zhugeioExpScale {
@@ -26,21 +26,8 @@
     self.zhugeioAttributesDonotTrackExp = NO;
 }
 
-- (void)zhugeioExpTrack:(NSString *)eventId withNumber:(NSNumber *)number {
-    self.zhugeioAttributesValue = eventId;
-    self.zhugeioAttributesUniqueTag = number;
-    self.zhugeioAttributesDonotTrackExp = NO;
-}
-
 - (void)zhugeioExpTrack:(NSString *)eventId withVariable:(NSDictionary<NSString *,id> *)variable {
     self.zhugeioAttributesValue = eventId;
-    self.zhugeioAttributesVariable = variable;
-    self.zhugeioAttributesDonotTrackExp = NO;
-}
-
-- (void)zhugeioExpTrack:(NSString *)eventId withNumber:(NSNumber *)number andVariable:(NSDictionary<NSString *,id> *)variable {
-    self.zhugeioAttributesValue = eventId;
-    self.zhugeioAttributesUniqueTag = number;
     self.zhugeioAttributesVariable = variable;
     self.zhugeioAttributesDonotTrackExp = NO;
 }
@@ -54,7 +41,7 @@
 @implementation UIView (ZAAttributes)
 
 - (void)setZhugeioAttributesDonotTrack:(BOOL)zhugeioAttributesDonotTrack {
-    objc_setAssociatedObject(self, @"zhugeioAttributesDonotTrack", [NSNumber numberWithBool:zhugeioAttributesDonotTrack], OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, @"zhugeioAttributesDonotTrack", [NSNumber numberWithBool:zhugeioAttributesDonotTrack], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (BOOL)zhugeioAttributesDonotTrack {
@@ -62,7 +49,7 @@
 }
 
 - (void)setZhugeioAttributesDonotTrackExp:(BOOL)zhugeioAttributesDonotTrackExp {
-    objc_setAssociatedObject(self, @"zhugeioAttributesDonotTrackExp", [NSNumber numberWithBool:zhugeioAttributesDonotTrackExp], OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, @"zhugeioAttributesDonotTrackExp", [NSNumber numberWithBool:zhugeioAttributesDonotTrackExp], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (BOOL)zhugeioAttributesDonotTrackExp {
@@ -71,7 +58,7 @@
 
 
 - (void)setZhugeioAttributesDonotTrackValue:(BOOL)zhugeioAttributesDonotTrackValue {
-    objc_setAssociatedObject(self, @"zhugeioAttributesDonotTrackValue", [NSNumber numberWithBool:zhugeioAttributesDonotTrackValue], OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, @"zhugeioAttributesDonotTrackValue", [NSNumber numberWithBool:zhugeioAttributesDonotTrackValue], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (BOOL)zhugeioAttributesDonotTrackValue {
@@ -84,22 +71,6 @@
 
 - (NSString *)zhugeioAttributesValue {
     return objc_getAssociatedObject(self, @"zhugeioAttributesValue");
-}
-
-- (void)setZhugeioAttributesUniqueTag:(NSString *)zhugeioAttributesUniqueTag {
-    objc_setAssociatedObject(self, @"zhugeioAttributesUniqueTag", zhugeioAttributesUniqueTag, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
-
-- (NSString *)zhugeioAttributesUniqueTag {
-    return objc_getAssociatedObject(self, @"zhugeioAttributesUniqueTag");
-}
-
-- (void)setZhugeioAttributesInfo:(NSString *)zhugeioAttributesInfo {
-    objc_setAssociatedObject(self, @"zhugeioAttributesInfo", zhugeioAttributesInfo, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
-
-- (NSString *)zhugeioAttributesInfo {
-    return objc_getAssociatedObject(self, @"zhugeioAttributesInfo");
 }
 
 

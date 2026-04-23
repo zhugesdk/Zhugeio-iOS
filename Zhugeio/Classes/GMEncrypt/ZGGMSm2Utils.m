@@ -44,7 +44,7 @@ static int kZGDefaultEllipticCurveType = NID_sm2;
 {
     if (self == [ZGGMSm2Utils class]) {
         if (OPENSSL_VERSION_NUMBER < 0x1010100fL) {
-            GMLog(@"OpenSSL 当前版本：%s",OPENSSL_VERSION_TEXT);
+            ZGGMLog(@"OpenSSL 当前版本：%s",OPENSSL_VERSION_TEXT);
             NSAssert(NO, @"OpenSSL 版本低于 1.1.1，不支持国密");
         }
     }
@@ -149,7 +149,7 @@ static int kZGDefaultEllipticCurveType = NID_sm2;
     NSData *plainData = [plaintext dataUsingEncoding:NSUTF8StringEncoding];
     NSData *cipherData = [self enData:plainData hexPubKey:publicKey];
     
-    NSString *encryptedStr = [GMUtils dataToHex:cipherData];
+    NSString *encryptedStr = [ZGGMUtils dataToHex:cipherData];
     return encryptedStr;
 }
 
@@ -158,10 +158,10 @@ static int kZGDefaultEllipticCurveType = NID_sm2;
     if (plainHex.length == 0 || publicKey.length == 0) {
         return nil;
     }
-    NSData *plainData = [GMUtils hexToData:plainHex];
+    NSData *plainData = [ZGGMUtils hexToData:plainHex];
     NSData *cipherData = [self enData:plainData hexPubKey:publicKey];
     
-    NSString *encryptedStr = [GMUtils dataToHex:cipherData];
+    NSString *encryptedStr = [ZGGMUtils dataToHex:cipherData];
     return encryptedStr;
 }
 
@@ -227,7 +227,7 @@ static int kZGDefaultEllipticCurveType = NID_sm2;
         return nil;
     }
     
-    NSData *cipherData = [GMUtils hexToData:ciphertext];
+    NSData *cipherData = [ZGGMUtils hexToData:ciphertext];
     NSData *plainData = [self deData:cipherData hexPriKey:privateKey];
     
     NSString *decryptedStr = [[NSString alloc]initWithData:plainData encoding:NSUTF8StringEncoding];
@@ -240,10 +240,10 @@ static int kZGDefaultEllipticCurveType = NID_sm2;
         return nil;
     }
     
-    NSData *cipherData = [GMUtils hexToData:ciphertext];
+    NSData *cipherData = [ZGGMUtils hexToData:ciphertext];
     NSData *plainData = [self deData:cipherData hexPriKey:privateKey];
     
-    NSString *plainHex = [GMUtils dataToHex:plainData];
+    NSString *plainHex = [ZGGMUtils dataToHex:plainData];
     return plainHex;
 }
 
@@ -358,8 +358,8 @@ static int kZGDefaultEllipticCurveType = NID_sm2;
     NSString *c3Hex = [upperEnText substringWithRange:NSMakeRange(128, 64)];
     NSString *c2Hex = [upperEnText substringFromIndex:192];
     
-    NSData *c3Data = [GMUtils hexToData:c3Hex];
-    NSData *c2Data = [GMUtils hexToData:c2Hex];
+    NSData *c3Data = [ZGGMUtils hexToData:c3Hex];
+    NSData *c2Data = [ZGGMUtils hexToData:c2Hex];
     if (c3Data.length == 0 || c2Data.length == 0) {
         return nil;
     }
@@ -369,7 +369,7 @@ static int kZGDefaultEllipticCurveType = NID_sm2;
         return nil;
     }
     
-    NSString *asn1Str = [GMUtils dataToHex:asn1Data];
+    NSString *asn1Str = [ZGGMUtils dataToHex:asn1Data];
 
     return asn1Str;
 }
@@ -394,7 +394,7 @@ static int kZGDefaultEllipticCurveType = NID_sm2;
     NSData *c3Data = [c1c3c2Data subdataWithRange:NSMakeRange(64, 32)];
     NSData *c2Data = [c1c3c2Data subdataWithRange:NSMakeRange(96, c1c3c2Data.length - 96)];
     
-    NSString *c1Hex = [GMUtils dataToHex:c1Data];
+    NSString *c1Hex = [ZGGMUtils dataToHex:c1Data];
     NSData *asn1Data = [self asn1EnC1Hex:c1Hex c3Data:c3Data c2Data:c2Data];
     
     return asn1Data;
@@ -418,7 +418,7 @@ static int kZGDefaultEllipticCurveType = NID_sm2;
     NSString *paddingC1X = [self bnToHexPadding:c1xStr];
     NSString *paddingC1Y = [self bnToHexPadding:c1yStr];
     NSString *c1Hex = [NSString stringWithFormat:@"%@%@", paddingC1X, paddingC1Y];
-    NSData *c1Data = [GMUtils hexToData:c1Hex];
+    NSData *c1Data = [ZGGMUtils hexToData:c1Hex];
     // C3
     const int c3_len = EVP_MD_size(digest);
     NSData *c3Data = [NSData dataWithBytes:sm2_st->C3->data length:c3_len];
@@ -451,7 +451,7 @@ static int kZGDefaultEllipticCurveType = NID_sm2;
     if (asn1Hex.length == 0) {
         return nil;
     }
-    NSData *asn1Data = [GMUtils hexToData:asn1Hex];
+    NSData *asn1Data = [ZGGMUtils hexToData:asn1Hex];
     if (asn1Data.length == 0) {
         return nil;
     }
@@ -459,9 +459,9 @@ static int kZGDefaultEllipticCurveType = NID_sm2;
     if (decodedArray.count != 3) {
         return nil;
     }
-    NSString *c1Hex = [GMUtils dataToHex:decodedArray[0]];
-    NSString *c3Hex = [GMUtils dataToHex:decodedArray[1]];
-    NSString *c2Hex = [GMUtils dataToHex:decodedArray[2]];
+    NSString *c1Hex = [ZGGMUtils dataToHex:decodedArray[0]];
+    NSString *c3Hex = [ZGGMUtils dataToHex:decodedArray[1]];
+    NSString *c2Hex = [ZGGMUtils dataToHex:decodedArray[2]];
     
     if (c1Hex.length == 0 || c3Hex.length == 0 || c2Hex.length == 0) {
         return nil;
@@ -566,8 +566,8 @@ static int kZGDefaultEllipticCurveType = NID_sm2;
         return nil;
     }
     
-    NSData *plainData = [GMUtils hexToData:plainHex];
-    NSData *userData = [GMUtils hexToData:userHex];
+    NSData *plainData = [ZGGMUtils hexToData:plainHex];
+    NSData *userData = [ZGGMUtils hexToData:userHex];
     NSString *signRS = [self signData:plainData priKey:priKey userData:userData];
     
     return signRS;
@@ -660,8 +660,8 @@ static int kZGDefaultEllipticCurveType = NID_sm2;
         return NO;
     }
     
-    NSData *plainData = [GMUtils hexToData:plainHex];
-    NSData *userData = [GMUtils hexToData:userHex];
+    NSData *plainData = [ZGGMUtils hexToData:plainHex];
+    NSData *userData = [ZGGMUtils hexToData:userHex];
     
     BOOL isOK = [self verifyData:plainData signRS:signRS pubKey:pubKey userData:userData];
     return isOK;
@@ -715,7 +715,7 @@ static int kZGDefaultEllipticCurveType = NID_sm2;
             break;
         }
         NSData *derData = [NSData dataWithBytes:der_sig length:der_sig_len];
-        derEncode = [GMUtils dataToHex:derData];
+        derEncode = [ZGGMUtils dataToHex:derData];
         
         OPENSSL_free(der_sig);
     } while (NO);
@@ -732,7 +732,7 @@ static int kZGDefaultEllipticCurveType = NID_sm2;
         return nil;
     }
     
-    NSData *derData = [GMUtils hexToData:derSign];
+    NSData *derData = [ZGGMUtils hexToData:derSign];
     size_t sign_len = derData.length;
     const uint8_t *sign_char = (uint8_t *)derData.bytes; // 明文
     // 复制一份，对比验证
@@ -822,7 +822,7 @@ static int kZGDefaultEllipticCurveType = NID_sm2;
             break;
         }
         NSData *ecdhData = [NSData dataWithBytes:ecdh_text length:outlen];
-        ecdhStr = [GMUtils dataToHex:ecdhData];
+        ecdhStr = [ZGGMUtils dataToHex:ecdhData];
         
         OPENSSL_free(ecdh_text);
     } while (NO);

@@ -49,4 +49,14 @@ static NSString * const kZhugeSDKConfigSuite = @"com.zhuge.sdk.config";
     [[self sdkDefaults] setBool:enable forKey:kZGPrivacyControllKey];
 }
 
+- (BOOL)isAppInstallTracked:(NSString *)appKey {
+    NSString *installKey = [NSString stringWithFormat:@"com.zhuge.sdk.appInstallTracked.%@", appKey ?: @"default"];
+    return [[self sdkDefaults] boolForKey:installKey];
+}
+
+- (void)markAppInstallTracked:(NSString *)appKey {
+    NSString *installKey = [NSString stringWithFormat:@"com.zhuge.sdk.appInstallTracked.%@", appKey ?: @"default"];
+    [[self sdkDefaults] setBool:YES forKey:installKey];
+}
+
 @end

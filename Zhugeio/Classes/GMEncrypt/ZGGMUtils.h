@@ -9,11 +9,11 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "GMObjCDef.h"
+#import "ZGGMObjCDef.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GMUtils : NSObject
+@interface ZGGMUtils : NSObject
 
 ///MARK: - Hex 编码
 

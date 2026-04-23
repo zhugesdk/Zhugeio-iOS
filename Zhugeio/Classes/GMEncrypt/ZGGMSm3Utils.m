@@ -1,24 +1,24 @@
 //
-//  GMSm3Utils.m
+//  ZGGMSm3Utils.m
 //  BaseDemo
 //
 //  Created by lifei on 2019/8/2.
 //  Copyright © 2019 lifei. All rights reserved.
 //
 
-#import "GMSm3Utils.h"
+#import "ZGGMSm3Utils.h"
 #import <openssl/sm3.h>
 #import <openssl/evp.h>
 #import <openssl/hmac.h>
 
-@implementation GMSm3Utils
+@implementation ZGGMSm3Utils
 
 // OpenSSL 1.1.1 以上版本支持国密
 + (void)initialize
 {
-    if (self == [GMSm3Utils class]) {
+    if (self == [ZGGMSm3Utils class]) {
         if (OPENSSL_VERSION_NUMBER < 0x1010100fL) {
-            GMLog(@"OpenSSL 当前版本：%s",OPENSSL_VERSION_TEXT);
+            ZGGMLog(@"OpenSSL 当前版本：%s",OPENSSL_VERSION_TEXT);
             NSAssert(NO, @"OpenSSL 版本低于 1.1.1，不支持国密");
         }
     }
@@ -73,16 +73,16 @@
 
 //MARK: - HMAC
 + (nullable NSString *)hmacWithSm3:(NSString *)key plaintext:(NSString *)plaintext {
-    NSString *resultHex = [self hmac:GMHashType_SM3 key:key plaintext:plaintext];
+    NSString *resultHex = [self hmac:ZGGMHashType_SM3 key:key plaintext:plaintext];
     return resultHex;
 }
 
 + (nullable NSString *)hmacWithSm3:(NSData *)keyData plainData:(NSData *)plainData {
-    NSString *resultHex = [self hmac:GMHashType_SM3 keyData:keyData plainData:plainData];
+    NSString *resultHex = [self hmac:ZGGMHashType_SM3 keyData:keyData plainData:plainData];
     return resultHex;
 }
 
-+ (nullable NSString *)hmac:(GMHashType)type key:(NSString *)key plaintext:(NSString *)plaintext {
++ (nullable NSString *)hmac:(ZGGMHashType)type key:(NSString *)key plaintext:(NSString *)plaintext {
     if (key.length == 0 || plaintext.length == 0) {
         return nil;
     }
@@ -92,7 +92,7 @@
     return resultHex;
 }
 
-+ (nullable NSString *)hmac:(GMHashType)type keyData:(NSData *)keyData plainData:(NSData *)plainData {
++ (nullable NSString *)hmac:(ZGGMHashType)type keyData:(NSData *)keyData plainData:(NSData *)plainData {
     if (keyData.length == 0 || plainData.length == 0) {
         return nil;
     }
@@ -109,32 +109,32 @@
     NSData *resultData = [NSData dataWithBytes:md length:mdLen];
     OPENSSL_free(md);
     
-    NSString *mdHex = [GMUtils dataToHex:resultData];
+    NSString *mdHex = [ZGGMUtils dataToHex:resultData];
     return mdHex;
 }
 
-+ (const EVP_MD *)evpMDType:(GMHashType)type {
++ (const EVP_MD *)evpMDType:(ZGGMHashType)type {
     const EVP_MD *md = NULL;
     switch (type) {
-        case GMHashType_SM3:
+        case ZGGMHashType_SM3:
             md = EVP_sm3();
             break;
-        case GMHashType_MD5:
+        case ZGGMHashType_MD5:
             md = EVP_md5();
             break;
-        case GMHashType_SHA1:
+        case ZGGMHashType_SHA1:
             md = EVP_sha1();
             break;
-        case GMHashType_SHA224:
+        case ZGGMHashType_SHA224:
             md = EVP_sha224();
             break;
-        case GMHashType_SHA256:
+        case ZGGMHashType_SHA256:
             md = EVP_sha256();
             break;
-        case GMHashType_SHA384:
+        case ZGGMHashType_SHA384:
             md = EVP_sha384();
             break;
-        case GMHashType_SHA512:
+        case ZGGMHashType_SHA512:
             md = EVP_sha512();
             break;
             

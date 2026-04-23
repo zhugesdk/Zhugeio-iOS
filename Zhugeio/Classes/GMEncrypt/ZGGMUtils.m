@@ -6,10 +6,10 @@
 //  Copyright © 2019 lifei. All rights reserved.
 //
 
-#import "GMUtils.h"
+#import "ZGGMUtils.h"
 #import <openssl/crypto.h>
 
-@implementation GMUtils
+@implementation ZGGMUtils
 
 ///MARK: - Hex 编码
 

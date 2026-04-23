@@ -17,7 +17,13 @@
 
 - (void)setPrivacyControl:(BOOL)enable;
 
-/// 获取用户是否已同意
+/// 获取获取用户是否已同意
 - (BOOL)isUserAgreed;
+
+/// 获取指定 appKey 是否已上报了安装事件
+- (BOOL)isAppInstallTracked:(NSString *)appKey;
+
+/// 标记指定 appKey 已上报安装事件
+- (void)markAppInstallTracked:(NSString *)appKey;
 
 @end

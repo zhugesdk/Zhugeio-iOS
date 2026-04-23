@@ -11,6 +11,8 @@
 #import "Zhuge.h"
 #import "ZGLog.h"
 #import "UIView+ZGView.h"
+#import "ZAViews.h"
+#import "UIWindow+ZGView.h"
 
 id isNil(id obj) {
     if (!obj) return [NSNull null];
@@ -23,6 +25,11 @@ id isNil(id obj) {
     if (!view || view.isHidden) {
         return @"";
     }
+    
+    if (view.zhugeioAttributesDonotTrackValue) {
+        return @"";
+    }
+
     if ([view isKindOfClass:[UILabel class]]) {
         UILabel *label = (UILabel *)view;
         return label.text?:@"";
@@ -101,21 +108,17 @@ id isNil(id obj) {
 }
 
 + (UIViewController *)zhugeGetViewControllerByView:(UIView *)view{
-    UIViewController *viewController = [self findNextViewControllerByResponder:view];
-    if ([viewController isKindOfClass:UINavigationController.class]) {
-        viewController = [self currentViewController];
-    }
-    return viewController;
+    return [self findNextViewControllerByResponder:view];
 }
 
 + (UIViewController *)currentViewController {
     __block UIViewController *currentViewController = nil;
     void (^ block)(void) = ^{
-        UIViewController *rootViewController = UIApplication.sharedApplication.delegate.window.rootViewController;
+        UIViewController *rootViewController = [UIWindow zg_currentWindow].rootViewController;
         currentViewController = [self findCurrentViewControllerFromRootViewController:rootViewController isRoot:YES];
     };
     
-    if (dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL) == dispatch_queue_get_label(dispatch_get_main_queue())) {
+    if ([NSThread isMainThread]) {
         block();
     } else {
         dispatch_sync(dispatch_get_main_queue(), block);
@@ -156,27 +159,25 @@ id isNil(id obj) {
     do {
         if ([next isKindOfClass:UIViewController.class]) {
             UIViewController *vc = (UIViewController *)next;
-            if ([vc isKindOfClass:UINavigationController.class]) {
-                next = [(UINavigationController *)vc topViewController];
-                break;
-            } else if ([vc isKindOfClass:UITabBarController.class]) {
-                next = [(UITabBarController *)vc selectedViewController];
-                break;
-            }
-            UIViewController *parentVC = vc.parentViewController;
-            if (parentVC) {
-                if ([parentVC isKindOfClass:UINavigationController.class] ||
-                    [parentVC isKindOfClass:UITabBarController.class] ||
-                    [parentVC isKindOfClass:UIPageViewController.class] ||
-                    [parentVC isKindOfClass:UISplitViewController.class]) {
-                    break;
+            // 响应者链通常能直接找到视图所在的 ViewController。
+            // 如果找到的是容器类控制器（Nav/Tab），我们循环穿透获取其当前显示的子控制器，
+            // 这样能准确地匹配到深层嵌套下的业务逻辑和设置在子控制器上的 zhugeioAttributesVariable。
+            while ([vc isKindOfClass:[UINavigationController class]] || [vc isKindOfClass:[UITabBarController class]]) {
+                if ([vc isKindOfClass:[UINavigationController class]]) {
+                    vc = [(UINavigationController *)vc topViewController];
+                } else if ([vc isKindOfClass:[UITabBarController class]]) {
+                    vc = [(UITabBarController *)vc selectedViewController];
                 }
-            } else {
-                break;
+                if (!vc) break;
             }
+            
+            // 如果穿透后的子控制器仍然存在，则返回；否则返回原始容器
+            return vc ?: (UIViewController *)next;
         }
     } while ((next = next.nextResponder));
-    return [next isKindOfClass:UIViewController.class] ? (UIViewController *)next : nil;
+    
+    // 如果响应链没找到，最后尝试获取当前活跃的控制器
+    return [self currentViewController];
 }
 
 + (NSString *)zhugeGetViewPath:(UIView *)view{
@@ -256,6 +257,10 @@ id isNil(id obj) {
         return;
     }
     
+    if ([view isKindOfClass:[UIView class]] && view.zhugeioAttributesDonotTrack) {
+        return;
+    }
+    
     @try {
         if (!view) {
             ZGLogError(@"autoTrackError illegal view %@ in %@",view?[view description]:@"null",tag);
@@ -264,7 +269,7 @@ id isNil(id obj) {
         NSString *content = @"";
         NSString *path = @"";
         if ([view isKindOfClass:[UIBarItem class]]) {
-            path =NSStringFromClass([view class]);
+            path = NSStringFromClass([view class]);
             UIBarItem *item = (UIBarItem *)view;
             content = item.title;
         }else if([view isKindOfClass:[UIView class]]){
@@ -286,20 +291,26 @@ id isNil(id obj) {
         [data setObject:isNil(path) forKey:@"$element_selector"];
         [data setObject:isNil(title) forKey:@"$page_title"];
         [data setObject:isNil(content) forKey:@"$element_content"];
-//        [data setObject:isNil(zhuge.ref) forKey:@"$ref"];
+        //        [data setObject:isNil(zhuge.ref) forKey:@"$ref"];
         
+        // 合并页面属性（低优先级）
+        if (realController && realController.zhugeioAttributesVariable && realController.zhugeioAttributesVariable.count > 0) {
+            for (NSString *key in realController.zhugeioAttributesVariable) {
+                id value = realController.zhugeioAttributesVariable[key];
+                NSString *newKey = [NSString stringWithFormat:@"_%@",key];
+                [data setValue:value forKey:newKey];
+            }
+        }
+        
+        // 合并View自身属性（高优先级）
         if ([view isKindOfClass:[UIView class]]) {
-            if (view.zhugeioAttributesVariable) {
-                __block NSMutableDictionary *copy = [NSMutableDictionary dictionaryWithCapacity:[view.zhugeioAttributesVariable count]];
+            if (view.zhugeioAttributesVariable && view.zhugeioAttributesVariable.count > 0) {
                 for (NSString *key in view.zhugeioAttributesVariable) {
                     id value = view.zhugeioAttributesVariable[key];
                     NSString *newKey = [NSString stringWithFormat:@"_%@",key];
-                    [copy setValue:value forKey:newKey];
+                    [data setValue:value forKey:newKey];
                 }
-                [data addEntriesFromDictionary:view.zhugeioAttributesVariable];
             }
-        } else {
-            
         }
         NSArray *array = [Zhuge autoTrackInstance];
         for (Zhuge *zhuge in array) {
@@ -341,7 +352,11 @@ id isNil(id obj) {
         return nil;
     }
 
-    NSString *content = content = [ZhugeAutoTrackUtils zhugeGetViewContent:cell];
+    if ([cell isKindOfClass:[UIView class]] && [cell zhugeioAttributesDonotTrack]) {
+        return nil;
+    }
+
+    NSString *content = [ZhugeAutoTrackUtils zhugeGetViewContent:cell];
     NSString *path = [ZhugeAutoTrackUtils zhugeGetViewPath:cell];
     NSString *type = NSStringFromClass([cell superclass]);
     
@@ -349,12 +364,8 @@ id isNil(id obj) {
     NSString *url = @"";
     NSString *title = @"";
     if (realController) {
-        url = NSStringFromClass(realController.class);
-        if (realController.title) {
-            title = realController.title;
-        } else {
-            title = [ZhugeAutoTrackUtils zhugeGetViewContent: realController.navigationItem.titleView];
-        }
+        url = [realController zhugeScreenName];
+        title = [realController zhugeScreenTitle];
     }
     
     [properties setObject:isNil(url) forKey:@"$page_url"];
@@ -364,14 +375,25 @@ id isNil(id obj) {
     [properties setObject:isNil(content) forKey:@"$element_content"];
     [properties setObject:@"click" forKey:@"$eid"];
     
-    if ([cell zhugeioAttributesVariable]) {
-        __block NSMutableDictionary *copy = [NSMutableDictionary dictionaryWithCapacity:[[cell zhugeioAttributesVariable] count]];
-        for (NSString *key in [cell zhugeioAttributesVariable]) {
-            id value = [cell zhugeioAttributesVariable][key];
+    // 合并页面属性（低优先级）
+    if (realController && realController.zhugeioAttributesVariable && realController.zhugeioAttributesVariable.count > 0) {
+        for (NSString *key in realController.zhugeioAttributesVariable) {
+            id value = realController.zhugeioAttributesVariable[key];
             NSString *newKey = [NSString stringWithFormat:@"_%@",key];
-            [copy setValue:value forKey:newKey];
+            [properties setValue:value forKey:newKey];
         }
-        [properties addEntriesFromDictionary:copy];
+    }
+
+    // 合并Cell自身属性（高优先级）
+    if ([cell isKindOfClass:[UIView class]]) {
+        UIView *view = (UIView *)cell;
+        if (view.zhugeioAttributesVariable && view.zhugeioAttributesVariable.count > 0) {
+            for (NSString *key in view.zhugeioAttributesVariable) {
+                id value = view.zhugeioAttributesVariable[key];
+                NSString *newKey = [NSString stringWithFormat:@"_%@",key];
+                [properties setValue:value forKey:newKey];
+            }
+        }
     }
 
     return properties;

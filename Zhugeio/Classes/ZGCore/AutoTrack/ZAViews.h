@@ -23,11 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 // 事件类型为自定义事件(evt)
 - (void)zhugeioExpTrack:(NSString *)eventId;
 
-- (void)zhugeioExpTrack:(NSString *)eventId withNumber:(NSNumber *)number;
-
 - (void)zhugeioExpTrack:(NSString *)eventId withVariable:(NSDictionary<NSString *, id> *)variable;
-
-- (void)zhugeioExpTrack:(NSString *)eventId withNumber:(NSNumber *)number andVariable:(NSDictionary<NSString *, id> *)variable;
 
 // 停止该元素展示追踪
 // 通常应用于列表中的重用元素
@@ -44,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 // 手动标识该view不要追踪，请在该view被初始化后立刻赋值
 @property (nonatomic, assign)BOOL zhugeioAttributesDonotTrack;
 
-// 手动标识该view不要追踪，请在该view被初始化后立刻赋值
+// 手动标识该view不要追踪曝光，请在该view被初始化后立刻赋值
 @property (nonatomic, assign)BOOL zhugeioAttributesDonotTrackExp;
 
 // 手动标识该view不要追踪它的值，默认是NO，特别的UITextView，UITextField，UISearchBar默认是YES
@@ -53,20 +49,12 @@ NS_ASSUME_NONNULL_BEGIN
 // 手动标识该view的取值  比如banner广告条的id 可以放在banner按钮的任意view上
 @property (nonatomic, copy)NSString* zhugeioAttributesValue;
 
-// 手动标识SDCycleScrollView组件的bannerIds  如若使用,请在创建SDCycleScrollView实例对象后,立即赋值;(如果不进行手动设置,SDK默认会采集banner的imageName或者imageURL)
-//@property (nonatomic, strong) NSArray<NSString *> * zhugeioSDCycleBannerIds;
-
-// 手动标识该view的附加属性 该值可被子节点继承
-@property (nonatomic, copy)NSString* zhugeioAttributesInfo;
-
-// 手动标识该view的附加属性 该字典可被子节点继承
+// 手动标识该view的附加属性
+// 全埋点点击事件中，属性合并规则如下：
+// 1. ViewController 上的 zhugeioAttributesVariable 会自动合并到该 VC 下所有 view 的点击事件中（低优先级）
+// 2. View 自身的 zhugeioAttributesVariable 优先级高于 ViewController（同 key 时 View 覆盖 VC）
+// 3. 自定义属性的 key 在上报时会被自动加上 '_' 前缀，例如 @{@"productId": @"123"} 上报时 key 为 "_productId"
 @property (nonatomic, strong)NSDictionary *zhugeioAttributesVariable;
-
-// 手动标识该view的tag
-// 这个tag必须是全局唯一的，在代码结构改变时也请保持不变
-// 这个tag最好是常量，不要包含流水id、SKU-id、商品名称等易变的信息
-// 请不要轻易设置这个属性，除非该view在view-tree里的位置不稳定，或者该view在软件的不同版本的view-tree里的位置不一致
-@property (nonatomic, copy)NSString* zhugeioAttributesUniqueTag;
 
 @end
 

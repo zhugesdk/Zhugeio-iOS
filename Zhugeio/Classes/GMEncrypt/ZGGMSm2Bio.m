@@ -1,28 +1,28 @@
 //
-//  GMSm2Bio.m
+//  ZGGMSm2Bio.m
 //  GMObjC_Example
 //
 //  Created by lifei on 2021/4/24.
 //  Copyright © 2021 lifei. All rights reserved.
 //
 
-#import "GMSm2Bio.h"
+#import "ZGGMSm2Bio.h"
 #import <openssl/sm2.h>
 #import <openssl/bn.h>
 #import <openssl/pem.h>
-#import "GMUtils.h"
+#import "ZGGMUtils.h"
 
 // 默认椭圆曲线类型 NID_sm2
-static int kDefaultBioEllipticCurveType = NID_sm2;
+static int kZGDefaultBioEllipticCurveType = NID_sm2;
 
-@implementation GMSm2Bio
+@implementation ZGGMSm2Bio
 
 // OpenSSL 1.1.1 以上版本支持国密
 + (void)initialize
 {
-    if (self == [GMSm2Bio class]) {
+    if (self == [ZGGMSm2Bio class]) {
         if (OPENSSL_VERSION_NUMBER < 0x1010100fL) {
-            GMLog(@"OpenSSL 当前版本：%s",OPENSSL_VERSION_TEXT);
+            ZGGMLog(@"OpenSSL 当前版本：%s",OPENSSL_VERSION_TEXT);
             NSAssert(NO, @"OpenSSL 版本低于 1.1.1，不支持国密");
         }
     }
@@ -187,7 +187,7 @@ static int kDefaultBioEllipticCurveType = NID_sm2;
     FILE *fp = fopen(file_path, "w");
     
     const char *public_key = publicKey.UTF8String;
-    EC_GROUP *group = EC_GROUP_new_by_curve_name(kDefaultBioEllipticCurveType);
+    EC_GROUP *group = EC_GROUP_new_by_curve_name(kZGDefaultBioEllipticCurveType);
     EC_KEY *ec_key = NULL;
     EC_POINT *pub_point = NULL;
     BOOL success = YES;
@@ -233,7 +233,7 @@ static int kDefaultBioEllipticCurveType = NID_sm2;
     FILE *fp = fopen(file_path, "w");
     
     const char *private_key = privateKey.UTF8String;
-    EC_GROUP *group = EC_GROUP_new_by_curve_name(kDefaultBioEllipticCurveType);
+    EC_GROUP *group = EC_GROUP_new_by_curve_name(kZGDefaultBioEllipticCurveType);
     EC_POINT *pub_point = NULL;
     BIGNUM *pri_big_num = NULL;
     EC_KEY *ec_key = NULL;
@@ -296,11 +296,11 @@ static int kDefaultBioEllipticCurveType = NID_sm2;
     BOOL isPem = [pubFileName hasSuffix:@".pem"] && [priFileName hasSuffix:@".pem"];
     BOOL isDer = [pubFileName hasSuffix:@".der"] && [priFileName hasSuffix:@".der"];
     if (isPem == NO && isDer == NO) {
-        GMLog(@"密钥保存名称错误：%@，%@", pubFileName, priFileName);
+        ZGGMLog(@"密钥保存名称错误：%@，%@", pubFileName, priFileName);
         return keyPathArray;
     }
     
-    EC_GROUP *group = EC_GROUP_new_by_curve_name(kDefaultBioEllipticCurveType);
+    EC_GROUP *group = EC_GROUP_new_by_curve_name(kZGDefaultBioEllipticCurveType);
     
     NSString *tmpPath = NSTemporaryDirectory();
     NSString *pubPath = [tmpPath stringByAppendingPathComponent:pubFileName];
@@ -363,7 +363,7 @@ static int kDefaultBioEllipticCurveType = NID_sm2;
         return nil;
     }
     NSString *base64Key = [self readBase64KeyFromPemString:pemStr];
-    return [GMUtils base64Decode:base64Key];
+    return [ZGGMUtils base64Decode:base64Key];
 }
 
 + (nullable NSString *)convertDerToPem:(NSData *)derData public:(BOOL)isPublic {
@@ -372,7 +372,7 @@ static int kDefaultBioEllipticCurveType = NID_sm2;
     }
     NSString *prifix = isPublic ? @"-----BEGIN PUBLIC KEY-----\n" : @"-----BEGIN EC PRIVATE KEY-----\n";
     NSString *suffix = isPublic ? @"-----END PUBLIC KEY-----\n" : @"-----END EC PRIVATE KEY-----\n";
-    NSString *baseStr = [GMUtils base64Encode:derData];
+    NSString *baseStr = [ZGGMUtils base64Encode:derData];
     NSString *wrapStr = [self wordWrap:baseStr count:64];
     NSString *pemStr = [NSString stringWithFormat:@"%@%@%@", prifix, wrapStr, suffix];
     return pemStr;
@@ -422,11 +422,11 @@ static int kDefaultBioEllipticCurveType = NID_sm2;
 
 ///MARK: - 椭圆曲线类型
 + (int)ellipticCurveType {
-    return kDefaultBioEllipticCurveType;
+    return kZGDefaultBioEllipticCurveType;
 }
 
 + (void)setEllipticCurveType:(int)curveType {
-    kDefaultBioEllipticCurveType = curveType;
+    kZGDefaultBioEllipticCurveType = curveType;
 }
 
 

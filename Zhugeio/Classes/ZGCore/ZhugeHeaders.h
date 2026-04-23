@@ -29,7 +29,6 @@
 #import "ZhugeCompres.h"
 #import "ZhugeBase64.h"
 #import "ZhugeConstants.h"
-#import "ZGSqliteManager.h"
 #import "ZGDeviceInfo.h"
 #import "ZhugeSwizzle.h"
 #import "ZGRequestManager.h"

@@ -156,7 +156,6 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
         self.serialQueue = dispatch_queue_create([label UTF8String], DISPATCH_QUEUE_SERIAL);
         NSString *uploadLabel = [NSString stringWithFormat:@"io.zhuge.upload.%@", config.appKey];
         self.uploadQueue = dispatch_queue_create([uploadLabel UTF8String], DISPATCH_QUEUE_SERIAL);
-        self.cr = [self carrier];
 
         // 耗时操作放入串行队列，避免阻塞主线程
         dispatch_async(self.serialQueue, ^{
@@ -662,12 +661,24 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 
     [self safeEndBackgroundTaskForId:self.taskId];
     // 主线程捕获时间戳
-    NSNumber *nowTime = [NSNumber numberWithUnsignedLongLong:[[NSDate date] timeIntervalSince1970] * 1000];
+    uint64_t nowTs = (uint64_t)([[NSDate date] timeIntervalSince1970] * 1000);
+    NSNumber *nowTime = [NSNumber numberWithUnsignedLongLong:nowTs];
+    self.foregroundStartTime = nowTime;
 
     dispatch_async(self.serialQueue, ^{
         self.allowUplode = YES;
         // 使用捕获的时间戳进行校验
         [self checkStartNewsSession:nowTime];
+        
+        // 录制 appStart 事件，并锁定发生时间 $ct
+        if (self.config.builtInEventConfig.enableAppStart) {
+            [self syncTrackBuiltInEvent:@"appStart" properties:@{
+                @"$resume_from_background": self.isResumedFromBackground?@"true":@"false",
+                @"$ct": nowTime
+            }];
+        }
+        self.isResumedFromBackground = YES;
+
         [self checkAdService];
         [self startFlushTimer];
     });
@@ -693,9 +704,24 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 
     [self stopFlushTimer];
     // 主线程捕获时间戳
-    NSNumber *nowTime = [NSNumber numberWithUnsignedLongLong:[[NSDate date] timeIntervalSince1970] * 1000];
+    uint64_t nowTs = (uint64_t)([[NSDate date] timeIntervalSince1970] * 1000);
+    NSNumber *nowTime = [NSNumber numberWithUnsignedLongLong:nowTs];
+    
+    uint64_t duration = 0;
+    if (self.foregroundStartTime && [self.foregroundStartTime unsignedLongLongValue] > 0) {
+        uint64_t startTs = [self.foregroundStartTime unsignedLongLongValue];
+        duration = (nowTs > startTs) ? (nowTs - startTs) : 0;
+    }
 
     dispatch_async(self.serialQueue, ^{
+        // 录制 appEnd 事件，并锁定时长和发生时间 $ct
+        if (self.config.builtInEventConfig.enableAppEnd) {
+            [self syncTrackBuiltInEvent:@"appEnd" properties:@{
+                @"$event_duration": @(duration),
+                @"$ct": nowTime
+            }];
+        }
+
         // 使用捕获的时间戳
         [self updateSessionActiveTime:nowTime];
         // 确保入库
@@ -810,36 +836,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 
 
 #pragma mark - 设备状态
-// 运营商
-- (NSString *)carrier {
-    if (![[ZGPrivacyManager sharedManager] isUserAgreed]) {
-        return nil;
-    }
-    if (@available(iOS 12.0, *)) {
-        NSDictionary<NSString *, CTCarrier *> *carriers =
-            self.telephonyInfo.serviceSubscriberCellularProviders;
-
-        for (CTCarrier *carrier in carriers.allValues) {
-            NSString *mcc = carrier.mobileCountryCode;
-            NSString *mnc = carrier.mobileNetworkCode;
-            if (mcc.length && mnc.length) {
-                return [NSString stringWithFormat:@"%@%@", mcc, mnc];
-            }
-        }
-        return nil;
-    } else {
-        CTCarrier *carrier = self.telephonyInfo.subscriberCellularProvider;
-        if (carrier != nil) {
-            NSString *mcc =[carrier mobileCountryCode];
-            NSString *mnc =[carrier mobileNetworkCode];
-            if (mcc.length && mnc.length) {
-                return [NSString stringWithFormat:@"%@%@", mcc, mnc];
-            }
-        }
-        return nil;
-    }
-}
-
 // 更新网络指示器
 //- (void)updateNetworkActivityIndicator:(BOOL)on {
 //    dispatch_async(dispatch_get_main_queue(), ^{
@@ -974,17 +970,15 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     if (self.userId.length > 0) {
         common[@"$cuid"] = self.userId;
     }
-    if (!self.cr) {
-        self.cr = [self carrier];
-    }
-    common[@"$cr"]  = self.cr?:@"(null)(null)";
+
+    common[@"$cr"]  = @"";
     //毫秒偏移量
     common[@"$ct"] = [NSNumber numberWithUnsignedLongLong:[[NSDate date] timeIntervalSince1970] *1000];
     common[@"$tz"] = [NSNumber numberWithInteger:[[NSTimeZone localTimeZone] secondsFromGMT]*1000];//取毫秒偏移量
     common[@"$os"] = @"iOS";
 
     //DeepShare 信息
-    [common addEntriesFromDictionary:self.utmDic];
+//    [common addEntriesFromDictionary:self.utmDic];
     return common;
 }
 
@@ -1344,6 +1338,73 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
             ZGLogDebug(@"track properties exception %@",exception);
         }
     });
+}
+
+/// 内部同步方法，必须在 serialQueue 上调用
+- (void)syncTrackBuiltInEvent:(NSString *)eventName properties:(NSDictionary *)properties {
+    @try {
+        if (!self.sessionId) {
+            [self checkStartNewsSession];
+        }
+        NSMutableDictionary *pr = [self eventData];
+        if (self.envInfo) {
+            NSDictionary *info = [self.envInfo objectForKey:@"event"];
+            if (info) {
+                NSMutableDictionary *data = [self addSymbloToDic:info];
+                [pr addEntriesFromDictionary:data];
+            }
+        }
+        if (properties) {
+            [pr addEntriesFromDictionary:properties];
+        }
+        pr[@"$eid"] = eventName;
+        int32_t value =  OSAtomicIncrement32(&_sessionCount);
+        pr[@"$sc"] = [NSNumber numberWithInt:value];
+        NSMutableDictionary *e = [NSMutableDictionary dictionary];
+        e[@"dt"] = @"abp";
+        e[@"pr"] = pr;
+        [self syncEnqueueEvent:e];
+    }
+    @catch (NSException *exception) {
+        ZGLogDebug(@"trackBuiltInEvent exception %@", exception);
+    }
+}
+
+/// 异步方法，供不在 serialQueue 上的调用方使用
+- (void)trackBuiltInEvent:(NSString *)eventName properties:(NSDictionary *)properties {
+    dispatch_async(self.serialQueue, ^{
+        [self syncTrackBuiltInEvent:eventName properties:properties];
+    });
+}
+
+
+- (void)trackAppInstall:(NSDictionary *)params {
+    if (!self.config.builtInEventConfig.enableAppInstall) {
+        return;
+    }
+    
+    // 幂等性保护：按 appKey 区分，每个实例只上报一次
+    if ([[ZGPrivacyManager sharedManager] isAppInstallTracked:self.config.appKey]) {
+        return;
+    }
+    
+    if (params == nil || ![params isKindOfClass:[NSDictionary class]]) {
+        return;
+    }
+    
+    NSDictionary *copyParams = [params copy];
+    NSArray *allowedKeys = @[@"utm_source", @"utm_medium", @"utm_campaign", @"utm_content", @"utm_term", @"browser"];
+    NSMutableDictionary *parsedParams = [NSMutableDictionary dictionary];
+    
+    for (NSString *key in allowedKeys) {
+        if (copyParams[key]) {
+            NSString *newKey = [NSString stringWithFormat:@"$%@", key];
+            [parsedParams setObject:copyParams[key] forKey:newKey];
+        }
+    }
+    
+    [self trackBuiltInEvent:@"appInstall" properties:parsedParams];
+    [[ZGPrivacyManager sharedManager] markAppInstallTracked:self.config.appKey];
 }
 
 - (NSMutableDictionary *)eventData{
@@ -1757,12 +1818,12 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 #if ZG_HAS_ENCRYPT_MODULE
             ZGLogDebug(@"启用了国密加密(SM4+SM2) , %d",ZG_HAS_ENCRYPT_MODULE);
 
-            NSString *key = [GMSm4Utils createSm4Key];
-            NSString *en = [GMSm4Utils ecbDefaultEncryptText:eventData key:key];
+            NSString *key = [ZGGMSm4Utils createSm4Key];
+            NSString *en = [ZGGMSm4Utils ecbDefaultEncryptText:eventData key:key];
 
             NSString *pub = self.config.uploadSM2Pubkey;
             if ([pub containsString:@"-----BEGIN PUBLIC KEY-----"]) {
-                pub = [GMSm2Bio readPublicKeyFromPemString:self.config.uploadSM2Pubkey];
+                pub = [ZGGMSm2Bio readPublicKeyFromPemString:self.config.uploadSM2Pubkey];
             }
 
             NSString *sm2KeyIV = [ZGGMSm2Utils encryptText:
@@ -1792,6 +1853,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         requestData = [NSString stringWithFormat:
             @"method=event_statis_srv.upload&compress=1&encrypt=0&event=%@", event];
     }
+    ZGLogDebug(@"requestData:\n %@",requestData);
     return requestData;
 
 }

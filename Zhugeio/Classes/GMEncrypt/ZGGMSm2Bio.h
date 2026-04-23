@@ -1,5 +1,5 @@
 //
-//  GMSm2Bio.h
+//  ZGGMSm2Bio.h
 //  GMObjC_Example
 //
 //  Created by lifei on 2021/4/24.
@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GMSm2Bio : NSObject
+@interface ZGGMSm2Bio : NSObject
 
 ///MARK: - 读取PEM格式秘钥
 /// 从PEM文件中读取SM2公钥或者私钥
@@ -63,8 +63,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 ///MARK: - 椭圆曲线类型
 /// 常见椭圆曲线为 NID_sm2、NID_secp256k1、NID_X9_62_prime256v1
-/// 默认 NID_sm2，参考 GMObjCDef.h 中说明，一般不需更改
-/// 若需要更改，传入枚举 GMCurveType 枚举值即可，枚举定义在GMObjCDef.h
+/// 默认 NID_sm2，参考 ZGGMObjCDef.h 中说明，一般不需更改
+/// 若需要更改，传入枚举 GMCurveType 枚举值即可，枚举定义在ZGGMObjCDef.h
 /// 若需要其他曲线，在 OpenSSL 源码 crypto/ec/ec_curve.c 查找
 + (int)ellipticCurveType;
 + (void)setEllipticCurveType:(int)curveType;

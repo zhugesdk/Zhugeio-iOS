@@ -1,5 +1,5 @@
 //
-//  GMSm4Utils.h
+//  ZGGMSm4Utils.h
 //
 //  Created by lifei on 2019/7/30.
 //  Copyright © 2019 lifei. All rights reserved.
@@ -16,7 +16,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GMSm4Utils : NSObject
+@interface ZGGMSm4Utils : NSObject
 
 /// 生成 SM4 密钥。返回值：长度为 32 字节 Hex 编码格式字符串密钥
 + (nullable NSString *)createSm4Key;

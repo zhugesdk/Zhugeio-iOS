@@ -10,7 +10,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "GMUtils.h"
+#import "ZGGMUtils.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -99,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 ///MARK: - 椭圆曲线类型
 /// 常见椭圆曲线为 NID_sm2、NID_secp256k1、NID_X9_62_prime256v1
-/// 默认 NID_sm2，参考 GMObjCDef.h 中说明，一般不需更改
+/// 默认 NID_sm2，参考 ZGGMObjCDef.h 中说明，一般不需更改
 /// 若需要更改，传入枚举 GMCurveType 枚举值即可
 /// 若需要其他曲线，在 OpenSSL 源码 crypto/ec/ec_curve.c 查找
 + (int)ellipticCurveType;

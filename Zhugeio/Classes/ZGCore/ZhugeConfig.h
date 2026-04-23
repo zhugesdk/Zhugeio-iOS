@@ -19,6 +19,26 @@
 /* 渠道 */
 #define ZG_CHANNEL @"App Store"
 
+@interface ZGBuiltInEventConfig : NSObject
+/**
+ * 开启内置启动事件(appStart)采集
+ * 默认 NO
+ */
+@property (nonatomic, assign) BOOL enableAppStart;
+
+/**
+ * 开启内置退出事件(appEnd)采集
+ * 默认 NO
+ */
+@property (nonatomic, assign) BOOL enableAppEnd;
+
+/**
+ * 开启内置安装事件(appInstall)采集
+ * 默认 NO
+ */
+@property (nonatomic, assign) BOOL enableAppInstall;
+@end
+
 @interface ZhugeConfig : NSObject
 
 #pragma mark - 基本设置
@@ -42,6 +62,11 @@
 @property (nonatomic, assign) NSUInteger sendMaxSizePerDay;
 // 本地缓存事件数(默认:3000个)
 @property (nonatomic, assign) NSUInteger cacheMaxSize;
+
+/**
+ * 内置事件配置
+ */
+@property (nonatomic, strong, readonly) ZGBuiltInEventConfig *builtInEventConfig;
 
 #pragma mark - 日志
 // 是否开启会话追踪(默认:开启)

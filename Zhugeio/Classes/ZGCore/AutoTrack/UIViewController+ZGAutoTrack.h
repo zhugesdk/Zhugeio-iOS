@@ -31,7 +31,10 @@
 // 手动标识该页面的标题，必须在该UIViewController显示之前设置
 @property (nonatomic, copy)NSString *zhugeioAttributesPageName;
 
-// 手动标识该view的附加属性 该字典可被子节点继承
+// 手动标识该ViewController的附加属性
+// 在全埋点中，该属性会自动合并到该 VC 下的 pv（页面浏览）、click（点击）、dr（页面时长）事件中
+// 合并规则：View 自身的 zhugeioAttributesVariable 优先级高于 ViewController（同 key 时 View 覆盖 VC）
+// 自定义属性的 key 在上报时会被自动加上 '_' 前缀，例如 @{@"orderId": @"456"} 上报时 key 为 "_orderId"
 @property (nonatomic, strong)NSDictionary *zhugeioAttributesVariable;
 
 @end

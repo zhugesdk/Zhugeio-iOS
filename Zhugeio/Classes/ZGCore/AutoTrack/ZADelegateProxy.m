@@ -121,6 +121,7 @@ typedef void (*ZhugeDidSelectImplementation)(id, SEL, UIScrollView *, NSIndexPat
         if (autoTrackArray.count >0) {
             NSMutableDictionary *properties = [ZhugeAutoTrackUtils propertiesWithAutoTrackObject:(UIScrollView<ZAAutoTrackViewProperty> *)scrollView didSelectedAtIndexPath:indexPath];
             if (!properties) {
+                func(&targetSuper, selector, scrollView, indexPath);
                 return;
             }
             for (Zhuge *zhuge in autoTrackArray) {

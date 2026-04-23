@@ -126,6 +126,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)trackRevenue:(nullable NSDictionary *)properties;
 
 /**
+ * 手动追踪安装事件（渠道归因）。
+ * @param params 包含 utm_source, utm_medium, utm_campaign, utm_content, utm_term, browser 的字典
+ */
+- (void)trackAppInstall:(nullable NSDictionary *)params;
+
+/**
  * @param properties 全埋点属性
  */
 - (void)autoTrack:(nonnull NSDictionary *)properties;

@@ -13,6 +13,17 @@
 #import "ZGLog.h"
 
 
+@implementation ZGBuiltInEventConfig
+- (instancetype)init {
+    if (self = [super init]) {
+        self.enableAppStart = NO;
+        self.enableAppEnd = NO;
+        self.enableAppInstall = NO;
+    }
+    return self;
+}
+@end
+
 @implementation ZhugeConfig{
     NSString *uploadUrl;
     NSString *uploadBackupUrl;
@@ -28,6 +39,7 @@
         self.limitCount = 1;
         self.sendMaxSizePerDay = 50000;
         self.cacheMaxSize = 3000;
+        _builtInEventConfig = [[ZGBuiltInEventConfig alloc] init];
         self.sessionEnable = YES;
         self.exceptionTrack = NO;
         self.debug = NO;
@@ -100,6 +112,9 @@
             "limitCount = %lu,\n"
             "sendMaxSizePerDay = %lu,\n"
             "cacheMaxSize = %lu,\n"
+            "enableAppStart = %@,\n"
+            "enableAppEnd = %@,\n"
+            "enableAppInstall = %@,\n"
             "sessionEnable = %@,\n"
             "exceptionTrack = %@,\n"
             "debug = %@,\n"
@@ -128,6 +143,9 @@
             (unsigned long)_limitCount,
             (unsigned long)_sendMaxSizePerDay,
             (unsigned long)_cacheMaxSize,
+            _builtInEventConfig.enableAppStart ? @"YES" : @"NO",
+            _builtInEventConfig.enableAppEnd ? @"YES" : @"NO",
+            _builtInEventConfig.enableAppInstall ? @"YES" : @"NO",
             _sessionEnable ? @"YES" : @"NO",
             _exceptionTrack ? @"YES" : @"NO",
             _debug ? @"YES" : @"NO",

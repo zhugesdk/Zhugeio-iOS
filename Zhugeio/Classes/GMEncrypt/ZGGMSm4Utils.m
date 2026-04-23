@@ -1,24 +1,24 @@
 //
-//  GMSm4Utils.m
+//  ZGGMSm4Utils.m
 //
 //  Created by lifei on 2019/7/30.
 //  Copyright © 2019 lifei. All rights reserved.
 //
 
-#import "GMSm4Utils.h"
-#import "GMUtils.h"
+#import "ZGGMSm4Utils.h"
+#import "ZGGMUtils.h"
 #import <openssl/sm4.h>
 #import <openssl/evp.h>
 #import <openssl/modes.h>
 
-@implementation GMSm4Utils
+@implementation ZGGMSm4Utils
 
 // OpenSSL 1.1.1 以上版本支持国密
 + (void)initialize
 {
-    if (self == [GMSm4Utils class]) {
+    if (self == [ZGGMSm4Utils class]) {
         if (OPENSSL_VERSION_NUMBER < 0x1010100fL) {
-            GMLog(@"OpenSSL 当前版本：%s",OPENSSL_VERSION_TEXT);
+            ZGGMLog(@"OpenSSL 当前版本：%s",OPENSSL_VERSION_TEXT);
             NSAssert(NO, @"OpenSSL 版本低于 1.1.1，不支持国密");
         }
     }
@@ -49,7 +49,7 @@
         NSString *subChar = [keyStr substringWithRange:NSMakeRange(index, 1)];
         [result appendString:subChar];
     }
-    NSString *hexResult = [GMUtils stringToHex:result];
+    NSString *hexResult = [ZGGMUtils stringToHex:result];
     return hexResult;
 }
 
@@ -76,7 +76,7 @@
     uint8_t *result = (uint8_t *)OPENSSL_zalloc((int)(result_len + 1));
     int group_num = (int)(result_len / SM4_BLOCK_SIZE);
     // 密钥 key Hex 转 uint8_t
-    NSData *kData = [GMUtils hexToData:key];
+    NSData *kData = [ZGGMUtils hexToData:key];
     uint8_t *k_text = (uint8_t *)kData.bytes;
     SM4_KEY sm4Key;
     SM4_set_key(k_text, &sm4Key);
@@ -105,7 +105,7 @@
     NSData *plainData = [plaintext dataUsingEncoding:NSUTF8StringEncoding];
     NSData *cipherData = [self ecbEncryptData:plainData key:key];
     
-    NSString *result = [GMUtils dataToHex:cipherData];
+    NSString *result = [ZGGMUtils dataToHex:cipherData];
     
     return result;
 }
@@ -116,7 +116,7 @@
     }
     NSData *plainData = [plaintext dataUsingEncoding:NSUTF8StringEncoding];
     NSData *cipherData = [self ecbEncryptData:plainData key:key];
-    NSString * result = [GMUtils base64Encode:cipherData];
+    NSString * result = [ZGGMUtils base64Encode:cipherData];
     return result;
 }
 
@@ -133,7 +133,7 @@
     uint8_t *result = (uint8_t *)OPENSSL_zalloc((int)(c_obj_len + 1));
     int group_num = (int)(c_obj_len / SM4_BLOCK_SIZE);
     // 密钥 key Hex 转 uint8_t
-    NSData *kData = [GMUtils hexToData:key];
+    NSData *kData = [ZGGMUtils hexToData:key];
     uint8_t *k_text = (uint8_t *)kData.bytes;
     SM4_KEY sm4Key;
     SM4_set_key(k_text, &sm4Key);
@@ -168,7 +168,7 @@
         return nil;
     }
     
-    NSData *cipherData = [GMUtils hexToData:ciphertext];
+    NSData *cipherData = [ZGGMUtils hexToData:ciphertext];
     NSData *plainData = [self ecbDecryptData:cipherData key:key];
     NSString *plaintext = [[NSString alloc]initWithData:plainData encoding:NSUTF8StringEncoding];
     
@@ -181,7 +181,7 @@
         return nil;
     }
     
-    NSData *cipherData = [GMUtils base64Decode:ciphertext];
+    NSData *cipherData = [ZGGMUtils base64Decode:ciphertext];
     NSData *plainData = [self ecbDecryptData:cipherData key:key];
     NSString *plaintext = [[NSString alloc]initWithData:plainData encoding:NSUTF8StringEncoding];
     
@@ -209,12 +209,12 @@
     }
     uint8_t *result = (uint8_t *)OPENSSL_zalloc((int)(result_len + 1));
     // 密钥 key Hex 转 uint8_t
-    NSData *kData = [GMUtils hexToData:key];
+    NSData *kData = [ZGGMUtils hexToData:key];
     uint8_t *k_text = (uint8_t *)kData.bytes;
     SM4_KEY sm4Key;
     SM4_set_key(k_text, &sm4Key);
     // 初始化向量
-    NSData *ivecData = [GMUtils hexToData:ivec];
+    NSData *ivecData = [ZGGMUtils hexToData:ivec];
     uint8_t *iv_text = (uint8_t *)ivecData.bytes;
     uint8_t ivec_block[SM4_BLOCK_SIZE] = {0};
     if (iv_text != NULL) {
@@ -239,7 +239,7 @@
     
     NSData *plainData = [plaintext dataUsingEncoding:NSUTF8StringEncoding];
     NSData *cipherData = [self cbcEncryptData:plainData key:key IV:ivec];
-    NSString *result = [GMUtils dataToHex:cipherData];
+    NSString *result = [ZGGMUtils dataToHex:cipherData];
     
     return result;
 }
@@ -256,12 +256,12 @@
     
     uint8_t *result = (uint8_t *)OPENSSL_zalloc((int)(c_obj_len + 1));
     // 密钥 key Hex 转 uint8_t
-    NSData *kData = [GMUtils hexToData:key];
+    NSData *kData = [ZGGMUtils hexToData:key];
     uint8_t *k_text = (uint8_t *)kData.bytes;
     SM4_KEY sm4Key;
     SM4_set_key(k_text, &sm4Key);
     // 初始化向量
-    NSData *ivecData = [GMUtils hexToData:ivec];
+    NSData *ivecData = [ZGGMUtils hexToData:ivec];
     uint8_t *iv_text = (uint8_t *)ivecData.bytes;
     uint8_t ivec_block[SM4_BLOCK_SIZE] = {0};
     if (iv_text != NULL) {
@@ -293,7 +293,7 @@
         return nil;
     }
     
-    NSData *cipherData = [GMUtils hexToData:ciphertext];
+    NSData *cipherData = [ZGGMUtils hexToData:ciphertext];
     NSData *plainData = [self cbcDecryptData:cipherData key:key IV:ivec];
     NSString *plaintext = [[NSString alloc]initWithData:plainData encoding:NSUTF8StringEncoding];
     
