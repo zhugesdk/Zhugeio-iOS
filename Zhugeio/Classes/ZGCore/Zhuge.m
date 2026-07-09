@@ -15,6 +15,23 @@
 #import "ZGVisualizationSocketMessage.h"
 #import "ZGIDFAUtil.h"
 #import "ZGPrivacyManager.h"
+#import "ZADeviceId.h"
+#import "ZGUtils.h"
+#import "ZGRequestManager.h"
+#import "ZGDeviceInfo.h"
+#import "ZhugeJS.h"
+#import "ZhugeEncryptAvailability.h"
+#import "ZASwizzle.h"
+#import "UIViewController+ZGAutoTrack.h"
+#import "ZhugeEventProperty.h"
+#import "RSA+AES.h"
+#import "ZhugeCompres.h"
+#import "ZhugeBase64.h"
+#import "UIApplication+Zhuge.h"
+#import "UIGestureRecognizer+Zhuge.h"
+#import "UIView+ZAExpView.h"
+#import "WKWebView+ZABridge.h"
+#import <libkern/OSAtomic.h>
 
 static NSMutableDictionary *instanceDic;
 static NSMutableArray *autoTrackInstance;
@@ -220,9 +237,9 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
             static dispatch_once_t visualOnce;
             dispatch_once(&visualOnce, ^ {
                 NSError *error = NULL;
-                [UIControl zhuge_swizzleMethod:@selector(addTarget:action:forControlEvents:)
-                                    withMethod:@selector(zg_addTarget:action:forControlEvents:)
-                                             error:&error];
+                [UIControl za_swizzleMethod:@selector(addTarget:action:forControlEvents:)
+                                 withMethod:@selector(zg_addTarget:action:forControlEvents:)
+                                      error:&error];
                 if (error) {
                     ZGLogError(@"swizzle application action failed ,%@",error);
                     error = NULL;
@@ -445,28 +462,28 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         
         //$AppClick
         // Actions & Events
-        [UIApplication zhuge_swizzleMethod:@selector(sendAction:to:from:forEvent:)
-                                withMethod:@selector(zhuge_sendAction:to:from:forEvent:)
-                                     error:&error];
+        [UIApplication za_swizzleMethod:@selector(sendAction:to:from:forEvent:)
+                             withMethod:@selector(zhuge_sendAction:to:from:forEvent:)
+                                  error:&error];
         if (error) {
             ZGLogError(@"swizzle application action failed ,%@",error);
             error = NULL;
         }
-        [UITapGestureRecognizer zhuge_swizzleMethod:@selector(addTarget:action:)
-                                         withMethod:@selector(zhuge_addTarget:action:)
-                                              error:&error];
+        [UITapGestureRecognizer za_swizzleMethod:@selector(addTarget:action:)
+                                      withMethod:@selector(zhuge_addTarget:action:)
+                                           error:&error];
         
-        [UITapGestureRecognizer zhuge_swizzleMethod:@selector(initWithTarget:action:)
-                                         withMethod:@selector(zhuge_initWithTarget:action:)
-                                              error:&error];
+        [UITapGestureRecognizer za_swizzleMethod:@selector(initWithTarget:action:)
+                                      withMethod:@selector(zhuge_initWithTarget:action:)
+                                           error:&error];
         
-        [UILongPressGestureRecognizer zhuge_swizzleMethod:@selector(addTarget:action:)
-                                               withMethod:@selector(zhuge_addTarget:action:)
-                                                    error:&error];
+        [UILongPressGestureRecognizer za_swizzleMethod:@selector(addTarget:action:)
+                                           withMethod:@selector(zhuge_addTarget:action:)
+                                                error:&error];
         
-        [UILongPressGestureRecognizer zhuge_swizzleMethod:@selector(initWithTarget:action:)
-                                               withMethod:@selector(zhuge_initWithTarget:action:)
-                                                    error:&error];
+        [UILongPressGestureRecognizer za_swizzleMethod:@selector(initWithTarget:action:)
+                                           withMethod:@selector(zhuge_initWithTarget:action:)
+                                                error:&error];
         if (error) {
             ZGLogError(@"swizzle tap gesture action failed ,%@",error);
             error = NULL;
@@ -937,8 +954,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     e[@"dt"] = @"adtf";
     NSMutableDictionary *pr = [self buildCommonData];
     pr[@"$channel_type"] = @5;
-    NSError *error;
-    
     NSData *jsonData = [self JSONSerializeObject:adData];
     if (jsonData) {
         NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -1084,7 +1099,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
                 e[@"dt"] = @"se";
                 NSMutableDictionary *pr = [self buildCommonData];
                 int32_t value =  OSAtomicIncrement32(&_sessionCount);
-                NSNumber *ts = pr[@"$ct"];
                 NSNumber *dru = @([self.lastSessionActiveTime unsignedLongLongValue] - [self.sessionId unsignedLongLongValue]);
                 pr[@"$an"] = self.config.appName;
                 pr[@"$cn"]  = self.config.channel;
@@ -1276,7 +1290,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
                 [pr addEntriesFromDictionary:[self conversionRevenuePropertiesKey:props]];
             }
             pr[@"$eid"] = eventName;
-            int32_t value =  OSAtomicIncrement32(&_sessionCount);
+            int32_t value =  OSAtomicIncrement32(&self->_sessionCount);
             pr[@"$sc"] = [NSNumber numberWithInt:value];
             NSMutableDictionary *e = [NSMutableDictionary dictionary];
             e[@"dt"] = @"abp";
@@ -1327,7 +1341,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
                 [pr addEntriesFromDictionary:[self addSymbloToDic:props]];
             }
             pr[@"$eid"] = eventName;
-            int32_t value =  OSAtomicIncrement32(&_sessionCount);
+            int32_t value =  OSAtomicIncrement32(&self->_sessionCount);
             pr[@"$sc"] = [NSNumber numberWithInt:value];
             NSMutableDictionary *e = [NSMutableDictionary dictionary];
             e[@"dt"] = @"evt";
@@ -1358,7 +1372,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
             [pr addEntriesFromDictionary:properties];
         }
         pr[@"$eid"] = eventName;
-        int32_t value =  OSAtomicIncrement32(&_sessionCount);
+        int32_t value =  OSAtomicIncrement32(&self->_sessionCount);
         pr[@"$sc"] = [NSNumber numberWithInt:value];
         NSMutableDictionary *e = [NSMutableDictionary dictionary];
         e[@"dt"] = @"abp";
@@ -1471,21 +1485,8 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         NSMutableDictionary *e = [NSMutableDictionary dictionary];
         e[@"dt"] = @"pl";
         NSMutableDictionary *pr = [self buildCommonData];
-        // 设备
-//        pr[@"$dv"] = [self getSysInfoByName:"hw.machine"];
+        // 设备型号
         pr[@"$dv"] = [ZGDeviceInfo getDeviceModel];
-        // 是否越狱
-        pr[@"$jail"] =[ZGDeviceInfo isJailBroken] ? @1 : @0;
-        // 语言
-        pr[@"$lang"] = [[NSLocale preferredLanguages] objectAtIndex:0];
-        // 制造商
-        pr[@"$mkr"] = @"Apple";
-        // 系统
-        pr[@"$os"] = @"iOS";
-        // 是否破解
-        pr[@"$private"] =[ZGDeviceInfo isPirated] ? @1 : @0;
-        //分辨率
-        pr[@"$rs"] = [ZGDeviceInfo resolution];
         if (self.envInfo) {
             NSDictionary *info = [self.envInfo objectForKey:@"device"];
             if (info) {
@@ -1808,7 +1809,8 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
             NSString *rsaKeyIV = [RSA_AES encryptUseRSA:
                                   [NSString stringWithFormat:@"%@,%@", key, key]
                                   pubkey:self.config.uploadPubkey];
-
+            ZGLogDebug(@"AES+RSA 加密完成，数据密文长度:%lu，AES key密文 长度:%lu",
+                       (unsigned long)en.length, (unsigned long)rsaKeyIV.length);
             requestData = [NSString stringWithFormat:
                 @"method=event_statis_srv.upload&compress=1&encrypt=1&type=1&key=%@&event=%@",
                 rsaKeyIV, en];
@@ -1830,7 +1832,8 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
                                   [NSString stringWithFormat:@"%@,%@", key, key]
                                   publicKey:pub];
             sm2KeyIV = [ZGGMSm2Utils asn1DecodeToC1C3C2:sm2KeyIV];
-
+            ZGLogDebug(@"SM4+SM2 加密完成，数据密文长度:%lu，SM4 key密文长度:%lu",
+                       (unsigned long)en.length, (unsigned long)sm2KeyIV.length);
             requestData = [NSString stringWithFormat:
                 @"method=event_statis_srv.upload&compress=1&encrypt=1&type=2&key=%@&event=%@",
                 sm2KeyIV, en];
@@ -1845,15 +1848,15 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 
     // ========================= 非加密逻辑 =========================
     if (!self.config.enableEncrypt) {
-        ZGLogDebug(@"使用默认压缩上传");
         NSData *eventDataBefore = [eventData dataUsingEncoding:NSUTF8StringEncoding];
         NSData *zlibedData = [eventDataBefore zgZlibDeflate];
         NSString *event = [[zlibedData zgBase64EncodedString]
                            stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        ZGLogDebug(@"压缩上传，原始:%lu bytes → 压缩后:%lu bytes",
+                   (unsigned long)eventDataBefore.length, (unsigned long)zlibedData.length);
         requestData = [NSString stringWithFormat:
             @"method=event_statis_srv.upload&compress=1&encrypt=0&event=%@", event];
     }
-    ZGLogDebug(@"requestData:\n %@",requestData);
     return requestData;
 
 }
