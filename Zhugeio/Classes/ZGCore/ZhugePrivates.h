@@ -9,6 +9,8 @@
 
 #import "Zhuge.h"
 #import "ZhugeDbAdapter.h"
+#import "ZGABTestDesignerConnection.h"
+#import <SystemConfiguration/SystemConfiguration.h>
 
 @interface Zhuge ()
 @property (nonatomic, copy) NSString *userId;
@@ -24,7 +26,6 @@
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic) NSUInteger sendCount;
 @property (nonatomic, assign) SCNetworkReachabilityRef reachability;
-@property (nonatomic, strong) CTTelephonyNetworkInfo *telephonyInfo;
 @property (nonatomic, copy) NSString *net;
 @property (nonatomic, copy) NSString *radio;
 //最后一次成功上传归因数据时的应用版本

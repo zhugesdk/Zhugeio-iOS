@@ -13,9 +13,6 @@
 #pragma -mark -System Headers
 #import <UIKit/UIDevice.h>
 #import <SystemConfiguration/SystemConfiguration.h>
-#import <CoreTelephony/CTTelephonyNetworkInfo.h>
-#import <CoreTelephony/CTCarrier.h>
-#import "sys/utsname.h"
 #include <sys/socket.h>
 #include <sys/sysctl.h>
 #include <net/if.h>
@@ -29,7 +26,6 @@
 #import "ZhugeCompres.h"
 #import "ZhugeBase64.h"
 #import "ZhugeConstants.h"
-#import "ZGDeviceInfo.h"
 #import "ZhugeSwizzle.h"
 #import "ZGRequestManager.h"
 #import "ZGUtils.h"

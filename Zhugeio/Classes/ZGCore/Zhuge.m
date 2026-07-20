@@ -18,7 +18,6 @@
 #import "ZADeviceId.h"
 #import "ZGUtils.h"
 #import "ZGRequestManager.h"
-#import "ZGDeviceInfo.h"
 #import "ZhugeJS.h"
 #import "ZhugeEncryptAvailability.h"
 #import "ZASwizzle.h"
@@ -167,7 +166,6 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
         self.sessionId = nil;
         self.net = @"";
         self.radio = @"";
-        self.telephonyInfo = [[CTTelephonyNetworkInfo alloc] init];
         self.taskId = UIBackgroundTaskInvalid;
         NSString *label = [NSString stringWithFormat:@"io.zhuge.%@", config.appKey];
         self.serialQueue = dispatch_queue_create([label UTF8String], DISPATCH_QUEUE_SERIAL);
@@ -571,17 +569,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     
-    // 网络制式(GRPS,WCDMA,LTE,...),IOS7以上版本才支持
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000
-    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1) {
-        [self setCurrentRadio];
-        [notificationCenter addObserver:self
-                               selector:@selector(setCurrentRadio)
-                                   name:CTRadioAccessTechnologyDidChangeNotification
-                                    object:nil];
-    }
-#endif
-    
     // 应用生命周期通知
     [notificationCenter addObserver:self
                            selector:@selector(applicationWillTerminate:)
@@ -873,25 +860,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     ZGLogDebug(@"联网状态: %@", [@"-1" isEqualToString:self.net]?@"未知":[@"0" isEqualToString:self.net]?@"移动网络":@"WIFI");
 }
 
-// 网络制式(GPRS,WCDMA,LTE,...)
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000
-- (void)setCurrentRadio {
-    dispatch_async(self.serialQueue, ^(){
-        self.radio = [self currentRadio];
-    });
-}
-
-- (NSString *)currentRadio {
-    NSString *radio = self.telephonyInfo.currentRadioAccessTechnology;
-    if (!radio) {
-        radio = @"None";
-    } else if ([radio hasPrefix:@"CTRadioAccessTechnology"]) {
-        radio = [radio substringFromIndex:23];
-    }
-    return radio;
-}
-#endif
-
 #pragma mark -广告归因
 -(void) checkAdService{
     if(!idfaCollect){
@@ -1086,7 +1054,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     @catch (NSException *exception) {
         ZGLogError(@"sessionStart exception %@",exception);
     }
-    [self uploadDeviceInfo];
 }
 
 // 会话结束
@@ -1118,11 +1085,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     @catch (NSException *exception) {
         ZGLogError(@"sessionEnd exception %@",exception);
     }
-}
-
-// 上报设备信息
-- (void)uploadDeviceInfo {
-    [self trackDeviceInfo];
 }
 
 - (void)autoTrack:(NSDictionary *)info{
@@ -1478,28 +1440,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         return;
     }
     [self identify:self.userId properties:properties];
-}
-
-- (void)trackDeviceInfo {
-    @try {
-        NSMutableDictionary *e = [NSMutableDictionary dictionary];
-        e[@"dt"] = @"pl";
-        NSMutableDictionary *pr = [self buildCommonData];
-        // 设备型号
-        pr[@"$dv"] = [ZGDeviceInfo getDeviceModel];
-        if (self.envInfo) {
-            NSDictionary *info = [self.envInfo objectForKey:@"device"];
-            if (info) {
-                NSMutableDictionary *dic = [self addSymbloToDic:info];
-                [pr addEntriesFromDictionary:dic];
-            }
-        }
-        e[@"pr"] = pr;
-        [self syncEnqueueEvent:e];
-    }
-    @catch (NSException *exception) {
-        ZGLogDebug(@"trackDeviceInfo exception, %@",exception);
-    }
 }
 
 - (void)trackDurationOnPage:(NSDictionary *)properties {
