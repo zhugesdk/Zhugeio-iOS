@@ -12,11 +12,6 @@
 
 #pragma -mark -System Headers
 #import <UIKit/UIDevice.h>
-#import <SystemConfiguration/SystemConfiguration.h>
-#include <sys/socket.h>
-#include <sys/sysctl.h>
-#include <net/if.h>
-#include <net/if_dl.h>
 #include <libkern/OSAtomic.h>
 
 
@@ -30,7 +25,6 @@
 #import "ZGRequestManager.h"
 #import "ZGUtils.h"
 #import "ZASwizzle.h"
-#import "ZADeviceId.h"
 #import "ZhugeEncryptAvailability.h"
 
 

@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)setUtm:(nonnull NSDictionary *)utmInfo;
 
 /**
- * 获得诸葛设备ID。
+ * 获得诸葛随机 UUID。
  */
 + (nonnull NSString *)getDid;
 - (nonnull NSString *)getSid;
@@ -167,10 +167,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// 与PC端链接.开始可视化埋点工作.
 /// @param url 扫码获取的地址
 +(void)zg_startVisualizationDebuggingTrack:(NSURL *)url;
-//开启广告ID收集
-+(void)enableIDFACollect;
-//是否开启了广告ID收集
-+(BOOL)isIDFAEnable;
 +(NSArray *)allInstance;
 +(NSArray *)autoTrackInstance;
 +(NSArray *)durationOnPageInstance;

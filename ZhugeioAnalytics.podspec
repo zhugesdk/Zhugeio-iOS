@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.static_framework = true
 
-  s.frameworks = 'UIKit', 'Foundation', 'SystemConfiguration'
+  s.frameworks = 'UIKit', 'Foundation'
   s.default_subspecs = 'Core'
   # 隐私清单资源
   s.resource_bundles = {

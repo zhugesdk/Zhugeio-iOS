@@ -49,7 +49,7 @@ Release Date: $(date +%Y-%m-%d)
 
 Manual Integration Note:
 1. Add the 'ZGCore' and 'Resources' folders to your Xcode project.
-2. Link necessary frameworks: UIKit, Foundation, SystemConfiguration.
+2. Link necessary frameworks: UIKit and Foundation.
 3. Ensure 'PrivacyInfo.xcprivacy' is included in your main bundle's resources.
 EOF
 

@@ -7,9 +7,7 @@
 //
 
 #import "ZGUtils.h"
-#import <sys/sysctl.h>
-#import <mach/mach.h>
-#import<SystemConfiguration/CaptiveNetwork.h>
+#import <Security/Security.h>
 
 @interface ZGUtils ()
 

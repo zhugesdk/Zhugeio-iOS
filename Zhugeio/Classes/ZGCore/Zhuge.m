@@ -13,9 +13,8 @@
 #import "ZGVisualizationManager.h"
 #import "UIControl+ZGClick.h"
 #import "ZGVisualizationSocketMessage.h"
-#import "ZGIDFAUtil.h"
 #import "ZGPrivacyManager.h"
-#import "ZADeviceId.h"
+#import "ZAUUID.h"
 #import "ZGUtils.h"
 #import "ZGRequestManager.h"
 #import "ZhugeJS.h"
@@ -38,8 +37,7 @@ static NSMutableArray *durationInstance;
 static NSMutableArray *exposeInstance;
 static NSMutableArray *visualInstance;
 static NSArray *customGestureViewArray;
-static NSString *deviceId;
-static BOOL idfaCollect;
+static NSString *uuid;
 // 判断 viewDidAppear 是否已经被 hook
 static BOOL viewDidAppearIsHook;
 // 判断 viewDidDisappear 是否已经被 hook
@@ -55,22 +53,12 @@ static BOOL logEnable;
     exposeInstance = [[NSMutableArray alloc] init];
     visualInstance = [[NSMutableArray alloc] init];
     customGestureViewArray = [NSArray array];
-    deviceId = nil;
-    idfaCollect = NO;
+    uuid = nil;
     viewDidAppearIsHook = NO;
     viewDidDisappearIsHook = NO;
 }
 
 static NSUncaughtExceptionHandler *previousHandler;
-static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReachabilityFlags flags, void *info) {
-    if (info != NULL && [(__bridge NSObject*)info isKindOfClass:[Zhuge class]]) {
-        @autoreleasepool {
-            Zhuge *zhuge = (__bridge Zhuge *)info;
-            [zhuge reachabilityChanged:flags];
-        }
-    }
-}
-
 #pragma mark - 初始化
 +(Zhuge *)newInstance{
     Zhuge *instance = [[[self class] alloc] init];
@@ -90,12 +78,6 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
     return sharedInstance;
 }
 
-+(void)enableIDFACollect{
-    idfaCollect = YES;
-}
-+(BOOL)isIDFAEnable{
-    return idfaCollect;
-}
 +(NSArray *)allInstance{
     return [instanceDic allValues];
 }
@@ -137,8 +119,8 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
 }
 
 - (void)startWithConfig:(ZhugeConfig *)config andDid:(NSString *)did launchOptions:(NSDictionary *)launchOptions{
-    if (!deviceId || deviceId.length == 0) {
-        deviceId = [did copy];
+    if (!uuid || uuid.length == 0) {
+        uuid = [did copy];
     }
     [self initWithConfig:config launchOptions:launchOptions];
 }
@@ -164,8 +146,6 @@ static void ZhugeReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
         self.config = config;
         self.userId = @"";
         self.sessionId = nil;
-        self.net = @"";
-        self.radio = @"";
         self.taskId = UIBackgroundTaskInvalid;
         NSString *label = [NSString stringWithFormat:@"io.zhuge.%@", config.appKey];
         self.serialQueue = dispatch_queue_create([label UTF8String], DISPATCH_QUEUE_SERIAL);
@@ -537,11 +517,11 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 }
 
 + (NSString *)getDid {
-    if (!deviceId) {
-        deviceId = [ZADeviceId getZADeviceId];
+    if (!uuid) {
+        uuid = [ZAUUID getUUID];
     }
     
-    return deviceId;
+    return uuid;
 }
 - (NSString *)getSid{
     
@@ -550,23 +530,8 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     }
     return [NSString stringWithFormat:@"%@", self.sessionId] ;
 }
-// 监听网络状态和应用生命周期
+// 监听应用生命周期
 - (void)setupListeners{
-    BOOL reachabilityOk = NO;
-    if ((_reachability = SCNetworkReachabilityCreateWithName(NULL, "www.baidu.com")) != NULL) {
-        SCNetworkReachabilityContext context = {0, (__bridge void*)self, NULL, NULL, NULL};
-        if (SCNetworkReachabilitySetCallback(_reachability, ZhugeReachabilityCallback, &context)) {
-            if (SCNetworkReachabilitySetDispatchQueue(_reachability, self.serialQueue)) {
-                reachabilityOk = YES;
-            } else {
-                SCNetworkReachabilitySetCallback(_reachability, NULL, NULL);
-            }
-        }
-    }
-    if (!reachabilityOk) {
-        ZGLogError(@"failed to set up reachability callback: %s", SCErrorString(SCError()));
-    }
-    
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     
     // 应用生命周期通知
@@ -683,7 +648,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         }
         self.isResumedFromBackground = YES;
 
-        [self checkAdService];
         [self startFlushTimer];
     });
 }
@@ -839,105 +803,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
 }
 
 
-#pragma mark - 设备状态
-// 更新网络指示器
-//- (void)updateNetworkActivityIndicator:(BOOL)on {
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        [UIApplication sharedApplication].networkActivityIndicatorVisible = on;
-//    });
-//}
-
-- (void)reachabilityChanged:(SCNetworkReachabilityFlags)flags {
-    if (flags & kSCNetworkReachabilityFlagsReachable) {
-        if (flags & kSCNetworkReachabilityFlagsIsWWAN) {
-            self.net = @"0";//2G/3G/4G
-        } else {
-            self.net = @"4";//WIFI
-        }
-    } else {
-        self.net = @"-1";//未知
-    }
-    ZGLogDebug(@"联网状态: %@", [@"-1" isEqualToString:self.net]?@"未知":[@"0" isEqualToString:self.net]?@"移动网络":@"WIFI");
-}
-
-#pragma mark -广告归因
--(void) checkAdService{
-    if(!idfaCollect){
-        return;
-    }
-    if(self.lastUploadAdInfoAppVersion && [self.config.appVersion isEqualToString:self.lastUploadAdInfoAppVersion]){
-        //当前版本已上传过归因数据，不再上传
-        return;
-    }
-    if (@available(iOS 14.3, *)) {
-        dispatch_async(self.uploadQueue, ^{
-            NSString *token = [ZGIDFAUtil getAdToken];
-            ZGLogInfo(@"get ad token %@",token);
-            if (token) {
-                [self checkUseADServiceWithToken:token];
-            }
-        });
-    }
-}
-
--(void)checkUseADServiceWithToken:(NSString *)token{
-    if (token.length == 0) return;
-    // 发送POST请求归因数据
-    NSString *urlString = @"https://api-adservices.apple.com/api/v1/";
-    NSURL *URL = [NSURL URLWithString:urlString];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-    [request addValue:@"text/plain" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPMethod:@"POST"];
-    NSData* postData = [token dataUsingEncoding:NSUTF8StringEncoding];
-    [request setHTTPBody:postData];
-    [[[ZGRequestManager defaultURLSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable responseData, NSURLResponse * _Nullable urlResponse, NSError * _Nullable error) {
-        if(!responseData){
-            if (error) {
-                ZGLogError(@"checkUseADServiceWithToken error :%@",error);
-            }
-            return;
-        }
-        NSError *resError;
-        id jsonObj = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableContainers error:&resError];
-        NSMutableDictionary *resDic = nil;
-        if ([jsonObj isKindOfClass:[NSDictionary class]]) {
-            resDic = [jsonObj mutableCopy];
-        } else if(resError){
-            NSString *strResponse = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-            ZGLogError(@"checkUseADServiceWithToken Parse error %@ , string is %@",resError, strResponse);
-        }
-        ZGLogInfo(@"checkUseADServiceWithToken get response %@",resDic);
-        if (resDic) {
-            BOOL value = [[resDic objectForKey:@"attribution"] boolValue];
-            if(value){
-                [self buildADData:resDic];
-            }
-        }
-          
-    }] resume];
-}
-
--(void)buildADData:(NSDictionary*) adData{
-    NSMutableDictionary *e = [NSMutableDictionary dictionary];
-    e[@"dt"] = @"adtf";
-    NSMutableDictionary *pr = [self buildCommonData];
-    pr[@"$channel_type"] = @5;
-    NSData *jsonData = [self JSONSerializeObject:adData];
-    if (jsonData) {
-        NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        pr[@"$apple_ad"] = jsonString;
-    }
-    NSString *idfaString = [ZGIDFAUtil idfa];
-    if(!idfaString){
-        idfaString = @"";
-    }
-    pr[@"$idfa"] = idfaString;
-    pr[@"$sl"] = @"zh";
-    e[@"pr"] = pr;
-    [self enqueueEvent:e];
-    self.lastUploadAdInfoAppVersion = self.config.appVersion;
-}
-
 #pragma mark - 生成事件
 /**
  共同的环境信息
@@ -955,9 +820,7 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     }
 
     common[@"$cr"]  = @"";
-    //毫秒偏移量
     common[@"$ct"] = [NSNumber numberWithUnsignedLongLong:[[NSDate date] timeIntervalSince1970] *1000];
-    common[@"$tz"] = [NSNumber numberWithInteger:[[NSTimeZone localTimeZone] secondsFromGMT]*1000];//取毫秒偏移量
     common[@"$os"] = @"iOS";
 
     //DeepShare 信息
@@ -1033,19 +896,10 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
                 
                 pr[@"$an"] = self.config.appName;
                 pr[@"$cn"]  = self.config.channel;
-                pr[@"$net"] = self.net;
-                pr[@"$mnet"]= self.radio;
                 pr[@"$ov"] = [[UIDevice currentDevice] systemVersion];
                 pr[@"$sid"] = self.sessionId;
                 pr[@"$vn"] = self.config.appVersion;
                 pr[@"$sc"]= @0;
-                if(idfaCollect){
-                    NSString *idfaString = [ZGIDFAUtil idfa];
-                    if(!idfaString){
-                        idfaString = @"";
-                    }
-                    pr[@"$idfa"] = idfaString;
-                }
                 e[@"pr"] = pr;
                 [self syncEnqueueEvent:e];
             }
@@ -1070,8 +924,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
                 pr[@"$an"] = self.config.appName;
                 pr[@"$cn"]  = self.config.channel;
                 pr[@"$dru"] = dru;
-                pr[@"$net"] = self.net;
-                pr[@"$mnet"]= self.radio;
                 pr[@"$sid"] = self.sessionId;
                 pr[@"$vn"] = self.config.appVersion;
                 pr[@"$ov"] = [[UIDevice currentDevice] systemVersion];
@@ -1387,8 +1239,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     NSMutableDictionary *pr = [self buildCommonData];
     pr[@"$an"] = self.config.appName;
     pr[@"$cn"]  = self.config.channel;
-    pr[@"$mnet"]= self.radio;
-    pr[@"$net"] = self.net;
     pr[@"$ov"] = [[UIDevice currentDevice] systemVersion];
     pr[@"$sid"] = self.sessionId;
     pr[@"$vn"] = self.config.appVersion;
@@ -1489,7 +1339,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
             NSMutableDictionary *e = [NSMutableDictionary dictionary];
             e[@"$mid"] = userInfo[@"mid"];
             e[@"$ct"] = [NSNumber numberWithUnsignedLongLong:[[NSDate date] timeIntervalSince1970] *1000];
-            e[@"$tz"] = [NSNumber numberWithInteger:[[NSTimeZone localTimeZone] secondsFromGMT]*1000];//取毫秒偏移量
             e[@"$channel"] = @"";
             NSMutableDictionary *dic = [NSMutableDictionary dictionary];
             dic[@"dt"] = type;
@@ -1514,8 +1363,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
         NSMutableDictionary *pr = [NSMutableDictionary dictionary];
         pr[@"$push_ch"] = [self nameForChannel:channel];
         pr[@"$push_id"] = userId;
-        //取毫秒偏移量
-        pr[@"$tz"]    = [NSNumber numberWithInteger:[[NSTimeZone localTimeZone] secondsFromGMT]*1000];
         pr[@"$ct"]  =  [NSNumber numberWithLongLong:[[NSDate date] timeIntervalSince1970] *1000];
         NSMutableDictionary *e = [NSMutableDictionary dictionary];
         e[@"dt"] = @"um";
@@ -1563,8 +1410,6 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     NSDictionary *dic = @{@"did":[Zhuge getDid]};
     batch[@"usr"]   = dic;
     batch[@"ut"]    = [ZGUtils currentDate];
-    //取毫秒偏移量
-    batch[@"tz"]    = [NSNumber numberWithInteger:[[NSTimeZone localTimeZone] secondsFromGMT]*1000];
     batch[@"data"]  = events;
     return batch;
 }
@@ -2002,10 +1847,9 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     NSString *filePath = [self propertiesFilePath];
     NSMutableDictionary *p = [NSMutableDictionary dictionary];
     if (self.userId) [p setObject:self.userId forKey:@"userId"];
-    if (deviceId) [p setObject:deviceId forKey:@"deviceId"];
+    if (uuid) [p setObject:uuid forKey:@"uuid"];
     if (self.sessionId) [p setObject:self.sessionId forKey:@"sessionId"];
     if (self.lastSessionActiveTime) [p setObject:self.lastSessionActiveTime forKey:@"lastSessionActiveTime"];
-    if (self.lastUploadAdInfoAppVersion) [p setObject:self.lastUploadAdInfoAppVersion forKey:@"lastUploadAdAppVersion"];
     
     NSDateFormatter *DateFormatter=[[NSDateFormatter alloc] init];
     [DateFormatter setDateFormat:@"yyyyMMdd"];
@@ -2088,10 +1932,9 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     NSDictionary *properties = (NSDictionary *)[self unarchiveFromFile:[self propertiesFilePath] deleteFile:NO];
     if (properties) {
         self.userId = properties[@"userId"] ? properties[@"userId"] : @"";
-        if (!deviceId) {
-            deviceId = properties[@"deviceId"] ? properties[@"deviceId"] : nil;
+        if (!uuid) {
+            uuid = properties[@"uuid"] ? properties[@"uuid"] : nil;
         }
-        self.lastUploadAdInfoAppVersion = properties[@"lastUploadAdAppVersion"] ? properties[@"lastUploadAdAppVersion"]:@"";
         NSNumber *sessionIdNumber = properties[@"sessionId"];
         if ([sessionIdNumber longLongValue] > 0) {
             self.sessionId = sessionIdNumber;
