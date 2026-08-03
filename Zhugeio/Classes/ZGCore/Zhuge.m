@@ -30,6 +30,7 @@
 #import "UIView+ZAExpView.h"
 #import "WKWebView+ZABridge.h"
 #import <libkern/OSAtomic.h>
+#import <math.h>
 
 static NSMutableDictionary *instanceDic;
 static NSMutableArray *autoTrackInstance;
@@ -1068,6 +1069,15 @@ void ZhugeUncaughtExceptionHandler(NSException * exception){
     NSDecimalNumber *priceDec = [NSDecimalNumber decimalNumberWithString:price];
     //number转化成NSDecimalNumber
     NSDecimalNumber *numberDec = [NSDecimalNumber decimalNumberWithString:number];
+    //校验非法数值（NaN/Infinity），序列化为默认值 0，避免序列化崩溃
+    if (priceDec == nil || isnan(priceDec.doubleValue) || isinf(priceDec.doubleValue)) {
+        ZGLogDebug(@"价格格式非法：%@，置为0", price);
+        priceDec = [NSDecimalNumber zero];
+    }
+    if (numberDec == nil || isnan(numberDec.doubleValue) || isinf(numberDec.doubleValue)) {
+        ZGLogDebug(@"数量格式非法：%@，置为0", number);
+        numberDec = [NSDecimalNumber zero];
+    }
     //两个数相乘
     NSDecimalNumber *totalDec = [priceDec decimalNumberByMultiplyingBy:numberDec];
     

@@ -13,6 +13,35 @@ static const NSUInteger kMaxPendingEvents = 1000;
 static const NSUInteger kMaxGetSize = 25;
 static int const kDatabaseVersion = 1;
 
+// 递归清洗事件数据：将 NaN/Infinity 等非法数值替换为默认值 0
+static id ZGSanitizeJSONValue(id value) {
+    if (value == nil || value == [NSNull null]) {
+        return value;
+    }
+    if ([value isKindOfClass:[NSNumber class]]) {
+        double d = [value doubleValue];
+        if (isnan(d) || isinf(d)) {
+            return @(0);
+        }
+        return value;
+    }
+    if ([value isKindOfClass:[NSDictionary class]]) {
+        NSMutableDictionary *result = [NSMutableDictionary dictionaryWithCapacity:[value count]];
+        [value enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            result[key] = ZGSanitizeJSONValue(obj);
+        }];
+        return result;
+    }
+    if ([value isKindOfClass:[NSArray class]]) {
+        NSMutableArray *result = [NSMutableArray arrayWithCapacity:[value count]];
+        for (id obj in value) {
+            [result addObject:ZGSanitizeJSONValue(obj)];
+        }
+        return result;
+    }
+    return value;
+}
+
 @interface ZhugeDbAdapter ()
 
 @property (nonatomic, strong) NSString *dbPath;
@@ -231,7 +260,22 @@ static int const kDatabaseVersion = 1;
         for (NSDictionary *event in eventsToWrite) {
             // JSON 序列化
             NSError *error;
-            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:event options:0 error:&error];
+            NSData *jsonData = nil;
+            @try {
+                jsonData = [NSJSONSerialization dataWithJSONObject:event options:0 error:&error];
+            } @catch (NSException *exception) {
+                // 事件数据包含 NaN/Infinity 等非法数值时，NSJSONSerialization 会抛异常而非返回 error，
+                // 将非法数值清洗为默认值后再序列化，不丢弃事件
+                ZGLogError(@"事件 JSON 序列化异常，清洗非法数值后重试: %@", exception);
+                id sanitizedEvent = ZGSanitizeJSONValue(event);
+                error = nil;
+                @try {
+                    jsonData = [NSJSONSerialization dataWithJSONObject:sanitizedEvent options:0 error:&error];
+                } @catch (NSException *e) {
+                    ZGLogError(@"清洗后仍序列化失败，跳过该事件: %@", e);
+                    jsonData = nil;
+                }
+            }
             if (error || !jsonData) continue;
             
             NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
